@@ -1,7 +1,6 @@
 import {StyleSheet, StatusBar, View} from 'react-native';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import AppContainer from './AppContainer';
+import TabNavigator from '../container/navigators/TabNavigator';
 
 export default function App() {
   const {mContainer}: any = styles;
@@ -12,9 +11,7 @@ export default function App() {
         backgroundColor="transparent"
         barStyle={'light-content'}
       />
-      <NavigationContainer>
-        <AppContainer />
-      </NavigationContainer>
+      <TabNavigator />
     </View>
   );
 }
