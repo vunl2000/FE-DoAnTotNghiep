@@ -8,8 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import IconHeader from '../icons/IconHeader';
-import TitleHome from '../title/TitleHome';
-import LogoFashion from '../icons/LogoFashion';
+import IconHeaderAnimated from '../icons/IconHeaderAnimated';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
 import images from '../../res/require/Images';
@@ -19,6 +18,7 @@ interface Props {
   onPressSearch?: () => void;
   onPressCart?: () => void;
   logo?: boolean;
+  activeIndexAnimation: any;
 }
 const Header: React.FC<Props> = props => {
   const {
@@ -53,13 +53,22 @@ const Header: React.FC<Props> = props => {
           />
         </View>
 
-        {props.logo && (
-          <Image
-            source={images.ic_logo}
-            style={styles.mStyleImg}
-            resizeMode="contain"
-          />
-        )}
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: sizes._screen_width / 2.5,
+            right: sizes._screen_width / 2.5,
+            bottom: 0,
+          }}>
+          {props.logo && (
+            <Image
+              source={images.ic_logo}
+              style={styles.mStyleImg}
+              resizeMode="contain"
+            />
+          )}
+        </View>
 
         {/* {props.logo && (
           <Image
@@ -69,11 +78,19 @@ const Header: React.FC<Props> = props => {
           />
         )} */}
 
-        <View style={{flexDirection: 'row'}}>
-          <IconHeader
+        <View
+          style={{
+            flexDirection: 'row',
+            position: 'absolute',
+            top: 0,
+            // left: 0,
+            right: 0,
+          }}>
+          <IconHeaderAnimated
+            activeIndexAnimation={props.activeIndexAnimation}
             name={isAndroid ? 'search-outline' : 'ios-search-outline'}
             sizes={sizes._24sdp}
-            color={ArrayColors._color_black_gray12}
+            color={ArrayColors._color_gray_translucen}
             style={iconStyle_3}
             onPress={props.onPressSearch}
           />
@@ -127,6 +144,9 @@ const styles = StyleSheet.create({
     height: sizes._42sdp,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
   iconStyle_4: {
     borderRadius: sizes._42sdp / 2,
@@ -135,10 +155,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // marginHorizontal: 10,
-    marginRight: sizes._10sdp,
+    // marginRight: sizes._10sdp,
   },
   mStyleImg: {
     width: sizes._100sdp,
     height: sizes._40sdp,
+    // s
   },
 });
