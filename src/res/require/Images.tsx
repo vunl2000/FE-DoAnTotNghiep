@@ -12,5 +12,10 @@ const image = {
   ic_cart_active: require('../../assets/images/ic_cart_active.png'),
   ic_paper_active: require('../../assets/images/ic_new_active.png'),
   ic_account_active: require('../../assets/images/ic_user_active.png'),
+
+
+  //logo 
+
+  ic_logo: require('../../assets/images/logo_fashion.png')
 };
 export default image;

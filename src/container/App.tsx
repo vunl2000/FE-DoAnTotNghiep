@@ -9,7 +9,7 @@ export default function App() {
       <StatusBar
         translucent
         backgroundColor="transparent"
-        barStyle={'light-content'}
+        barStyle={'dark-content'}
       />
       <TabNavigator />
     </View>

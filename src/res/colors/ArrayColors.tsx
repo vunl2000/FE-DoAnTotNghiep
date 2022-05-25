@@ -11,6 +11,9 @@ const ArrayColors = new (class {
 
   _color_black_gray11 = '#1C1C1C';
 
+  _color_black_gray12 = '#373737';
+
+
 
   _color_gray = '#CCCCCC';
   _color_white_gray = '#B9BCBE';

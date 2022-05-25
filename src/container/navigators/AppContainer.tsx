@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
 import React, {FC} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -37,6 +37,7 @@ const mTabBarOptions = {
 
 const AppContainer: FC = () => {
   const [index, setIndex] = React.useState(20);
+
   return (
     <bottomTab.Navigator screenOptions={mTabBarOptions}>
       <bottomTab.Screen
@@ -67,6 +68,7 @@ const AppContainer: FC = () => {
                     ? ArrayColors._color_black_gray11
                     : ArrayColors._color_white_gray,
                   fontWeight: '700',
+                  fontSize: sizes._15sdp,
                 }}>
                 Trang chủ
               </Text>
@@ -103,6 +105,7 @@ const AppContainer: FC = () => {
                     ? ArrayColors._color_black_gray11
                     : ArrayColors._color_white_gray,
                   fontWeight: '700',
+                  fontSize: sizes._15sdp,
                 }}>
                 Sản phẩm
               </Text>
@@ -139,6 +142,7 @@ const AppContainer: FC = () => {
                     ? ArrayColors._color_black_gray11
                     : ArrayColors._color_white_gray,
                   fontWeight: '700',
+                  fontSize: sizes._15sdp,
                 }}>
                 Giỏ hàng
               </Text>
@@ -174,6 +178,7 @@ const AppContainer: FC = () => {
                     ? ArrayColors._color_black_gray11
                     : ArrayColors._color_white_gray,
                   fontWeight: '700',
+                  fontSize: sizes._15sdp,
                 }}>
                 Xã hội
               </Text>
@@ -210,6 +215,7 @@ const AppContainer: FC = () => {
                     ? ArrayColors._color_black_gray11
                     : ArrayColors._color_white_gray,
                   fontWeight: '700',
+                  fontSize: sizes._15sdp,
                 }}>
                 Tài khoản
               </Text>
@@ -222,3 +228,6 @@ const AppContainer: FC = () => {
 };
 
 export default AppContainer;
+const styles = StyleSheet.create({
+  wrapperCustom: {},
+});
