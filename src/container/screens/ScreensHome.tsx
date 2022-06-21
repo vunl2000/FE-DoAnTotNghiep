@@ -14,28 +14,20 @@ import sizes from '../../res/sizes/sizes';
 const ScreensHome = () => {
   const [height, setHeight] = React.useState(0);
 
-  const [booleanLogo, setBooleanLogo] = React.useState(true);
-
   const activeIndexAnimation = React.useRef(new Animated.Value(0)).current;
 
   if (height > 50) {
-    // React.useEffect(() => {
     Animated.timing(activeIndexAnimation, {
-      toValue: sizes._screen_width / 1.5,
+      toValue: sizes._screen_width / 1.45,
       duration: 500,
       useNativeDriver: false,
     }).start();
-    // }, [activeIndexAnimation,]);
-
-    // setBooleanLogo(false);
   } else if (height < 50) {
     Animated.timing(activeIndexAnimation, {
       toValue: 0,
       duration: 500,
       useNativeDriver: false,
     }).start();
-
-    // setBooleanLogo(true);
   }
 
   const renderItem = ({item, index}: {item: any; index: any}) => {
@@ -65,23 +57,8 @@ const ScreensHome = () => {
 
   return (
     <SafeAreaView style={mContainer}>
-      <Header logo={booleanLogo} activeIndexAnimation={activeIndexAnimation} />
+      <Header logo activeIndexAnimation={activeIndexAnimation} />
       <View style={{flex: 1, backgroundColor: '#fff'}}>
-        {/* <View>
-          
-        </View> */}
-        {/* <Animated.View
-          style={{
-            width: activeIndexAnimation,
-            height: sizes._48sdp,
-            backgroundColor: '#03BFF4',
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            bottom: 0,
-            zIndex :0
-          }}></Animated.View> */}
-
         <FlatList
           data={FAKEDATA || []}
           renderItem={renderItem}

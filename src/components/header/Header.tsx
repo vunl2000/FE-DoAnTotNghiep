@@ -34,7 +34,7 @@ const Header: React.FC<Props> = props => {
   //Kiểm tra thiết bị
   const isAndroid = Platform.OS === 'android';
   return (
-    <SafeAreaView style={mContainer}>
+    <View style={mContainer}>
       <View style={mStyle}>
         <View style={{flexDirection: 'row'}}>
           <IconHeader
@@ -90,7 +90,7 @@ const Header: React.FC<Props> = props => {
             activeIndexAnimation={props.activeIndexAnimation}
             name={isAndroid ? 'search-outline' : 'ios-search-outline'}
             sizes={sizes._24sdp}
-            color={ArrayColors._color_gray_translucen}
+            color={ArrayColors._color_black_light}
             style={iconStyle_3}
             onPress={props.onPressSearch}
           />
@@ -103,7 +103,7 @@ const Header: React.FC<Props> = props => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -111,10 +111,13 @@ export default Header;
 
 const styles = StyleSheet.create({
   mContainer: {
-    height: sizes._header_height,
+    height:
+      Platform.OS === 'android'
+        ? sizes._header_height
+        : sizes._header_height - sizes._statusbar_height,
     width: '100%',
     // backgroundColor: 'green',
-    paddingTop: sizes._statusbar_height,
+    paddingTop: Platform.OS === 'android' ? sizes._statusbar_height : 0,
     justifyContent: 'center',
   },
   mStyle: {
