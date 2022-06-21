@@ -23,7 +23,7 @@ const mTabBarOptions = {
     position: 'absolute',
     elevation: 0,
     backgroundColor: '#fff',
-    height: sizes._68sdp,
+    height: sizes._80sdp,
     shadowOffset: {
       width: 0,
       height: 10,

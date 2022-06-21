@@ -39,23 +39,25 @@ const IconHeaderAnimated: React.FC<Props> = props => {
           Tìm kiếm...
         </Text>
       </View>
-      <Pressable
-        onPress={props.onPress}
-        style={({pressed}) => [
-          {
-            backgroundColor: pressed
-              ? ArrayColors._color_gray_light_light
-              : ArrayColors._color_white,
-          },
-          props.style,
-        ]}>
-        {() => (
-          <Icons
-            size={props.sizes}
-            name={props.name}
-            color={props.color}></Icons>
-        )}
-      </Pressable>
+      <View
+        // style={({pressed}) => [
+        //   {
+        //     backgroundColor: pressed
+        //       ? ArrayColors._color_gray_light_light
+        //       : ArrayColors._color_white,
+        //   },
+        //   props.style,
+        // ]}
+
+        style={props.style}>
+        {/* {() => ( */}
+        <Icons
+          onPress={props.onPress}
+          size={props.sizes}
+          name={props.name}
+          color={props.color}></Icons>
+        {/* // )} */}
+      </View>
     </Animated.View>
   );
 };

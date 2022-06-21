@@ -1,13 +1,12 @@
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import React from 'react';
-import Header from '../../components/header/Header';
 import ArrayColors from '../../res/colors/ArrayColors';
 
 const ScreenCart = () => {
   const {mContainer} = styles;
   return (
     <SafeAreaView style={mContainer}>
-      <Header logo />
+     
       <View style={{flex: 1, backgroundColor: ArrayColors.pink}}></View>
     </SafeAreaView>
   );
