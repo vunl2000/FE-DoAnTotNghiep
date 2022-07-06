@@ -58,16 +58,17 @@ const AppContainer: FC = () => {
                   width: sizes._24sdp,
                   height: sizes._24sdp,
                   tintColor: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                 }}
               />
               <Text
                 style={{
                   color: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                   fontWeight: '700',
+                  fontFamily: 'OpenSans-Bold',
                   fontSize: sizes._15sdp,
                 }}>
                 Trang chủ
@@ -95,16 +96,17 @@ const AppContainer: FC = () => {
                   height: sizes._24sdp,
 
                   tintColor: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                 }}
               />
               <Text
                 style={{
                   color: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                   fontWeight: '700',
+                  fontFamily: 'OpenSans-Bold',
                   fontSize: sizes._15sdp,
                 }}>
                 Sản phẩm
@@ -132,16 +134,17 @@ const AppContainer: FC = () => {
                   width: sizes._24sdp,
                   height: sizes._24sdp,
                   tintColor: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                 }}
               />
               <Text
                 style={{
                   color: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                   fontWeight: '700',
+                  fontFamily: 'OpenSans-Bold',
                   fontSize: sizes._15sdp,
                 }}>
                 Giỏ hàng
@@ -168,16 +171,17 @@ const AppContainer: FC = () => {
                   width: sizes._24sdp,
                   height: sizes._24sdp,
                   tintColor: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                 }}
               />
               <Text
                 style={{
                   color: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                   fontWeight: '700',
+                  fontFamily: 'OpenSans-Bold',
                   fontSize: sizes._15sdp,
                 }}>
                 Xã hội
@@ -205,16 +209,17 @@ const AppContainer: FC = () => {
                   width: sizes._24sdp,
                   height: sizes._24sdp,
                   tintColor: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                 }}
               />
               <Text
                 style={{
                   color: focused
-                    ? ArrayColors._color_black_gray11
-                    : ArrayColors._color_white_gray,
+                    ? ArrayColors._color_black
+                    : ArrayColors._color_un_active,
                   fontWeight: '700',
+                  fontFamily: 'OpenSans-Bold',
                   fontSize: sizes._15sdp,
                 }}>
                 Tài khoản

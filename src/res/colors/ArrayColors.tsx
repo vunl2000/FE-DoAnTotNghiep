@@ -3,6 +3,7 @@ const ArrayColors = new (class {
   _color_black = '#000000';
   _color_red = '#FF030A';
   _color_white_black = '#E5E5E5';
+  _color_un_active = '#555555';
   // _color_linear = {["#ED1C24";'#339CB1']};
   _color_white_bright = 'rgba(229; 229; 229; 0)';
   _color_white_sombre = '#DADADA';
@@ -12,8 +13,6 @@ const ArrayColors = new (class {
   _color_black_gray11 = '#1C1C1C';
 
   _color_black_gray12 = '#373737';
-
-
 
   _color_gray = '#CCCCCC';
   _color_white_gray = '#B9BCBE';
@@ -27,7 +26,7 @@ const ArrayColors = new (class {
   _color_gray_light_glossy = '#F5F5F5';
   _color_gray_sombre = '#727070';
   _color_gray_pale = '#817E7E';
-  _color_gray_translucen = 'rgba(0; 0; 0; 0.68)';
+  _color_gray_translucen = 'rgba(0, 0, 0, 0.68)';
 
   _color_text_title = '#4D4B4B';
   _color_header_ln_start = '#FF030A';
@@ -96,5 +95,12 @@ const ArrayColors = new (class {
   bag9Bg = '#eb849c';
   bag10Bg = '#979dc1';
   bag11Bg = '#c7d3c0';
+
+  //blue
+  blue_item_catory = 'rgba(135, 206, 235, 0.2)';
+
+  //bg catory
+  catory_bg_home = '#EFEFEF';
+  gray_custom = '#D9D9D9';
 })();
 export default ArrayColors;

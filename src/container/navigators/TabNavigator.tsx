@@ -5,14 +5,25 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import AppContainer from '../navigators/AppContainer';
+import DetailProduct from '../screens/product/DetailProduct';
+
+export enum NameScreen {
+  HOME = 'AppContainer',
+  DETAIL_PRODUCT = 'DetailProduct',
+}
 
 export default function TabNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator >
+      <Stack.Navigator>
         <Stack.Screen
           name="AppContainer"
           component={AppContainer}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailProduct"
+          component={DetailProduct}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

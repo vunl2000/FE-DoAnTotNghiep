@@ -18,7 +18,7 @@ interface Props {
   onPressSearch?: () => void;
   onPressCart?: () => void;
   logo?: boolean;
-  activeIndexAnimation: any;
+  activeIndexAnimation?: any;
 }
 const Header: React.FC<Props> = props => {
   const {
@@ -84,7 +84,7 @@ const Header: React.FC<Props> = props => {
             position: 'absolute',
             top: 0,
             // left: 0,
-            right: 0,
+            right: sizes._16sdp,
           }}>
           <IconHeaderAnimated
             activeIndexAnimation={props.activeIndexAnimation}
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // marginHorizontal: 10,
-    marginLeft: sizes._10sdp,
+    marginLeft: sizes._16sdp,
   },
   iconStyle_2: {
     borderRadius: sizes._42sdp / 2,

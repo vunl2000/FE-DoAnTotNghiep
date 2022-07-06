@@ -18,7 +18,7 @@ interface Props {
   color?: string | any;
   style?: string | any;
   onPress?: () => void;
-  activeIndexAnimation: any;
+  activeIndexAnimation?: any;
 }
 
 const IconHeaderAnimated: React.FC<Props> = props => {
@@ -27,18 +27,26 @@ const IconHeaderAnimated: React.FC<Props> = props => {
   return (
     <Animated.View
       style={{
-        width: props.activeIndexAnimation,
-        backgroundColor: ArrayColors._color_gray_light_light,
+        width:
+          props.activeIndexAnimation == null
+            ? sizes._42sdp
+            : props.activeIndexAnimation,
+        backgroundColor:
+          props.activeIndexAnimation == null
+            ? ArrayColors._color_white
+            : ArrayColors._color_gray_light_light,
         borderRadius: sizes._3sdp,
         justifyContent: 'center',
       }}>
-      <View style={{flexDirection: 'row'}}>
-        <Text
-          numberOfLines={1}
-          style={{fontSize: sizes._18sdp, marginHorizontal: sizes._10sdp}}>
-          Tìm kiếm...
-        </Text>
-      </View>
+      {props.activeIndexAnimation != null && (
+        <View style={{flexDirection: 'row'}}>
+          <Text
+            numberOfLines={1}
+            style={{fontSize: sizes._18sdp, marginHorizontal: sizes._10sdp}}>
+            Tìm kiếm...
+          </Text>
+        </View>
+      )}
       <View
         // style={({pressed}) => [
         //   {

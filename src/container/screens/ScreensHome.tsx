@@ -11,6 +11,7 @@ import Header from '../../components/header/Header';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {FAKEDATA} from '../../data/fakedata/Data';
 import sizes from '../../res/sizes/sizes';
+import HomeStack from '../navigators/HomeStack';
 const ScreensHome = () => {
   const [height, setHeight] = React.useState(0);
 
@@ -30,47 +31,16 @@ const ScreensHome = () => {
     }).start();
   }
 
-  const renderItem = ({item, index}: {item: any; index: any}) => {
-    return (
-      <View
-        style={{
-          height: 58,
-          marginVertical: 5,
-          marginHorizontal: 5,
-          backgroundColor: '#000',
-        }}>
-        <View style={{justifyContent: 'center'}}>
-          <Text
-            style={{
-              lineHeight: 24,
-              fontSize: 16,
-              fontWeight: '400',
-              color: '#fff',
-            }}>
-            {item?.mission}
-          </Text>
-        </View>
-      </View>
-    );
-  };
   const {mContainer} = styles;
+
+  const changeScoll = (val: any) => {
+    setHeight(val);
+  };
 
   return (
     <SafeAreaView style={mContainer}>
-      <Header logo activeIndexAnimation={activeIndexAnimation} />
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <FlatList
-          data={FAKEDATA || []}
-          renderItem={renderItem}
-          keyExtractor={(item, index) =>
-            item && item.id ? `${item?.id?.toString()}` : index?.toString()
-          }
-          onScroll={event => {
-            setHeight(event.nativeEvent.contentOffset.y);
-            console.log(event.nativeEvent.contentOffset.y);
-          }}
-        />
-      </View>
+      <Header logo />
+      <HomeStack changeScoll={changeScoll} />
     </SafeAreaView>
   );
 };
