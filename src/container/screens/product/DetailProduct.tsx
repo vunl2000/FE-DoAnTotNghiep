@@ -15,15 +15,12 @@ import sizes from '../../../res/sizes/sizes';
 import Icons from 'react-native-vector-icons/Ionicons';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import AddToCart from '../../../components/modal/AddToCart';
+import {formartMoney} from '../../../utils/Utilities';
 
 type Props = {};
 
 const renderContent = null;
 const isEmty = null;
-
-const formartMoney = (val: any) => {
-  return val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + ' đ';
-};
 
 const DetailProduct = (props: Props) => {
   const route: any = useRoute();
@@ -70,7 +67,11 @@ const DetailProduct = (props: Props) => {
         />
         {addToCart()}
       </View>
-      <AddToCart isShow={isShow} onChangeShow={onChangeShow} />
+      <AddToCart
+        isShow={isShow}
+        onChangeShow={onChangeShow}
+        item={route.params?.item}
+      />
     </SafeAreaView>
   );
 };
