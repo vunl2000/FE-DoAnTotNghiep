@@ -19,5 +19,21 @@ const image = {
   //logo
 
   ic_logo: require('../../assets/images/logo_fashion.png'),
+
+  //icon account
+
+  ic_wallet: require('../../assets/images/ic_vi.png'),
+  ic_giftcard: require('../../assets/images/ic_thequatang.png'),
+
+  ic_back: require('../../assets/images/ic_back.png'),
+  ic_headsetphone: require('../../assets/images/ic_headsetphone.png'),
+  ic_handle: require('../../assets/images/ic_handle.png'),
+  ic_mark: require('../../assets/images/ic_mark.png'),
+  ic_send: require('../../assets/images/ic_send.png'),
+  ic_survey_center: require('../../assets/images/ic_ttkhaosat.png'),
+
+  ic_eys_on: require('../../assets/images/ic_eys_on.png'),
+  ic_eye_off: require('../../assets/images/ic_eye_off.png'),
+  ic_mark_cut: require('../../assets/images/ic_mark_cut.png'),
 };
 export default image;

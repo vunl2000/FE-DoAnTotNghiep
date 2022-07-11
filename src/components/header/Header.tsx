@@ -69,15 +69,6 @@ const Header: React.FC<Props> = props => {
             />
           )}
         </View>
-
-        {/* {props.logo && (
-          <Image
-            source={images.ic_logo}
-            style={styles.mStyleImg}
-            resizeMode="contain"
-          />
-        )} */}
-
         <View
           style={{
             flexDirection: 'row',

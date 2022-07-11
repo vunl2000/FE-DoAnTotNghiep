@@ -11,12 +11,12 @@ import ScreensHome from '../screens/ScreensHome';
 import ScreensProduct from '../screens/ScreensProduct';
 import ScreenCart from '../screens/ScreenCart';
 import ScreenNewspaper from '../screens/ScreenNewspaper';
-import ScreenAccount from '../screens/ScreenAccount';
+import ScreenAccount from '../screens/account/ScreenAccount';
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
 
-const mTabBarOptions = {
+const mTabBarOptions :any = {
   tabBarShowLabel: false,
   tabBarActiveTintColor: '#fff',
   tabBarStyle: {
