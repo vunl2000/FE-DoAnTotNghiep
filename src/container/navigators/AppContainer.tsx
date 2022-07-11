@@ -12,21 +12,14 @@ import ScreensHome from '../screens/ScreensHome';
 import ScreensProduct from '../screens/ScreensProduct';
 import ScreenCart from '../screens/ScreenCart';
 import ScreenNewspaper from '../screens/ScreenNewspaper';
-<<<<<<< HEAD
-import ScreenAccount from '../screens/ScreenAccount';
 import {loadProducts} from '../../store/actions/productsActions';
-=======
 import ScreenAccount from '../screens/account/ScreenAccount';
->>>>>>> killapp98
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
 
-<<<<<<< HEAD
-const mTabBarOptions: any = {
-=======
+
 const mTabBarOptions :any = {
->>>>>>> killapp98
   tabBarShowLabel: false,
   tabBarActiveTintColor: '#fff',
   tabBarStyle: {

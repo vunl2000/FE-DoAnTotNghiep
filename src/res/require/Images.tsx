@@ -20,10 +20,8 @@ const image = {
 
   ic_logo: require('../../assets/images/logo_fashion.png'),
 
-<<<<<<< HEAD
   //err
   img_error: require('../../assets/images/img_error.png'),
-=======
   //icon account
 
   ic_wallet: require('../../assets/images/ic_vi.png'),
@@ -39,6 +37,5 @@ const image = {
   ic_eys_on: require('../../assets/images/ic_eys_on.png'),
   ic_eye_off: require('../../assets/images/ic_eye_off.png'),
   ic_mark_cut: require('../../assets/images/ic_mark_cut.png'),
->>>>>>> killapp98
 };
 export default image;
