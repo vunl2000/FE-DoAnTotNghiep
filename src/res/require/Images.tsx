@@ -19,5 +19,8 @@ const image = {
   //logo
 
   ic_logo: require('../../assets/images/logo_fashion.png'),
+
+  //err
+  img_error: require('../../assets/images/img_error.png'),
 };
 export default image;

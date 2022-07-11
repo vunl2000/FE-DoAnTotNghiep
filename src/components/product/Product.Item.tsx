@@ -4,6 +4,8 @@ import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../container/navigators/TabNavigator';
+import image from '../../res/require/Images';
+import FastImage from 'react-native-fast-image';
 
 type Props = {
   item?: any;
@@ -15,15 +17,22 @@ const formartMoney = (val: any) => {
 };
 
 const ProductItem = (props: Props) => {
-  const {image, name, price} = props.item;
-  const navigation: any = useNavigation();
+  const {imageProduct, title_product, price} = props.item;
+
+  const {navigate}: any = useNavigation();
+
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() =>
-        navigation.navigate(NameScreen.DETAIL_PRODUCT, {item: props.item})
-      }>
-      <Image source={image} resizeMode="cover" style={styles.image} />
+      onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: props.item})}>
+      <FastImage
+        source={{
+          uri: imageProduct[0],
+          priority: FastImage.priority.normal,
+        }}
+        style={styles.image}
+        resizeMode={FastImage.resizeMode.contain}
+      />
       <Text style={styles.textPrice}>{formartMoney(price)}</Text>
     </TouchableOpacity>
   );
@@ -36,7 +45,7 @@ const styles = StyleSheet.create({
     width: (sizes._screen_width - sizes._48sdp) / 2,
   },
   image: {
-    width: '100%',
+    width: (sizes._screen_width - sizes._48sdp) / 2,
     height: sizes._243sdp,
   },
   textPrice: {

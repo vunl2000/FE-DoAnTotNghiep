@@ -1,85 +1,27 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import image from '../../res/require/Images';
 import sizes from '../../res/sizes/sizes';
 import ProductItem from './Product.Item';
+import {useSelector} from 'react-redux';
+import {loadProducts} from '../../store/actions/productsActions';
 
 type Props = {};
 const renderProDuct = ({item, index}: any) => {
   return <ProductItem item={item} index={index} />;
 };
 
-const data = [
-  {
-    _id: 'sp01',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp02',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp03',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp04',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp05',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp06',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp07',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp08',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp09',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-  {
-    _id: 'sp010',
-    image: image.ao_nam,
-    name: 'Áo phông đẹp cổ tròn',
-    price: 350000,
-  },
-];
 const keyItem = (item: any) => item._id;
 
 const space = () => <View style={styles.spaceVertical} />;
 
 const ProDucts = (props: Props) => {
+  const {products} = useSelector((state: any) => state.product);
+
   return (
     <>
       <FlatList
-        data={data}
+        data={products.data}
         renderItem={renderProDuct}
         numColumns={2}
         listKey="list-products"
@@ -88,6 +30,7 @@ const ProDucts = (props: Props) => {
         removeClippedSubviews
         columnWrapperStyle={styles.centerItem}
         ItemSeparatorComponent={space}
+        initialNumToRender={16}
       />
     </>
   );

@@ -9,33 +9,54 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-import {useRoute} from '@react-navigation/native';
+import {useRoute, useNavigation} from '@react-navigation/native';
 import AppHeader from '../../../components/header/AppHeader';
 import sizes from '../../../res/sizes/sizes';
 import Icons from 'react-native-vector-icons/Ionicons';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import AddToCart from '../../../components/modal/AddToCart';
 import {formartMoney} from '../../../utils/Utilities';
+import FastImage from 'react-native-fast-image';
 
-type Props = {};
+type DetailProps = {};
 
 const renderContent = null;
 const isEmty = null;
 
-const DetailProduct = (props: Props) => {
+const DetailProduct = (props: DetailProps) => {
   const route: any = useRoute();
+  const {goBack} = useNavigation();
   const [isShow, setIsShow] = useState(false);
+  const {imageProduct, title_product, price} = route.params?.item;
+  console.log(goBack);
 
   const onChangeShow = () => {
     setIsShow(!isShow);
   };
 
-  const {image, name, price} = route.params?.item;
+  const onBackPress = () => goBack();
 
   const renderView = () => (
     <View style={styles.content}>
-      <Image source={image} style={styles.img} />
-      <Text style={styles.textNameProduct}>{name}</Text>
+      <View style={styles.listImg}>
+        <FlatList
+          data={imageProduct}
+          keyExtractor={index => index}
+          renderItem={({item, index}: any) => {
+            return (
+              <FastImage
+                source={{
+                  uri: item,
+                }}
+                style={styles.img}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            );
+          }}
+          horizontal
+        />
+      </View>
+      <Text style={styles.textNameProduct}>{title_product}</Text>
       <Text style={styles.textPriceProduct}>{formartMoney(price)}</Text>
     </View>
   );
@@ -56,7 +77,13 @@ const DetailProduct = (props: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={'transparent'} />
-      <AppHeader iconRight content customContent={contentHeader()} iconLeft />
+      <AppHeader
+        iconRight
+        content
+        customContent={contentHeader()}
+        iconLeft
+        onPessIconLeft={onBackPress}
+      />
       <View style={styles.content}>
         <FlatList
           data={isEmty}
@@ -90,8 +117,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  listImg: {},
   img: {
-    width: '100%',
+    width: sizes._screen_width,
+    height: sizes._csreen_height * 0.6,
   },
   containerAddCart: {
     flexDirection: 'row',

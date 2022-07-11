@@ -1,5 +1,6 @@
 import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // import {mTabBarOptions} from '../../res/styles/TabBarOptions';
@@ -12,11 +13,12 @@ import ScreensProduct from '../screens/ScreensProduct';
 import ScreenCart from '../screens/ScreenCart';
 import ScreenNewspaper from '../screens/ScreenNewspaper';
 import ScreenAccount from '../screens/ScreenAccount';
+import {loadProducts} from '../../store/actions/productsActions';
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
 
-const mTabBarOptions = {
+const mTabBarOptions: any = {
   tabBarShowLabel: false,
   tabBarActiveTintColor: '#fff',
   tabBarStyle: {
@@ -37,6 +39,11 @@ const mTabBarOptions = {
 
 const AppContainer: FC = () => {
   const [index, setIndex] = React.useState(20);
+  const dispatch: any = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadProducts());
+  }, []);
 
   return (
     <bottomTab.Navigator screenOptions={mTabBarOptions}>

@@ -21,24 +21,23 @@ export interface Props {
   customContent?: any;
 }
 
-const AppHeader = ({
-  iconRight,
-  onPessIconRight,
-  logo,
-  content,
-  customContent,
-  iconLeft,
-  onPessIconLeft,
-}: Props) => {
+const AppHeader = (props: Props) => {
+  const {
+    iconRight,
+    onPessIconRight,
+    logo,
+    content,
+    customContent,
+    iconLeft,
+    onPessIconLeft,
+  } = props;
   return (
     <View style={styles.container}>
       {/* Icon Back */}
       {iconLeft ? (
-        <Icons
-          name="chevron-back"
-          size={sizes._24sdp}
-          onPress={() => onPessIconLeft}
-        />
+        <TouchableOpacity onPress={() => onPessIconLeft()}>
+          <Icons name="chevron-back" size={sizes._24sdp} />
+        </TouchableOpacity>
       ) : null}
       {/* Logo */}
       {logo ? (
@@ -50,7 +49,7 @@ const AppHeader = ({
       {content ? customContent : null}
       {/* Icon Bag */}
       {iconRight ? (
-        <TouchableOpacity onPress={() => onPessIconRight}>
+        <TouchableOpacity onPress={() => onPessIconRight()}>
           <Image source={image.ic_cart} style={styles.iconRight} />
         </TouchableOpacity>
       ) : null}

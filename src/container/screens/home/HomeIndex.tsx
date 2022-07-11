@@ -15,7 +15,7 @@ const renderItem = ({item, index}: {item: any; index: any}) => {
   return (
     <View
       style={{
-        height: 58,
+        height: sizes._58sdp,
         marginVertical: 5,
         marginHorizontal: 5,
         backgroundColor: '#000',
@@ -23,8 +23,8 @@ const renderItem = ({item, index}: {item: any; index: any}) => {
       <View style={{justifyContent: 'center'}}>
         <Text
           style={{
-            lineHeight: 24,
-            fontSize: 16,
+            lineHeight: sizes._26sdp,
+            fontSize: sizes._font_size_big_large,
             fontWeight: '400',
             color: '#fff',
           }}>
@@ -39,7 +39,11 @@ const topBanner = () => {
     'https://img.ltwebstatic.com/images3_acp/2022/06/17/16554807169532cb4d71508bba3fc15beed0c46a6d.webp';
   return (
     <>
-      <Image source={{uri: src}} style={styles.topBanner} resizeMode="cover" />
+      <Image
+        source={{uri: src}}
+        style={styles.topBanner}
+        resizeMode="contain"
+      />
     </>
   );
 };
