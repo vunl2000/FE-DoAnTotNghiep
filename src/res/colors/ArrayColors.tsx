@@ -31,8 +31,8 @@ const ArrayColors = new (class {
   _color_text_title = '#4D4B4B';
   _color_header_ln_start = '#FF030A';
   _color_header_ln_end = '#A30408';
-  _color_rect_ln_start = 'rgba(255; 255; 255; 0.66)';
-  _color_rect_ln_end = 'rgba(255; 255; 255; 0)';
+  _color_rect_ln_start = 'rgba(255, 255, 255, 0.66)';
+  _color_rect_ln_end = 'rgba(255, 255, 255, 0)';
   _color_boder_meet = '#AFAFAF';
 
   _color_red_dark = '#D20B2E';
@@ -74,6 +74,8 @@ const ArrayColors = new (class {
   gold = 'gold';
   line = '#282C35';
   darkGray = '#999999';
+  darkGrayAccount = '#F6F6F6';
+
 
   darkOverlayColor = 'rgba(0; 0; 0; 0.4)';
   darkOverlayColor2 = 'rgba(0; 0; 0; 0.8)';

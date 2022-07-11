@@ -6,6 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import AppContainer from '../navigators/AppContainer';
 import DetailProduct from '../screens/product/DetailProduct';
+import ScreenLoginAndRegister from '../screens/account/screen-acc/ScreenLoginAndRegister';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -24,6 +25,11 @@ export default function TabNavigator() {
         <Stack.Screen
           name="DetailProduct"
           component={DetailProduct}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name="ScreenLoginAndRegister"
+          component={ScreenLoginAndRegister}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
