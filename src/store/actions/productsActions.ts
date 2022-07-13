@@ -1,4 +1,9 @@
-import {AllDispatchProps, lOADING_PRODUCT, LOADED_PRODUCT} from './types';
+import {
+  AllDispatchProps,
+  lOADING_PRODUCT,
+  LOADED_PRODUCT,
+  ADD_TO_CART,
+} from './types';
 import {API_URL_GETALL_PRODUCT} from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
@@ -20,3 +25,39 @@ export const loadProducts = () => async (dispatch: AllDispatchProps) => {
       );
     });
 };
+
+export const addToCart = (item: any, size: any, color: any) => {
+  return {
+    type: ADD_TO_CART,
+    payload: {
+      item,
+      size: size,
+      color: color,
+    },
+  };
+};
+export function UpdateCart(payload: any) {
+  return {
+    type: 'UPDATE_CART',
+    payload,
+  };
+}
+export function DeleteCart(payload: any) {
+  return {
+    type: 'DELETE_CART',
+    payload,
+  };
+}
+
+export function IncreaseQuantity(payload: any) {
+  return {
+    type: 'INCREASE_QUANTITY',
+    payload,
+  };
+}
+export function DecreaseQuantity(payload: any) {
+  return {
+    type: 'DECREASE_QUANTITY',
+    payload,
+  };
+}

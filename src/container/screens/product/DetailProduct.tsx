@@ -17,6 +17,8 @@ import ArrayColors from '../../../res/colors/ArrayColors';
 import AddToCart from '../../../components/modal/AddToCart';
 import {formartMoney} from '../../../utils/Utilities';
 import FastImage from 'react-native-fast-image';
+import {useSelector} from 'react-redux';
+import IconHeader from '../../../components/icons/IconHeader';
 
 type DetailProps = {};
 
@@ -24,12 +26,23 @@ const renderContent = null;
 const isEmty = null;
 
 const DetailProduct = (props: DetailProps) => {
+  const {carts} = useSelector((state: any) => state.product);
   const route: any = useRoute();
   const {goBack} = useNavigation();
   const [isShow, setIsShow] = useState(false);
   const {imageProduct, title_product, price} = route.params?.item;
-  console.log(goBack);
 
+  console.log(carts);
+  const renderItem = ({item, index}: any) => (
+    <FastImage
+      source={{
+        uri: item,
+      }}
+      style={styles.img}
+      resizeMode={FastImage.resizeMode.cover}
+    />
+  );
+  const keyItem = (item: any, index: number) => index.toString();
   const onChangeShow = () => {
     setIsShow(!isShow);
   };
@@ -41,19 +54,13 @@ const DetailProduct = (props: DetailProps) => {
       <View style={styles.listImg}>
         <FlatList
           data={imageProduct}
-          keyExtractor={index => index}
-          renderItem={({item, index}: any) => {
-            return (
-              <FastImage
-                source={{
-                  uri: item,
-                }}
-                style={styles.img}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-            );
-          }}
+          listKey="image_product"
+          keyExtractor={keyItem}
+          renderItem={renderItem}
           horizontal
+          removeClippedSubviews
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
         />
       </View>
       <Text style={styles.textNameProduct}>{title_product}</Text>
@@ -61,9 +68,18 @@ const DetailProduct = (props: DetailProps) => {
     </View>
   );
 
-  const contentHeader = () => <View style={styles.contentHeder} />;
+  const contentHeader = () => (
+    <View style={styles.contentHeder}>
+      <IconHeader
+        name={'chevron-back'}
+        sizes={sizes._24sdp}
+        onPress={onBackPress}
+      />
+      <View style={styles.contentHeder} />
+    </View>
+  );
 
-  const addToCart = () => (
+  const BtnShowAddCart = () => (
     <View style={styles.containerAddCart}>
       <TouchableOpacity>
         <Icons name="heart-outline" size={sizes._24sdp} />
@@ -77,22 +93,16 @@ const DetailProduct = (props: DetailProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={'transparent'} />
-      <AppHeader
-        iconRight
-        content
-        customContent={contentHeader()}
-        iconLeft
-        onPessIconLeft={onBackPress}
-      />
+      <AppHeader content customContent={contentHeader()} />
       <View style={styles.content}>
         <FlatList
           data={isEmty}
           renderItem={renderContent}
-          listKey="detail-products"
+          listKey="detail-product"
           ListFooterComponent={renderView}
           showsVerticalScrollIndicator={false}
         />
-        {addToCart()}
+        <BtnShowAddCart />
       </View>
       <AddToCart
         isShow={isShow}

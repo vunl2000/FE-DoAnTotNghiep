@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
 import React, {FC, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // import {mTabBarOptions} from '../../res/styles/TabBarOptions';
@@ -18,8 +18,7 @@ import ScreenAccount from '../screens/account/ScreenAccount';
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
 
-
-const mTabBarOptions :any = {
+const mTabBarOptions: any = {
   tabBarShowLabel: false,
   tabBarActiveTintColor: '#fff',
   tabBarStyle: {
@@ -39,7 +38,7 @@ const mTabBarOptions :any = {
 };
 
 const AppContainer: FC = () => {
-  const [index, setIndex] = React.useState(20);
+  const {numberCart} = useSelector((state: any) => state.product);
   const dispatch: any = useDispatch();
 
   useEffect(() => {
@@ -127,7 +126,7 @@ const AppContainer: FC = () => {
         name="ScreenCart"
         component={ScreenCart}
         options={{
-          tabBarBadge: index, //index giỏ hàng
+          tabBarBadge: numberCart == 0 ? null : numberCart,
           tabBarIcon: ({focused}) => (
             <View
               style={{

@@ -24,7 +24,7 @@ const ProDucts = (props: Props) => {
         data={products.data}
         renderItem={renderProDuct}
         numColumns={2}
-        listKey="list-products"
+        listKey="list_products"
         keyExtractor={keyItem}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews

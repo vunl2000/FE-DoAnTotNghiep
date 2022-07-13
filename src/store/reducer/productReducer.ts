@@ -3,12 +3,24 @@ import {
   lOADING_PRODUCT,
   LOADED_PRODUCT,
   ADD_TO_CART,
-  CHECK_OUT,
+  GET_NUMBER_CART,
 } from './../actions/types';
+
+interface Cart {
+  id: string;
+  name: string;
+  qty: number;
+  price: number;
+  priceSale: number;
+  size: string;
+  color: string;
+}
+
 const initalState = {
   isLoading: false,
   products: [],
-  cartProducts: [],
+  carts: [],
+  numberCart: 0,
 };
 
 export default (state = initalState, {payload, type}: ActionProps) => {
@@ -25,19 +37,47 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         isLoading: false,
       };
     case ADD_TO_CART:
-      const updateCarts = state.cartProducts.filter(
-        (p: any) => p._id !== payload._id,
-      );
-      const updateProduct = state.cartProducts.filter(
-        (p: any) => p._id !== payload._id,
-      );
+      const cart = {
+        id: payload.item._id,
+        quantity: 1,
+        name: payload.item.title_product,
+        image: payload.item.imageProduct[0],
+        price: payload.item.price,
+        size: payload.size,
+        color: payload.color,
+      };
+
+      if (state.numberCart == 0) {
+        return {
+          ...state,
+          carts: [...state.carts, cart],
+          numberCart: state.numberCart + 1,
+        };
+      } else {
+        const inCart = state.carts.find((item: any) =>
+          item.color === payload.color && item.size === payload.size
+            ? true
+            : false,
+        );
+
+        return {
+          ...state,
+          carts: inCart
+            ? state.carts.map((item: any) =>
+                item.color === payload.color && item.size === payload.size
+                  ? {...item, quantity: item.quantity + 1}
+                  : item,
+              )
+            : [...state.carts, cart],
+          numberCart: state.numberCart + 1,
+        };
+      }
+
+    case GET_NUMBER_CART:
       return {
         ...state,
-        cartProducts: [payload, ...updateCarts],
-        products: [payload, ...updateProduct],
       };
-    case CHECK_OUT:
-      return {...state, cartProducts: [], products: payload};
+
     default:
       return state;
   }

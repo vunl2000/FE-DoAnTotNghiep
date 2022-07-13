@@ -18,7 +18,11 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
 //Cart Types
 export const ADD_TO_CART = 'ADD_TO_CART';
-export const CHECK_OUT = 'CHECK_OUT';
+export const GET_NUMBER_CART = 'GET_NUMBER_CART';
+export const UPDATE_TO_CART = 'UPDATE_TO_CART';
+export const DELETE_TO_CART = 'DELETE_TO_CART';
+export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
+export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
 
 //Error Types
 export const GET_ERRORS = 'GET_ERRORS';

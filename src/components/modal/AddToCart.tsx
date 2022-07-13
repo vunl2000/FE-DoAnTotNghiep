@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   Modal,
   StyleSheet,
@@ -6,12 +7,16 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ViewStyle,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
 import Icons from 'react-native-vector-icons/Ionicons';
 import {formartMoney} from '../../utils/Utilities';
+import FastImage from 'react-native-fast-image';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart} from '../../store/actions/productsActions';
 
 export interface Props {
   isShow?: any;
@@ -19,24 +24,145 @@ export interface Props {
   item?: any;
 }
 
-const AddToCart = ({isShow, onChangeShow, item}: Props) => {
-  const {image, name, price} = item;
+const colorRender = (
+  positions: any,
+  index: number,
+  color: string,
+): ViewStyle => ({
+  width: positions != index ? sizes._30sdp : sizes._26sdp,
+  height: positions != index ? sizes._30sdp : sizes._26sdp,
+  borderRadius: positions == index ? sizes._32sdp / 2 : sizes._28sdp / 2,
+  backgroundColor:
+    color == '#ffffff'
+      ? ArrayColors._color_blue_light
+      : color == '#00000'
+      ? ArrayColors._color_white_black
+      : color,
+});
 
-  const addToCart = () => (
+const AddToCart = ({isShow, onChangeShow, item}: Props) => {
+  const dispatch: any = useDispatch();
+
+  const {_id, imageProduct, title_product, price, size_product, color_product} =
+    item;
+
+  const [sizeSelected, setSizeSelected] = useState({
+    size: '',
+    onSelected: null,
+  });
+  const [colorSelected, setColorSelected] = useState({
+    color: '',
+    onSelected: null,
+  });
+
+  const addCart = () => {
+    dispatch(addToCart(item, sizeSelected.size, colorSelected.color));
+  };
+
+  const onSelectedSize = (val: any, index: any) => {
+    index != sizeSelected.onSelected
+      ? setSizeSelected({size: val, onSelected: index})
+      : setSizeSelected({size: '', onSelected: null});
+  };
+  const onSelectedColor = (val: any, index: any) => {
+    index != colorSelected.onSelected
+      ? setColorSelected({color: val, onSelected: index})
+      : setColorSelected({color: '', onSelected: null});
+  };
+
+  const keyItem = (item: any, index: number) => index.toString();
+
+  const renderItem = ({item, index}: any) => (
+    <FastImage
+      source={{
+        uri: item,
+      }}
+      style={styles.img}
+      resizeMode={FastImage.resizeMode.cover}
+    />
+  );
+  const AddToCart = () => (
     <View style={styles.containerAddCart}>
       <TouchableOpacity>
         <Icons name="heart-outline" size={sizes._24sdp} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnAddCart} onPress={onChangeShow}>
+      <TouchableOpacity style={styles.btnAddCart} onPress={addCart}>
         <Text style={styles.textBtnAdd}>Thêm vào giỏ hàng</Text>
       </TouchableOpacity>
     </View>
   );
 
+  const ColorProduct = () => (
+    <>
+      {color_product != null ? (
+        <View>
+          <Text style={styles.textLabel}>Màu sắc</Text>
+          <View style={styles.renderList}>
+            {color_product.map((_item: any, index: number) => {
+              return (
+                <TouchableWithoutFeedback
+                  key={index.toString()}
+                  onPress={() => onSelectedColor(_item, index)}>
+                  <View
+                    style={[
+                      styles.colorItem,
+                      {
+                        borderWidth:
+                          colorSelected.onSelected == index ? sizes._2sdp : 0,
+                        borderColor:
+                          colorSelected.onSelected == index
+                            ? ArrayColors._color_black
+                            : ArrayColors._color_white,
+                      },
+                    ]}>
+                    <View
+                      style={colorRender(
+                        colorSelected.onSelected,
+                        index,
+                        _item,
+                      )}
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              );
+            })}
+          </View>
+        </View>
+      ) : null}
+    </>
+  );
+
+  const SizeProduct = () => (
+    <View>
+      <Text style={styles.textLabel}>Kích thước</Text>
+      <View style={styles.renderList}>
+        {size_product.map((_item: any, index: number) => {
+          return (
+            <TouchableWithoutFeedback
+              key={index.toString()}
+              onPress={() => onSelectedSize(_item, index)}>
+              <View
+                style={[
+                  styles.sizeItem,
+                  {
+                    borderColor:
+                      index === sizeSelected.onSelected
+                        ? ArrayColors._color_black
+                        : ArrayColors._color_white_black,
+                  },
+                ]}>
+                <Text style={styles.sizeText}>{_item}</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          );
+        })}
+      </View>
+    </View>
+  );
   return (
     <Modal
       visible={isShow}
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       statusBarTranslucent={true}>
       <View style={styles.container}>
@@ -46,14 +172,21 @@ const AddToCart = ({isShow, onChangeShow, item}: Props) => {
         <View style={styles.content}>
           {/* San pham */}
           <View>
-            <Image source={image} resizeMode="contain" style={styles.img} />
-            <Text style={styles.textLabel}>{name}</Text>
+            <FlatList
+              data={imageProduct}
+              keyExtractor={keyItem}
+              renderItem={renderItem}
+              removeClippedSubviews
+              horizontal
+              listKey="modal_product"
+              showsHorizontalScrollIndicator={false}
+            />
+            <Text style={styles.textLabel}>{title_product}</Text>
             <Text style={styles.textPriceProduct}>{formartMoney(price)}</Text>
           </View>
-          <View>
-            <Text style={styles.textLabel}>Kích thước</Text>
-          </View>
-          {addToCart()}
+          <ColorProduct />
+          <SizeProduct />
+          <AddToCart />
         </View>
       </View>
     </Modal>
@@ -118,6 +251,30 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Blod',
     marginLeft: sizes._8sdp,
     fontSize: sizes._font_size_big,
+    color: ArrayColors._color_black,
+  },
+  renderList: {
+    flexDirection: 'row',
+    padding: sizes._16sdp,
+  },
+  colorItem: {
+    width: sizes._30sdp,
+    height: sizes._30sdp,
+    borderRadius: sizes._32sdp / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: sizes._16sdp,
+  },
+  sizeItem: {
+    borderWidth: sizes._2sdp,
+    borderRadius: sizes._50sdp,
+    paddingHorizontal: sizes._24sdp,
+    paddingVertical: sizes._16sdp,
+    marginRight: sizes._16sdp,
+    backgroundColor: ArrayColors._color_white,
+  },
+  sizeText: {
+    fontSize: sizes._16sdp,
     color: ArrayColors._color_black,
   },
 });

@@ -6,17 +6,16 @@ const ScreenCart = () => {
   const {mContainer} = styles;
   return (
     <SafeAreaView style={mContainer}>
-     
       <View style={{flex: 1, backgroundColor: ArrayColors.pink}}></View>
     </SafeAreaView>
   );
-}
+};
 
-export default ScreenCart
+export default ScreenCart;
 
 const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
-    backgroundColor:  ArrayColors._color_white,
+    backgroundColor: ArrayColors._color_white,
   },
-})
+});
