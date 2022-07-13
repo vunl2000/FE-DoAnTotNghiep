@@ -173,6 +173,31 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
     }
   }
 
+  ///Lấy token screens nào cần đến token thì coppy hàm này vào và móc nó ra 
+  //import AsyncStorage from '@react-native-async-storage/async-storage';
+
+  // React.useEffect(() => {
+  //   getData('@user_token')
+  //     .then(data => data)
+  //     .then(value => {
+  //       console.log('yourKey Value:  ' + value);
+  //     })
+  //     .catch(err => console.log(err));
+  // }, []);
+
+  // const getData = async (key: any) => {
+  //   // get Data from Storage
+  //   try {
+  //     const data = await AsyncStorage.getItem(key);
+  //     if (data !== null) {
+  //       console.log(data);
+  //       return data;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
     <SafeAreaView style={styles.mContainer}>
       <AppHeader
