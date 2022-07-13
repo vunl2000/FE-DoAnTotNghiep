@@ -4,6 +4,9 @@ export const USER_LOADER = 'USER_LOADER';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCES = 'LOGIN_SUCCES';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT_SUCCES = 'LOGOUT_SUCCES';
+export const LOGOUT_ERROR = 'LOGOUT_ERROR';
+
 export const REG_LOADING = 'REG_LOADING';
 export const REGISTER_SUCCES = 'REGISTER_SUCCES';
 export const REGISTER_FAIL = 'USER_LOADING';

@@ -20,3 +20,5 @@ export const loadProducts = () => async (dispatch: AllDispatchProps) => {
       );
     });
 };
+
+

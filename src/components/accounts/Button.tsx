@@ -22,12 +22,10 @@ export default Button;
 
 const styles = StyleSheet.create({
   mContainer: {
-    width: sizes._screen_width - 40,
-    height: 48,
-    borderWidth: 1,
-  
-    // borderRadius: 24,
-    marginVertical: 48,
+    width: sizes._screen_width - sizes._40sdp,
+    height: sizes._58sdp,
+    borderWidth: sizes._1sdp,
+    marginVertical: sizes._32sdp,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: ArrayColors._color_black,
@@ -35,7 +33,7 @@ const styles = StyleSheet.create({
   },
   mText: {
     color: ArrayColors._color_white,
-    fontSize: 16,
+    fontSize: sizes._20sdp,
     fontWeight: 'bold',
     fontFamily: 'OpenSans-SemiBold',
   },

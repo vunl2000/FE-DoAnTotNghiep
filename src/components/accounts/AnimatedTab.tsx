@@ -11,10 +11,6 @@ type Props = {
   marginLeft?: any;
   textLeft?: string | any;
   textRight?: string | any;
-  //   invisible?: boolean;
-  //   setInvisible?: any;
-  //   invisible_?: boolean;
-  //   setInvisible_?: any;
   onPressLeft?: () => void;
   onPressRight?: () => void;
 };
@@ -36,10 +32,18 @@ const AnimatedTab = (props: Props) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: sizes._screen_width / 2,
-                height: sizes._56sdp,
+                height: sizes._48sdp,
               },
             ]}>
-            <Text>{props.textLeft}</Text>
+            <Text
+              style={{
+                fontSize: sizes._18sdp,
+                fontWeight: 'bold',
+                fontFamily: 'OpenSans-SemiBold',
+                color: ArrayColors._color_black,
+              }}>
+              {props.textLeft}
+            </Text>
           </Pressable>
         </View>
 
@@ -57,10 +61,18 @@ const AnimatedTab = (props: Props) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: sizes._screen_width / 2,
-                height: sizes._56sdp,
+                height: sizes._48sdp,
               },
             ]}>
-            <Text>{props.textRight}</Text>
+            <Text
+              style={{
+                fontSize: sizes._18sdp,
+                fontWeight: 'bold',
+                fontFamily: 'OpenSans-SemiBold',
+                color: ArrayColors._color_black,
+              }}>
+              {props.textRight}
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -69,6 +81,7 @@ const AnimatedTab = (props: Props) => {
           backgroundColor: ArrayColors._color_black,
           height: sizes._5sdp,
           width: sizes._screen_width / 2,
+          // marginHorizontal: sizes._screen_width / 4,
           marginLeft: props.marginLeft,
           marginRight: props.marginRight,
         }}></Animated.View>

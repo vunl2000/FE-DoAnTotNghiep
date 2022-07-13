@@ -53,6 +53,9 @@ const ArrayColors = new (class {
   _color_orange_medium = '#FF7A00';
   _color_orange_medium_more = '#F78E1E';
 
+  _color_facebook = '#007AD9';
+
+
   primary = '#637aff';
   primaryDark = '#2759ff';
   primaryLite = '#637aff99';
