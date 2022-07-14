@@ -11,6 +11,7 @@ import {
   ToastAndroid,
   Alert,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useRef} from 'react';
 import ArrayColors from '../../../../res/colors/ArrayColors';
@@ -30,6 +31,7 @@ import TextForgotPassword from '../../../../components/accounts/TextForgotPasswo
 import HeaderShown from '../../../../components/accounts/HeaderShown';
 import {checkMail} from '../../../../utils/Utilities';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from '../../../../components/modal/Loading';
 type Props = {};
 
 const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
@@ -127,31 +129,62 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
   const accounts = useSelector((state: any) => state.account);
   const error = useSelector((state: any) => state.err);
 
-  React.useEffect(() => {
-    const token = accounts.token;
-    setToken(token);
-    // if (accounts == null) {
-    //   ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
-    // } else if (error) {
-    //   ToastAndroid.show('Đăng nhập thất bại', ToastAndroid.SHORT);
-    // }
-    // if (accounts.isAuthenticated) {
-    //   setToken(token);
-    //   console.log('falsefalsefalsefalse', accounts);
-    // console.log(token);
+  console.log(error);
 
-    // }
+  React.useEffect(() => {
+    const {isAuthenticated, token} = accounts;
+
+    try {
+      if (accounts) {
+        accounts.userData.filter((result: any) => {
+          const userName_: string | any = result.name;
+          setToken(token, userName_);
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    if (isAuthenticated) {
+      ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
+      navigation.goBack();
+      console.log(accounts);
+    }
   }, [accounts]);
 
-  async function setToken(token: string | any) {
-    if (token) {
+  React.useEffect(() => {
+    try {
+      const errorCode = error.code.code;
+      switch (errorCode) {
+        case 400: {
+          ToastAndroid.show(
+            'Đăng nhập thất bại vui lòng kiểm tra lại mật khẩu',
+            ToastAndroid.SHORT,
+          );
+          break;
+        }
+        default:
+          console.log('Error');
+      }
+    } catch {
+      console.log('Đã có lỗi xảy ra');
+    }
+  }, [error]);
+
+  // console.log(error);
+
+  async function setToken(token: string | any, userName: string | any) {
+    if (token && userName) {
       try {
         await AsyncStorage.removeItem('@user_token');
-        const jsonValue = JSON.stringify(token);
-        await AsyncStorage.setItem('@user_token', jsonValue);
-        //const value = AsyncStorage.getItem('@user_token')
+        const jsonValueToken = JSON.stringify(token);
+        const jsonValueUserName = JSON.stringify(userName);
 
-        // console.log(AsyncStorage.getItem('@user_token'));
+        const mDataSave: string | any = [];
+        mDataSave.push(jsonValueToken, jsonValueUserName);
+        await AsyncStorage.setItem('@user_token', mDataSave);
+
+        // await AsyncStorage.mergeItem('@user_token', JSON.stringify(userName))
       } catch (e) {
         console.log(e);
       }
@@ -170,10 +203,12 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
       setWarningEmail(true);
     } else {
       dispatch(userLogins({email, password}));
+
+      console.log({email, password});
     }
   }
 
-  ///Lấy token screens nào cần đến token thì coppy hàm này vào và móc nó ra 
+  ///Lấy token screens nào cần đến token thì coppy hàm này vào và móc nó ra
   //import AsyncStorage from '@react-native-async-storage/async-storage';
 
   // React.useEffect(() => {
@@ -277,8 +312,11 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
         </ScrollView>
       )}
       <Button onPress={handleLogin} title="Đăng nhập"></Button>
+
       <GoogleOrFacebook />
       <Policy />
+
+      {accounts.regLoading ? <Loading /> : null}
     </SafeAreaView>
   );
 };

@@ -17,15 +17,83 @@ import sizes from '../../../res/sizes/sizes';
 import Images from '../../../res/require/Images';
 import HeaderAccounts from '../../../components/accounts/HeaderAccounts';
 import AnimatedTab from '../../../components/accounts/AnimatedTab';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch, useSelector} from 'react-redux';
 
 const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [numberDiscount, setNumberDiscount] = React.useState('0');
+
   const [scores, setScores] = React.useState('0');
 
   const [marginLeft, setMarginLeft] = React.useState(0);
+
   const [marginRight, setMarginRight] = React.useState(0);
 
+  const [token, setToken] = React.useState<string | any>('');
+
+  const [event, setEvent] = React.useState<string | any>(true);
+
+  const accounts = useSelector((state: any) => state.account);
+
+  const [userName, setUserName] = React.useState<string | any>('Đăng nhập / Đăng Ký >');
+
   const animatedValues: any = React.useRef(new Animated.Value(0)).current;
+
+
+  console.log("-------------",accounts.userData);
+
+
+  // React.useEffect(() => {
+
+
+    
+  //   console.log("0000");
+    
+  //   try {
+  //     // accounts.userData.filter((result: any) => {
+  //     //   console.log(result.name);
+  //     //   setUserName(result.name);
+  //     //    setEvent(false);
+  //     // });
+  
+
+  //     getData('@user_token')
+  //       .then(data => data)
+  //       .then(value => {
+  //         //setToken(value);
+
+  //         console.log([value]);
+          
+          
+  //         // if (token) {
+            
+           
+  //         // } else {
+  //         //   setUserName('Đăng nhập / Đăng Ký >');
+  //         //   setEvent(true);
+  //         // }
+
+
+  //       })
+  //       .catch(err => console.log(err));
+     
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }, [accounts]);
+
+  const getData = async (key: any) => {
+    // get Data from Storage
+    try {
+      const data = await AsyncStorage.getItem(key);
+      if (data !== null) {
+        console.log(data);
+        return data;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function eventCart() {
     console.log('Cart');
@@ -35,8 +103,9 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   }
 
   function eventLogInAndRegister() {
-    console.log('ok');
-    navigation.navigate('ScreenLoginAndRegister');
+    // if (!token) {
+      navigation.navigate('ScreenLoginAndRegister');
+   // }
   }
 
   function onPressLeft() {
@@ -72,13 +141,13 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           },
           styles.mStyleText,
         ]}
-        onPress={eventLogInAndRegister}>
+        onPress={event ? eventLogInAndRegister : null}>
         <View>
-          <Text style={styles.mStyleTextLoginAndRegister}>Đăng nhập / </Text>
+          <Text style={styles.mStyleTextLoginAndRegister}>{userName}</Text>
         </View>
-        <View>
+        {/* <View>
           <Text style={styles.mStyleTextLoginAndRegister}>Đăng ký {`>`}</Text>
-        </View>
+        </View> */}
       </Pressable>
     );
   }

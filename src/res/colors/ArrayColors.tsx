@@ -27,6 +27,8 @@ const ArrayColors = new (class {
   _color_gray_sombre = '#727070';
   _color_gray_pale = '#817E7E';
   _color_gray_translucen = 'rgba(0, 0, 0, 0.68)';
+  _color_gray_translucenLoading = 'rgba(0, 0, 0, 0.62)';
+
 
   _color_text_title = '#4D4B4B';
   _color_header_ln_start = '#FF030A';

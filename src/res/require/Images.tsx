@@ -37,8 +37,17 @@ const image = {
   ic_eys_on: require('../../assets/images/ic_eys_on.png'),
   ic_eye_off: require('../../assets/images/ic_eye_off.png'),
   ic_mark_cut: require('../../assets/images/ic_mark_cut.png'),
-
   ic_facebook: require('../../assets/images/icons8_facebook_f_32.png'),
   ic_google: require('../../assets/images/icons8_google_32.png'),
+
+  icons8_bra_100: require('../../assets/images/icons8_bra_100.png'),
+  icons8_dress_100: require('../../assets/images/icons8_dress_100.png'),
+  icons8_hanger_100: require('../../assets/images/icons8_hanger_100.png'),
+  icons8_lipstick_100: require('../../assets/images/icons8_lipstick_100.png'),
+  icons8_skirt_100: require('../../assets/images/icons8_skirt_100.png'),
+  icons8_tshirt_100: require('../../assets/images/icons8_tshirt_100.png'),
+  icons8_women_shoe_side_view_100: require('../../assets/images/icons8_women_shoe_side_view_100.png'),
+
+
 };
 export default image;
