@@ -81,7 +81,6 @@ const ArrayColors = new (class {
   darkGray = '#999999';
   darkGrayAccount = '#F6F6F6';
 
-
   darkOverlayColor = 'rgba(0; 0; 0; 0.4)';
   darkOverlayColor2 = 'rgba(0; 0; 0; 0.8)';
   lightOverlayColor = 'rgba(255; 255; 255; 0.6)';

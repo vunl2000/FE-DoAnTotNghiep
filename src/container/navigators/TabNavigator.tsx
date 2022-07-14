@@ -27,7 +27,7 @@ export default function TabNavigator() {
           component={DetailProduct}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="ScreenLoginAndRegister"
           component={ScreenLoginAndRegister}
           options={{headerShown: false}}

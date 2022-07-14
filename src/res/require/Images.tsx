@@ -49,5 +49,8 @@ const image = {
   icons8_women_shoe_side_view_100: require('../../assets/images/icons8_women_shoe_side_view_100.png'),
 
 
+
+  //Cart
+  empty_cart: require('../../assets/images/err_no_data.png'),
 };
 export default image;
