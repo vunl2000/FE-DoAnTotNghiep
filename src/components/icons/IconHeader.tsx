@@ -12,7 +12,7 @@ interface Props {
   style?: string | any;
   onPress?: () => void;
 }
-const IconHeader: React.FC<Props> = props => {
+const IconHeader: React.FC<Props> = (props: any) => {
   return (
     <>
       <Pressable

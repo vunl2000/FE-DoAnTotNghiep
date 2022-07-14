@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../container/navigators/TabNavigator';
 import image from '../../res/require/Images';
 import FastImage from 'react-native-fast-image';
+import BetterImage from '../images/BetterImage';
 
 type Props = {
   item?: any;
@@ -25,13 +26,12 @@ const ProductItem = (props: Props) => {
     <TouchableOpacity
       style={styles.container}
       onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: props.item})}>
-      <FastImage
+      <BetterImage
         source={{
           uri: imageProduct[0],
-          priority: FastImage.priority.normal,
         }}
         style={styles.image}
-        resizeMode={FastImage.resizeMode.contain}
+        resizeMode="contain"
       />
       <Text style={styles.textPrice}>{formartMoney(price)}</Text>
     </TouchableOpacity>
@@ -43,6 +43,7 @@ export default ProductItem;
 const styles = StyleSheet.create({
   container: {
     width: (sizes._screen_width - sizes._48sdp) / 2,
+    justifyContent: 'center',
   },
   image: {
     width: (sizes._screen_width - sizes._48sdp) / 2,

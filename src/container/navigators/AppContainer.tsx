@@ -14,6 +14,7 @@ import ScreenCart from '../screens/ScreenCart';
 import ScreenNewspaper from '../screens/ScreenNewspaper';
 import {loadProducts} from '../../store/actions/productsActions';
 import ScreenAccount from '../screens/account/ScreenAccount';
+import {useRoute} from '@react-navigation/native';
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
@@ -45,8 +46,13 @@ const AppContainer: FC = () => {
     dispatch(loadProducts());
   }, []);
 
+  const route: any = useRoute();
+  const initScreen = route.params?.screen;
+
   return (
-    <bottomTab.Navigator screenOptions={mTabBarOptions}>
+    <bottomTab.Navigator
+      screenOptions={mTabBarOptions}
+      initialRouteName={initScreen != null ? initScreen : 'HomeScreen'}>
       <bottomTab.Screen
         name="HomeScreen"
         component={ScreensHome}

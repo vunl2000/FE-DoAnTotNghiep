@@ -37,5 +37,8 @@ const image = {
   ic_eys_on: require('../../assets/images/ic_eys_on.png'),
   ic_eye_off: require('../../assets/images/ic_eye_off.png'),
   ic_mark_cut: require('../../assets/images/ic_mark_cut.png'),
+
+  //Cart
+  empty_cart: require('../../assets/images/err_no_data.png'),
 };
 export default image;

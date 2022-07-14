@@ -20,7 +20,7 @@ interface Props {
   logo?: boolean;
   activeIndexAnimation?: any;
 }
-const Header: React.FC<Props> = props => {
+const Header: React.FC<Props> = (props: Props) => {
   const {
     mContainer,
     mStyle,

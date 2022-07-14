@@ -19,6 +19,9 @@ import {formartMoney} from '../../../utils/Utilities';
 import FastImage from 'react-native-fast-image';
 import {useSelector} from 'react-redux';
 import IconHeader from '../../../components/icons/IconHeader';
+import BadgesIcon from '../../../components/icons/BadgesIcon';
+import image from '../../../res/require/Images';
+import {NameScreen} from '../../navigators/TabNavigator';
 
 type DetailProps = {};
 
@@ -26,13 +29,13 @@ const renderContent = null;
 const isEmty = null;
 
 const DetailProduct = (props: DetailProps) => {
-  const {carts} = useSelector((state: any) => state.product);
+  const {carts, numberCart} = useSelector((state: any) => state.product);
   const route: any = useRoute();
-  const {goBack} = useNavigation();
+  const {goBack, navigate}: any = useNavigation();
   const [isShow, setIsShow] = useState(false);
   const {imageProduct, title_product, price} = route.params?.item;
 
-  console.log(carts);
+  console.log(carts, numberCart);
   const renderItem = ({item, index}: any) => (
     <FastImage
       source={{
@@ -48,6 +51,7 @@ const DetailProduct = (props: DetailProps) => {
   };
 
   const onBackPress = () => goBack();
+  const goToCart = () => navigate(NameScreen.HOME, {screen: 'ScreenCart'});
 
   const renderView = () => (
     <View style={styles.content}>
@@ -68,21 +72,28 @@ const DetailProduct = (props: DetailProps) => {
     </View>
   );
 
-  const contentHeader = () => (
+  const ContentHeader = () => (
     <View style={styles.contentHeder}>
       <IconHeader
         name={'chevron-back'}
         sizes={sizes._24sdp}
         onPress={onBackPress}
+        style={styles.iconLeft}
+        color={ArrayColors._color_black}
       />
-      <View style={styles.contentHeder} />
+      <View style={[styles.content, {marginHorizontal: sizes._16sdp}]} />
+      <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={goToCart} />
     </View>
   );
 
   const BtnShowAddCart = () => (
     <View style={styles.containerAddCart}>
       <TouchableOpacity>
-        <Icons name="heart-outline" size={sizes._24sdp} />
+        <Icons
+          name="heart-outline"
+          size={sizes._24sdp}
+          color={ArrayColors._color_black}
+        />
       </TouchableOpacity>
       <TouchableOpacity style={styles.btnAddCart} onPress={onChangeShow}>
         <Text style={styles.textBtnAdd}>Thêm vào giỏ hàng</Text>
@@ -93,7 +104,7 @@ const DetailProduct = (props: DetailProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={'transparent'} />
-      <AppHeader content customContent={contentHeader()} />
+      <AppHeader content customContent={<ContentHeader />} />
       <View style={styles.content}>
         <FlatList
           data={isEmty}
@@ -120,9 +131,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
+    backgroundColor: ArrayColors._color_white,
   },
   contentHeder: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconLeft: {
+    borderRadius: sizes._42sdp / 2,
+    width: sizes._42sdp,
+    height: sizes._42sdp,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {
     flex: 1,
