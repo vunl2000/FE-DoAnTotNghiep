@@ -1,9 +1,13 @@
+import {makeId} from '../../utils/Utilities';
 import {
   ActionProps,
   lOADING_PRODUCT,
   LOADED_PRODUCT,
   ADD_TO_CART,
   GET_NUMBER_CART,
+  INCREASE_QUANTITY,
+  DECREASE_QUANTITY,
+  CHANGE_SELECT_CART,
 } from './../actions/types';
 
 interface Cart {
@@ -21,6 +25,7 @@ const initalState = {
   products: [],
   carts: [],
   numberCart: 0,
+  allSelected: false,
 };
 
 export default (state = initalState, {payload, type}: ActionProps) => {
@@ -38,8 +43,10 @@ export default (state = initalState, {payload, type}: ActionProps) => {
       };
     case ADD_TO_CART:
       const cart = {
-        id: payload.item._id,
+        id: makeId(12),
+        id_prduct: payload.item._id,
         quantity: 1,
+        selected: false,
         name: payload.item.title_product,
         image: payload.item.imageProduct[0],
         price: payload.item.price,
@@ -77,7 +84,41 @@ export default (state = initalState, {payload, type}: ActionProps) => {
       return {
         ...state,
       };
-
+    case CHANGE_SELECT_CART:
+      return {
+        ...state,
+        carts: state.carts.map((item: any) =>
+          item.id === payload.id ? {...item, selected: !item.selected} : item,
+        ),
+      };
+    case INCREASE_QUANTITY:
+      return {
+        ...state,
+        numberCart: state.numberCart + 1,
+        carts: state.carts.map((item: any) =>
+          item.id === payload.id
+            ? {...item, quantity: item.quantity + 1}
+            : item,
+        ),
+      };
+    case DECREASE_QUANTITY:
+      let product: any = state.carts.find(
+        (item: any) => item.id === payload.id,
+      );
+      if (product.quantity > 1) {
+        return {
+          ...state,
+          numberCart: state.numberCart - 1,
+          carts: state.carts.map((item: any) =>
+            item.id === payload.id
+              ? {...item, quantity: item.quantity - 1}
+              : item,
+          ),
+        };
+      }
+      return {
+        ...state,
+      };
     default:
       return state;
   }

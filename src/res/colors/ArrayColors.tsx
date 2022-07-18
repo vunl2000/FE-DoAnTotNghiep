@@ -5,7 +5,7 @@ const ArrayColors = new (class {
   _color_white_black = '#E5E5E5';
   _color_un_active = '#555555';
   // _color_linear = {["#ED1C24";'#339CB1']};
-  _color_white_bright = 'rgba(229; 229; 229; 0)';
+  _color_white_bright = 'rgba(229, 229, 229, 0)';
   _color_white_sombre = '#DADADA';
   _color_white_sombre_ = '#979797';
 
@@ -110,5 +110,6 @@ const ArrayColors = new (class {
   //bg catory
   catory_bg_home = '#EFEFEF';
   gray_custom = '#D9D9D9';
+  gray_bg_light = '#F1F1F1';
 })();
 export default ArrayColors;

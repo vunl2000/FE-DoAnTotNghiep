@@ -21,7 +21,7 @@ const ProDucts = (props: Props) => {
   return (
     <>
       <FlatList
-        data={products.data}
+        data={products.result}
         renderItem={renderProDuct}
         numColumns={2}
         listKey="list_products"

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   textLabel: {
     fontWeight: '700',
-    fontFamily: 'OpenSans-Blod',
-    fontSize: sizes._18sdp,
+    fontFamily: 'OpenSans-Bold',
+    fontSize: sizes._20sdp,
   },
 });
