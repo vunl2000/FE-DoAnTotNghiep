@@ -48,9 +48,28 @@ const image = {
   icons8_tshirt_100: require('../../assets/images/icons8_tshirt_100.png'),
   icons8_women_shoe_side_view_100: require('../../assets/images/icons8_women_shoe_side_view_100.png'),
 
-
-
   //Cart
   empty_cart: require('../../assets/images/err_no_data.png'),
+
+  ///newSpaper:
+
+  icons8_facebook_messenger_32: require('../../assets/images/icons8_facebook_messenger_32.png'),
+  img_user: require('../../assets/images/img_user.jpg'),
+  ic_qa_spaper: require('../../assets/images/ic_qa_spaper.png'),
+  ic_spaper: require('../../assets/images/ic_spaper.png'),
+  img_ex_newSpaper_1: require('../../assets/images/img_ex_newSpaper_1.png'),
+  img_ex_newSpaper_2: require('../../assets/images/img_ex_newSpaper_2.png'),
+
+  // haha: require('../../assets/images/haha.gif'),
+
+  // like: require('../../assets/images/like.gif'),
+
+  like_png: require('../../assets/gif/like.png'),
+
+  // love: require('../../assets/images/love.gif'),
+
+  // sad: require('../../assets/images/sad.gif'),
+
+  // wow: require('../../assets/images/wow.gif'),
 };
 export default image;

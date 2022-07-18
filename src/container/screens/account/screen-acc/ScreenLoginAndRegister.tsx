@@ -147,8 +147,8 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
 
     if (isAuthenticated) {
       ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
-      navigation.goBack();
-      console.log(accounts);
+       navigation.goBack();
+      // console.log(accounts);
     }
   }, [accounts]);
 
@@ -171,20 +171,20 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
     }
   }, [error]);
 
-  // console.log(error);
-
   async function setToken(token: string | any, userName: string | any) {
     if (token && userName) {
       try {
         await AsyncStorage.removeItem('@user_token');
-        const jsonValueToken = JSON.stringify(token);
-        const jsonValueUserName = JSON.stringify(userName);
+        // await AsyncStorage.removeItem('@user_name');
 
-        const mDataSave: string | any = [];
-        mDataSave.push(jsonValueToken, jsonValueUserName);
-        await AsyncStorage.setItem('@user_token', mDataSave);
+        const mData: any = {
+          token: token,
+          userName: userName,
+        };
+        // console.log('dataaaa', mData);
 
-        // await AsyncStorage.mergeItem('@user_token', JSON.stringify(userName))
+        await AsyncStorage.setItem('@user_token', JSON.stringify(mData));
+
       } catch (e) {
         console.log(e);
       }

@@ -3,11 +3,14 @@ import React from 'react';
 interface Props {
   style?: string | any;
   title?: string | any;
+  onPress?: () => void | any;
 }
 const TitleHome: React.FC<Props> = props => {
   return (
     <>
-      <Text style={props.style}>{props.title}</Text>
+      <Text onPress={props.onPress} style={props.style}>
+        {props.title}
+      </Text>
     </>
   );
 };

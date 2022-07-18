@@ -5,7 +5,8 @@ import {
   LOGIN_SUCCES,
   REGISTER_FAIL,
 } from './types';
-import {API_URL_LOGIN_USERS} from '@env';
+
+import { API_URL_LOGIN_USERS } from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
 // Load products

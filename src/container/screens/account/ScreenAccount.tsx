@@ -19,7 +19,7 @@ import HeaderAccounts from '../../../components/accounts/HeaderAccounts';
 import AnimatedTab from '../../../components/accounts/AnimatedTab';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
-
+import Loading from '../../../components/modal/Loading';
 const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [numberDiscount, setNumberDiscount] = React.useState('0');
 
@@ -29,66 +29,48 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   const [marginRight, setMarginRight] = React.useState(0);
 
-  const [token, setToken] = React.useState<string | any>('');
+  const [storageToken, setStorageToken] = React.useState<string | any>(null);
+  const [storageUser, setStorageUser] = React.useState<string | any>("Đăng nhập / Đăng Ký >");
 
   const [event, setEvent] = React.useState<string | any>(true);
 
   const accounts = useSelector((state: any) => state.account);
 
-  const [userName, setUserName] = React.useState<string | any>('Đăng nhập / Đăng Ký >');
+  const [isLoading,setIsLoading] = React.useState<string | any>(true);
+
 
   const animatedValues: any = React.useRef(new Animated.Value(0)).current;
 
+  React.useEffect(() => {
 
-  console.log("-------------",accounts.userData);
-
-
-  // React.useEffect(() => {
-
-
-    
-  //   console.log("0000");
-    
-  //   try {
-  //     // accounts.userData.filter((result: any) => {
-  //     //   console.log(result.name);
-  //     //   setUserName(result.name);
-  //     //    setEvent(false);
-  //     // });
-  
-
-  //     getData('@user_token')
-  //       .then(data => data)
-  //       .then(value => {
-  //         //setToken(value);
-
-  //         console.log([value]);
-          
-          
-  //         // if (token) {
-            
-           
-  //         // } else {
-  //         //   setUserName('Đăng nhập / Đăng Ký >');
-  //         //   setEvent(true);
-  //         // }
-
-
-  //       })
-  //       .catch(err => console.log(err));
-     
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }, [accounts]);
+   // setTimeout(() => {
+      getData('@user_token')
+        .then(data => data)
+        .then((value: any) => {
+          if (value === undefined) {
+            console.log('undefined');
+            //setStorageUser('Đăng nhập / Đăng Ký >');
+            setEvent(true);
+          } else {
+            console.log('Notundefined');
+            if (accounts.isAuthenticated === true) {
+              setStorageUser('Tran Huu Thang');
+              setEvent(false);
+            } else {
+              setStorageUser('Tran Huu Thang');
+              setEvent(false);
+            }
+          }
+        })
+        .catch(err => console.log(err))
+    //  }, 10);
+  }, [accounts.isAuthenticated]);
 
   const getData = async (key: any) => {
-    // get Data from Storage
     try {
       const data = await AsyncStorage.getItem(key);
-      if (data !== null) {
-        console.log(data);
-        return data;
+      if (data != null) {
+        return  data;
       }
     } catch (error) {
       console.log(error);
@@ -104,8 +86,8 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   function eventLogInAndRegister() {
     // if (!token) {
-      navigation.navigate('ScreenLoginAndRegister');
-   // }
+    navigation.navigate('ScreenLoginAndRegister');
+    // }
   }
 
   function onPressLeft() {
@@ -143,7 +125,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
         ]}
         onPress={event ? eventLogInAndRegister : null}>
         <View>
-          <Text style={styles.mStyleTextLoginAndRegister}>{userName}</Text>
+          <Text style={styles.mStyleTextLoginAndRegister}>{storageUser}</Text>
         </View>
         {/* <View>
           <Text style={styles.mStyleTextLoginAndRegister}>Đăng ký {`>`}</Text>
@@ -264,6 +246,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           />
         </View>
       </View>
+      {/* {isLoading ? <Loading /> : null} */}
     </SafeAreaView>
   );
 };

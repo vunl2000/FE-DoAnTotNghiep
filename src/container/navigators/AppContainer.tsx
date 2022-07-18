@@ -11,7 +11,7 @@ import sizes from '../../res/sizes/sizes';
 import ScreensHome from '../screens/ScreensHome';
 import ScreensProduct from '../screens/ScreensProduct';
 import ScreenCart from '../screens/ScreenCart';
-import ScreenNewspaper from '../screens/ScreenNewspaper';
+import ScreenNewspaper from '../screens/spaper/ScreenNewspaper';
 import {loadProducts} from '../../store/actions/productsActions';
 import ScreenAccount from '../screens/account/ScreenAccount';
 import {useRoute} from '@react-navigation/native';
