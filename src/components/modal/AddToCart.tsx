@@ -4,6 +4,7 @@ import {
   Modal,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -54,9 +55,34 @@ const AddToCart = ({isShow, onChangeShow, item}: Props) => {
     color: '',
     onSelected: null,
   });
-
+  const clearOptions = () => {
+    setColorSelected({
+      color: '',
+      onSelected: null,
+    });
+    setSizeSelected({
+      size: '',
+      onSelected: null,
+    });
+  };
+  const showToastWithGravityAndOffset = (msg: string | any) => {
+    ToastAndroid.showWithGravityAndOffset(
+      msg,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+  const spaceItem = () => <View style={styles.space} />;
   const addCart = () => {
-    dispatch(addToCart(item, sizeSelected.size, colorSelected.color));
+    if (sizeSelected.size !== '' && colorSelected.color !== '') {
+      dispatch(addToCart(item, sizeSelected.size, colorSelected.color));
+      clearOptions();
+      onChangeShow();
+      return showToastWithGravityAndOffset('Đã thêm vào giỏ hàng!');
+    }
+    return showToastWithGravityAndOffset('Vui lòng chọn size và màu!');
   };
 
   const onSelectedSize = (val: any, index: any) => {
@@ -180,6 +206,8 @@ const AddToCart = ({isShow, onChangeShow, item}: Props) => {
               horizontal
               listKey="modal_product"
               showsHorizontalScrollIndicator={false}
+              ItemSeparatorComponent={spaceItem}
+              contentContainerStyle={styles.contentImage}
             />
             <Text style={styles.textLabel}>{title_product}</Text>
             <Text style={styles.textPriceProduct}>{formartMoney(price)}</Text>
@@ -248,7 +276,7 @@ const styles = StyleSheet.create({
   textPriceProduct: {
     fontWeight: '700',
     width: '100%',
-    fontFamily: 'OpenSans-Blod',
+    fontFamily: 'OpenSans-Bold',
     marginLeft: sizes._8sdp,
     fontSize: sizes._font_size_big,
     color: ArrayColors._color_black,
@@ -276,5 +304,11 @@ const styles = StyleSheet.create({
   sizeText: {
     fontSize: sizes._16sdp,
     color: ArrayColors._color_black,
+  },
+  space: {
+    width: sizes._10sdp,
+  },
+  contentImage: {
+    paddingHorizontal: sizes._10sdp,
   },
 });

@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     color: ArrayColors._color_white,
     fontSize: sizes._font_size_big_large,
     fontWeight: '700',
-    fontFamily: 'OpenSans-Blod',
+    fontFamily: 'OpenSans-Bold',
   },
   textNameProduct: {
     fontWeight: '400',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   textPriceProduct: {
     fontWeight: '700',
     width: '100%',
-    fontFamily: 'OpenSans-Blod',
+    fontFamily: 'OpenSans-Bold',
     marginLeft: sizes._8sdp,
     fontSize: sizes._font_size_big,
     color: ArrayColors._color_black,

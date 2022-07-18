@@ -78,7 +78,7 @@ function MyTabBar({state, descriptors, navigation, position}: any) {
                   fontSize: sizes._18sdp,
                   fontWeight: isFocused ? '600' : '400',
                   fontFamily: isFocused
-                    ? 'OpenSans-SemiBlod'
+                    ? 'OpenSans-SemiBold'
                     : 'OpenSans-Regular',
                 }}>
                 {label}

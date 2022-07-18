@@ -51,5 +51,6 @@ const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
     backgroundColor: ArrayColors._color_white,
+    paddingBottom: sizes._80sdp,
   },
 });

@@ -12,7 +12,7 @@ export const loadProducts = () => async (dispatch: AllDispatchProps) => {
   dispatch({type: lOADING_PRODUCT, payload: null});
 
   //Load product form url
-  axios({
+  await axios({
     method: 'GET',
     url: API_URL_GETALL_PRODUCT,
   })
@@ -36,28 +36,46 @@ export const addToCart = (item: any, size: any, color: any) => {
     },
   };
 };
-export function UpdateCart(payload: any) {
+export function updateCart(payload: any) {
   return {
     type: 'UPDATE_CART',
     payload,
   };
 }
-export function DeleteCart(payload: any) {
+export function deleteCart(payload: any) {
   return {
     type: 'DELETE_CART',
     payload,
   };
 }
 
-export function IncreaseQuantity(payload: any) {
+export function increaseQuantity(id: any) {
   return {
     type: 'INCREASE_QUANTITY',
-    payload,
+    payload: {
+      id,
+    },
   };
 }
-export function DecreaseQuantity(payload: any) {
+export function changeSelectCart(id: any) {
+  return {
+    type: 'SELECT_BILL_CART',
+    payload: {
+      id,
+    },
+  };
+}
+export function slectedAllCart() {
+  return {
+    type: 'SELECT_ALL_CART',
+    payload: null,
+  };
+}
+export function decreaseQuantity(id: any) {
   return {
     type: 'DECREASE_QUANTITY',
-    payload,
+    payload: {
+      id,
+    },
   };
 }
