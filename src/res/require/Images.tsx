@@ -64,7 +64,7 @@ const image = {
 
   // like: require('../../assets/images/like.gif'),
 
-  like_png: require('../../assets/gif/like.png'),
+  like_png: require('../../assets/gif/like_png.png'),
 
   // love: require('../../assets/images/love.gif'),
 

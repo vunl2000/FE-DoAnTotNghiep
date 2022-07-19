@@ -1,6 +1,6 @@
 import React from 'react';
 import {ImageSourcePropType, StyleSheet} from 'react-native';
-
+import sizes from '../../res/sizes/sizes';
 import Animated, {
   useAnimatedStyle,
   withSpring,
@@ -41,14 +41,15 @@ const Emoji = ({
 
 export default Emoji;
 
-export const EMOJI_BAR_PADDING = 4;
-export const EMOJI_BAR_BORDER_RADIUS = 16;
-export const EMOJI_SIZE = 28;
-export const EMOJI_MARGIN = 2;
+export const EMOJI_BAR_PADDING = sizes._6sdp;
+export const EMOJI_BAR_BORDER_RADIUS = sizes._24sdp;
+export const EMOJI_SIZE = sizes._36sdp;
+export const EMOJI_MARGIN = sizes._6sdp;
 const styles = StyleSheet.create({
   emoji: {
     width: EMOJI_SIZE,
     height: EMOJI_SIZE,
     marginHorizontal: EMOJI_MARGIN,
+   
   },
 });
