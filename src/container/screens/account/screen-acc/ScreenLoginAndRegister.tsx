@@ -136,7 +136,7 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
 
     try {
       if (accounts) {
-        accounts.userData.filter((result: any) => {
+        accounts.result.filter((result: any) => {
           const userName_: string | any = result.name;
           setToken(token, userName_);
         });

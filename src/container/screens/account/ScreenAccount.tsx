@@ -30,20 +30,20 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [marginRight, setMarginRight] = React.useState(0);
 
   const [storageToken, setStorageToken] = React.useState<string | any>(null);
-  const [storageUser, setStorageUser] = React.useState<string | any>("Đăng nhập / Đăng Ký >");
+  const [storageUser, setStorageUser] = React.useState<string | any>(
+    'Đăng nhập / Đăng Ký >',
+  );
 
   const [event, setEvent] = React.useState<string | any>(true);
 
   const accounts = useSelector((state: any) => state.account);
 
-  const [isLoading,setIsLoading] = React.useState<string | any>(true);
-
+  const [isLoading, setIsLoading] = React.useState<string | any>(true);
 
   const animatedValues: any = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
-
-   // setTimeout(() => {
+    setTimeout(() => {
       getData('@user_token')
         .then(data => data)
         .then((value: any) => {
@@ -62,15 +62,15 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
             }
           }
         })
-        .catch(err => console.log(err))
-    //  }, 10);
+        .catch(err => console.log(err));
+    }, 10);
   }, [accounts.isAuthenticated]);
 
   const getData = async (key: any) => {
     try {
       const data = await AsyncStorage.getItem(key);
       if (data != null) {
-        return  data;
+        return data;
       }
     } catch (error) {
       console.log(error);
