@@ -24,7 +24,7 @@ const Emoji = ({
           scale: withSpring(
             interpolate(
               activeIndex.value,
-              [index - 1, index, index + 1],
+              [index - 0.5, index, index + 0.5],
               [1, 1.75, 0.8],
               Extrapolate.CLAMP,
             ),
@@ -50,6 +50,5 @@ const styles = StyleSheet.create({
     width: EMOJI_SIZE,
     height: EMOJI_SIZE,
     marginHorizontal: EMOJI_MARGIN,
-   
   },
 });

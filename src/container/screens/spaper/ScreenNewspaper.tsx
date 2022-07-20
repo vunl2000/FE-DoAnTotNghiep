@@ -13,16 +13,22 @@ const ScreenNewspaper = ({navigation}: {navigation: any}) => {
   }
   return (
     <SafeAreaView style={styles.mContainer}>
-      <AppHeader content customContent={<HeaderSpaper />}></AppHeader>
+      <View style={{width: '100%', backgroundColor: ArrayColors._color_white}}>
+        <AppHeader content customContent={<HeaderSpaper />}></AppHeader>
+      </View>
+
       <View style={styles.mLineStyle}></View>
       <ScrollView style={{flex: 1}}>
         <View style={{flex: 2}}>
           <Thinking viewImportThinking={eventNewSpaper} />
         </View>
 
-        <View style={{flex: 10, marginTop:sizes._10sdp}}>
+        <View style={{flex: 10, marginTop: sizes._10sdp}}>
           <NewsData />
+          {/* <NewsData />
           <NewsData />
+          <NewsData /> */}
+
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -34,7 +40,7 @@ export default ScreenNewspaper;
 const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
-    backgroundColor: ArrayColors._color_white,
+    backgroundColor: ArrayColors._color_white_sombre_,
   },
   mLineStyle: {
     width: sizes._screen_width,

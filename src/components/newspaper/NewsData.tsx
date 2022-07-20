@@ -41,6 +41,11 @@ const getEmojiIndex = (positionX: number) => {
 };
 const NewsData = (props: Props) => {
   const [userName, setUserName] = React.useState('KPOPIDOD');
+  const [isCheckIcon, setIsCheckIcon] = React.useState(false);
+  const [titleIcon, setTitleIcon] = React.useState('Thích');
+  const [textColor, setTextColor] = React.useState(
+    ArrayColors._color_black_gray11,
+  );
 
   const emojisBarSharedValue = useSharedValue(0);
   const [selectedEmojiIndex, setSelectedEmojiIndex] = React.useState<
@@ -51,12 +56,38 @@ const NewsData = (props: Props) => {
       transform: [{scale: emojisBarSharedValue.value}],
     };
   }, []);
+
   const activeEmojiIndexSharedValue = useSharedValue(-1);
 
   const selectEmoji = (x: number) => {
     const index = Math.ceil(x / EMOJI_SPACE) - 1;
 
     setSelectedEmojiIndex(index);
+
+    console.log('----------', selectedEmojiIndex);
+
+    switch (selectedEmojiIndex) {
+      case 0:
+        
+        setTitleIcon('Thích');
+        break;
+      case 1:
+        setTitleIcon('Yêu thích');
+        break;
+      case 2:
+        setTitleIcon('Haha');
+        break;
+      case 3:
+        setTitleIcon('Wao');
+        break;
+      case 4:
+        setTitleIcon('Buồn');
+        break;
+
+      default:
+        setTitleIcon('Thích');
+        break;
+    }
   };
 
   const animatedGestureHandler =
@@ -73,13 +104,27 @@ const NewsData = (props: Props) => {
         emojisBarSharedValue.value = withTiming(0);
       },
     });
-  console.log(selectedEmojiIndex);
+
+  function evenClickLike() {
+    setIsCheckIcon(!isCheckIcon);
+    if (isCheckIcon === true) {
+      setSelectedEmojiIndex(0);
+      setTitleIcon('Thích');
+      setTextColor(ArrayColors._color_blue_light_light);
+    } else {
+      setSelectedEmojiIndex(null);
+      setTitleIcon('Thích');
+      setTextColor(ArrayColors._color_black_gray11);
+
+    }
+  }
 
   return (
     <View
       style={{
         backgroundColor: ArrayColors._color_white,
-        marginHorizontal: sizes._6sdp,
+        marginHorizontal: sizes._3sdp,
+        marginVertical: sizes._6sdp,
       }}>
       <View>
         <View style={styles.mContainer}>
@@ -124,14 +169,14 @@ const NewsData = (props: Props) => {
             justifyContent: 'space-between',
             marginVertical: sizes._24sdp,
           }}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', marginHorizontal: sizes._8sdp}}>
             <TitleHome title="100" style={styles.mStyleLike} />
             <TitleHome
               title="Lượt thích"
               style={[styles.mStyleLike, {marginHorizontal: sizes._8sdp}]}
             />
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', marginHorizontal: sizes._8sdp}}>
             <TitleHome
               title="100"
               style={[styles.mStyleLike, {marginHorizontal: sizes._8sdp}]}
@@ -146,47 +191,27 @@ const NewsData = (props: Props) => {
             justifyContent: 'space-between',
             borderTopWidth: 0.5,
             borderBottomWidth: 0.5,
+            // zIndex: 2,
           }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              width: '30%',
+          <TouchableOpacity
+            style={styles.actionContainer}
+            onPress={evenClickLike}
+            onLongPress={() => {
+              emojisBarSharedValue.value = withTiming(1, {duration: 700});
             }}>
-            <TouchableOpacity
-              style={styles.actionContainer}
-              onLongPress={() => {
-                emojisBarSharedValue.value = withTiming(1, {duration: 100});
-              }}>
-              <Image
-                source={
-                  selectedEmojiIndex !== null
-                    ? emojisDataGif[selectedEmojiIndex]
-                    : require('../../assets/gif/like_png.png')
-                }
-                style={styles.likeIcon}
-              />
-              <TitleHome title="Thích" style={styles.mStyleLike} />
-            </TouchableOpacity>
-
-            <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-              <PanGestureHandler onGestureEvent={animatedGestureHandler}>
-                <Animated.View
-                  style={[styles.emojisBar, emojisBarAnimationStyle]}>
-                  {/* render emojis */}
-                  {emojisDataGif.map((emojiSource, index) => {
-                    return (
-                      <Emoji
-                        source={emojiSource}
-                        key={index}
-                        index={index}
-                        activeIndex={activeEmojiIndexSharedValue}
-                      />
-                    );
-                  })}
-                </Animated.View>
-              </PanGestureHandler>
-            </GestureHandlerRootView>
-          </View>
+            <Image
+              source={
+                selectedEmojiIndex !== null
+                  ? emojisDataGif[selectedEmojiIndex]
+                  : require('../../assets/gif/like_png.png')
+              }
+              style={styles.likeIcon}
+            />
+            <TitleHome
+              title={titleIcon}
+              style={[styles.mStyleLike, {color: textColor}]}
+            />
+          </TouchableOpacity>
 
           <View
             style={{
@@ -197,12 +222,14 @@ const NewsData = (props: Props) => {
               alignItems: 'center',
               borderColor: ArrayColors._color_gray_light,
             }}>
-               <Image
-            style={{width: sizes._18sdp, height: sizes._18sdp,
-            marginHorizontal :sizes._8sdp
-            }}
-            source={Images.ic_qa_spaper}
-          />
+            <Image
+              style={{
+                width: sizes._18sdp,
+                height: sizes._18sdp,
+                marginHorizontal: sizes._8sdp,
+              }}
+              source={Images.ic_qa_spaper}
+            />
             <TitleHome title="Bình luận" style={styles.mStyleLike} />
           </View>
           <View
@@ -214,15 +241,38 @@ const NewsData = (props: Props) => {
               alignItems: 'center',
               borderColor: ArrayColors._color_gray_light,
             }}>
-             <Image
-            style={{width: sizes._18sdp, height: sizes._18sdp,
-            marginHorizontal :sizes._8sdp
-            }}
-            source={Images.ic_qa_spaper}
-          />
+            <Image
+              style={{
+                width: sizes._18sdp,
+                height: sizes._18sdp,
+                marginHorizontal: sizes._8sdp,
+              }}
+              source={Images.ic_qa_spaper}
+            />
             <TitleHome title="Chia sẻ" style={styles.mStyleLike} />
           </View>
         </View>
+
+        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
+          <PanGestureHandler onGestureEvent={animatedGestureHandler}>
+            <Animated.View style={[styles.emojisBar, emojisBarAnimationStyle]}>
+              {/* render emojis */}
+              {emojisDataGif.map((emojiSource, index) => {
+                 console.log(emojiSource);
+                // console.log(index);
+                
+                return (
+                  <Emoji
+                    source={emojiSource}
+                    key={emojiSource.toString()}
+                    index={index}
+                    activeIndex={activeEmojiIndexSharedValue}
+                  />
+                );
+              })}
+            </Animated.View>
+          </PanGestureHandler>
+        </GestureHandlerRootView>
       </View>
     </View>
   );
@@ -282,10 +332,12 @@ const styles = StyleSheet.create({
   },
   mStyleImgDetails: {
     flexDirection: 'row',
+    // marginHorizontal: sizes._8sdp
   },
   mStyleImgSp: {
     width: sizes._screen_width / 2 - sizes._12sdp,
     height: sizes._screen_height / 2.5,
+    marginHorizontal: sizes._6sdp,
   },
 
   mStyleLike: {
@@ -298,18 +350,17 @@ const styles = StyleSheet.create({
   likeIcon: {
     width: sizes._18sdp,
     height: sizes._18sdp,
-    marginHorizontal: sizes._8sdp
+    marginHorizontal: sizes._8sdp,
   },
   actionContainer: {
     flexDirection: 'row',
-    width: '100%',
     alignItems: 'center',
-    borderColor: ArrayColors._color_gray_light,
+    backgroundColor: ' red',
   },
   gestureHandlerRootView: {
     position: 'absolute',
     bottom: sizes._52sdp,
-    left: 32,
+    left: sizes._32sdp,
   },
   emojisBar: {
     flexDirection: 'row',

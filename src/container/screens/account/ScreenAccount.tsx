@@ -42,7 +42,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   const animatedValues: any = React.useRef(new Animated.Value(0)).current;
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     setTimeout(() => {
       getData('@user_token')
         .then(data => data)
@@ -63,7 +63,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           }
         })
         .catch(err => console.log(err));
-    }, 10);
+    }, 100);
   }, [accounts.isAuthenticated]);
 
   const getData = async (key: any) => {

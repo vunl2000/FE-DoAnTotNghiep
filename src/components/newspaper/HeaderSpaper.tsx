@@ -26,7 +26,7 @@ const HeaderSpaper = (props: Props) => {
       style={{
         flexDirection: 'row',
         flex: 1,
-        backgroundColor: 'transparent',
+        backgroundColor:  ArrayColors._color_white,
         height: '100%',
         alignItems: 'center',
         justifyContent: 'flex-start',

@@ -23,12 +23,12 @@ const Thinking = (props: Props) => {
             title={
               userName
                 ? userName + `ơi bạn đang nghĩ gì vậy ?`
-                : `Đăng nhập để đăng tin`
+                : `Đăng nhập để đăng tin!`
             }
           />
         </View>
       </View>
-      <View style={{flexDirection: 'row', marginTop: sizes._8sdp}}>
+      <View style={{flexDirection: 'row', marginTop: sizes._8sdp,marginBottom : sizes._8sdp}}>
         <View style={styles.mStyleFlex}>
           <Image
             style={{width: sizes._26sdp, height: sizes._26sdp}}
