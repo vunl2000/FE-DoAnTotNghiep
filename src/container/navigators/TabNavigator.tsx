@@ -9,10 +9,15 @@ import DetailProduct from '../screens/product/DetailProduct';
 import ScreenLoginAndRegister from '../screens/account/screen-acc/ScreenLoginAndRegister';
 import OnboardingFirst from '../../container/screens/onboarding/OnboardingFirst';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ScreenAdress from '../screens/address/ScreenAdress';
+import ScreenOrder from '../screens/order/ScreenOrder';
 
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
+  LOGIN_AND_REGISTER = 'ScreenLoginAndRegister',
+  ADDRESS = 'ScreenAddress',
+  ORDER = 'ScreenOrder',
 }
 
 export default function TabNavigator() {
@@ -61,6 +66,16 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ScreenLoginAndRegister"
           component={ScreenLoginAndRegister}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenAddress"
+          component={ScreenAdress}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenOrder"
+          component={ScreenOrder}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

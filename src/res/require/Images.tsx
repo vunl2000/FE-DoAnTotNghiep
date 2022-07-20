@@ -59,6 +59,16 @@ const image = {
   ic_spaper: require('../../assets/images/ic_spaper.png'),
   img_ex_newSpaper_1: require('../../assets/images/img_ex_newSpaper_1.png'),
   img_ex_newSpaper_2: require('../../assets/images/img_ex_newSpaper_2.png'),
+
+  airmail_envelope: require('../../assets/images/airmail_envelope.png'),
+  delivery: require('../../assets/images/delivery.png'),
+  schedule: require('../../assets/images/schedule.png'),
+  ship_cod: require('../../assets/images/ship_cod.png'),
+  credit_card: require('../../assets/images/credit_card.png'),
+  // haha: require('../../assets/images/haha.gif'),
+
+  // like: require('../../assets/images/like.gif'),
+
   like_png: require('../../assets/gif/like_png.png'),
 
 
