@@ -59,17 +59,13 @@ const image = {
   ic_spaper: require('../../assets/images/ic_spaper.png'),
   img_ex_newSpaper_1: require('../../assets/images/img_ex_newSpaper_1.png'),
   img_ex_newSpaper_2: require('../../assets/images/img_ex_newSpaper_2.png'),
-
-  // haha: require('../../assets/images/haha.gif'),
-
-  // like: require('../../assets/images/like.gif'),
-
   like_png: require('../../assets/gif/like_png.png'),
 
-  // love: require('../../assets/images/love.gif'),
 
-  // sad: require('../../assets/images/sad.gif'),
+  // ////////////////////////////////
+  // like_png: require('../../assets/gif/like_png.png'),
+  // like_png: require('../../assets/gif/like_png.png'),
+  // like_png: require('../../assets/gif/like_png.png'),
 
-  // wow: require('../../assets/images/wow.gif'),
 };
 export default image;

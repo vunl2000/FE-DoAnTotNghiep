@@ -20,6 +20,7 @@ import AnimatedTab from '../../../components/accounts/AnimatedTab';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../../../components/modal/Loading';
+import {parse} from '@babel/core';
 const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [numberDiscount, setNumberDiscount] = React.useState('0');
 
@@ -52,12 +53,12 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
             //setStorageUser('Đăng nhập / Đăng Ký >');
             setEvent(true);
           } else {
-            console.log('Notundefined');
+            const jsonValue = JSON.parse(value);
             if (accounts.isAuthenticated === true) {
-              setStorageUser('Tran Huu Thang');
+              setStorageUser(jsonValue.userNameSet);
               setEvent(false);
             } else {
-              setStorageUser('Tran Huu Thang');
+              setStorageUser(jsonValue.userNameSet);
               setEvent(false);
             }
           }
@@ -80,14 +81,23 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   function eventCart() {
     console.log('Cart');
   }
-  function eventSettings() {
+  async function eventSettings() {
     console.log('Settings');
+    getData('@user_token')
+      .then(data => data)
+      .then((value: any) => {
+        if (value === undefined) {
+          console.log('undefined');
+          setEvent(true);
+        } else {
+          AsyncStorage.removeItem('@user_token');
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   function eventLogInAndRegister() {
-    // if (!token) {
     navigation.navigate('ScreenLoginAndRegister');
-    // }
   }
 
   function onPressLeft() {

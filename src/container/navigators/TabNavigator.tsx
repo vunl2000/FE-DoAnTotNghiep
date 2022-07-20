@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -7,6 +7,8 @@ const Stack = createNativeStackNavigator();
 import AppContainer from '../navigators/AppContainer';
 import DetailProduct from '../screens/product/DetailProduct';
 import ScreenLoginAndRegister from '../screens/account/screen-acc/ScreenLoginAndRegister';
+import OnboardingFirst from '../../container/screens/onboarding/OnboardingFirst';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -14,9 +16,38 @@ export enum NameScreen {
 }
 
 export default function TabNavigator() {
+  // const [isFirstTimeLoad, setIsFirstTimeLoad] = React.useState<any>(() => {
+  //   try {
+  //     const data = AsyncStorage.getItem('@is_check');
+  //     if (data != null) {
+  //       return data;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // });
+  // const checkForFirstTimeLoaded = async () => {
+  //   const result = await AsyncStorage.getItem('@is_check');
+  //   if (result === null) {
+  //     // return true;
+  //     setIsFirstTimeLoad(true);
+  //     // console.log(result);
+  //   } else {
+  //     // return false;
+  //     setIsFirstTimeLoad(false);
+  //   }
+  // };
+
+  // console.log(isFirstTimeLoad);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="AppContainer">
+        <Stack.Screen
+          name="OnboardingFirst"
+          component={OnboardingFirst}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="AppContainer"
           component={AppContainer}

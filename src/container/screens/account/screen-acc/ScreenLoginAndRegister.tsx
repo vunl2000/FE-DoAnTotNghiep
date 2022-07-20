@@ -137,8 +137,22 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
     try {
       if (accounts) {
         accounts.result.filter((result: any) => {
-          const userName_: string | any = result.name;
-          setToken(token, userName_);
+          const idSet: string | any = result._id;
+          const nameSet: string | any = result.name;
+          const photoUrlSet: string | any = result.photoUrl;
+          const phoneSet: string | any = result.phone;
+          const emailSet: string | any = result.email;
+          const authenticationSet: string | any = result.authentication;
+
+          setDataAccount(
+            token,
+            idSet,
+            nameSet,
+            photoUrlSet,
+            phoneSet,
+            emailSet,
+            authenticationSet,
+          );
         });
       }
     } catch (e) {
@@ -147,8 +161,8 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
 
     if (isAuthenticated) {
       ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
-       navigation.goBack();
-      // console.log(accounts);
+      navigation.goBack();
+      console.log(accounts);
     }
   }, [accounts]);
 
@@ -171,20 +185,28 @@ const ScreenLoginAndRegister = ({navigation}: {navigation: any}) => {
     }
   }, [error]);
 
-  async function setToken(token: string | any, userName: string | any) {
+  async function setDataAccount(
+    token: string | any,
+    idUser: string | any,
+    userName: string | any,
+    photoUrl: string | any,
+    phone: string | any,
+    email: string | any,
+    authentication: string | any,
+  ) {
     if (token && userName) {
       try {
         await AsyncStorage.removeItem('@user_token');
-        // await AsyncStorage.removeItem('@user_name');
-
         const mData: any = {
-          token: token,
-          userName: userName,
+          tokenSet: token,
+          idSet: idUser,
+          userNameSet: userName,
+          photoUrlSet: photoUrl,
+          phoneSet: phone,
+          emailSet: email,
+          authenticationSet: authentication,
         };
-        // console.log('dataaaa', mData);
-
         await AsyncStorage.setItem('@user_token', JSON.stringify(mData));
-
       } catch (e) {
         console.log(e);
       }
