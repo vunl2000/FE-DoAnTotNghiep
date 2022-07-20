@@ -9,7 +9,6 @@ const ArrayColors = new (class {
   _color_white_sombre = '#DADADA';
   _color_white_sombre_ = '#979797';
 
-
   _color_black_light = '#44494D';
 
   _color_black_gray11 = '#1C1C1C';
@@ -30,7 +29,6 @@ const ArrayColors = new (class {
   _color_gray_pale = '#817E7E';
   _color_gray_translucen = 'rgba(0, 0, 0, 0.68)';
   _color_gray_translucenLoading = 'rgba(0, 0, 0, 0.62)';
-
 
   _color_text_title = '#4D4B4B';
   _color_header_ln_start = '#FF030A';
@@ -58,7 +56,6 @@ const ArrayColors = new (class {
   _color_orange_medium_more = '#F78E1E';
 
   _color_facebook = '#007AD9';
-
 
   primary = '#637aff';
   primaryDark = '#2759ff';
@@ -111,5 +108,6 @@ const ArrayColors = new (class {
   catory_bg_home = '#EFEFEF';
   gray_custom = '#D9D9D9';
   gray_bg_light = '#F1F1F1';
+  bg_inline = '#f2f2f2';
 })();
 export default ArrayColors;

@@ -17,6 +17,10 @@ import {useSelector} from 'react-redux';
 import Cart from '../../components/cart/Cart';
 import CustomCheckBox from '../../components/cart/CheckBox';
 import {formartMoney} from '../../utils/Utilities';
+import {useNavigation} from '@react-navigation/native';
+import {NameScreen} from '../navigators/TabNavigator';
+import {getToken, KeyStorage} from '../../utils/GetToken';
+import {showToast} from '../../components/modal/ToastCustom';
 
 interface Props {}
 
@@ -26,7 +30,11 @@ const renderEmpty = null;
 const ScreenCart = (props: Props) => {
   const {carts, numberCart} = useSelector((state: any) => state.product);
   const [cartSeleted, setCartSeleted] = useState(0);
+  const [token, setToken] = useState();
   const [sumPrice, setSumPrice] = useState(0);
+  const {navigate}: any = useNavigation();
+
+  const navigateLogin = () => navigate(NameScreen.LOGIN_AND_REGISTER);
   useEffect(() => {
     let count = 0;
     let price = 0;
@@ -39,6 +47,22 @@ const ScreenCart = (props: Props) => {
     setCartSeleted(count);
     setSumPrice(price);
   }, [cartSeleted, carts, sumPrice, numberCart]);
+
+  useEffect(() => {
+    getToken(KeyStorage.TOKEN)
+      .then(data => data)
+      .then((val: any) => {
+        setToken(val);
+        console.log('Caccccc ' + val);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
+  const addToBill = () => {
+    cartSeleted > 0
+      ? navigate(NameScreen.ADDRESS)
+      : showToast('Vui lòng chọn sản phẩm thanh toán');
+  };
 
   const ContentHeader = () => (
     <View style={styles.containerHeader}>
@@ -63,8 +87,20 @@ const ScreenCart = (props: Props) => {
         resizeMode="contain"
       />
       <Text style={styles.textLabelEmpty}>Giỏ hàng của bạn trống</Text>
-      <Text style={styles.textSubLabelEmpty}>Đăng nhập để xem giỏ hàng</Text>
-      <ButtonSub size="medium" value="Đăng nhập / Đăng ký" bgColor="black" />
+      {token !== null ? null : (
+        <>
+          {' '}
+          <Text style={styles.textSubLabelEmpty}>
+            Đăng nhập để xem giỏ hàng
+          </Text>
+          <ButtonSub
+            size="medium"
+            value="Đăng nhập / Đăng ký"
+            bgColor="black"
+            onPress={navigateLogin}
+          />
+        </>
+      )}
       <View style={styles.space} />
       <ButtonSub size="medium" value="Mua ngay" bgColor="white" />
       <View style={[styles.space, {marginBottom: sizes._50sdp}]} />
@@ -91,6 +127,7 @@ const ScreenCart = (props: Props) => {
           }
           bgColor="black"
           size="lager"
+          onPress={addToBill}
         />
       </View>
     </View>

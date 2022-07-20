@@ -18,6 +18,7 @@ import {formartMoney} from '../../utils/Utilities';
 import FastImage from 'react-native-fast-image';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart} from '../../store/actions/productsActions';
+import BetterImage from '../images/BetterImage';
 
 export interface Props {
   isShow?: any;
@@ -99,7 +100,7 @@ const AddToCart = ({isShow, onChangeShow, item}: Props) => {
   const keyItem = (item: any, index: number) => index.toString();
 
   const renderItem = ({item, index}: any) => (
-    <FastImage
+    <BetterImage
       source={{
         uri: item,
       }}

@@ -10,6 +10,7 @@ import React from 'react';
 import Icons from 'react-native-vector-icons/Ionicons';
 import sizes from '../../res/sizes/sizes';
 import image from '../../res/require/Images';
+import ArrayColors from '../../res/colors/ArrayColors';
 
 export interface Props {
   iconLeft?: boolean;
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
         : sizes._header_height - sizes._statusbar_height,
     paddingTop: Platform.OS === 'android' ? sizes._statusbar_height : 0,
     paddingHorizontal: sizes._16sdp,
+    backgroundColor: ArrayColors._color_white,
   },
   iconRight: {
     width: sizes._24sdp,
