@@ -4,7 +4,7 @@ import {
   LOADED_PRODUCT,
   ADD_TO_CART,
 } from './types';
-import { API_URL_GETALL_PRODUCT } from '@env';
+import {API_URL_GETALL_PRODUCT} from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
 // Load products
@@ -25,7 +25,6 @@ export const loadProducts = () => async (dispatch: AllDispatchProps) => {
       );
     });
 };
-
 
 export const addToCart = (item: any, size: any, color: any) => {
   return {

@@ -1,45 +1,39 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
 import ColumView from './ColumView';
-import {useSelector} from 'react-redux';
 import BetterImage from '../images/BetterImage';
 import FastImage from 'react-native-fast-image';
+import {formartMoney} from '../../utils/Utilities';
 
-type Props = {};
+type Props = {
+  cartSeleted?: any;
+  dataCartSeleted?: any;
+  sumPrice?: any;
+};
 
-const ListProductOrder = (props: Props) => {
-  const {carts, numberCart} = useSelector((state: any) => state.product);
-  const [cartSeleted, setCartSeleted] = useState(0);
-  const [sumPrice, setSumPrice] = useState(0);
-  const [dataCartSeleted, setDataCartSeleted] = useState([]);
-
+const ListProductOrder = ({dataCartSeleted, cartSeleted, sumPrice}: Props) => {
   const renderItem = ({item, index}: any) => (
-    <BetterImage
-      source={{
-        uri: item.image,
-      }}
-      style={styles.img}
-      resizeMode={FastImage.resizeMode.cover}
-    />
+    <View style={styles.contentItem}>
+      <BetterImage
+        source={{
+          uri: item.image,
+        }}
+        style={styles.img}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+      <View style={styles.quantity}>
+        <View style={styles.circle}>
+          <View style={styles.spaceMax} />
+          <Text style={styles.textQlity}>x{item.quantity}</Text>
+          <View style={styles.spaceMax} />
+        </View>
+      </View>
+    </View>
   );
+  const renderSpace = () => <View style={styles.space} />;
 
-  useEffect(() => {
-    let count = 0;
-    let price = 0;
-    let products: any = [];
-    carts.forEach((item: any) => {
-      if (item.selected) {
-        count += item.quantity;
-        price += item.quantity * item.price;
-        products.push(item);
-      }
-    });
-    setCartSeleted(count);
-    setSumPrice(price);
-    setDataCartSeleted(products);
-  }, [cartSeleted, carts, sumPrice, numberCart]);
   return (
     <View style={styles.container}>
       <ColumView
@@ -50,12 +44,23 @@ const ListProductOrder = (props: Props) => {
         styleText={styles.textDefault}
       />
       {dataCartSeleted ? (
-        <FlatList
-          data={dataCartSeleted}
-          renderItem={renderItem}
-          listKey="product_seleted"
-        />
+        <View style={styles.content}>
+          <FlatList
+            data={dataCartSeleted}
+            renderItem={renderItem}
+            listKey="product_seleted"
+            removeClippedSubviews
+            ItemSeparatorComponent={renderSpace}
+          />
+        </View>
       ) : null}
+      <ColumView
+        styleContainer={styles.colume}
+        styleTextLabel={styles.textDefault}
+        valueLeft={'Giá bán'}
+        valueRight={formartMoney(sumPrice)}
+        styleText={styles.textDefault}
+      />
     </View>
   );
 };
@@ -69,6 +74,9 @@ const styles = StyleSheet.create({
   },
   colume: {
     height: sizes._72sdp,
+  },
+  content: {
+    paddingHorizontal: sizes._18sdp,
   },
   textTitel: {
     textTransform: 'uppercase',
@@ -86,5 +94,35 @@ const styles = StyleSheet.create({
   img: {
     height: sizes._90sdp,
     width: sizes._70sdp,
+  },
+  contentItem: {
+    position: 'relative',
+    height: sizes._90sdp,
+    width: sizes._70sdp,
+  },
+  quantity: {
+    width: '100%',
+    position: 'absolute',
+    bottom: sizes._8sdp,
+    alignItems: 'center',
+  },
+  textQlity: {
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
+    fontSize: sizes._14sdp,
+    textAlign: 'center',
+    color: ArrayColors._color_black,
+  },
+  circle: {
+    borderRadius: sizes._28sdp / 2,
+    width: sizes._28sdp,
+    height: sizes._28sdp,
+    backgroundColor: ArrayColors._color_white_sombre,
+  },
+  spaceMax: {
+    flex: 1,
+  },
+  space: {
+    width: sizes._10sdp,
   },
 });

@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import sizes from '../../../res/sizes/sizes';
 import {slides} from '../../../data/DataFirst';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {openApp} from '../../../store/actions/fristOpenActions';
 
 const COLORS = {
   primary: '#FFFFFF',
@@ -31,14 +32,16 @@ const Slide = ({item}: any) => {
 };
 
 const OnboardingFirst = ({navigation}: any) => {
+  const dispatch: any = useDispatch();
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const ref = React.useRef<any>(null);
 
   // const [isShow, setIsShow] = React.useState<boolean | any>(true);
 
-  async function eventStart() {
+  function eventStart() {
     // if (currentSlideIndex === 2) {
     //   setBoolean("no");
+    dispatch(openApp());
     navigation.navigate('AppContainer');
     //  }
   }

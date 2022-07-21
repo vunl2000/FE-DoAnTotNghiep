@@ -13,7 +13,7 @@ import IconHeader from '../../components/icons/IconHeader';
 import sizes from '../../res/sizes/sizes';
 import image from '../../res/require/Images';
 import ButtonSub from '../../components/button/ButtonSub';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Cart from '../../components/cart/Cart';
 import CustomCheckBox from '../../components/cart/CheckBox';
 import {formartMoney} from '../../utils/Utilities';
@@ -21,6 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../navigators/TabNavigator';
 import {getToken, KeyStorage} from '../../utils/GetToken';
 import {showToast} from '../../components/modal/ToastCustom';
+import {slectedAllCart} from '../../store/actions/productsActions';
 
 interface Props {}
 
@@ -28,11 +29,19 @@ const emptyData = null;
 const renderEmpty = null;
 
 const ScreenCart = (props: Props) => {
-  const {carts, numberCart} = useSelector((state: any) => state.product);
+  const {carts, numberCart, allSelected} = useSelector(
+    (state: any) => state.product,
+  );
   const [cartSeleted, setCartSeleted] = useState(0);
   const [token, setToken] = useState();
   const [sumPrice, setSumPrice] = useState(0);
   const {navigate}: any = useNavigation();
+  const dispatch: any = useDispatch();
+
+  const selectedAll = () => {
+    dispatch(slectedAllCart());
+  };
+  console.log(allSelected + '  uiiii');
 
   const navigateLogin = () => navigate(NameScreen.LOGIN_AND_REGISTER);
   useEffect(() => {
@@ -114,7 +123,7 @@ const ScreenCart = (props: Props) => {
   const BtnPay = () => (
     <View style={styles.containerPay}>
       <View style={styles.payLeft}>
-        <CustomCheckBox />
+        <CustomCheckBox checked={allSelected} changeSelected={selectedAll} />
         <Text style={styles.textLabelAll}>Tất cả</Text>
         <View style={[styles.maxSpace, {paddingHorizontal: sizes._8sdp}]}>
           <Text style={styles.textLabelEmpty}>{formartMoney(sumPrice)}</Text>

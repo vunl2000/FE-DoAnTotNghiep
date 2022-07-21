@@ -7,13 +7,19 @@ import ArrayColors from '../../res/colors/ArrayColors';
 import {formartMoney} from '../../utils/Utilities';
 import ButtonQty from './ButtonQty';
 import CustomCheckBox from './CheckBox';
+import {useDispatch} from 'react-redux';
+import {changeSelectCart} from '../../store/actions/productsActions';
 
 type Props = {
   item?: any;
 };
 
-const CartItem = (props: Props) => {
-  const {item} = props;
+const CartItem = ({item}: Props) => {
+  const dispatch: any = useDispatch();
+
+  const changeSelected = () => {
+    dispatch(changeSelectCart(item.id));
+  };
 
   const ColorAndSize = () => (
     <View style={styles.contentShow}>
@@ -46,7 +52,7 @@ const CartItem = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <CustomCheckBox checked={item.selected} id={item.id} />
+      <CustomCheckBox checked={item.selected} changeSelected={changeSelected} />
       <View style={styles.space} />
       <BetterImage
         source={{

@@ -1,4 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {PURGE} from 'redux-persist';
 import {makeId} from '../../utils/Utilities';
+
 import {
   ActionProps,
   lOADING_PRODUCT,
@@ -8,6 +11,7 @@ import {
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
   CHANGE_SELECT_CART,
+  SELECT_ALL_CART,
 } from './../actions/types';
 
 interface Cart {
@@ -29,6 +33,7 @@ const initalState = {
 };
 
 export default (state = initalState, {payload, type}: ActionProps) => {
+  // AsyncStorage.getItem('persist:root').then(data => console.log(data));
   switch (type) {
     case lOADING_PRODUCT:
       return {
@@ -90,6 +95,18 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         carts: state.carts.map((item: any) =>
           item.id === payload.id ? {...item, selected: !item.selected} : item,
         ),
+        allSelected: state.carts.filter((item: any) =>
+          !item.selected ? !state.allSelected : state.allSelected,
+        ),
+      };
+    case SELECT_ALL_CART:
+      return {
+        ...state,
+        carts: state.carts.map((item: any) => ({
+          ...item,
+          selected: !state.allSelected,
+        })),
+        allSelected: !state.allSelected,
       };
     case INCREASE_QUANTITY:
       return {
@@ -119,6 +136,8 @@ export default (state = initalState, {payload, type}: ActionProps) => {
       return {
         ...state,
       };
+    case PURGE:
+      return initalState;
     default:
       return state;
   }

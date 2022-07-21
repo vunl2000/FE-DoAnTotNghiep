@@ -11,6 +11,7 @@ import OnboardingFirst from '../../container/screens/onboarding/OnboardingFirst'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScreenAdress from '../screens/address/ScreenAdress';
 import ScreenOrder from '../screens/order/ScreenOrder';
+import {useSelector} from 'react-redux';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -21,6 +22,8 @@ export enum NameScreen {
 }
 
 export default function TabNavigator() {
+  const {firstOpen} = useSelector((state: any) => state.firstOpen);
+
   // const [isFirstTimeLoad, setIsFirstTimeLoad] = React.useState<any>(() => {
   //   try {
   //     const data = AsyncStorage.getItem('@is_check');
@@ -47,7 +50,8 @@ export default function TabNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="AppContainer">
+      <Stack.Navigator
+        initialRouteName={firstOpen ? 'AppContainer' : 'OnboardingFirst'}>
         <Stack.Screen
           name="OnboardingFirst"
           component={OnboardingFirst}

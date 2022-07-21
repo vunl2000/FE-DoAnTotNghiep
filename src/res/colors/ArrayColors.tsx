@@ -6,8 +6,7 @@ const ArrayColors = new (class {
   _color_un_active = '#555555';
   // _color_linear = {["#ED1C24";'#339CB1']};
   _color_white_bright = 'rgba(229, 229, 229, 0)';
-  _color_white_sombre = '#DADADA';
-  _color_white_sombre_ = '#979797';
+  _color_white_sombre = 'rgba(255,255,255,0.8)';
 
   _color_black_light = '#44494D';
 

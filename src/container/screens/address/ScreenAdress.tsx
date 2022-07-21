@@ -19,10 +19,14 @@ import InputText from '../../../components/input/InputText';
 import ButtonSub from '../../../components/button/ButtonSub';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../navigators/TabNavigator';
+import {useSelector} from 'react-redux';
+import SelectAddress from '../../../components/modal/SelectAddress';
 
 type Props = {};
 
 const ScreenAdress = (props: Props) => {
+  const {province} = useSelector((state: any) => state.address);
+
   const [cityProvince, setcityProvince] = useState('NaNaN');
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -33,9 +37,11 @@ const ScreenAdress = (props: Props) => {
   const [numberPhone, setNumberPhone] = useState();
   const [idUser, setIdUser] = useState();
   const [isSave, setIsSave] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const onChangeLastName = (val: string) => setLastName(val);
   const onChangefirstName = (val: string) => setFirstName(val);
+  const onChangeOpen = () => setIsOpen(!isOpen);
 
   const {navigate, goBack}: any = useNavigation();
   const goToOder = () => navigate(NameScreen.ORDER);
@@ -170,6 +176,7 @@ const ScreenAdress = (props: Props) => {
             />
           </View>
         </View>
+        <SelectAddress isOpen={true} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
