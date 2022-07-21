@@ -20,7 +20,8 @@ import AnimatedTab from '../../../components/accounts/AnimatedTab';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../../../components/modal/Loading';
-import {parse} from '@babel/core';
+import {getDataUser} from '../../../utils/GetToken';
+
 const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [numberDiscount, setNumberDiscount] = React.useState('0');
 
@@ -45,7 +46,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   React.useLayoutEffect(() => {
     setTimeout(() => {
-      getData('@user_token')
+      getDataUser('@user_token')
         .then(data => data)
         .then((value: any) => {
           if (value === undefined) {
@@ -67,23 +68,23 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     }, 100);
   }, [accounts.isAuthenticated]);
 
-  const getData = async (key: any) => {
-    try {
-      const data = await AsyncStorage.getItem(key);
-      if (data != null) {
-        return data;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getData = async (key: any) => {
+  //   try {
+  //     const data = await AsyncStorage.getItem(key);
+  //     if (data != null) {
+  //       return data;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   function eventCart() {
     console.log('Cart');
   }
   async function eventSettings() {
     console.log('Settings');
-    getData('@user_token')
+    getDataUser('@user_token')
       .then(data => data)
       .then((value: any) => {
         if (value === undefined) {

@@ -11,6 +11,7 @@ import OnboardingFirst from '../../container/screens/onboarding/OnboardingFirst'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScreenAdress from '../screens/address/ScreenAdress';
 import ScreenOrder from '../screens/order/ScreenOrder';
+import ScreenUserSpaper from '../screens/userspaper/ScreenUserSpaper';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -76,6 +77,11 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ScreenOrder"
           component={ScreenOrder}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenUserSpaper"
+          component={ScreenUserSpaper}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

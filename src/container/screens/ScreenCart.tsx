@@ -19,7 +19,7 @@ import CustomCheckBox from '../../components/cart/CheckBox';
 import {formartMoney} from '../../utils/Utilities';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../navigators/TabNavigator';
-import {getToken, KeyStorage} from '../../utils/GetToken';
+import {getDataUser, KeyStorage} from '../../utils/GetToken';
 import {showToast} from '../../components/modal/ToastCustom';
 
 interface Props {}
@@ -49,7 +49,7 @@ const ScreenCart = (props: Props) => {
   }, [cartSeleted, carts, sumPrice, numberCart]);
 
   useEffect(() => {
-    getToken(KeyStorage.TOKEN)
+    getDataUser(KeyStorage.TOKEN)
       .then(data => data)
       .then((val: any) => {
         setToken(val);
