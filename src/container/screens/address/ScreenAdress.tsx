@@ -19,28 +19,34 @@ import InputText from '../../../components/input/InputText';
 import ButtonSub from '../../../components/button/ButtonSub';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../navigators/TabNavigator';
-import {useSelector} from 'react-redux';
 import SelectAddress from '../../../components/modal/SelectAddress';
 
 type Props = {};
 
 const ScreenAdress = (props: Props) => {
-  const {province} = useSelector((state: any) => state.address);
-
-  const [cityProvince, setcityProvince] = useState('NaNaN');
+  const [cityProvince, setcityProvince] = useState({
+    code: null,
+    name: 'Thành phố',
+  });
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
-  const [district, setDistrict] = useState('');
-  const [commune, setCommune] = useState('');
-  const [codeZip, setCodeZip] = useState('');
-  const [payment, setPayment] = useState('');
-  const [numberPhone, setNumberPhone] = useState();
+  const [district, setDistrict] = useState();
+  const [commune, setCommune] = useState();
+  const [codeZip, setCodeZip] = useState();
+  const [payment, setPayment] = useState();
+  const [numberPhone, setNumberPhone] = useState('');
+  const [subNumberPhone, setSubNumberPhone] = useState('');
   const [idUser, setIdUser] = useState();
   const [isSave, setIsSave] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const onChangeCityProvince = (code: number | any, name: string | any) =>
+    setcityProvince({code, name});
   const onChangeLastName = (val: string) => setLastName(val);
   const onChangefirstName = (val: string) => setFirstName(val);
+  const onChangeNumber = (val: any) => setNumberPhone(val);
+  const onChangeSubNumber = (val: any) => setSubNumberPhone(val);
+  const onChangeCommune = (val: any) => setCommune(val);
   const onChangeOpen = () => setIsOpen(!isOpen);
 
   const {navigate, goBack}: any = useNavigation();
@@ -65,19 +71,19 @@ const ScreenAdress = (props: Props) => {
 
   const renderContent = (
     <>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={onChangeOpen}>
         <View style={styles.citySeleted}>
           <View style={[styles.spaceWidth, {justifyContent: 'space-around'}]}>
             <Text style={styles.textPlaholder}>* Thành phố</Text>
-            <Text style={styles.textSub}>{cityProvince}</Text>
+            <Text style={styles.textSub}>{cityProvince.name}</Text>
           </View>
-          <TouchableOpacity style={styles.icon}>
+          <View style={styles.icon}>
             <Icon
               name="chevron-forward"
               size={sizes._24sdp}
               color={ArrayColors._color_black}
             />
-          </TouchableOpacity>
+          </View>
         </View>
       </TouchableWithoutFeedback>
 
@@ -106,7 +112,12 @@ const ScreenAdress = (props: Props) => {
           VN +84
         </Text>
         <View style={styles.spaceWidth}>
-          <InputText hint="* Số điện thoại" value="" />
+          <InputText
+            hint="* Số điện thoại"
+            value={numberPhone}
+            onChangeText={onChangeNumber}
+            onPress={() => setNumberPhone('')}
+          />
         </View>
       </View>
 
@@ -123,15 +134,17 @@ const ScreenAdress = (props: Props) => {
         <View style={styles.spaceWidth}>
           <InputText
             hint="* Số điện thoại thay thế (không bắt buộc)"
-            value=""
+            value={subNumberPhone}
+            onChangeText={onChangeSubNumber}
+            onPress={() => setSubNumberPhone('')}
           />
         </View>
       </View>
 
       <View style={{height: sizes._16sdp}} />
-      <InputText hint="* Tỉnh" />
-      <View style={styles.inline} />
       <InputText hint="* Quận / Huyện" />
+      <View style={styles.inline} />
+      <InputText hint="* Xã / Phường" />
       <View style={styles.inline} />
       <InputText hint="* Mã bưu điện" />
       <View style={styles.inline} />
@@ -176,7 +189,12 @@ const ScreenAdress = (props: Props) => {
             />
           </View>
         </View>
-        <SelectAddress isOpen={true} />
+        <SelectAddress
+          isOpen={isOpen}
+          onChangeOpen={onChangeOpen}
+          onChangeCityProvince={onChangeCityProvince}
+          cityProvince={cityProvince}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

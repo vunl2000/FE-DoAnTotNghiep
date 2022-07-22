@@ -6,7 +6,7 @@ import {
   REGISTER_FAIL,
 } from './types';
 
-import { API_URL_LOGIN_USERS } from '@env';
+import {API_URL_LOGIN_USERS} from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
 // Load products
@@ -30,9 +30,6 @@ export const userLogins =
       .then(response => {
         dispatch({type: CLEAR_ERRORS, payload: null});
         dispatch({type: LOGIN_SUCCES, payload: response.data});
-        // console.log('Cac', response.data);
-
-        // console.log('', 'Login Succes');
       })
       .catch(error => {
         dispatch({type: REGISTER_FAIL, payload: null});

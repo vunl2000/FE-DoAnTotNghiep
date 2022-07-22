@@ -12,10 +12,8 @@ import ScreensHome from '../screens/ScreensHome';
 import ScreensProduct from '../screens/ScreensProduct';
 import ScreenCart from '../screens/ScreenCart';
 import ScreenNewspaper from '../screens/spaper/ScreenNewspaper';
-import {loadProducts} from '../../store/actions/productsActions';
 import ScreenAccount from '../screens/account/ScreenAccount';
 import {useRoute} from '@react-navigation/native';
-import {loadProvince} from '../../store/actions/addressActions';
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
@@ -41,12 +39,6 @@ const mTabBarOptions: any = {
 
 const AppContainer: FC = () => {
   const {numberCart} = useSelector((state: any) => state.product);
-  const dispatch: any = useDispatch();
-
-  useEffect(() => {
-    dispatch(loadProducts());
-    dispatch(loadProvince());
-  }, []);
 
   const route: any = useRoute();
   const initScreen = route.params?.screen;

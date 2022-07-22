@@ -1,10 +1,16 @@
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import sizes from '../../../res/sizes/sizes';
 import TopCatory from '../../../components/home/catory/TopCatory';
 import Banner from '../../../components/home/banner/Banner';
 import ContentCatory from '../../../components/home/catory/ContentCatory';
 import Products from '../../../components/product/Products';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadCatory} from '../../../store/actions/catoryActions';
+import {ActivityIndicator} from 'react-native-paper';
+import ArrayColors from '../../../res/colors/ArrayColors';
+import Loading from '../../../components/modal/Loading';
+import {loadProducts} from '../../../store/actions/productsActions';
 
 interface Props {}
 
@@ -66,16 +72,29 @@ const renderView = () => (
 );
 
 const HomeIndex: React.FC<Props> = props => {
+  const {pending, accessory} = useSelector((state: any) => state.catory);
+  const {isLoading} = useSelector((state: any) => state.product);
+  const dispatch: any = useDispatch();
+
+  useEffect(() => {
+    //dispatch(loadCatory());
+    dispatch(loadProducts());
+  }, []);
+
   return (
     <View style={styles.container}>
-      <FlatList
-        data={isEmty}
-        renderItem={renderContent}
-        ListFooterComponent={renderView()}
-        listKey="home_index"
-        removeClippedSubviews
-        showsVerticalScrollIndicator={false}
-      />
+      {pending ? (
+        <Loading />
+      ) : (
+        <FlatList
+          data={isEmty}
+          renderItem={renderContent}
+          ListFooterComponent={renderView}
+          listKey="home_index"
+          removeClippedSubviews
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };

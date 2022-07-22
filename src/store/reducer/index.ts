@@ -4,6 +4,7 @@ import productReducer from './productReducer';
 import loginReducer from './loginReducer';
 import firstOpenReducer from './fristOpenReducer';
 import addressReducer from './addressReducer';
+import catoryReducer from './catoryReducer';
 
 export default combineReducers({
   product: productReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   account: loginReducer,
   firstOpen: firstOpenReducer,
   address: addressReducer,
+  catory: catoryReducer,
 });

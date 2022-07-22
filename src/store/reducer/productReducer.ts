@@ -38,7 +38,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
     case lOADING_PRODUCT:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
     case LOADED_PRODUCT:
       return {
