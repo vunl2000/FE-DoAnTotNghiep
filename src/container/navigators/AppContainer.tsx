@@ -15,6 +15,7 @@ import ScreenNewspaper from '../screens/spaper/ScreenNewspaper';
 import {loadProducts} from '../../store/actions/productsActions';
 import ScreenAccount from '../screens/account/ScreenAccount';
 import {useRoute} from '@react-navigation/native';
+import {loadProvince} from '../../store/actions/addressActions';
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
@@ -44,6 +45,7 @@ const AppContainer: FC = () => {
 
   useEffect(() => {
     dispatch(loadProducts());
+    dispatch(loadProvince());
   }, []);
 
   const route: any = useRoute();

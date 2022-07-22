@@ -45,60 +45,35 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   const animatedValues: any = React.useRef(new Animated.Value(0)).current;
 
   React.useLayoutEffect(() => {
-    setTimeout(() => {
-      getDataUser('@user_token')
-        .then(data => data)
-        .then((value: any) => {
-          if (value === undefined) {
-            console.log('undefined');
-            //setStorageUser('Đăng nhập / Đăng Ký >');
-            setEvent(true);
-          } else {
-            const jsonValue = JSON.parse(value);
-            if (accounts.isAuthenticated === true) {
-              setStorageUser(jsonValue.userNameSet);
-              setEvent(false);
-            } else {
-              setStorageUser(jsonValue.userNameSet);
-              setEvent(false);
-            }
-          }
-        })
-        .catch(err => console.log(err));
-    }, 100);
-  }, [accounts.isAuthenticated]);
-
-  // const getData = async (key: any) => {
-  //   try {
-  //     const data = await AsyncStorage.getItem(key);
-  //     if (data != null) {
-  //       return data;
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+    try {
+      console.log('acccccccc', accounts.result[0].name);
+      if (accounts === undefined) {
+        console.log('undefined');
+        //setStorageUser('Đăng nhập / Đăng Ký >');
+        setEvent(true);
+      } else {
+        if (accounts.isAuthenticated === true) {
+          setStorageUser(accounts.result[0].name);
+          setEvent(false);
+        } else {
+          setStorageUser(accounts.result[0].name);
+          setEvent(false);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [accounts]);
 
   function eventCart() {
     console.log('Cart');
   }
   async function eventSettings() {
     console.log('Settings');
-    getDataUser('@user_token')
-      .then(data => data)
-      .then((value: any) => {
-        if (value === undefined) {
-          console.log('undefined');
-          setEvent(true);
-        } else {
-          AsyncStorage.removeItem('@user_token');
-        }
-      })
-      .catch(err => console.log(err));
   }
 
   function eventLogInAndRegister() {
-    navigation.navigate('ScreenLoginAndRegister');
+    navigation.navigate('ScreenLogin');
   }
 
   function onPressLeft() {

@@ -123,7 +123,7 @@ const NewsData = (props: Props) => {
         backgroundColor: ArrayColors._color_white,
         // marginHorizontal: sizes._6sdp,
         marginVertical: sizes._6sdp,
-        borderRadius : sizes._6sdp,
+        borderRadius: sizes._6sdp,
       }}>
       <View>
         <View style={styles.mContainer}>
@@ -189,7 +189,7 @@ const NewsData = (props: Props) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             borderTopWidth: 0.5,
-            marginHorizontal : sizes._16sdp,            
+            marginHorizontal: sizes._16sdp,
           }}>
           <TouchableOpacity
             style={styles.actionContainer}
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     fontSize: sizes._13sdp,
     fontWeight: 'normal',
     fontFamily: 'OpenSans-SemiBold',
-    color: ArrayColors._color_white_sombre_,
+    color: ArrayColors._color_white_sombre,
     marginHorizontal: sizes._12sdp,
     lineHeight: sizes._22sdp,
   },

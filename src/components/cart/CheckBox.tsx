@@ -7,15 +7,11 @@ import {useDispatch} from 'react-redux';
 import {changeSelectCart} from '../../store/actions/productsActions';
 type CheckBoxProps = {
   checked?: boolean;
-  id?: any;
+  changeSelected?: () => void;
 };
 
-const CustomCheckBox = ({checked, id}: CheckBoxProps) => {
+const CustomCheckBox = ({checked, changeSelected}: CheckBoxProps) => {
   const dispatch: any = useDispatch();
-
-  const changeSelected = () => {
-    dispatch(changeSelectCart(id));
-  };
 
   return (
     <TouchableOpacity onPress={changeSelected}>

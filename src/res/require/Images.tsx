@@ -77,11 +77,11 @@ const image = {
   ic_comment: require('../../assets/images/ic_comment.png'),
   ic_share: require('../../assets/images/ic_share.png'),
 
-
   ic_user_home: require('../../assets/images/ic_user_home.png'),
 
   ic_mess: require('../../assets/images/ic_mess.png'),
-
+  user_no_bgr: require('../../assets/images/user_no_bgr.png'),
+  ic_camera: require('../../assets/images/ic_camera.png'),
 
   // ////////////////////////////////
   // like_png: require('../../assets/gif/like_png.png'),

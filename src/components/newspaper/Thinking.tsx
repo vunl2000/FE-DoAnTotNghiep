@@ -12,30 +12,38 @@ type Props = {
   onPress?: () => void;
   onPressQA?: () => void;
 };
-
+const urlPick: any = `https://scontent.fhan2-3.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=yP_3cAxsl3MAX9YsAso&tn=0zp6Xjk-5SSAnkmE&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-cazwSie-IiC9WKVzmN6cdQCtuGtAL6TxUFn6RsQ4sjw&oe=62FDE278`;
 const Thinking = (props: Props) => {
   const accounts = useSelector((state: any) => state.account);
   const [userName, setUserName] = React.useState(null);
-  const [urlAvatar, setUrlAvatar] = React.useState(null);
+  const [urlAvatar, setUrlAvatar] = React.useState(urlPick);
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      getDataUser('@user_token')
-        .then(data => data)
-        .then((value: any) => {
-          if (value === undefined) {
-            console.log('undefined');
-            //setStorageUser('Đăng nhập / Đăng Ký >');
-          } else {
-            const jsonValue = JSON.parse(value);
-            setUserName(jsonValue.userNameSet);
-            setUrlAvatar(jsonValue.photoUrlSet);
-            console.log(jsonValue.photoUrlSet);
-          }
-        })
-        .catch(err => console.log(err));
-    }, 100);
-  }, [accounts.isAuthenticated]);
+  React.useLayoutEffect(() => {
+    try {
+      if (accounts === undefined) {
+        console.log('undefined');
+        console.log(accounts);
+
+        // setUrlAvatar(urlPick);
+
+        //setStorageUser('Đăng nhập / Đăng Ký >');
+      } else {
+        // const jsonValue = JSON.parse(value);
+        setUserName(accounts.result[0].name);
+        setUrlAvatar(accounts.result[0].photoUrl);
+        // console.log(jsonValue.photoUrlSet);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    // setTimeout(() => {
+    //   getDataUser('@user_token')
+    //     .then(data => data)
+    //     .then((value: any) => {
+    //     })
+    //     .catch(err => console.log(err));
+    // }, 100);
+  }, [accounts]);
 
   return (
     <View style={{backgroundColor: ArrayColors._color_white}}>

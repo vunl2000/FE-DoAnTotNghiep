@@ -7,7 +7,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import AppHeader from '../../../components/header/AppHeader';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import sizes from '../../../res/sizes/sizes';
@@ -19,14 +19,38 @@ import TranSport from '../../../components/order/TranSport';
 import Pay from '../../../components/order/Pay';
 import Location from '../../../components/order/Location';
 import ListProductOrder from '../../../components/order/ListProductOrder';
+import {useSelector} from 'react-redux';
+import ButtonSub from '../../../components/button/ButtonSub';
+import {formartMoney} from '../../../utils/Utilities';
+import SaleProDuct from '../../../components/order/SaleProDuct';
 
 type Props = {};
 
 const ScreenOrder = (props: Props) => {
   const {goBack}: any = useNavigation();
-
+  const {carts, numberCart} = useSelector((state: any) => state.product);
+  const [cartSeleted, setCartSeleted] = useState(0);
+  const [sumPrice, setSumPrice] = useState(0);
+  const [priceTranSport, setPriceTranSport] = useState(30000);
+  const [salePrice, setSalePrice] = useState(0);
+  const [dataCartSeleted, setDataCartSeleted] = useState([]);
   const onBackPress = () => goBack();
 
+  useEffect(() => {
+    let count = 0;
+    let price = 0;
+    let products: any = [];
+    carts.forEach((item: any) => {
+      if (item.selected) {
+        count += item.quantity;
+        price += item.quantity * item.price;
+        products.push(item);
+      }
+    });
+    setCartSeleted(count);
+    setSumPrice(price);
+    setDataCartSeleted(products);
+  }, [cartSeleted, carts, sumPrice, numberCart]);
   const HeaderContent = () => (
     <View style={styles.containerHeader}>
       <IconHeader
@@ -57,7 +81,7 @@ const ScreenOrder = (props: Props) => {
       <ColumView
         styleContainer={styles.columeMedium}
         valueLeft="Áp dụng phiếu giảm giá"
-        valueRight={'-103.800đ'}
+        valueRight={formartMoney(0)}
         styleText={styles.textDefault}
         styleTextLabel={styles.textDefault}
         iconRight
@@ -80,10 +104,30 @@ const ScreenOrder = (props: Props) => {
         iconRight
       />
       <View style={styles.spaceMedium} />
-      <ListProductOrder />
+      <ListProductOrder
+        dataCartSeleted={dataCartSeleted}
+        cartSeleted={cartSeleted}
+        sumPrice={sumPrice}
+      />
+
+      <View style={styles.spaceMedium} />
+      <SaleProDuct
+        sumPrice={sumPrice}
+        priceTranSport={priceTranSport}
+        salePrice={salePrice}
+      />
+      <View style={styles.spaceMedium} />
     </View>
   );
-
+  const Button = () => (
+    <View style={styles.btnCreatBill}>
+      <View style={styles.allContent}>
+        <Text style={[styles.textSub, styles.content]}>Tổng cộng:</Text>
+        <Text style={styles.textSub}>{formartMoney(sumPrice)}</Text>
+      </View>
+      <ButtonSub size="lager" bgColor="black" value="Đặt hàng" />
+    </View>
+  );
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader content customContent={<HeaderContent />} />
@@ -96,6 +140,7 @@ const ScreenOrder = (props: Props) => {
           removeClippedSubviews
           showsVerticalScrollIndicator={false}
         />
+        <Button />
       </View>
     </SafeAreaView>
   );
@@ -157,5 +202,23 @@ const styles = StyleSheet.create({
   },
   spaceMedium: {
     height: sizes._16sdp,
+  },
+  btnCreatBill: {
+    backgroundColor: ArrayColors._color_white,
+    padding: sizes._18sdp,
+    shadowColor: ArrayColors._color_black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  allContent: {
+    flexDirection: 'row',
+    marginBottom: sizes._18sdp,
+    justifyContent: 'space-between',
   },
 });
