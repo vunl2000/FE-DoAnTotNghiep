@@ -16,6 +16,10 @@ import ScreenAdress from '../screens/address/ScreenAdress';
 import ScreenOrder from '../screens/order/ScreenOrder';
 import ScreenUserSpaper from '../screens/userspaper/ScreenUserSpaper';
 import {useSelector} from 'react-redux';
+import ScreensSettings from '../screens/settings/ScreensSettings';
+import ScreensIntroduce from '../screens/settings/ScreensIntroduce';
+import ScreenVeryOTP from '../screens/settings/ScreenVeryOTP';
+import ScreenChangePass from '../screens/settings/ScreenChangePass';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -23,6 +27,10 @@ export enum NameScreen {
   LOGIN_AND_REGISTER = 'ScreenLogin',
   ADDRESS = 'ScreenAddress',
   ORDER = 'ScreenOrder',
+  SETTINGS = 'ScreenSettings',
+  INTRODUCE = 'ScreensIntroduce',
+  SCREENOTPSETTING = 'ScreenVeryOTP',
+  CHANGEPASS = 'ScreenChangePass',
 }
 
 export default function TabNavigator() {
@@ -82,6 +90,26 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ScreenUserSpaper"
           component={ScreenUserSpaper}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenSettings"
+          component={ScreensSettings}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreensIntroduce"
+          component={ScreensIntroduce}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenVeryOTP"
+          component={ScreenVeryOTP}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenChangePass"
+          component={ScreenChangePass}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
