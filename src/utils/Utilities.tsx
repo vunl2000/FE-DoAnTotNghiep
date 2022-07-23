@@ -26,3 +26,7 @@ export const makeId = (length: number) => {
   }
   return result;
 };
+
+export function isNullEmptyBlank(str: string | any) {
+  return str.indexOf(" ") >=0? true : false;
+}
