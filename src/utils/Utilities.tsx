@@ -29,6 +29,12 @@ export const makeId = (length: number) => {
   return result;
 };
 
+<<<<<<< HEAD
+=======
+export function isNullEmptyBlank(str: string | any) {
+  return str.indexOf(' ') >= 0 ? true : false;
+}
+>>>>>>> origin/killapp98
 export function useSwipe(
   onSwipeLeft?: any,
   onSwipeRight?: any,
@@ -56,7 +62,10 @@ export function useSwipe(
       onSwipeLeft && onSwipeLeft();
     }
   }
+<<<<<<< HEAD
 }
 export function isNullEmptyBlank(str: string | any) {
   return str.indexOf(' ') >= 0 ? true : false;
+=======
+>>>>>>> origin/killapp98
 }
