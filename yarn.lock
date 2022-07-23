@@ -6419,9 +6419,6 @@
   "resolved" "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.5.11.tgz"
   "version" "8.5.11"
 
-<<<<<<< HEAD
-"react-native-gesture-handler@^2.5.0":
-=======
 "react-native-fs@^2.20.0":
   "integrity" "sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ=="
   "resolved" "https://registry.npmjs.org/react-native-fs/-/react-native-fs-2.20.0.tgz"
@@ -6430,8 +6427,7 @@
     "base-64" "^0.1.0"
     "utf8" "^3.0.0"
 
-"react-native-gesture-handler@*", "react-native-gesture-handler@^2.5.0":
->>>>>>> killapp98
+"react-native-gesture-handler@^2.5.0":
   "integrity" "sha512-djZdcprFf08PZC332D+AeG5wcGeAPhzfCJtB3otUgOgTlvjVXmg/SLFdPJSpzLBqkRAmrC77tM79QgKbuLxkfw=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.5.0.tgz"
   "version" "2.5.0"
