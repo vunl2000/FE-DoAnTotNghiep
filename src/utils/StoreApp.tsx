@@ -1,4 +1,5 @@
 import {Linking, Platform} from 'react-native';
+const ver = require('../../package.json');
 
 export const onStoreApp = () => {
   if (Platform.OS === 'android') {
@@ -11,3 +12,5 @@ export const onStoreApp = () => {
     ).catch(err => console.log('err', err));
   }
 };
+
+export const version = ver.version;

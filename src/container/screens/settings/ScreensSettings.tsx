@@ -13,7 +13,7 @@ import sizes from '../../../res/sizes/sizes';
 import IconHeader from '../../../components/icons/IconHeader';
 import Icons from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
-import {onStoreApp} from '../../../utils/StoreApp';
+import {onStoreApp, version} from '../../../utils/StoreApp';
 import {NameScreen} from '../../navigators/TabNavigator';
 
 const ScreensSettings = ({navigation}: any) => {
@@ -23,8 +23,6 @@ const ScreensSettings = ({navigation}: any) => {
   const [storageUser, setStorageUser] = React.useState<string | any>(
     'Đăng nhập / Đăng Ký ',
   );
-
-  const pkg = require('../../../../package.json');
 
   React.useLayoutEffect(() => {
     try {
@@ -46,6 +44,13 @@ const ScreensSettings = ({navigation}: any) => {
       console.log(e);
     }
   }, [accounts]);
+  const CheckLogin = () => {
+    if (accounts.isAuthenticated === true) {
+      navigation.navigate(NameScreen.HOME);
+    } else {
+      navigation.navigate(NameScreen.LOGIN_AND_REGISTER);
+    }
+  };
 
   function HeaderContent() {
     return (
@@ -73,7 +78,7 @@ const ScreensSettings = ({navigation}: any) => {
         <View style={styles.item_container}>
           <View style={styles.item_conten}>
             <Text style={styles.title_user}>{storageUser}</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={CheckLogin}>
               <Icons
                 name="chevron-forward"
                 size={24}
@@ -209,9 +214,7 @@ const ScreensSettings = ({navigation}: any) => {
         {/* version */}
         <View style={styles.version}>
           <View style={styles.item_conten}>
-            <Text style={styles.text_version}>
-              {'Phiên bản V' + pkg.version}
-            </Text>
+            <Text style={styles.text_version}>{'Phiên bản V' + version}</Text>
           </View>
         </View>
       </View>
