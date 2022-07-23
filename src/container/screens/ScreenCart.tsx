@@ -41,7 +41,6 @@ const ScreenCart = (props: Props) => {
   const selectedAll = () => {
     dispatch(slectedAllCart());
   };
-  console.log(allSelected + '  uiiii');
 
   const navigateLogin = () => navigate(NameScreen.LOGIN_AND_REGISTER);
   useEffect(() => {
@@ -141,7 +140,7 @@ const ScreenCart = (props: Props) => {
       </View>
     </View>
   );
-  const renderContent = () => (
+  const renderContent = (
     <>
       <BoxCard />
     </>

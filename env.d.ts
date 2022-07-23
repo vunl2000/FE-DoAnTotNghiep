@@ -6,4 +6,6 @@ declare module '@env' {
   export const API_PROVINCE: string;
   export const API_DISTRICT: string;
   export const API_COMMUNE: string;
+  export const GET_CATORY: string;
+  export const GET_CATORY_TYPE: string;
 }

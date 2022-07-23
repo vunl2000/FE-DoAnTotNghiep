@@ -12,10 +12,8 @@ import ScreensHome from '../screens/ScreensHome';
 import ScreensProduct from '../screens/ScreensProduct';
 import ScreenCart from '../screens/ScreenCart';
 import ScreenNewspaper from '../screens/spaper/ScreenNewspaper';
-import {loadProducts} from '../../store/actions/productsActions';
 import ScreenAccount from '../screens/account/ScreenAccount';
 import {useRoute} from '@react-navigation/native';
-import {loadProvince} from '../../store/actions/addressActions';
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
@@ -41,12 +39,6 @@ const mTabBarOptions: any = {
 
 const AppContainer: FC = () => {
   const {numberCart} = useSelector((state: any) => state.product);
-  const dispatch: any = useDispatch();
-
-  useEffect(() => {
-    dispatch(loadProducts());
-    dispatch(loadProvince());
-  }, []);
 
   const route: any = useRoute();
   const initScreen = route.params?.screen;
@@ -59,7 +51,7 @@ const AppContainer: FC = () => {
         name="HomeScreen"
         component={ScreensHome}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({focused}: any) => (
             <View
               style={{
                 alignItems: 'center',
@@ -96,7 +88,7 @@ const AppContainer: FC = () => {
         name="ScreensProduct"
         component={ScreensProduct}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({focused}: any) => (
             <View
               style={{
                 alignItems: 'center',
@@ -135,7 +127,7 @@ const AppContainer: FC = () => {
         component={ScreenCart}
         options={{
           tabBarBadge: numberCart == 0 ? null : numberCart,
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({focused}: any) => (
             <View
               style={{
                 alignItems: 'center',
@@ -172,7 +164,7 @@ const AppContainer: FC = () => {
         name="ScreenNewspaper"
         component={ScreenNewspaper}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({focused}: any) => (
             <View
               style={{
                 alignItems: 'center',
@@ -210,7 +202,7 @@ const AppContainer: FC = () => {
         component={ScreenAccount}
         options={{
           // headerShown: false,
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({focused}: any) => (
             <View
               style={{
                 alignItems: 'center',

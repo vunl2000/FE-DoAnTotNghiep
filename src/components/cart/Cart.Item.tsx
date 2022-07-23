@@ -9,6 +9,7 @@ import ButtonQty from './ButtonQty';
 import CustomCheckBox from './CheckBox';
 import {useDispatch} from 'react-redux';
 import {changeSelectCart} from '../../store/actions/productsActions';
+import FastImage from 'react-native-fast-image';
 
 type Props = {
   item?: any;
@@ -54,12 +55,13 @@ const CartItem = ({item}: Props) => {
     <View style={styles.container}>
       <CustomCheckBox checked={item.selected} changeSelected={changeSelected} />
       <View style={styles.space} />
-      <BetterImage
+      <FastImage
         source={{
           uri: item.image,
+          cache: FastImage.cacheControl.cacheOnly,
         }}
         style={styles.img}
-        resizeMode="contain"
+        resizeMode={FastImage.resizeMode.contain}
       />
       <View style={styles.space} />
       <View style={styles.content}>
