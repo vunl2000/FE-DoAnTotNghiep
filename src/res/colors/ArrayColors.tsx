@@ -9,7 +9,7 @@ const ArrayColors = new (class {
   _color_white_sombre = 'rgba(255,255,255,0.8)';
 
   _color_black_light = '#44494D';
-
+  _color_black_gray = '#4a4a4a';
   _color_black_gray11 = '#1C1C1C';
 
   _color_black_gray12 = '#373737';
@@ -70,6 +70,8 @@ const ArrayColors = new (class {
   red = '#ff2f68';
   lightRed = '#ff4f7e';
   darkRed = '#d9365e';
+  red_light_tx = '#eb683d';
+  ruby = '#D13232';
   purple = '#8f06e4';
   skyBlue = 'skyblue';
   yellow = '#f8c907';

@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../../../components/modal/Loading';
 import {getDataUser} from '../../../utils/GetToken';
+import {NameScreen} from '../../navigators/TabNavigator';
 
 const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [numberDiscount, setNumberDiscount] = React.useState('0');
@@ -69,7 +70,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     console.log('Cart');
   }
   async function eventSettings() {
-    console.log('Settings');
+    navigation.navigate(NameScreen.SETTINGS);
   }
 
   function eventLogInAndRegister() {

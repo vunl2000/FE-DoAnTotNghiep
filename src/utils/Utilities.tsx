@@ -57,3 +57,6 @@ export function useSwipe(
     }
   }
 }
+export function isNullEmptyBlank(str: string | any) {
+  return str.indexOf(' ') >= 0 ? true : false;
+}
