@@ -3,7 +3,7 @@ import {
   LOG_LOADING,
   CLEAR_ERRORS,
   LOGIN_SUCCES,
-  REGISTER_FAIL,
+  LOGIN_FAIL
 } from './types';
 
 import { API_URL_LOGIN_USERS } from '@env';
@@ -35,7 +35,7 @@ export const userLogins =
         // console.log('', 'Login Succes');
       })
       .catch(error => {
-        dispatch({type: REGISTER_FAIL, payload: null});
+        dispatch({type: LOGIN_FAIL, payload: null});
         dispatch(
           returnErrors(
             error.response.data,

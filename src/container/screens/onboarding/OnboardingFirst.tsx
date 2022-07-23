@@ -162,7 +162,6 @@ const OnboardingFirst = ({navigation}: any) => {
   };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.purple}}>
-     
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -170,6 +169,7 @@ const OnboardingFirst = ({navigation}: any) => {
         data={slides}
         contentContainerStyle={{height: sizes._screen_height * 0.8}}
         horizontal
+        scrollEnabled={false}
         showsHorizontalScrollIndicator={false}
         renderItem={({item}) => <Slide item={item} />}
       />

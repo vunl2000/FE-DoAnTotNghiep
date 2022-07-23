@@ -55,31 +55,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
   const [labelEmail, setLabelEmail] = React.useState<string | any>('');
   const [labelPassWord, setLabelPassword] = React.useState<string | any>('');
 
-  const [isLoading, setIsLoading] = React.useState<string | any>(false);
-
-  // function onPressLeft() {
-  //   Animated.timing(animatedValues, {
-  //     toValue: 0,
-  //     duration: 500,
-  //     useNativeDriver: false,
-  //   }).start();
-  //   setMarginRight(animatedValues);
-  //   setInvisible(true);
-  //   console.log('right', animatedValues);
-  //   console.log('right', marginRight);
-  // }
-
-  // function onPressRight() {
-  //   Animated.timing(animatedValues, {
-  //     toValue: sizes._screen_width / 2,
-  //     duration: 500,
-  //     useNativeDriver: false,
-  //   }).start();
-  //   setMarginLeft(animatedValues);
-  //   setInvisible(false);
-  //   console.log('left', animatedValues);
-  //   console.log('left---', marginLeft);
-  // }
+  // const [isLoading, setIsLoading] = React.useState<string | any>(false);
 
   function eventOnOff() {
     setViewEye(!viewEye);
@@ -134,16 +110,16 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
 
     if (isAuthenticated) {
       setTimeout(() => {
-        setIsLoading(false);
+        // setIsLoading(false);
         navigation.goBack();
         ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
         console.log(accounts);
       }, 1500);
     }
 
-    return () => {
-      setIsLoading(false);
-    };
+    // return () => {
+    //   setIsLoading(null);
+    // };
   }, [accounts]);
 
   React.useEffect(() => {
@@ -151,9 +127,9 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
       const errorCode = error.code.code;
       switch (errorCode) {
         case 400: {
-          setIsLoading(false);
+          // setIsLoading(false);
           ToastAndroid.show(
-            'Đăng nhập thất bại vui lòng kiểm tra lại mật khẩu',
+            'Đăng nhập thất bại vui lòng kiểm tra lại thông tin',
             ToastAndroid.SHORT,
           );
           break;
@@ -179,7 +155,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
       setWarningEmail(true);
     } else {
       dispatch(userLogins({email, password}));
-      setIsLoading(true);
+      // setIsLoading(true);
       console.log({email, password});
     }
   }
@@ -212,7 +188,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
       <View
         style={{
           marginHorizontal: sizes._20sdp,
-          marginTop : sizes._20sdp,
+          marginTop: sizes._20sdp,
           width: sizes._screen_width - sizes._40sdp,
         }}>
         <Input
@@ -275,12 +251,12 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
           style={{
             color: ArrayColors._color_facebook,
             fontWeight: 'bold',
-            fontSize: sizes._15sdp,
+            fontSize: sizes._18sdp,
           }}>
           Bạn chưa có tài khoản ?
         </Text>
       </TouchableOpacity>
-      {isLoading ? <Loading /> : null}
+      {/* {isLoading ? <Loading /> : null} */}
     </SafeAreaView>
   );
 };
