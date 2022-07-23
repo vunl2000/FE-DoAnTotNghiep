@@ -17,6 +17,7 @@ const initalState = {
   men: [],
   women: [],
   accessory: [],
+  typeCatory: [],
   pending: false,
 };
 
@@ -30,10 +31,59 @@ export default (state = initalState, {payload, type}: any) => {
     case LOADING_CATORY_SUCCES:
       return {
         ...state,
-        accessory: payload.result,
+        typeCatory: payload.result,
         pending: false,
       };
     case LOADING_CATORY_ERR:
+      return {
+        ...state,
+        pending: false,
+      };
+
+    case LOADING_CATORY_ACCESSORY:
+      return {
+        ...state,
+        pending: true,
+      };
+    case LOADING_CATORY_ACCESSORY_SUCCES:
+      return {
+        ...state,
+        accessory: payload.result,
+        pending: false,
+      };
+    case LOADING_CATORY_ACCESSORY_ERR:
+      return {
+        ...state,
+        pending: false,
+      };
+    case LOADING_CATORY_MEN:
+      return {
+        ...state,
+        pending: true,
+      };
+    case LOADING_CATORY_MEN_SUCCES:
+      return {
+        ...state,
+        men: payload.result,
+        pending: false,
+      };
+    case LOADING_CATORY_MEN_ERR:
+      return {
+        ...state,
+        pending: false,
+      };
+    case LOADING_CATORY_WOMEN:
+      return {
+        ...state,
+        pending: true,
+      };
+    case LOADING_CATORY_WOMEN_SUCCES:
+      return {
+        ...state,
+        women: payload.result,
+        pending: false,
+      };
+    case LOADING_CATORY_WOMEN_ERR:
       return {
         ...state,
         pending: false,

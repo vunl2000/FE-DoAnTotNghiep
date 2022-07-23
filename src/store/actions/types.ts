@@ -32,6 +32,8 @@ export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
 //Error Types
 export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
+//Local Strogae
 export const OPEN_APP = 'CLEAR_ERRORS';
 
 //ADDRESS TYPES

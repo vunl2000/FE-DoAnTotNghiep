@@ -19,7 +19,7 @@ import CustomCheckBox from '../../components/cart/CheckBox';
 import {formartMoney} from '../../utils/Utilities';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../navigators/TabNavigator';
-import {getToken, KeyStorage} from '../../utils/GetToken';
+import {getDataUser, KeyStorage} from '../../utils/GetToken';
 import {showToast} from '../../components/modal/ToastCustom';
 import {slectedAllCart} from '../../store/actions/productsActions';
 
@@ -41,7 +41,6 @@ const ScreenCart = (props: Props) => {
   const selectedAll = () => {
     dispatch(slectedAllCart());
   };
-  console.log(allSelected + '  uiiii');
 
   const navigateLogin = () => navigate(NameScreen.LOGIN_AND_REGISTER);
   useEffect(() => {
@@ -58,7 +57,7 @@ const ScreenCart = (props: Props) => {
   }, [cartSeleted, carts, sumPrice, numberCart]);
 
   useEffect(() => {
-    getToken(KeyStorage.TOKEN)
+    getDataUser(KeyStorage.TOKEN)
       .then(data => data)
       .then((val: any) => {
         setToken(val);
@@ -141,7 +140,7 @@ const ScreenCart = (props: Props) => {
       </View>
     </View>
   );
-  const renderContent = () => (
+  const renderContent = (
     <>
       <BoxCard />
     </>

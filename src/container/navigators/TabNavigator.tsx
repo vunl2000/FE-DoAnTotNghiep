@@ -6,47 +6,27 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import AppContainer from '../navigators/AppContainer';
 import DetailProduct from '../screens/product/DetailProduct';
-import ScreenLoginAndRegister from '../screens/account/screen-acc/ScreenLoginAndRegister';
+import ScreenLogin from '../screens/account/screen-acc/ScreenLogin';
+import ScreenRegister from '../screens/account/screen-acc/ScreenRegister';
+import ScreenRegisterDetail from '../screens/account/screen-acc/ScreenRegisterDetail';
+import ScreenVeryfiOTP from '../screens/account/screen-acc/ScreenVeryfiOTP';
 import OnboardingFirst from '../../container/screens/onboarding/OnboardingFirst';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScreenAdress from '../screens/address/ScreenAdress';
 import ScreenOrder from '../screens/order/ScreenOrder';
+import ScreenUserSpaper from '../screens/userspaper/ScreenUserSpaper';
 import {useSelector} from 'react-redux';
 
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
-  LOGIN_AND_REGISTER = 'ScreenLoginAndRegister',
+  LOGIN_AND_REGISTER = 'ScreenLogin',
   ADDRESS = 'ScreenAddress',
   ORDER = 'ScreenOrder',
 }
 
 export default function TabNavigator() {
   const {firstOpen} = useSelector((state: any) => state.firstOpen);
-
-  // const [isFirstTimeLoad, setIsFirstTimeLoad] = React.useState<any>(() => {
-  //   try {
-  //     const data = AsyncStorage.getItem('@is_check');
-  //     if (data != null) {
-  //       return data;
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // });
-  // const checkForFirstTimeLoaded = async () => {
-  //   const result = await AsyncStorage.getItem('@is_check');
-  //   if (result === null) {
-  //     // return true;
-  //     setIsFirstTimeLoad(true);
-  //     // console.log(result);
-  //   } else {
-  //     // return false;
-  //     setIsFirstTimeLoad(false);
-  //   }
-  // };
-
-  // console.log(isFirstTimeLoad);
 
   return (
     <NavigationContainer>
@@ -68,10 +48,27 @@ export default function TabNavigator() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="ScreenLoginAndRegister"
-          component={ScreenLoginAndRegister}
+          name="ScreenLogin"
+          component={ScreenLogin}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="ScreenRegister"
+          component={ScreenRegister}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="ScreenVeryfiOTP"
+          component={ScreenVeryfiOTP}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenRegisterDetail"
+          component={ScreenRegisterDetail}
+          options={{headerShown: false}}
+        />
+
         <Stack.Screen
           name="ScreenAddress"
           component={ScreenAdress}
@@ -80,6 +77,11 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ScreenOrder"
           component={ScreenOrder}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenUserSpaper"
+          component={ScreenUserSpaper}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

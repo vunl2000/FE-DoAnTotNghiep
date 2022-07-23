@@ -55,8 +55,10 @@ const image = {
 
   icons8_facebook_messenger_32: require('../../assets/images/icons8_facebook_messenger_32.png'),
   img_user: require('../../assets/images/img_user.jpg'),
+  qa: require('../../assets/images/qa.png'),
   ic_qa_spaper: require('../../assets/images/ic_qa_spaper.png'),
-  ic_spaper: require('../../assets/images/ic_spaper.png'),
+
+  ic_spaper: require('../../assets/images/image_gallery.png'),
   img_ex_newSpaper_1: require('../../assets/images/img_ex_newSpaper_1.png'),
   img_ex_newSpaper_2: require('../../assets/images/img_ex_newSpaper_2.png'),
 
@@ -71,11 +73,19 @@ const image = {
 
   like_png: require('../../assets/gif/like_png.png'),
 
+  ic_likess: require('../../assets/images/ic_likess.png'),
+  ic_comment: require('../../assets/images/ic_comment.png'),
+  ic_share: require('../../assets/images/ic_share.png'),
+
+  ic_user_home: require('../../assets/images/ic_user_home.png'),
+
+  ic_mess: require('../../assets/images/ic_mess.png'),
+  user_no_bgr: require('../../assets/images/user_no_bgr.png'),
+  ic_camera: require('../../assets/images/ic_camera.png'),
 
   // ////////////////////////////////
   // like_png: require('../../assets/gif/like_png.png'),
   // like_png: require('../../assets/gif/like_png.png'),
   // like_png: require('../../assets/gif/like_png.png'),
-
 };
 export default image;

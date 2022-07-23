@@ -15,22 +15,23 @@ import Images from '../../res/require/Images';
 
 type Props = {
   onPressMessage?: () => void;
-  onPressCart?: () => void;
+  onPressHome?: () => void;
+ 
 };
 
-const HeaderSpaper = (props: Props) => {
+const HeaderSpaper = (props: Props, navigation: any) => {
   const isAndroid = Platform.OS === 'android';
 
+  
   return (
     <View
       style={{
         flexDirection: 'row',
         flex: 1,
-        backgroundColor:  ArrayColors._color_white,
+        backgroundColor: ArrayColors._color_white,
         height: '100%',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        
       }}>
       <TitleHome
         style={{
@@ -44,9 +45,10 @@ const HeaderSpaper = (props: Props) => {
       <View style={{position: 'absolute', right: 0, flexDirection: 'row'}}>
         <IconHeader
           sizes={sizes._24sdp}
-          name={isAndroid ? 'cart-outline' : 'ios-cart-outline'}
+          name={isAndroid ? 'home-outline' : 'ios-home-outline'}
           style={styles.mStyleICons}
-          onPress={props.onPressCart}
+          onPress={props.onPressHome}
+          // navigation={props.navigation}
         />
         <Pressable
           style={({pressed}) => [
@@ -65,7 +67,7 @@ const HeaderSpaper = (props: Props) => {
           ]}
           onPress={props.onPressMessage}>
           <Image
-            source={Images.icons8_facebook_messenger_32}
+            source={Images.ic_mess}
             style={styles.mStyleImg}
             resizeMode="contain"
           />

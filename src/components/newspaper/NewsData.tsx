@@ -68,7 +68,6 @@ const NewsData = (props: Props) => {
 
     switch (selectedEmojiIndex) {
       case 0:
-        
         setTitleIcon('Thích');
         break;
       case 1:
@@ -115,7 +114,6 @@ const NewsData = (props: Props) => {
       setSelectedEmojiIndex(null);
       setTitleIcon('Thích');
       setTextColor(ArrayColors._color_black_gray11);
-
     }
   }
 
@@ -123,8 +121,9 @@ const NewsData = (props: Props) => {
     <View
       style={{
         backgroundColor: ArrayColors._color_white,
-        marginHorizontal: sizes._3sdp,
+        // marginHorizontal: sizes._6sdp,
         marginVertical: sizes._6sdp,
+        borderRadius: sizes._6sdp,
       }}>
       <View>
         <View style={styles.mContainer}>
@@ -190,8 +189,7 @@ const NewsData = (props: Props) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             borderTopWidth: 0.5,
-            borderBottomWidth: 0.5,
-            // zIndex: 2,
+            marginHorizontal: sizes._16sdp,
           }}>
           <TouchableOpacity
             style={styles.actionContainer}
@@ -203,7 +201,7 @@ const NewsData = (props: Props) => {
               source={
                 selectedEmojiIndex !== null
                   ? emojisDataGif[selectedEmojiIndex]
-                  : require('../../assets/gif/like_png.png')
+                  : Images.ic_likess
               }
               style={styles.likeIcon}
             />
@@ -228,7 +226,7 @@ const NewsData = (props: Props) => {
                 height: sizes._18sdp,
                 marginHorizontal: sizes._8sdp,
               }}
-              source={Images.ic_qa_spaper}
+              source={Images.ic_comment}
             />
             <TitleHome title="Bình luận" style={styles.mStyleLike} />
           </View>
@@ -247,7 +245,7 @@ const NewsData = (props: Props) => {
                 height: sizes._18sdp,
                 marginHorizontal: sizes._8sdp,
               }}
-              source={Images.ic_qa_spaper}
+              source={Images.ic_share}
             />
             <TitleHome title="Chia sẻ" style={styles.mStyleLike} />
           </View>
@@ -258,9 +256,9 @@ const NewsData = (props: Props) => {
             <Animated.View style={[styles.emojisBar, emojisBarAnimationStyle]}>
               {/* render emojis */}
               {emojisDataGif.map((emojiSource, index) => {
-                 console.log(emojiSource);
+                console.log(emojiSource);
                 // console.log(index);
-                
+
                 return (
                   <Emoji
                     source={emojiSource}
@@ -326,7 +324,7 @@ const styles = StyleSheet.create({
     fontSize: sizes._13sdp,
     fontWeight: 'normal',
     fontFamily: 'OpenSans-SemiBold',
-    color: ArrayColors._color_white_sombre_,
+    color: ArrayColors._color_white_sombre,
     marginHorizontal: sizes._12sdp,
     lineHeight: sizes._22sdp,
   },

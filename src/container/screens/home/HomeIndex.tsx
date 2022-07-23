@@ -11,6 +11,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import Loading from '../../../components/modal/Loading';
 import {loadProducts} from '../../../store/actions/productsActions';
+import HomeCatory from '../../../components/home/catory/HomeCatory';
 
 interface Props {}
 
@@ -40,61 +41,37 @@ const renderItem = ({item, index}: {item: any; index: any}) => {
     </View>
   );
 };
-const topBanner = () => {
-  let src =
-    'https://img.ltwebstatic.com/images3_acp/2022/06/17/16554807169532cb4d71508bba3fc15beed0c46a6d.webp';
-  return (
-    <>
-      <Image
-        source={{uri: src}}
-        style={styles.topBanner}
-        resizeMode="contain"
-      />
-    </>
-  );
-};
-
-const renderView = () => (
-  <View style={styles.container}>
-    {topBanner()}
-
-    <TopCatory />
-
-    <Banner
-      uri={
-        'https://img.ltwebstatic.com/images3_ach/2022/06/27/1656331072aa49c2b5baac61ed9ac163d364cefc79.webp'
-      }
-    />
-
-    <ContentCatory />
-    <Products />
-  </View>
-);
 
 const HomeIndex: React.FC<Props> = props => {
   const {pending, accessory} = useSelector((state: any) => state.catory);
   const {isLoading} = useSelector((state: any) => state.product);
-  const dispatch: any = useDispatch();
 
-  useEffect(() => {
-    //dispatch(loadCatory());
-    dispatch(loadProducts());
-  }, []);
+  let src =
+    'https://profile-picture-upload-shop.s3.ap-southeast-1.amazonaws.com/image-1658507911010.jpeg';
+  let srcContent =
+    'https://profile-picture-upload-shop.s3.ap-southeast-1.amazonaws.com/image-1658508008813.jpeg';
 
+  const renderView = (
+    <View style={styles.container}>
+      <Banner size="small" uri={src} mode="contain" />
+      <TopCatory />
+      <Banner size="medium" uri={srcContent} mode="cover" />
+
+      <HomeCatory />
+      <Products />
+    </View>
+  );
   return (
     <View style={styles.container}>
-      {pending ? (
-        <Loading />
-      ) : (
-        <FlatList
-          data={isEmty}
-          renderItem={renderContent}
-          ListFooterComponent={renderView}
-          listKey="home_index"
-          removeClippedSubviews
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+      <FlatList
+        data={isEmty}
+        renderItem={renderContent}
+        ListFooterComponent={renderView}
+        listKey="home_index"
+        removeClippedSubviews
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+      />
     </View>
   );
 };

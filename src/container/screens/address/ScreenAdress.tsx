@@ -20,6 +20,7 @@ import ButtonSub from '../../../components/button/ButtonSub';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../navigators/TabNavigator';
 import SelectAddress from '../../../components/modal/SelectAddress';
+import {useSelector} from 'react-redux';
 
 type Props = {};
 
@@ -28,6 +29,7 @@ const ScreenAdress = (props: Props) => {
     code: null,
     name: 'Thành phố',
   });
+
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [district, setDistrict] = useState();

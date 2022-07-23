@@ -11,13 +11,12 @@ const GoogleOrFacebook = (props: Props) => {
     <View
       style={{
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        marginHorizontal: sizes._48sdp,
+        justifyContent: 'center',
       }}>
       <View
         style={{
-          width: '30%',
+          width: '10%',
           height: sizes._1sdp,
           backgroundColor: ArrayColors._color_gray_text,
         }}></View>
@@ -26,13 +25,16 @@ const GoogleOrFacebook = (props: Props) => {
           color: ArrayColors._color_gray_pale,
           fontSize: sizes._16sdp,
           fontWeight: 'bold',
+          marginHorizontal: sizes._12sdp,
           fontFamily: 'OpenSans-SemiBold',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
         Hoặc tham gia
       </Text>
       <View
         style={{
-          width: '30%',
+          width: '10%',
           height: sizes._1sdp,
           backgroundColor: ArrayColors._color_gray_text,
         }}></View>
@@ -55,7 +57,6 @@ const GoogleOrFacebook = (props: Props) => {
           justifyContent: 'center',
           alignItems: 'center',
           marginHorizontal: sizes._12sdp,
-          // marginRight: sizes._10sdp,
         }}>
         <Image
           source={Images.ic_google}

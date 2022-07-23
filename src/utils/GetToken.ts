@@ -4,7 +4,7 @@ export enum KeyStorage {
   TOKEN = '@user_token',
 }
 
-export const getToken = async (key: any) => {
+export const getDataUser = async (key: any) => {
   // get Data from Storage
   try {
     const data = await AsyncStorage.getItem(key);

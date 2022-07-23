@@ -23,21 +23,22 @@ type Props = {
   onPress_2?: (text: string | any) => void;
   value?: string | any;
   setIconView?: boolean;
-
+  keyboardType?: string | any;
   setIconViewEmail?: boolean;
   setIconViewPassword?: boolean;
 };
 
 const Input = (props: Props) => {
   return (
-    <View style={{marginTop: sizes._32sdp}}>
+    <View style={{marginTop: sizes._12sdp}}>
       <Text
         style={{
-          marginVertical: 10,
+          marginVertical: sizes._6sdp,
           fontSize: sizes._18sdp,
+          marginHorizontal : 3,
           fontWeight: 'bold',
           fontFamily: 'OpenSans-SemiBold',
-          color: ArrayColors._color_black,
+          color: ArrayColors._color_gray_sombre,
         }}>
         {props.titleInPut}
       </Text>
@@ -47,6 +48,7 @@ const Input = (props: Props) => {
           style={styles.mInput}
           placeholder={props.placeholder}
           onChangeText={props.onChangeText}
+          keyboardType={props.keyboardType}
           secureTextEntry={props.secureTextEntry}></TextInput>
 
         <View
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
     width: sizes._screen_width - sizes._40sdp,
     height: sizes._48sdp,
     alignSelf: 'center',
-    marginVertical: sizes._6sdp,
+    // marginVertical: sizes._12sdp,
     borderBottomColor: '#000',
     borderBottomWidth: 0.5,
     flexDirection: 'row',

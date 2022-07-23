@@ -1,7 +1,6 @@
-import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import ScreensHome from '../screens/ScreensHome';
 import MenScreen from '../screens/men/MenScreen';
 import WomenScreen from '../screens/women/WomenScreen';
 import HomeIndex from '../screens/home/HomeIndex';
@@ -36,7 +35,6 @@ function MyTabBar({state, descriptors, navigation, position}: any) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            // The `merge: true` option makes sure that the params inside the tab screen are preserved
             navigation.navigate({name: route.name, merge: true});
           }
         };
