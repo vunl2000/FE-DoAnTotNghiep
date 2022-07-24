@@ -245,7 +245,6 @@ const ScreensSettings = ({navigation}: any) => {
           </TouchableOpacity>
         </View>
         {/* Đăng xuất */}
-
         <View style={styles.item_container}>
           <View style={styles.item_conten}>
             <TouchableOpacity
