@@ -13,6 +13,7 @@ import ArrayColors from '../../../res/colors/ArrayColors';
 import AppHeader from '../../../components/header/AppHeader';
 import sizes from '../../../res/sizes/sizes';
 import IconHeader from '../../../components/icons/IconHeader';
+import Button from '../../../components/accounts/Button';
 
 type Props = {};
 
@@ -140,14 +141,19 @@ const ScreenChangePass = ({navigation}: any) => {
   }
 
   const RenderView = (
-    <View>
+    <View
+      style={{
+        marginHorizontal: sizes._20sdp,
+        marginTop: sizes._20sdp,
+        width: sizes._screen_width - sizes._40sdp,
+      }}>
       <View>
         <Input
           value={passwordold}
           onPress_1={clearTextPasswordold}
           onPress_2={eventOnOffold}
-          //   titleInPut="Mật khẩu"
-          placeholder="Mật khẩu cũ"
+          titleInPut="Mật khẩu cũ"
+          placeholder="Enter mật khẩu cũ"
           nameImg_1={image.ic_mark_cut}
           nameImg_2={image.ic_eye_off}
           nameImg_3={image.ic_eys_on}
@@ -164,8 +170,8 @@ const ScreenChangePass = ({navigation}: any) => {
           value={passwordnew}
           onPress_1={clearTextPasswordnew}
           onPress_2={eventOnOffnew}
-          //   titleInPut="Mật khẩu"
-          placeholder="Mật khẩu mới"
+          titleInPut="Mật khẩu"
+          placeholder="Enter mật khẩu mới"
           nameImg_1={image.ic_mark_cut}
           nameImg_2={image.ic_eye_off}
           nameImg_3={image.ic_eys_on}
@@ -182,8 +188,8 @@ const ScreenChangePass = ({navigation}: any) => {
           value={password}
           onPress_1={clearTextPassword}
           onPress_2={eventOnOff}
-          //   titleInPut="Mật khẩu"
-          placeholder="Xác nhận mật khẩu"
+          titleInPut="Xác nhận mật khẩu"
+          placeholder="Enter mật khẩu xác nhận"
           nameImg_1={image.ic_mark_cut}
           nameImg_2={image.ic_eye_off}
           nameImg_3={image.ic_eys_on}
@@ -194,26 +200,7 @@ const ScreenChangePass = ({navigation}: any) => {
           setIconViewPassword={visibleIconPassword}
         />
       </View>
-
-      <View style={{margin: sizes._30sdp, height: sizes._39sdp}}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: ArrayColors._color_black,
-            width: '100%',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: sizes._17sdp,
-              fontWeight: 'bold',
-              color: ArrayColors._color_white,
-            }}>
-            Xác Nhận
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Button title="Xác nhận" />
     </View>
   );
 
@@ -256,10 +243,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontWeight: '600',
     fontFamily: 'OpenSans-SemiBold',
     color: ArrayColors._color_black,
-    fontSize: sizes._20sdp,
+    fontSize: sizes._24sdp,
+    fontWeight: 'bold',
   },
   iconHeader: {
     width: sizes._42sdp,

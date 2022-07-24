@@ -20,111 +20,227 @@ import Button from '../../../../components/accounts/Button';
 import Input from '../../../../components/accounts/Input';
 import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
+import {useDispatch, useSelector} from 'react-redux';
+import {removerRegister} from '../../../../store/actions/registerActions';
+import {verifyOTP} from '../../../../utils/api/VeryfiOTP';
+import {GenerateOTP} from '../../../../utils/api/GenerateOTP';
+
 type Props = {};
 
 const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
   const [isLoading, setIsLoading] = React.useState<string | any>(false);
   const isAndroid = Platform.OS === 'android';
+  const dispatch: string | any = useDispatch();
+  const register = useSelector((state: any) => state.register);
+
+  const [userEmail, setUserEmail] = React.useState<string | any>(
+    register.result.email,
+  );
+  const [userID, setUserID] = React.useState<string | any>(register.result._id);
+  const [userOTP, setUserOTP] = React.useState<string | any>('');
+
+  const [visibleIconOTP, setVisibleIconOTP] = React.useState<string | any>(
+    false,
+  );
+
+  const [lableOTP, setLableOTP] = React.useState<string | any>('');
+  const [isWarning, setIsWarning] = React.useState<string | any>(false);
+  const [seconds, setSeconds] = React.useState<string | any>(0);
+
+  const [lableOTPreq, setLableOTPreq] = React.useState<string | any>(
+    'Bạn chưa nhận được mã OTP',
+  );
 
   function onBackPress() {
     navigation.goBack();
   }
   function eventLogin() {
+    dispatch(removerRegister());
     navigation.navigate('ScreenLogin');
   }
   function handleSkip() {
+    dispatch(removerRegister());
     navigation.navigate('ScreenLogin');
   }
   function handleConfirm() {
-    navigation.navigate('ScreenLogin');
+    console.log('co cai deo gi vauy', userOTP);
+
+    if (userOTP === '') {
+      setIsWarning(true);
+      setLableOTP('Không được bỏ trống');
+      console.log('Ko ok');
+    } else {
+      verifyOTP(userEmail, userOTP, userID);
+      console.log('ok');
+      navigation.navigate('ScreenLogin');
+      dispatch(removerRegister());
+    }
+  }
+  function eventEditOTP(text: string | any) {
+    if (text !== '') {
+      setUserOTP(text);
+      setVisibleIconOTP(true);
+    }
+  }
+  function eventReqOTP() {
+    console.log('req');
+    if (seconds <= 0) {
+      setSeconds(90);
+      GenerateOTP(userEmail, userID);
+    }
+  }
+  function clearTextOTP() {
+    if (userOTP !== '') {
+      setUserOTP('');
+      setVisibleIconOTP(false);
+    }
+  }
+  function eventGenerateOTP() {
+    if (seconds <= 0) {
+      setSeconds(90);
+      GenerateOTP(userEmail, userID);
+    } else {
+    }
   }
 
-  function eventReqOTP() {
-    console.log("req");
-    
-  }
-  function renderContent() {
-    return (
-      <>
-        <View
+  React.useLayoutEffect(() => {
+    console.log('ok');
+
+    const timerId = setInterval(() => {
+      if (seconds === 0) {
+        clearInterval(timerId);
+        setLableOTPreq('Bạn chưa nhận được mã OTP?');
+      } else {
+        setSeconds(seconds - 1);
+        setLableOTPreq(`Nhận lại mã OTP sau ${seconds}`);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [seconds]);
+
+  console.log(seconds);
+
+  const renderContent = (
+    <>
+      <View
+        style={{
+          marginHorizontal: sizes._20sdp,
+          width: sizes._screen_width - sizes._40sdp,
+          marginTop: sizes._20sdp,
+        }}>
+        <Text
           style={{
-            marginHorizontal: sizes._20sdp,
-            width: sizes._screen_width - sizes._40sdp,
-            marginTop: sizes._20sdp,
+            fontSize: sizes._16sdp,
+            color: ArrayColors._color_black,
+            fontWeight: 'normal',
+            lineHeight: sizes._22sdp,
           }}>
+          Một mã OTP sẽ được gửi đến email{' '}
           <Text
             style={{
               fontSize: sizes._16sdp,
-              color: ArrayColors._color_black,
+              color: ArrayColors._color_blue_light_light,
               fontWeight: 'bold',
               lineHeight: sizes._22sdp,
             }}>
-            Một mã OTP đã được gửi đến Email của bạn vui lòng kiểm tra Email.
-          </Text>
-          <Input
-            //   value={email}
-            //   onPress_1={clearTextEmail}
-            titleInPut="Mã xác thực"
-            placeholder="Enter OTP"
-            nameImg_1={Images.ic_mark_cut}
-            //   onChangeText={text => eventEditEmail(text)}
-            //   setIconViewEmail={visibleIconEmail}
-            keyboardType="numeric"
-          />
-          <View
+            {userEmail}
+          </Text>{' '}
+          vui lòng kiểm tra email.
+          <Text
+            onPress={eventGenerateOTP}
             style={{
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-              marginTop: sizes._24sdp,
+              fontSize: sizes._16sdp,
+              color: ArrayColors._color_red,
+              fontWeight: 'bold',
+              lineHeight: sizes._22sdp,
             }}>
-            <Text
-              onPress={eventReqOTP}
-              style={{fontSize: sizes._16sdp, color: ArrayColors._color_black}}>
-              Bạn chưa nhận được mã OTP ?{' '}
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: sizes._16sdp,
-          }}>
-          <TouchableOpacity onPress={handleSkip} style={{alignItems: 'center'}}>
-            <View style={styles.mContainerBtnSkip}>
-              <Text style={styles.mTextSkip}>Bỏ qua</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleConfirm}
-            style={{alignItems: 'center'}}>
-            <View style={styles.mContainerBtn}>
-              <Text style={styles.mText}>Xác thực</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+            {' '}
+            Nhận mã OTP ?
+          </Text>
+        </Text>
 
-        <GoogleOrFacebook />
-        <Policy />
-        <TouchableOpacity
-          onPress={eventLogin}
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginVertical: sizes._24sdp,
-          }}>
+        <Input
+          value={userOTP}
+          onPress_1={clearTextOTP}
+          titleInPut="Mã xác thực"
+          placeholder="Enter OTP"
+          nameImg_1={Images.ic_mark_cut}
+          onChangeText={text => eventEditOTP(text)}
+          setIconViewEmail={visibleIconOTP}
+          keyboardType="numeric"
+        />
+        {isWarning && (
           <Text
             style={{
-              color: ArrayColors._color_facebook,
+              fontSize: sizes._16sdp,
+              color: ArrayColors._color_red,
               fontWeight: 'bold',
-              fontSize: sizes._15sdp,
+              lineHeight: sizes._22sdp,
             }}>
-            Bạn đã có tài khoản ?
+            {lableOTP}
           </Text>
+        )}
+        <View
+          style={{
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end',
+            marginTop: sizes._24sdp,
+          }}>
+          <Text
+            onPress={eventReqOTP}
+            style={{
+              fontSize: sizes._16sdp,
+              color: ArrayColors._color_red,
+              fontWeight: 'bold',
+              lineHeight: sizes._22sdp,
+            }}>
+            {lableOTPreq}
+          </Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginHorizontal: sizes._16sdp,
+        }}>
+        <TouchableOpacity onPress={handleSkip} style={{alignItems: 'center'}}>
+          <View style={styles.mContainerBtnSkip}>
+            <Text style={styles.mTextSkip}>Bỏ qua</Text>
+          </View>
         </TouchableOpacity>
-      </>
-    );
-  }
+        <TouchableOpacity
+          onPress={handleConfirm}
+          style={{alignItems: 'center'}}>
+          <View style={styles.mContainerBtn}>
+            <Text style={styles.mText}>Xác thực</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      <GoogleOrFacebook />
+      <Policy />
+      <TouchableOpacity
+        onPress={eventLogin}
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginVertical: sizes._24sdp,
+        }}>
+        <Text
+          style={{
+            color: ArrayColors._color_facebook,
+            fontWeight: 'bold',
+            fontSize: sizes._15sdp,
+          }}>
+          Bạn đã có tài khoản ?
+        </Text>
+      </TouchableOpacity>
+    </>
+  );
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={styles.mContainer}>

@@ -97,6 +97,11 @@ const ScreenRegister = ({navigation}: {navigation: any}) => {
         passwordConfirmNext: passwordConfirm,
       });
     }
+    // navigation.navigate('ScreenRegisterDetail', {
+    //   emailNext: email,
+    //   passwordNext: password,
+    //   passwordConfirmNext: passwordConfirm,
+    // });
     console.log(isNullEmptyBlank(password));
   }
   function eventLogin() {

@@ -6,6 +6,7 @@ export const LOGIN_SUCCES = 'LOGIN_SUCCES';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT_SUCCES = 'LOGOUT_SUCCES';
 export const LOGOUT_ERROR = 'LOGOUT_ERROR';
+export const CLEAR_REGISTER = 'CLEAR_REGISTER';
 
 export const REG_LOADING = 'REG_LOADING';
 export const REGISTER_SUCCES = 'REGISTER_SUCCES';

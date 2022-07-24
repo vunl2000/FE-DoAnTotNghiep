@@ -47,10 +47,10 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   React.useLayoutEffect(() => {
     try {
-      console.log('acccccccc', accounts.result[0].name);
-      if (accounts === undefined) {
+      console.log('acccccccc', accounts);
+      if (accounts.isAuthenticated === null) {
         console.log('undefined');
-        //setStorageUser('Đăng nhập / Đăng Ký >');
+        setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
       } else {
         if (accounts.isAuthenticated === true) {
@@ -64,7 +64,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     } catch (e) {
       console.log(e);
     }
-  }, [accounts]);
+  }, [accounts.isAuthenticated]);
 
   function eventCart() {
     console.log('Cart');

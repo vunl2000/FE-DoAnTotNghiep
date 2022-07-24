@@ -21,12 +21,15 @@ import Images from '../../../../res/require/Images';
 import Input from '../../../../components/accounts/Input';
 import Button from '../../../../components/accounts/Button';
 import {userLogins} from '../../../../store/actions/loginActions';
+import {clearErrors} from '../../../../store/actions/errActions';
+
 import {useDispatch, useSelector} from 'react-redux';
 import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import TextForgotPassword from '../../../../components/accounts/TextForgotPassword';
 import HeaderShown from '../../../../components/accounts/HeaderShown';
 import {checkMail} from '../../../../utils/Utilities';
+
 import Loading from '../../../../components/modal/Loading';
 type Props = {};
 
@@ -51,6 +54,11 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
   const [warningPassWord, setWarningPassword] = React.useState<string | any>(
     false,
   );
+
+  const dispatch: string | any = useDispatch();
+
+  const accounts = useSelector((state: any) => state.account);
+  const error = useSelector((state: any) => state.err);
 
   const [labelEmail, setLabelEmail] = React.useState<string | any>('');
   const [labelPassWord, setLabelPassword] = React.useState<string | any>('');
@@ -97,11 +105,6 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
     setEmail('');
     setVisibleIconEmail(false);
   }
-
-  const dispatch: string | any = useDispatch();
-
-  const accounts = useSelector((state: any) => state.account);
-  const error = useSelector((state: any) => state.err);
 
   console.log(error);
 
@@ -160,10 +163,13 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
     }
   }
   function eventRegister() {
+    dispatch(clearErrors());
     navigation.navigate('ScreenRegister');
+    //navigation.navigate('ScreenVeryfiOTP');
   }
 
   function onBackPress() {
+    dispatch(clearErrors());
     navigation.goBack();
   }
   return (

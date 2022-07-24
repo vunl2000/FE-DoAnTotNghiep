@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Pressable,
 } from 'react-native';
 import React from 'react';
 import ArrayColors from '../../../res/colors/ArrayColors';
@@ -12,13 +13,15 @@ import AppHeader from '../../../components/header/AppHeader';
 import sizes from '../../../res/sizes/sizes';
 import IconHeader from '../../../components/icons/IconHeader';
 import Icons from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {onStoreApp} from '../../../utils/StoreApp';
 import {NameScreen} from '../../navigators/TabNavigator';
+import {logOut} from '../../../store/actions/loginActions';
+import {persistor} from '../../../store';
 
 const ScreensSettings = ({navigation}: any) => {
   const [event, setEvent] = React.useState<string | any>(true);
-
+  const dispatch: string | any = useDispatch();
   const accounts = useSelector((state: any) => state.account);
   const [storageUser, setStorageUser] = React.useState<string | any>(
     'Đăng nhập / Đăng Ký ',
@@ -28,10 +31,10 @@ const ScreensSettings = ({navigation}: any) => {
 
   React.useLayoutEffect(() => {
     try {
-      console.log('acccccccc', accounts.result[0].name);
-      if (accounts === undefined) {
+      console.log('acccccccc', accounts);
+      if (accounts.isAuthenticated === null) {
         console.log('undefined');
-        //setStorageUser('Đăng nhập / Đăng Ký >');
+        setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
       } else {
         if (accounts.isAuthenticated === true) {
@@ -45,7 +48,47 @@ const ScreensSettings = ({navigation}: any) => {
     } catch (e) {
       console.log(e);
     }
-  }, [accounts]);
+  }, [accounts.isAuthenticated]);
+
+  function eventLogOut() {
+    console.log('pl');
+
+    dispatch(logOut());
+    //persistor.purge();
+  }
+  function eventLogInAndRegister() {
+    navigation.navigate('ScreenLogin');
+  }
+  function LoginAndRegister() {
+    return (
+      <Pressable
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed
+              ? ArrayColors.light
+              : ArrayColors._color_white,
+          },
+          {
+            backgroundColor: ArrayColors._color_white,
+            flexDirection: 'row',
+          },
+        ]}
+        onPress={event ? eventLogInAndRegister : null}>
+        <View>
+          <Text
+            style={{
+              fontSize: sizes._20sdp,
+              fontWeight: 'bold',
+              fontFamily: 'OpenSans-SemiBold',
+              lineHeight: sizes._32sdp,
+              color: ArrayColors._color_black,
+            }}>
+            {storageUser}
+          </Text>
+        </View>
+      </Pressable>
+    );
+  }
 
   function HeaderContent() {
     return (
@@ -60,7 +103,7 @@ const ScreensSettings = ({navigation}: any) => {
           }}
         />
         <View style={styles.contentHeader}>
-          <Text style={styles.textLabel}>Cài đặt</Text>
+          <Text style={styles.textLabel}>CÀI ĐẶT</Text>
         </View>
         <View style={{width: sizes._42sdp}} />
       </View>
@@ -72,14 +115,7 @@ const ScreensSettings = ({navigation}: any) => {
         {/* Tên user */}
         <View style={styles.item_container}>
           <View style={styles.item_conten}>
-            <Text style={styles.title_user}>{storageUser}</Text>
-            <TouchableOpacity>
-              <Icons
-                name="chevron-forward"
-                size={24}
-                color={ArrayColors._color_black}
-              />
-            </TouchableOpacity>
+            <LoginAndRegister />
           </View>
         </View>
 
@@ -99,24 +135,16 @@ const ScreensSettings = ({navigation}: any) => {
               </TouchableOpacity>
             </View>
           </View>
+          <View
+            style={{
+              height: 1,
+              width: sizes._screen_width,
+              backgroundColor: ArrayColors.gray,
+            }}></View>
           {/* Địa chỉ */}
           <View style={styles.item_conten}>
             <Text style={styles.title_conten}>{'Địa chỉ'}</Text>
             <TouchableOpacity>
-              <Icons
-                name="chevron-forward"
-                size={24}
-                color={ArrayColors._color_black}
-              />
-            </TouchableOpacity>
-          </View>
-          {/* Xác thực tài khoản */}
-          <View style={styles.item_conten}>
-            <Text style={styles.title_conten}>{'Xác thực tài khoản'}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate(NameScreen.SCREENOTPSETTING);
-              }}>
               <Icons
                 name="chevron-forward"
                 size={24}
@@ -130,62 +158,99 @@ const ScreensSettings = ({navigation}: any) => {
 
         <View style={styles.item_container}>
           {/*Đánh giá phản hồi*/}
-          <View style={styles.item_conten}>
+          <TouchableOpacity onPress={onStoreApp} style={styles.item_conten}>
             <Text style={styles.title_conten}>{'Đánh giá và Phản hồi'}</Text>
-            <TouchableOpacity onPress={onStoreApp}>
+            <View>
               <Icons
                 name="chevron-forward"
                 size={24}
                 color={ArrayColors._color_black}
               />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              height: 1,
+              width: sizes._screen_width,
+              backgroundColor: ArrayColors.gray,
+            }}></View>
           {/* Ứng dụng của tôi*/}
-          <View style={styles.item_conten}>
+          <TouchableOpacity onPress={onStoreApp} style={styles.item_conten}>
             <Text style={styles.title_conten}>{'Ứng dụng của tôi'}</Text>
-            <TouchableOpacity onPress={onStoreApp}>
+            <View>
               <Icons
                 name="chevron-forward"
                 size={24}
                 color={ArrayColors._color_black}
               />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              height: 1,
+              width: sizes._screen_width,
+              backgroundColor: ArrayColors.gray,
+            }}></View>
           {/* Giới thiệu */}
-          <View style={styles.item_conten}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(NameScreen.INTRODUCE)}
+            style={styles.item_conten}>
             <Text style={styles.title_conten}>{'Giới thiệu'}</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate(NameScreen.INTRODUCE)}>
+            <View>
               <Icons
                 name="chevron-forward"
                 size={24}
                 color={ArrayColors._color_black}
               />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         </View>
 
         {/* Đổi mật khẩu */}
         <View style={styles.item_container}>
-          <View style={styles.item_conten}>
-            <Text style={styles.title_conten}>Đổi mật khẩu</Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate(NameScreen.CHANGEPASS);
-              }}>
+          {/* Xác thực tài khoản */}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(NameScreen.SCREENOTPSETTING);
+            }}
+            style={styles.item_conten}>
+            <Text style={styles.title_conten}>{'Xác thực tài khoản'}</Text>
+            <View>
               <Icons
                 name="chevron-forward"
                 size={24}
                 color={ArrayColors._color_black}
               />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              height: 1,
+              width: sizes._screen_width,
+              backgroundColor: ArrayColors.gray,
+            }}></View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(NameScreen.CHANGEPASS);
+            }}
+            style={styles.item_conten}>
+            <Text style={styles.title_conten}>Đổi mật khẩu</Text>
+            <View>
+              <Icons
+                name="chevron-forward"
+                size={24}
+                color={ArrayColors._color_black}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
         {/* Đăng xuất */}
 
         <View style={styles.item_container}>
           <View style={styles.item_conten}>
-            <TouchableOpacity style={styles.item_tochable}>
+            <TouchableOpacity
+              onPress={eventLogOut}
+              style={styles.item_tochable}>
               <Text style={styles.title_tochable}>{'Đăng xuất'}</Text>
             </TouchableOpacity>
           </View>
@@ -210,7 +275,7 @@ const ScreensSettings = ({navigation}: any) => {
         <View style={styles.version}>
           <View style={styles.item_conten}>
             <Text style={styles.text_version}>
-              {'Phiên bản V' + pkg.version}
+              {'Phiên bản V\t' + pkg.version}
             </Text>
           </View>
         </View>
@@ -241,10 +306,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontFamily: 'OpenSans-SemiBold',
     color: ArrayColors._color_black,
-    fontSize: sizes._20sdp,
+    fontSize: sizes._24sdp,
   },
   iconHeader: {
     width: sizes._42sdp,
@@ -265,20 +330,22 @@ const styles = StyleSheet.create({
   },
   title_conten: {
     fontSize: sizes._15sdp,
-    fontWeight: '400',
-    fontFamily: 'OpenSans',
+    fontWeight: 'bold',
+    fontFamily: 'OpenSans-SemiBold',
     color: ArrayColors._color_black,
   },
   title_user: {
-    fontSize: sizes._21sdp,
-    fontWeight: '600',
-    fontFamily: 'OpenSans',
+    fontSize: sizes._20sdp,
+    fontWeight: 'bold',
+    fontFamily: 'OpenSans-SemiBold',
+    lineHeight: sizes._32sdp,
     color: ArrayColors._color_black,
   },
   title_tochable: {
-    fontSize: sizes._18sdp,
-    fontWeight: '700',
-    fontFamily: 'OpenSans',
+    fontSize: sizes._20sdp,
+    fontWeight: 'bold',
+    fontFamily: 'OpenSans-SemiBold',
+    lineHeight: sizes._32sdp,
     color: ArrayColors.ruby,
   },
   item_tochable: {
@@ -293,6 +360,6 @@ const styles = StyleSheet.create({
     fontSize: sizes._15sdp,
     fontWeight: '400',
     fontFamily: 'OpenSans',
-    color: ArrayColors.gray,
+    color: ArrayColors._color_black,
   },
 });

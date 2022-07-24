@@ -34,12 +34,25 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
   // const [isLoading, setIsLoading] = React.useState<string | any>(false);
   const [selectedImage, setSelectedImage] = React.useState<string | any>(null);
   const [croppedImage, setCroppedImage] = React.useState<string | any>(null);
-
   const [email, setEmail] = React.useState<string | any>();
   const [password, setPassword] = React.useState<string | any>();
   const [passwordConfirm, setPasswordConfirm] = React.useState<string | any>();
-  const [name, setUserName] = React.useState<string | any>();
-  const [phone, setNumberPhone] = React.useState<string | any>();
+  const [name, setUserName] = React.useState<string | any>('');
+  const [phone, setNumberPhone] = React.useState<string | any>('');
+  const [visibleIconUserName, setVisibleIconUserName] = React.useState(false);
+  const [visibleIconNumberPhone, setVisibleIconNumberPhone] =
+    React.useState(false);
+
+  const [warningUserName, setWarningUserName] = React.useState<string | any>(
+    false,
+  );
+  const [warningNumberPhone, setWarningNumberPhone] = React.useState<
+    string | any
+  >(false);
+  const [labelUserName, setLabelUserName] = React.useState<string | any>('');
+  const [labelNumberPhone, setLabelNumberPhone] = React.useState<string | any>(
+    '',
+  );
 
   const dispatch: string | any = useDispatch();
 
@@ -65,13 +78,32 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
 
   function eventEditUserName(text: string | any) {
     setUserName(text);
-    console.log(name);
+    if (text != null) {
+      console.log(name);
+      setVisibleIconUserName(true);
+      setWarningUserName(false);
+      // setLabelUserName('');
+    }
   }
   function eventEditNumberPhone(text: string | any) {
     setNumberPhone(text);
-
-    console.log(phone);
+    if (text != null) {
+      setVisibleIconNumberPhone(true);
+      setWarningNumberPhone(false);
+      console.log(phone);
+      setLabelNumberPhone('');
+    }
   }
+  function clearTextUserName() {
+    setUserName('');
+    setVisibleIconUserName(false);
+  }
+
+  function clearTextNumberPhone() {
+    setNumberPhone('');
+    setVisibleIconNumberPhone(false);
+  }
+
   async function eventUpLoadFileImager() {
     ImagePicker.showImagePicker(
       {
@@ -110,61 +142,64 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
   React.useEffect(() => {
     const {isRegistered} = register;
 
-    setTimeout(() => {
-      if (isRegistered) {
-        setTimeout(() => {
-          // setIsLoading(false);
-          // navigation.goBack();
-          ToastAndroid.show('Đăng ký thành công', ToastAndroid.SHORT);
-          console.log(register);
-          // navigation.navigate('ScreenVeryfiOTP');
-        }, 3000);
-      }
-    }, 1500);
-    // return () => {
-    //   setIsLoading(false);
-    // };
+    if (isRegistered) {
+      setTimeout(() => {
+        // setIsLoading(false);
+        // navigation.goBack();
+        ToastAndroid.show('Đăng ký thành công', ToastAndroid.SHORT);
+        console.log(register);
+        navigation.navigate('ScreenVeryfiOTP');
+      }, 3000);
+    }
   }, [register]);
 
   //error
   React.useEffect(() => {
-    setTimeout(() => {
-      try {
-        const errorCode = error.code.code;
-        switch (errorCode) {
-          case 400: {
-            // setIsLoading(false);
-            ToastAndroid.show('Đăng ký thất bại', ToastAndroid.SHORT);
-            break;
-          }
-          case 408: {
-            ToastAndroid.show(
-              'Email này đã có người sử dụng',
-              ToastAndroid.SHORT,
-            );
-            break;
-          }
-          default:
-            console.log('Error');
+    try {
+      const errorCode = error.code.code;
+      switch (errorCode) {
+        case 400: {
+          // setIsLoading(false);
+          ToastAndroid.show('Đăng ký thất bại', ToastAndroid.SHORT);
+          break;
         }
-      } catch {
-        console.log('Đã có lỗi xảy ra');
+        case 408: {
+          ToastAndroid.show(
+            'Email này đã có người sử dụng',
+            ToastAndroid.SHORT,
+          );
+          break;
+        }
+        default:
+          console.log('Error');
       }
-    }, 1500);
+    } catch {
+      console.log('Đã có lỗi xảy ra');
+    }
   }, [error]);
 
   async function handleRegister() {
-    // setIsLoading(true);
-    dispatch(
-      userRegister({
-        name,
-        croppedImage,
-        phone,
-        email,
-        password,
-        passwordConfirm,
-      }),
-    );
+    console.log('ok');
+
+    if (name === '') {
+      setWarningUserName(true);
+      setLabelUserName('Không được bỏ trống');
+      console.log('okkkkkk');
+    } else if (phone === '') {
+      setWarningNumberPhone(true);
+      setLabelNumberPhone('Không được bỏ trống');
+    } else {
+      dispatch(
+        userRegister({
+          name,
+          croppedImage,
+          phone,
+          email,
+          password,
+          passwordConfirm,
+        }),
+      );
+    }
   }
 
   const renderContent = (
@@ -242,22 +277,43 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
         }}>
         <Input
           value={name}
-          //   onPress_1={clearTextEmail}
+          onPress_1={clearTextUserName}
           titleInPut="Họ và tên"
           placeholder="Enter họ tên"
           nameImg_1={Images.ic_mark_cut}
           onChangeText={text => eventEditUserName(text)}
-          //   setIconViewEmail={visibleIconEmail}
+          setIconViewEmail={visibleIconUserName}
         />
+
+        {warningUserName && (
+          <Text
+            style={{
+              fontSize: sizes._16sdp,
+              color: ArrayColors._color_red,
+              fontWeight: 'bold',
+            }}>
+            {labelUserName}
+          </Text>
+        )}
         <Input
           value={phone}
-          //   onPress_1={clearTextEmail}
+          onPress_1={clearTextNumberPhone}
           titleInPut="Số điện thoại"
           placeholder="Enter số điện thoại"
           nameImg_1={Images.ic_mark_cut}
           onChangeText={text => eventEditNumberPhone(text)}
-          //   setIconViewEmail={visibleIconEmail}
+          setIconViewEmail={visibleIconNumberPhone}
         />
+        {warningNumberPhone && (
+          <Text
+            style={{
+              fontSize: sizes._16sdp,
+              color: ArrayColors._color_red,
+              fontWeight: 'bold',
+            }}>
+            {labelNumberPhone}
+          </Text>
+        )}
       </View>
       <Button onPress={handleRegister} title="Đăng ký"></Button>
       <GoogleOrFacebook />
