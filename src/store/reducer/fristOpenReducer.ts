@@ -1,4 +1,5 @@
-import {OPEN_APP} from '../actions/types';
+import {OPEN_APP} from './../actions/types';
+
 const initalState = {
   firstOpen: false,
 };

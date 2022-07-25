@@ -20,6 +20,8 @@ import ScreensSettings from '../screens/settings/ScreensSettings';
 import ScreensIntroduce from '../screens/settings/ScreensIntroduce';
 import ScreenVeryOTP from '../screens/settings/ScreenVeryOTP';
 import ScreenChangePass from '../screens/settings/ScreenChangePass';
+import ScreenWalet from '../screens/walet/ScreenWalet';
+import ScreenGiftcard from '../screens/walet/ScreenGiftcard';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -31,6 +33,8 @@ export enum NameScreen {
   INTRODUCE = 'ScreensIntroduce',
   SCREENOTPSETTING = 'ScreenVeryOTP',
   CHANGEPASS = 'ScreenChangePass',
+  SCREEN_WALET = 'ScreenWalet',
+  SCREEN_GIFT = 'ScreenGiftcard',
 }
 
 export default function TabNavigator() {
@@ -110,6 +114,16 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ScreenChangePass"
           component={ScreenChangePass}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenWalet"
+          component={ScreenWalet}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenGiftcard"
+          component={ScreenGiftcard}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

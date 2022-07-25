@@ -21,12 +21,15 @@ import Images from '../../../../res/require/Images';
 import Input from '../../../../components/accounts/Input';
 import Button from '../../../../components/accounts/Button';
 import {userLogins} from '../../../../store/actions/loginActions';
+import {clearErrors} from '../../../../store/actions/errActions';
+
 import {useDispatch, useSelector} from 'react-redux';
 import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import TextForgotPassword from '../../../../components/accounts/TextForgotPassword';
 import HeaderShown from '../../../../components/accounts/HeaderShown';
 import {checkMail} from '../../../../utils/Utilities';
+
 import Loading from '../../../../components/modal/Loading';
 type Props = {};
 
@@ -52,34 +55,15 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
     false,
   );
 
+  const dispatch: string | any = useDispatch();
+
+  const accounts = useSelector((state: any) => state.account);
+  const error = useSelector((state: any) => state.err);
+
   const [labelEmail, setLabelEmail] = React.useState<string | any>('');
   const [labelPassWord, setLabelPassword] = React.useState<string | any>('');
 
-  const [isLoading, setIsLoading] = React.useState<string | any>(false);
-
-  // function onPressLeft() {
-  //   Animated.timing(animatedValues, {
-  //     toValue: 0,
-  //     duration: 500,
-  //     useNativeDriver: false,
-  //   }).start();
-  //   setMarginRight(animatedValues);
-  //   setInvisible(true);
-  //   console.log('right', animatedValues);
-  //   console.log('right', marginRight);
-  // }
-
-  // function onPressRight() {
-  //   Animated.timing(animatedValues, {
-  //     toValue: sizes._screen_width / 2,
-  //     duration: 500,
-  //     useNativeDriver: false,
-  //   }).start();
-  //   setMarginLeft(animatedValues);
-  //   setInvisible(false);
-  //   console.log('left', animatedValues);
-  //   console.log('left---', marginLeft);
-  // }
+  // const [isLoading, setIsLoading] = React.useState<string | any>(false);
 
   function eventOnOff() {
     setViewEye(!viewEye);
@@ -122,11 +106,6 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
     setVisibleIconEmail(false);
   }
 
-  const dispatch: string | any = useDispatch();
-
-  const accounts = useSelector((state: any) => state.account);
-  const error = useSelector((state: any) => state.err);
-
   console.log(error);
 
   React.useEffect(() => {
@@ -134,16 +113,16 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
 
     if (isAuthenticated) {
       setTimeout(() => {
-        setIsLoading(false);
+        // setIsLoading(false);
         navigation.goBack();
         ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
         console.log(accounts);
       }, 1500);
     }
 
-    return () => {
-      setIsLoading(false);
-    };
+    // return () => {
+    //   setIsLoading(null);
+    // };
   }, [accounts]);
 
   React.useEffect(() => {
@@ -151,9 +130,9 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
       const errorCode = error.code.code;
       switch (errorCode) {
         case 400: {
-          setIsLoading(false);
+          // setIsLoading(false);
           ToastAndroid.show(
-            'Đăng nhập thất bại vui lòng kiểm tra lại mật khẩu',
+            'Đăng nhập thất bại vui lòng kiểm tra lại thông tin',
             ToastAndroid.SHORT,
           );
           break;
@@ -179,15 +158,18 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
       setWarningEmail(true);
     } else {
       dispatch(userLogins({email, password}));
-      setIsLoading(true);
+      // setIsLoading(true);
       console.log({email, password});
     }
   }
   function eventRegister() {
+    dispatch(clearErrors());
     navigation.navigate('ScreenRegister');
+    //navigation.navigate('ScreenVeryfiOTP');
   }
 
   function onBackPress() {
+    dispatch(clearErrors());
     navigation.goBack();
   }
   return (
@@ -212,7 +194,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
       <View
         style={{
           marginHorizontal: sizes._20sdp,
-          marginTop : sizes._20sdp,
+          marginTop: sizes._20sdp,
           width: sizes._screen_width - sizes._40sdp,
         }}>
         <Input
@@ -275,12 +257,12 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
           style={{
             color: ArrayColors._color_facebook,
             fontWeight: 'bold',
-            fontSize: sizes._15sdp,
+            fontSize: sizes._18sdp,
           }}>
           Bạn chưa có tài khoản ?
         </Text>
       </TouchableOpacity>
-      {isLoading ? <Loading /> : null}
+      {/* {isLoading ? <Loading /> : null} */}
     </SafeAreaView>
   );
 };

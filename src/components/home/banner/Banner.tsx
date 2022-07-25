@@ -1,16 +1,22 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import sizes from '../../../res/sizes/sizes';
+import BetterImage from '../../images/BetterImage';
 
 interface Props {
   uri?: any;
+  size?: string;
+  mode?: string;
 }
 
-const Banner = (props: Props) => {
-  const {uri} = props;
+const Banner = ({uri, size, mode}: Props) => {
   return (
     <>
-      <Image source={{uri: uri}} style={styles.image} resizeMode="cover" />
+      <BetterImage
+        source={{uri: uri}}
+        style={size === 'small' ? styles.imageSmall : styles.imageMedium}
+        resizeMode={mode === 'cover' ? 'cover' : 'contain'}
+      />
     </>
   );
 };
@@ -18,7 +24,11 @@ const Banner = (props: Props) => {
 export default Banner;
 
 const styles = StyleSheet.create({
-  image: {
+  imageSmall: {
+    height: sizes._50sdp,
+    width: sizes._screen_width,
+  },
+  imageMedium: {
     height: sizes._165sdp,
     width: sizes._screen_width,
   },

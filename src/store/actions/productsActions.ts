@@ -8,23 +8,31 @@ import {API_URL_GETALL_PRODUCT} from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
 // Load products
-export const loadProducts = () => async (dispatch: AllDispatchProps) => {
-  dispatch({type: lOADING_PRODUCT, payload: null});
-
-  //Load product form url
-  await axios({
-    method: 'GET',
-    url: API_URL_GETALL_PRODUCT,
-  })
-    .then(res => {
-      dispatch({type: LOADED_PRODUCT, payload: res.data});
-    })
-    .catch(err => {
-      dispatch(
-        returnErrors(err.respon.code, err.respon.message, 'LOAD_PRODUCT_FAIL'),
-      );
-    });
-};
+export const loadProducts =
+  () => async (dispatch: AllDispatchProps, getState: any) => {
+    dispatch({type: lOADING_PRODUCT, payload: null});
+    if (!getState.products) {
+      //Load product form url
+      await axios({
+        method: 'GET',
+        url: API_URL_GETALL_PRODUCT,
+      })
+        .then(res => {
+          dispatch({type: LOADED_PRODUCT, payload: res.data});
+        })
+        .catch(err => {
+          dispatch(
+            returnErrors(
+              err.respon.code,
+              err.respon.message,
+              'LOAD_PRODUCT_FAIL',
+            ),
+          );
+        });
+    } else {
+      dispatch({type: LOADED_PRODUCT, payload: getState.products});
+    }
+  };
 
 export const addToCart = (item: any, size: any, color: any) => {
   return {

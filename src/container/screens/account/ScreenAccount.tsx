@@ -47,10 +47,10 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   React.useLayoutEffect(() => {
     try {
-      console.log('acccccccc', accounts.result[0].name);
-      if (accounts === undefined) {
+      console.log('acccccccc', accounts);
+      if (accounts.isAuthenticated === null) {
         console.log('undefined');
-        //setStorageUser('Đăng nhập / Đăng Ký >');
+        setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
       } else {
         if (accounts.isAuthenticated === true) {
@@ -64,10 +64,10 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     } catch (e) {
       console.log(e);
     }
-  }, [accounts]);
+  }, [accounts.isAuthenticated]);
 
   function eventCart() {
-    console.log('Cart');
+    navigation.navigate(NameScreen.HOME, {screen: 'ScreenCart'});
   }
   async function eventSettings() {
     navigation.navigate(NameScreen.SETTINGS);
@@ -148,11 +148,17 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
             mStringTitles="Điểm"
           />
           <MyOffers
+            onPress={() => {
+              navigation.navigate(NameScreen.SCREEN_WALET);
+            }}
             textOrImg={false}
             mImager={Images.ic_wallet}
             mStringTitles="Ví"
           />
           <MyOffers
+            onPress={() => {
+              navigation.navigate(NameScreen.SCREEN_GIFT);
+            }}
             textOrImg={false}
             mImager={Images.ic_giftcard}
             mStringTitles="Thẻ quà tặng"

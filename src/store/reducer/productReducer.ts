@@ -38,7 +38,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
     case lOADING_PRODUCT:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
     case LOADED_PRODUCT:
       return {
@@ -96,7 +96,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
           item.id === payload.id ? {...item, selected: !item.selected} : item,
         ),
         allSelected: state.carts.filter((item: any) =>
-          !item.selected ? !state.allSelected : state.allSelected,
+          item.selected ? state.allSelected : !state.allSelected,
         ),
       };
     case SELECT_ALL_CART:

@@ -3,10 +3,11 @@ import {
   LOG_LOADING,
   CLEAR_ERRORS,
   LOGIN_SUCCES,
-  REGISTER_FAIL,
+  LOGIN_FAIL,
+  LOGOUT_SUCCES,
 } from './types';
 
-import { API_URL_LOGIN_USERS } from '@env';
+import {API_URL_LOGIN_USERS} from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
 // Load products
@@ -30,12 +31,9 @@ export const userLogins =
       .then(response => {
         dispatch({type: CLEAR_ERRORS, payload: null});
         dispatch({type: LOGIN_SUCCES, payload: response.data});
-        // console.log('Cac', response.data);
-
-        // console.log('', 'Login Succes');
       })
       .catch(error => {
-        dispatch({type: REGISTER_FAIL, payload: null});
+        dispatch({type: LOGIN_FAIL, payload: null});
         dispatch(
           returnErrors(
             error.response.data,
@@ -46,3 +44,12 @@ export const userLogins =
         // console.log('Lỗi', error.response.data);
       });
   };
+
+export const logOut = () => async (dispatch: AllDispatchProps) => {
+  console.log("goi den chua");
+  
+  return dispatch({
+    type: LOGOUT_SUCCES,
+    payload: null,
+  });
+};

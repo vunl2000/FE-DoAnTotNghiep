@@ -1,30 +1,21 @@
 import {
   ActionProps,
-  REG_LOADING,
   LOG_LOADING,
   USER_LOADING,
-  REGISTER_SUCCES,
-  LOGOUT_ERROR,
+  LOGOUT_SUCCES,
   AUTH_ERROR,
-  REGISTER_FAIL,
   LOGIN_FAIL,
   LOGIN_SUCCES,
   USER_LOADER,
 } from '../actions/types';
 
 const initalState = {
-  regLoading: false,
   logLoading: false,
   isAuthenticated: null,
   user: null,
 };
 export default (state = initalState, {payload, type}: ActionProps) => {
   switch (type) {
-    case REG_LOADING:
-      return {
-        ...state,
-        regLoading: true,
-      };
     case LOG_LOADING:
       return {
         ...state,
@@ -35,28 +26,18 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         ...state,
         logLoading: true,
       };
-    case REGISTER_SUCCES:
-      return {
-        ...state,
-        regLoading: false,
-        isAuthenticated: true,
-      };
-    case LOGOUT_ERROR:
+    case LOGOUT_SUCCES:
     case AUTH_ERROR:
-    case REGISTER_FAIL:
     case LOGIN_FAIL:
       return {
-        ...state,
-        regLoading: false,
-        user: null,
-        isAuthenticated: null,
         logLoading: false,
+        isAuthenticated: null,
+        user: null,
       };
     case LOGIN_SUCCES:
       return {
         ...state,
         ...payload,
-        regLoading: false,
         isAuthenticated: true,
       };
     case USER_LOADER:

@@ -36,23 +36,10 @@ const OnboardingFirst = ({navigation}: any) => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const ref = React.useRef<any>(null);
 
-  // const [isShow, setIsShow] = React.useState<boolean | any>(true);
-
   function eventStart() {
-    // if (currentSlideIndex === 2) {
-    //   setBoolean("no");
     dispatch(openApp());
     navigation.navigate('AppContainer');
-    //  }
   }
-  // async function setBoolean(boolean: boolean | any) {
-  //   try {
-  //     await AsyncStorage.removeItem('@is_check');
-  //     await AsyncStorage.setItem('@is_check', JSON.stringify(boolean));
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
 
   const Footer = () => {
     return (
@@ -162,7 +149,6 @@ const OnboardingFirst = ({navigation}: any) => {
   };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.purple}}>
-     
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -170,6 +156,7 @@ const OnboardingFirst = ({navigation}: any) => {
         data={slides}
         contentContainerStyle={{height: sizes._screen_height * 0.8}}
         horizontal
+        scrollEnabled={false}
         showsHorizontalScrollIndicator={false}
         renderItem={({item}) => <Slide item={item} />}
       />
