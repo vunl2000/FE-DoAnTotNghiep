@@ -2,7 +2,7 @@ import {
   ActionProps,
   LOG_LOADING,
   USER_LOADING,
-  LOGOUT_ERROR,
+  LOGOUT_SUCCES,
   AUTH_ERROR,
   LOGIN_FAIL,
   LOGIN_SUCCES,
@@ -26,15 +26,13 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         ...state,
         logLoading: true,
       };
-    case LOGOUT_ERROR:
+    case LOGOUT_SUCCES:
     case AUTH_ERROR:
     case LOGIN_FAIL:
       return {
-        ...state,
-        regLoading: false,
-        user: null,
-        isAuthenticated: null,
         logLoading: false,
+        isAuthenticated: null,
+        user: null,
       };
     case LOGIN_SUCCES:
       return {

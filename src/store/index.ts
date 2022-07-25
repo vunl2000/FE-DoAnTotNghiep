@@ -10,6 +10,7 @@ const initialState = {};
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  blacklist: ['register', 'err', 'bill'],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

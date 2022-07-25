@@ -58,9 +58,10 @@ const ScreenCart = (props: Props) => {
     setCartSeleted(count);
     setSumPrice(price);
   }, [cartSeleted, carts, sumPrice, numberCart]);
+  console.log(auth);
 
   const addToBill = () => {
-    if (auth) {
+    if (auth.isAuthenticated) {
       if (!auth.authentication) {
         showToast('Bạn cần xác thực tài khoản để thanh toán!');
       } else {
@@ -70,6 +71,7 @@ const ScreenCart = (props: Props) => {
       }
     } else {
       showToast('Bạn chưa đăng nhập!');
+      navigate(NameScreen.LOGIN_AND_REGISTER);
     }
   };
 

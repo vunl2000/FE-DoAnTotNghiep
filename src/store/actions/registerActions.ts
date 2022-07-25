@@ -4,6 +4,7 @@ import {
   REGISTER_FAIL,
   REG_LOADING,
   REGISTER_SUCCES,
+  CLEAR_REGISTER,
 } from './types';
 
 import {API_URL_REGISTER_USERS} from '@env';
@@ -39,9 +40,10 @@ export const userRegister =
       console.log('form data', mFormData);
     }
 
-    axios({
+    await axios({
       method: 'POST',
-      url: API_URL_REGISTER_USERS,
+      // url: API_URL_REGISTER_USERS,
+      url:  "http://192.168.254.1:3000/account-user/register-user",
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -65,3 +67,10 @@ export const userRegister =
         );
       });
   };
+
+export function removerRegister() {
+  return {
+    type: CLEAR_REGISTER,
+    payload: null,
+  };
+}

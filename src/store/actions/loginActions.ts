@@ -3,7 +3,8 @@ import {
   LOG_LOADING,
   CLEAR_ERRORS,
   LOGIN_SUCCES,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LOGOUT_SUCCES,
 } from './types';
 
 import {API_URL_LOGIN_USERS} from '@env';
@@ -43,3 +44,12 @@ export const userLogins =
         // console.log('Lỗi', error.response.data);
       });
   };
+
+export const logOut = () => async (dispatch: AllDispatchProps) => {
+  console.log("goi den chua");
+  
+  return dispatch({
+    type: LOGOUT_SUCCES,
+    payload: null,
+  });
+};
