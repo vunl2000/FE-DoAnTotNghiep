@@ -5,14 +5,8 @@ import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
 import HomeStack from '../navigators/HomeStack';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  loadAll,
-  loadCatory,
-  loadMen,
-  loadWomen,
-} from '../../store/actions/catoryActions';
-import {loadProducts} from '../../store/actions/productsActions';
-import {loadProvince} from '../../store/actions/addressActions';
+import {loadAll, loadMen, loadWomen} from '../../store/actions/catoryActions';
+
 const ScreensHome = () => {
   const dispatch: any = useDispatch();
   const {typeCatory} = useSelector((state: any) => state.catory);
@@ -39,11 +33,6 @@ const ScreensHome = () => {
   const changeScoll = (val: any) => {
     setHeight(val);
   };
-  useEffect(() => {
-    dispatch(loadCatory());
-    dispatch(loadProducts());
-    dispatch(loadProvince());
-  }, []);
 
   useEffect(() => {
     typeCatory.forEach((item: any) => {

@@ -18,6 +18,11 @@ export function checkMail(email: any) {
   }
   return false;
 }
+
+export function isVietnamesePhoneNumber(number: number | any) {
+  return /((^(\+84|84|0){1})(3|5|7|8|9))+([0-9]{8})$/.test(number);
+}
+
 export const makeId = (length: number) => {
   var result = '';
   var characters =
@@ -29,12 +34,6 @@ export const makeId = (length: number) => {
   return result;
 };
 
-<<<<<<< HEAD
-=======
-export function isNullEmptyBlank(str: string | any) {
-  return str.indexOf(' ') >= 0 ? true : false;
-}
->>>>>>> origin/killapp98
 export function useSwipe(
   onSwipeLeft?: any,
   onSwipeRight?: any,
@@ -62,10 +61,7 @@ export function useSwipe(
       onSwipeLeft && onSwipeLeft();
     }
   }
-<<<<<<< HEAD
 }
 export function isNullEmptyBlank(str: string | any) {
   return str.indexOf(' ') >= 0 ? true : false;
-=======
->>>>>>> origin/killapp98
 }

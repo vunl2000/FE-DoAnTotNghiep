@@ -1,12 +1,4 @@
-import {
-  FlatList,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AppHeader from '../../../components/header/AppHeader';
 import ArrayColors from '../../../res/colors/ArrayColors';
@@ -19,31 +11,79 @@ import TranSport from '../../../components/order/TranSport';
 import Pay from '../../../components/order/Pay';
 import Location from '../../../components/order/Location';
 import ListProductOrder from '../../../components/order/ListProductOrder';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ButtonSub from '../../../components/button/ButtonSub';
 import {formartMoney} from '../../../utils/Utilities';
 import SaleProDuct from '../../../components/order/SaleProDuct';
+import {Address} from '../../../store/reducer/addressReducer';
+import {TypeCartItem, TypeProductItem} from '../../../store/actions/types';
+import {
+  createBill,
+  createBillDetail,
+  resetBill,
+} from '../../../store/actions/billActions';
+import {showToast} from '../../../components/modal/ToastCustom';
+import {deleteCart} from '../../../store/actions/productsActions';
+import {NameScreen} from '../../navigators/TabNavigator';
 
 type Props = {};
 
 const ScreenOrder = (props: Props) => {
-  const {goBack}: any = useNavigation();
+  const {goBack, navigate}: any = useNavigation();
+  const dispatch: any = useDispatch();
+
   const {carts, numberCart} = useSelector((state: any) => state.product);
+  const {listAddress} = useSelector((state: any) => state.address);
+  const {bill, isFalse, isStep} = useSelector((state: any) => state.bill);
   const [cartSeleted, setCartSeleted] = useState(0);
+  const [address, setAddress] = useState<Address>();
   const [sumPrice, setSumPrice] = useState(0);
   const [priceTranSport, setPriceTranSport] = useState(30000);
   const [salePrice, setSalePrice] = useState(0);
   const [dataCartSeleted, setDataCartSeleted] = useState([]);
   const onBackPress = () => goBack();
 
+  const onPayMent = () => {
+    dispatch(createBill(address));
+  };
+  useEffect(() => {
+    if (isStep == 1 && bill != null && dataCartSeleted.length > 0) {
+      dataCartSeleted.forEach((item: TypeCartItem, index: number) => {
+        dispatch(createBillDetail(bill, item));
+      });
+    }
+
+    if (isStep == 2) {
+      showToast('Đơn hàng đã được tạo thành công!');
+      dispatch(resetBill());
+      dataCartSeleted.forEach((item: TypeCartItem, index: number) => {
+        dispatch(deleteCart(item.id));
+      });
+      navigate('ScreenAccount');
+    }
+
+    if (isFalse) {
+      showToast('Đã có lỗi xảy ra.Vui lòng thử lại sau!');
+      dispatch(resetBill());
+    }
+  }, [isStep, bill, isFalse]);
+
+  useEffect(() => {
+    if (listAddress.length > 0) {
+      listAddress.find((_item: Address) => {
+        _item.default && setAddress(_item);
+      });
+    }
+  }, [listAddress]);
+
   useEffect(() => {
     let count = 0;
     let price = 0;
     let products: any = [];
-    carts.forEach((item: any) => {
+    carts.forEach((item: TypeCartItem) => {
       if (item.selected) {
-        count += item.quantity;
-        price += item.quantity * item.price;
+        count += item.qty;
+        price += item.qty * item.price;
         products.push(item);
       }
     });
@@ -51,6 +91,7 @@ const ScreenOrder = (props: Props) => {
     setSumPrice(price);
     setDataCartSeleted(products);
   }, [cartSeleted, carts, sumPrice, numberCart]);
+
   const HeaderContent = () => (
     <View style={styles.containerHeader}>
       <IconHeader
@@ -69,7 +110,7 @@ const ScreenOrder = (props: Props) => {
 
   const renderContent = () => (
     <View>
-      <Location />
+      <Location address={address} />
       <View style={styles.spaceMedium} />
       {/*Đơn vị giao hàng*/}
       <TranSport />
@@ -123,9 +164,16 @@ const ScreenOrder = (props: Props) => {
     <View style={styles.btnCreatBill}>
       <View style={styles.allContent}>
         <Text style={[styles.textSub, styles.content]}>Tổng cộng:</Text>
-        <Text style={styles.textSub}>{formartMoney(sumPrice)}</Text>
+        <Text style={styles.textSub}>
+          {formartMoney(sumPrice + salePrice + priceTranSport)}
+        </Text>
       </View>
-      <ButtonSub size="lager" bgColor="black" value="Đặt hàng" />
+      <ButtonSub
+        size="lager"
+        bgColor="black"
+        value="Đặt hàng"
+        onPress={onPayMent}
+      />
     </View>
   );
   return (
@@ -133,7 +181,7 @@ const ScreenOrder = (props: Props) => {
       <AppHeader content customContent={<HeaderContent />} />
       <View style={styles.content}>
         <FlatList
-          data={[]}
+          data={null}
           renderItem={null}
           ListFooterComponent={renderContent}
           listKey="screen_oder"

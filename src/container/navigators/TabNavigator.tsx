@@ -1,6 +1,4 @@
-import React from 'react';
-import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
-
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -11,15 +9,18 @@ import ScreenRegister from '../screens/account/screen-acc/ScreenRegister';
 import ScreenRegisterDetail from '../screens/account/screen-acc/ScreenRegisterDetail';
 import ScreenVeryfiOTP from '../screens/account/screen-acc/ScreenVeryfiOTP';
 import OnboardingFirst from '../../container/screens/onboarding/OnboardingFirst';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScreenAdress from '../screens/address/ScreenAdress';
 import ScreenOrder from '../screens/order/ScreenOrder';
 import ScreenUserSpaper from '../screens/userspaper/ScreenUserSpaper';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ScreensSettings from '../screens/settings/ScreensSettings';
 import ScreensIntroduce from '../screens/settings/ScreensIntroduce';
 import ScreenVeryOTP from '../screens/settings/ScreenVeryOTP';
 import ScreenChangePass from '../screens/settings/ScreenChangePass';
+import ScreenListAddress from '../screens/address/ScreenListAddress';
+import {getBanner} from '../../store/actions/fristOpenActions';
+import {loadCatory} from '../../store/actions/catoryActions';
+import {loadProducts} from '../../store/actions/productsActions';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -31,11 +32,17 @@ export enum NameScreen {
   INTRODUCE = 'ScreensIntroduce',
   SCREENOTPSETTING = 'ScreenVeryOTP',
   CHANGEPASS = 'ScreenChangePass',
+  LIST_ADDRESS = 'ScreenListAddress',
 }
 
 export default function TabNavigator() {
   const {firstOpen} = useSelector((state: any) => state.firstOpen);
-
+  const dispatch: any = useDispatch();
+  useEffect(() => {
+    dispatch(getBanner());
+    dispatch(loadCatory());
+    dispatch(loadProducts());
+  }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -80,6 +87,11 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ScreenAddress"
           component={ScreenAdress}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenListAddress"
+          component={ScreenListAddress}
           options={{headerShown: false}}
         />
         <Stack.Screen

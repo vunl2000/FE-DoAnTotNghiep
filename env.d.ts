@@ -8,4 +8,7 @@ declare module '@env' {
   export const API_COMMUNE: string;
   export const GET_CATORY: string;
   export const GET_CATORY_TYPE: string;
+  export const API_GET_ALL_BANNER: string;
+  export const API_CREATE_BILL: string;
+  export const API_CREATE_BILL_DETAIL: string;
 }

@@ -18,31 +18,30 @@ import {useSelector} from 'react-redux';
 type Props = {
   isOpen?: any;
   onChangeOpen?: any;
-  onChangeCityProvince?: any;
-  cityProvince?: any;
+  onChangeCommune?: any;
+  valueSelected?: any;
+  commune?: any;
 };
 
-const SelectAddress = ({
+const SelectCommune = ({
   isOpen,
   onChangeOpen,
-  onChangeCityProvince,
-  cityProvince,
+  onChangeCommune,
+  valueSelected,
+  commune,
 }: Props) => {
-  const {province} = useSelector((state: any) => state.address);
-
   const activeColor = (code: number | any): TextStyle => ({
-    fontWeight: cityProvince.code === code ? '700' : '400',
+    fontWeight: valueSelected.code === code ? '700' : '400',
     fontFamily:
-      cityProvince.code === code ? 'OpenSans-Bold' : 'OpenSans-Regular',
+      valueSelected.code === code ? 'OpenSans-Bold' : 'OpenSans-Regular',
   });
-
   const renderItem = ({item, index}: any) => {
     return (
       <>
         <TouchableOpacity
           style={styles.contentLabel}
           onPress={() => {
-            onChangeCityProvince(item.code, item.name);
+            onChangeCommune(item.code, item.name);
             onChangeOpen();
           }}>
           <Text style={[styles.textDefault, activeColor(item.code)]}>
@@ -75,22 +74,26 @@ const SelectAddress = ({
                 color={ArrayColors._color_black}
               />
             </TouchableOpacity>
-            <Text style={styles.textLabel}>Chọn tỉnh</Text>
+            <Text style={styles.textLabel}>Chọn quận / huyện</Text>
             <View style={styles.spaceMedium} />
           </View>
 
           <Divider />
           <View style={{flex: 1}}>
-            {province ? (
+            {commune.length > 0 ? (
               <FlatList
-                data={province}
-                extraData={province}
+                data={commune}
+                extraData={commune}
                 renderItem={renderItem}
                 keyExtractor={keyExtracter}
                 removeClippedSubviews
                 showsVerticalScrollIndicator={false}
               />
-            ) : null}
+            ) : (
+              <Text style={styles.textDefault}>
+                Trước tiên bạn cần phải chọn quận/huyện!
+              </Text>
+            )}
           </View>
         </View>
       </View>
@@ -98,7 +101,7 @@ const SelectAddress = ({
   );
 };
 
-export default SelectAddress;
+export default SelectCommune;
 
 const styles = StyleSheet.create({
   container: {

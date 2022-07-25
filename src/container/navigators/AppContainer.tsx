@@ -1,7 +1,6 @@
-import {StyleSheet, Text, View, Image, Pressable} from 'react-native';
-import React, {FC, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {StyleSheet, Text, View, Image} from 'react-native';
+import React, {FC} from 'react';
+import {useSelector} from 'react-redux';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // import {mTabBarOptions} from '../../res/styles/TabBarOptions';
 import image from '../../res/require/Images';
@@ -39,7 +38,6 @@ const mTabBarOptions: any = {
 
 const AppContainer: FC = () => {
   const {numberCart} = useSelector((state: any) => state.product);
-
   const route: any = useRoute();
   const initScreen = route.params?.screen;
 

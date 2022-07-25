@@ -35,11 +35,17 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 //Local Strogae
 export const OPEN_APP = 'CLEAR_ERRORS';
+export const BANNER_APP = 'BANNER_APP';
 
 //ADDRESS TYPES
 export const GET_PROVINCE = 'GET_PROVINCE';
-export const GET_DISTRICT = 'GET_DISTRICT';
-export const GET_COMMUNE = 'GET_COMMUNE';
+export const ADD_LIST_ADDRESS = 'ADD_LIST_ADDRESS';
+export const SET_DEFAULT_ADDRESS = 'SET_DEFAULT_ADDRESS';
+//Bill type
+export const CREATE_BILL = 'CREATE_BILL';
+export const SENDING_DETAIL_BILL = 'SENDING_DETAIL_BILL';
+export const RESET_BILL = 'RESET_BILL';
+export const CREATE_FAIL = 'CREATE_FAIL';
 
 //Catory Types
 export const LOADING_CATORY = 'LOADING_CATORY';
@@ -64,3 +70,67 @@ export type ActionProps = {
 
 //Dispath Props
 export type AllDispatchProps = (arg0: {type: any; payload: any | void}) => void;
+
+//cart
+export interface TypeCartItem {
+  id: string;
+  _id: string;
+  code: string;
+  titleProduct: string;
+  trademark: string;
+  qty: number | any;
+  imageProduct: string;
+  price: number;
+  priceSale: number;
+  size: string;
+  color: string;
+  selected: boolean;
+}
+//product
+export interface TypeProductItem {
+  _id: string;
+  titleProduct: string;
+  trademark: string;
+  imageProduct: string[];
+  descriptionProduct: string;
+  heart: number;
+  view: number;
+  comments: number;
+  size_product: string[];
+  color_product: string[];
+  importPrice: number;
+  price: number;
+  quantity_product: number;
+  material_product: string;
+  flashSale: string;
+  idCategoryProduct: string;
+  priceSale: number;
+}
+//bill
+export interface TypeBill {
+  numberPhone: string;
+  lastName: string;
+  firstName: string;
+  fullAddress: string;
+  cityProvince: string;
+  district: string;
+  commune: string;
+  codeZip: string;
+  payment: string;
+  idUser: string;
+  status?: number;
+  _id?: string;
+}
+//bill detail
+export interface TypeBillDetail {
+  titleProduct: string;
+  trademark: string;
+  imageProduct: string;
+  sizeProduct: string;
+  colorProduct: string;
+  code: string;
+  price: string;
+  quantity: string;
+  idBill: string;
+  idProduct: string;
+}

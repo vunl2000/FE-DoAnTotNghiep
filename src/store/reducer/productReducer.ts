@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PURGE} from 'redux-persist';
 import {makeId} from '../../utils/Utilities';
 
 import {
@@ -12,28 +11,21 @@ import {
   DECREASE_QUANTITY,
   CHANGE_SELECT_CART,
   SELECT_ALL_CART,
+  TypeCartItem,
+  TypeProductItem,
+  DELETE_TO_CART,
 } from './../actions/types';
 
-interface Cart {
-  id: string;
-  name: string;
-  qty: number;
-  price: number;
-  priceSale: number;
-  size: string;
-  color: string;
-}
-
 const initalState = {
-  isLoading: false,
-  products: [],
-  carts: [],
-  numberCart: 0,
-  allSelected: false,
+  isLoading: false as boolean,
+  products: [] as TypeProductItem[],
+  carts: [] as TypeCartItem[],
+  numberCart: 0 as number,
+  allSelected: false as boolean,
 };
 
 export default (state = initalState, {payload, type}: ActionProps) => {
-  // AsyncStorage.getItem('persist:root').then(data => console.log(data));
+  //AsyncStorage.getItem('persist:root').then(data => console.log(data));
   switch (type) {
     case lOADING_PRODUCT:
       return {
@@ -43,20 +35,23 @@ export default (state = initalState, {payload, type}: ActionProps) => {
     case LOADED_PRODUCT:
       return {
         ...state,
-        products: payload,
+        products: payload.result,
         isLoading: false,
       };
     case ADD_TO_CART:
-      const cart = {
-        id: makeId(12),
-        id_prduct: payload.item._id,
-        quantity: 1,
+      const cart: TypeCartItem = {
+        id: makeId(8),
+        _id: payload.item._id,
+        qty: 1,
         selected: false,
-        name: payload.item.title_product,
-        image: payload.item.imageProduct[0],
+        titleProduct: payload.item.titleProduct,
+        imageProduct: payload.item.imageProduct[0],
         price: payload.item.price,
+        priceSale: payload.item.priceSale,
         size: payload.size,
         color: payload.color,
+        code: payload.item.code,
+        trademark: payload.item.trademark,
       };
 
       if (state.numberCart == 0) {
@@ -64,9 +59,10 @@ export default (state = initalState, {payload, type}: ActionProps) => {
           ...state,
           carts: [...state.carts, cart],
           numberCart: state.numberCart + 1,
+          allSelected: false
         };
       } else {
-        const inCart = state.carts.find((item: any) =>
+        const inCart = state.carts.find((item: TypeCartItem) =>
           item.color === payload.color && item.size === payload.size
             ? true
             : false,
@@ -75,13 +71,14 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         return {
           ...state,
           carts: inCart
-            ? state.carts.map((item: any) =>
+            ? state.carts.map((item: TypeCartItem) =>
                 item.color === payload.color && item.size === payload.size
-                  ? {...item, quantity: item.quantity + 1}
+                  ? {...item, qty: item.qty + 1}
                   : item,
               )
             : [...state.carts, cart],
           numberCart: state.numberCart + 1,
+          allSelected: false
         };
       }
 
@@ -90,19 +87,24 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         ...state,
       };
     case CHANGE_SELECT_CART:
+      let count = 0;
+      state.carts.map((item: TypeCartItem) =>
+        !item.selected ? (count += 1) : count,
+      );
+      let check = state.carts.find((item: any) =>
+        !item.selected && item.id === payload.id ? true : false,
+      );
       return {
         ...state,
-        carts: state.carts.map((item: any) =>
+        carts: state.carts.map((item: TypeCartItem) =>
           item.id === payload.id ? {...item, selected: !item.selected} : item,
         ),
-        allSelected: state.carts.filter((item: any) =>
-          item.selected ? state.allSelected : !state.allSelected,
-        ),
+        allSelected: count === 1 && check ? true : false,
       };
     case SELECT_ALL_CART:
       return {
         ...state,
-        carts: state.carts.map((item: any) => ({
+        carts: state.carts.map((item: TypeCartItem) => ({
           ...item,
           selected: !state.allSelected,
         })),
@@ -112,32 +114,47 @@ export default (state = initalState, {payload, type}: ActionProps) => {
       return {
         ...state,
         numberCart: state.numberCart + 1,
-        carts: state.carts.map((item: any) =>
-          item.id === payload.id
-            ? {...item, quantity: item.quantity + 1}
-            : item,
+        carts: state.carts.map((item: TypeCartItem) =>
+          item.id === payload.id ? {...item, qty: item.qty + 1} : item,
         ),
       };
     case DECREASE_QUANTITY:
       let product: any = state.carts.find(
-        (item: any) => item.id === payload.id,
+        (item: TypeCartItem) => item.id === payload.id,
       );
-      if (product.quantity > 1) {
+    
+      if (product.qty > 1) {
         return {
           ...state,
           numberCart: state.numberCart - 1,
-          carts: state.carts.map((item: any) =>
-            item.id === payload.id
-              ? {...item, quantity: item.quantity - 1}
-              : item,
+          carts: state.carts.map((item: TypeCartItem) =>
+            item.id === payload.id ? {...item, qty: item.qty - 1} : item,
           ),
         };
       }
       return {
         ...state,
       };
-    case PURGE:
-      return initalState;
+    case DELETE_TO_CART:{
+      if(state.carts.length === 1){
+        return{
+          ...state,
+          carts: [],
+          numberCart: 0 ,
+          allSelected: false
+        }
+      }else{
+        let itemCart : TypeCartItem|any = state.carts.find((item: TypeCartItem) =>
+      item.id === payload.id);
+      
+      return{
+        ...state,
+        carts: state.carts.filter((item: TypeCartItem) =>
+        item.id !== payload.id),
+        numberCart: state.numberCart - itemCart.qty
+      }
+      }
+    }
     default:
       return state;
   }

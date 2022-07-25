@@ -1,4 +1,5 @@
 import {
+  Alert,
   Pressable,
   StyleSheet,
   Text,
@@ -12,6 +13,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
 import {
   decreaseQuantity,
+  deleteCart,
   increaseQuantity,
 } from '../../store/actions/productsActions';
 
@@ -24,10 +26,18 @@ type BtnProps = {
 const ButtonQty = ({value, id}: BtnProps) => {
   const dispatch: any = useDispatch();
 
-  const minusProduct = (id: any) => {
-    dispatch(decreaseQuantity(id));
+  const minusProduct = () => {
+    value == 1 ?
+    Alert.alert('Bỏ sản phẩm',
+    'Bạn chắc chắn muốn bỏ sản phẩm này',
+    [{text: 'Hủy bỏ',},
+    {text: 'Đồng ý',
+    onPress:()=>dispatch(deleteCart(id))}],
+    {cancelable: false})
+     :
+      dispatch(decreaseQuantity(id));
   };
-  const plusProduct = (id: any) => {
+  const plusProduct = () => {
     dispatch(increaseQuantity(id));
   };
   return (
@@ -41,7 +51,7 @@ const ButtonQty = ({value, id}: BtnProps) => {
               : ArrayColors._color_gray,
           },
         ]}
-        onPress={() => minusProduct(id)}>
+        onPress={minusProduct}>
         {({pressed}: any) => (
           <Icon
             name="minus"
@@ -64,7 +74,7 @@ const ButtonQty = ({value, id}: BtnProps) => {
               : ArrayColors._color_gray,
           },
         ]}
-        onPress={() => plusProduct(id)}>
+        onPress={plusProduct}>
         {({pressed}: any) => (
           <Icon
             name="plus"
@@ -106,6 +116,18 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Bold',
     fontSize: sizes._font_size_medium,
     paddingHorizontal: sizes._16sdp,
+    color: ArrayColors._color_black,
+  },
+  textSub: {
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
+    fontSize: sizes._18sdp,
+    color: ArrayColors._color_black,
+  },
+  textDefault: {
+    fontWeight: '400',
+    fontFamily: 'OpenSans-Regular',
+    fontSize: sizes._18sdp,
     color: ArrayColors._color_black,
   },
   count: {

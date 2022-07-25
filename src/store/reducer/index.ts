@@ -7,6 +7,7 @@ import registerReducer from './registerReducer';
 import firstOpenReducer from './fristOpenReducer';
 import addressReducer from './addressReducer';
 import catoryReducer from './catoryReducer';
+import billReducer from './billReducer';
 
 export default combineReducers({
   product: productReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   firstOpen: firstOpenReducer,
   address: addressReducer,
   catory: catoryReducer,
+  bill: billReducer,
 });

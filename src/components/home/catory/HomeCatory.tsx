@@ -25,11 +25,20 @@ const HomeCatory = (props: Props) => {
         ]}>
         Xem tất cả {'>'}
       </Text>
-      <ContentCatory data={accessory.slice(0, 8)} />
-      <View style={styles.spaceHeight} />
-      <ContentCatory data={men.slice(0, 8)} />
-      <View style={styles.spaceHeight} />
-      <ContentCatory data={women.slice(0, 8)} />
+      {accessory ? <ContentCatory data={accessory.slice(0, 8)} /> : null}
+
+      {men ? (
+        <>
+          <View style={styles.spaceHeight} />
+          <ContentCatory data={men.slice(0, 8)} />
+        </>
+      ) : null}
+      {women ? (
+        <>
+          <View style={styles.spaceHeight} />
+          <ContentCatory data={women.slice(0, 8)} />
+        </>
+      ) : null}
     </View>
   );
 };

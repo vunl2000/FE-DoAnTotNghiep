@@ -15,9 +15,20 @@ type Props = {
   value?: string | any;
   onChangeText?: (val: any) => void;
   onPress?: () => void;
+  placeholder?: string | any;
+  error?: string | any;
+  typeKey?: string | any;
 };
 
-const InputText = ({hint, value, onChangeText, onPress}: Props) => {
+const InputText = ({
+  hint,
+  value,
+  onChangeText,
+  onPress,
+  placeholder,
+  error,
+  typeKey,
+}: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.textPlaholder}>{hint}</Text>
@@ -26,8 +37,13 @@ const InputText = ({hint, value, onChangeText, onPress}: Props) => {
           style={styles.textSub}
           autoCapitalize="none"
           autoCorrect={false}
+          spellCheck={false}
           onChangeText={onChangeText}
           value={value}
+          placeholder={placeholder}
+          placeholderTextColor={ArrayColors._color_un_active}
+          underlineColorAndroid="transparent"
+          keyboardType={typeKey ? typeKey : 'default'}
         />
         {value ? (
           <TouchableOpacity onPress={onPress}>
@@ -39,6 +55,7 @@ const InputText = ({hint, value, onChangeText, onPress}: Props) => {
           </TouchableOpacity>
         ) : null}
       </View>
+      {error ? <Text style={styles.textError}>{error}</Text> : null}
     </View>
   );
 };
@@ -56,9 +73,15 @@ const styles = StyleSheet.create({
     color: ArrayColors._color_un_active,
     fontFamily: 'OpenSans-Regular',
   },
+  textError: {
+    fontSize: sizes._16sdp,
+    marginTop: sizes._8sdp,
+    color: ArrayColors.darkRed,
+    fontFamily: 'OpenSans-Regular',
+  },
   textSub: {
     flex: 1,
-    fontSize: sizes._20sdp,
+    fontSize: sizes._18sdp,
     color: ArrayColors._color_black,
     fontFamily: 'OpenSans-Regular',
     paddingHorizontal: sizes._10sdp,
@@ -69,5 +92,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: sizes._1sdp,
     borderBottomColor: ArrayColors.bg_inline,
     paddingBottom: sizes._5sdp,
+    alignItems: 'center',
   },
 });

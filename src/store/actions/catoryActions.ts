@@ -17,72 +17,60 @@ import axios from 'axios';
 import {API_URL, GET_CATORY, GET_CATORY_TYPE} from '@env';
 import {returnErrors} from './errActions';
 
-export const loadCatory =
-  () => async (dispatch: AllDispatchProps, getState: any) => {
-    dispatch({type: LOADING_CATORY, payload: null});
-    if (!getState.typeCatory) {
-      await axios({
-        method: 'GET',
-        url: API_URL + GET_CATORY,
-        headers: {},
-      })
-        .then(response => {
-          dispatch({type: CLEAR_ERRORS, payload: null});
-          dispatch({type: LOADING_CATORY_SUCCES, payload: response.data});
-        })
-        .catch(error => {
-          dispatch({type: LOADING_CATORY_ERR, payload: null});
-          dispatch(
-            returnErrors(
-              error.response.data,
-              error.response.status,
-              'LOADING_CATORY_ERR',
-            ),
-          );
-        });
-    } else {
-      dispatch({type: LOADING_CATORY_SUCCES, payload: getState.accessory});
-    }
-  };
+export const loadCatory = () => async (dispatch: AllDispatchProps) => {
+  dispatch({type: LOADING_CATORY, payload: null});
+  await axios({
+    method: 'GET',
+    url: API_URL + GET_CATORY,
+    headers: {},
+  })
+    .then(response => {
+      dispatch({type: CLEAR_ERRORS, payload: null});
+      dispatch({type: LOADING_CATORY_SUCCES, payload: response.data});
+    })
+    .catch(error => {
+      dispatch({type: LOADING_CATORY_ERR, payload: null});
+      dispatch(
+        returnErrors(
+          error.response.data,
+          error.response.status,
+          'LOADING_CATORY_ERR',
+        ),
+      );
+    });
+};
 
 export const loadAll =
-  (id: string | any) => async (dispatch: AllDispatchProps, getState: any) => {
+  (id: string | any) => async (dispatch: AllDispatchProps) => {
     dispatch({type: LOADING_CATORY_ACCESSORY, payload: null});
-    if (!getState.accessory) {
-      const data = JSON.stringify({
-        idTypeProduct: id,
-      });
-      await axios({
-        method: 'POST',
-        url: API_URL + GET_CATORY_TYPE,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: data,
-      })
-        .then(response => {
-          dispatch({type: CLEAR_ERRORS, payload: null});
-          dispatch({
-            type: LOADING_CATORY_ACCESSORY_SUCCES,
-            payload: response.data,
-          });
-        })
-        .catch(error => {
-          dispatch({type: LOADING_CATORY_ACCESSORY_ERR, payload: null});
-          dispatch(
-            returnErrors(
-              error.response.data,
-              error.response.status,
-              'LOADING_CATORY_ERR',
-            ),
-          );
+    const data = JSON.stringify({
+      idTypeProduct: id,
+    });
+    await axios({
+      method: 'POST',
+      url: API_URL + GET_CATORY_TYPE,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(response => {
+        dispatch({type: CLEAR_ERRORS, payload: null});
+        dispatch({
+          type: LOADING_CATORY_ACCESSORY_SUCCES,
+          payload: response.data,
         });
-    } else {
-      dispatch({
-        type: LOADING_CATORY_ACCESSORY_SUCCES,
-        payload: getState.accessory,
+      })
+      .catch(error => {
+        dispatch({type: LOADING_CATORY_ACCESSORY_ERR, payload: null});
+        dispatch(
+          returnErrors(
+            error.response.data,
+            error.response.status,
+            'LOADING_CATORY_ERR',
+          ),
+        );
       });
-    }
   };
 
 export const loadMen =

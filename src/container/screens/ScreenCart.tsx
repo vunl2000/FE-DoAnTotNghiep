@@ -19,9 +19,9 @@ import CustomCheckBox from '../../components/cart/CheckBox';
 import {formartMoney} from '../../utils/Utilities';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../navigators/TabNavigator';
-import {getDataUser, KeyStorage} from '../../utils/GetToken';
 import {showToast} from '../../components/modal/ToastCustom';
 import {slectedAllCart} from '../../store/actions/productsActions';
+import {TypeCartItem} from '../../store/actions/types';
 
 interface Props {}
 
@@ -32,8 +32,10 @@ const ScreenCart = (props: Props) => {
   const {carts, numberCart, allSelected} = useSelector(
     (state: any) => state.product,
   );
+
+  const auth = useSelector((state: any) => state.account);
+
   const [cartSeleted, setCartSeleted] = useState(0);
-  const [token, setToken] = useState();
   const [sumPrice, setSumPrice] = useState(0);
   const {navigate}: any = useNavigation();
   const dispatch: any = useDispatch();
@@ -43,33 +45,32 @@ const ScreenCart = (props: Props) => {
   };
 
   const navigateLogin = () => navigate(NameScreen.LOGIN_AND_REGISTER);
+
   useEffect(() => {
     let count = 0;
     let price = 0;
-    carts.forEach((item: any) => {
+    carts.forEach((item: TypeCartItem) => {
       if (item.selected) {
-        count += item.quantity;
-        price += item.quantity * item.price;
+        count += item.qty;
+        price += item.qty * item.price;
       }
     });
     setCartSeleted(count);
     setSumPrice(price);
   }, [cartSeleted, carts, sumPrice, numberCart]);
 
-  useEffect(() => {
-    getDataUser(KeyStorage.TOKEN)
-      .then(data => data)
-      .then((val: any) => {
-        setToken(val);
-        console.log('Caccccc ' + val);
-      })
-      .catch(err => console.log(err));
-  }, []);
-
   const addToBill = () => {
-    cartSeleted > 0
-      ? navigate(NameScreen.ADDRESS)
-      : showToast('Vui lòng chọn sản phẩm thanh toán');
+    if (auth) {
+      if (!auth.authentication) {
+        showToast('Bạn cần xác thực tài khoản để thanh toán!');
+      } else {
+        cartSeleted > 0
+          ? navigate(NameScreen.ORDER)
+          : showToast('Vui lòng chọn sản phẩm đặt hàng!');
+      }
+    } else {
+      showToast('Bạn chưa đăng nhập!');
+    }
   };
 
   const ContentHeader = () => (
@@ -95,9 +96,8 @@ const ScreenCart = (props: Props) => {
         resizeMode="contain"
       />
       <Text style={styles.textLabelEmpty}>Giỏ hàng của bạn trống</Text>
-      {token !== null ? null : (
+      {auth.isAuthenticated ? null : (
         <>
-          {' '}
           <Text style={styles.textSubLabelEmpty}>
             Đăng nhập để xem giỏ hàng
           </Text>
@@ -158,7 +158,7 @@ const ScreenCart = (props: Props) => {
           ListFooterComponent={renderContent}
           removeClippedSubviews
         />
-        <BtnPay />
+        {numberCart != 0 ? <BtnPay /> : null}
       </View>
     </SafeAreaView>
   );
