@@ -13,4 +13,6 @@ declare module '@env' {
   export const API_CREATE_BILL_DETAIL: string;
   export const API_URL_VERYFI_OTP: string;
   export const API_URL_GENERATE_OTP: string;
+  export const API_GET_BILL_USER: string;
+  export const API_GET_BILL_DETAIL_USER: string;
 }

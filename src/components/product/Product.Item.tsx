@@ -23,7 +23,13 @@ const ProductItem = ({item, index}: Props) => {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          marginLeft: index % 2 == 0 ? sizes._18sdp : 0,
+          marginRight: sizes._18sdp,
+        },
+      ]}
       onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
       <BetterImage
         source={{
@@ -41,11 +47,11 @@ export default ProductItem;
 
 const styles = StyleSheet.create({
   container: {
-    width: (sizes._screen_width - sizes._48sdp) / 2,
+    flex: 0.5,
     justifyContent: 'center',
   },
   image: {
-    width: (sizes._screen_width - sizes._48sdp) / 2,
+    width: (sizes._screen_width - sizes._54sdp) / 2,
     height: sizes._243sdp,
   },
   textPrice: {

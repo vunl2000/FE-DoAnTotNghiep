@@ -16,16 +16,23 @@ const isEmty = null;
 const HomeIndex: React.FC<Props> = props => {
   const [bannerSale, setBannerSale] = useState();
   const [bannerHeader, setBannerHeader] = useState();
+  let uri1 =
+    'https://img.ltwebstatic.com/images3_acp/2022/07/26/16588342618f4d1bf9f87bd45fa262ecdf8879987f.gif';
+  let uri2 =
+    'https://img.ltwebstatic.com/images3_acp/2022/07/22/1658482607b1d69c5a6142af86cd9c121364eb2048.jpg';
+  let uri3 =
+    'https://img.ltwebstatic.com/images3_ach/2022/07/22/1658480623d145a14402391cfb8b3dad2e8d1316cd.webp';
   const {banner} = useSelector((state: any) => state.firstOpen);
 
   const renderView = (
     <View style={styles.container}>
-      <Banner size="small" uri={bannerSale} mode="contain" />
+      <Banner size="small" uri={uri1} mode="cover" />
       <TopCatory />
-      <Banner size="medium" uri={bannerHeader} mode="cover" />
+      <Banner size="medium" uri={uri2} mode="cover" />
 
       <HomeCatory />
-      <Products />
+      <Banner size="medium" uri={uri3} mode="cover" />
+      <Products title={'Đề xuất'} />
     </View>
   );
 
@@ -50,6 +57,7 @@ const HomeIndex: React.FC<Props> = props => {
         removeClippedSubviews
         showsVerticalScrollIndicator={false}
         bounces={false}
+        scrollEventThrottle={32}
       />
     </View>
   );

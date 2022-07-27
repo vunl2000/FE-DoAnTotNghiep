@@ -4,9 +4,9 @@ import image from '../../res/require/Images';
 import sizes from '../../res/sizes/sizes';
 import ProductItem from './Product.Item';
 import {useSelector} from 'react-redux';
-import {loadProducts} from '../../store/actions/productsActions';
+import ArrayColors from '../../res/colors/ArrayColors';
 
-type Props = {};
+type Props = {title?: any};
 const renderProDuct = ({item, index}: any) => {
   return <ProductItem item={item} index={index} />;
 };
@@ -15,11 +15,14 @@ const keyItem = (item: any) => item._id;
 
 const space = () => <View style={styles.spaceVertical} />;
 
-const ProDucts = (props: Props) => {
+const ProDucts = ({title}: Props) => {
   const {products} = useSelector((state: any) => state.product);
 
   return (
     <>
+      <View style={styles.label}>
+        <Text style={styles.textLabel}>{title}</Text>
+      </View>
       <FlatList
         data={products}
         extraData={products}
@@ -29,7 +32,6 @@ const ProDucts = (props: Props) => {
         keyExtractor={keyItem}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews
-        columnWrapperStyle={styles.centerItem}
         ItemSeparatorComponent={space}
         initialNumToRender={16}
       />
@@ -50,5 +52,17 @@ const styles = StyleSheet.create({
   centerItem: {
     flex: 1,
     justifyContent: 'space-evenly',
+  },
+  label: {
+    paddingVertical: sizes._16sdp,
+  },
+  textLabel: {
+    fontSize: sizes._18sdp,
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
+    lineHeight: sizes._26sdp,
+    color: ArrayColors._color_black,
+    marginVertical: sizes._10sdp,
+    textAlign: 'center',
   },
 });

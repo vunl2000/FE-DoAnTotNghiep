@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import sizes from '../../res/sizes/sizes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -28,12 +28,9 @@ const CartItem = ({item}: Props) => {
         style={[
           styles.color,
           {
-            backgroundColor:
-              item?.color === '#00000'
-                ? ArrayColors._color_black
-                : item?.color === '#fffff'
-                ? ArrayColors.white
-                : item?.color,
+            backgroundColor: item?.color
+              ? item?.color
+              : ArrayColors._color_white,
           },
         ]}
       />
@@ -103,7 +100,7 @@ export default CartItem;
 
 const styles = StyleSheet.create({
   container: {
-    padding: sizes._16sdp,
+    padding: sizes._18sdp,
     flexDirection: 'row',
   },
   img: {

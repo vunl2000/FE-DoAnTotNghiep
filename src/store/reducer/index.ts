@@ -8,6 +8,7 @@ import firstOpenReducer from './fristOpenReducer';
 import addressReducer from './addressReducer';
 import catoryReducer from './catoryReducer';
 import billReducer from './billReducer';
+import invoiceReducer from './invoiceReducer';
 
 export default combineReducers({
   product: productReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
   address: addressReducer,
   catory: catoryReducer,
   bill: billReducer,
+  invoice: invoiceReducer,
 });

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import MyOffers from '../../../components/accounts/MyOffers';
 import AppHeader from '../../../components/header/AppHeader';
@@ -17,18 +17,26 @@ import sizes from '../../../res/sizes/sizes';
 import Images from '../../../res/require/Images';
 import HeaderAccounts from '../../../components/accounts/HeaderAccounts';
 import AnimatedTab from '../../../components/accounts/AnimatedTab';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
-import Loading from '../../../components/modal/Loading';
-import {getDataUser} from '../../../utils/GetToken';
 import {NameScreen} from '../../navigators/TabNavigator';
+import {loadInvoiceUser} from '../../../store/actions/invoiceActions';
+import {TypeBill} from '../../../store/actions/types';
+import {useNavigation} from '@react-navigation/native';
 
 const ScreenAccount = ({navigation}: {navigation: any}) => {
-  const [numberDiscount, setNumberDiscount] = React.useState('0');
+  const {navigate}: any = useNavigation();
 
+  const [numberDiscount, setNumberDiscount] = React.useState('0');
+  const dispatch: any = useDispatch();
   const [scores, setScores] = React.useState('0');
 
   const [marginLeft, setMarginLeft] = React.useState(0);
+  const [invoiceStatus, setInvoiceStatus] = React.useState<any>({
+    handle: null,
+    processed: null,
+    transport: null,
+    done: null,
+  });
 
   const [marginRight, setMarginRight] = React.useState(0);
 
@@ -40,6 +48,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [event, setEvent] = React.useState<string | any>(true);
 
   const accounts = useSelector((state: any) => state.account);
+  const {listInvoice, isFalse} = useSelector((state: any) => state.invoice);
 
   const [isLoading, setIsLoading] = React.useState<string | any>(true);
 
@@ -47,9 +56,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   React.useLayoutEffect(() => {
     try {
-      console.log('acccccccc', accounts);
       if (accounts.isAuthenticated === null) {
-        console.log('undefined');
         setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
       } else {
@@ -65,6 +72,47 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
       console.log(e);
     }
   }, [accounts.isAuthenticated]);
+  useEffect(() => {
+    if (accounts.isAuthenticated) {
+      dispatch(loadInvoiceUser(accounts.result[0]._id));
+    }
+  }, [accounts]);
+
+  useEffect(() => {
+    try {
+      let handle: any = null,
+        processed: any = null,
+        confirm: any = null,
+        transport: any = null,
+        done: any = null;
+      if (!isFalse && listInvoice) {
+        listInvoice.forEach((item: TypeBill) => {
+          if (item.status == 0) {
+            handle += 1;
+          }
+          if (item.status == 1) {
+            processed += 1;
+          }
+          if (item.status == 2) {
+            transport += 1;
+          }
+          if (item.status == 3) {
+            done += 1;
+          }
+        });
+        setInvoiceStatus({
+          handle,
+          processed,
+          confirm,
+          transport,
+          done,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [isFalse, listInvoice]);
+  console.log(invoiceStatus);
 
   function eventCart() {
     console.log('Cart');
@@ -84,8 +132,6 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
       useNativeDriver: false,
     }).start();
     setMarginRight(animatedValues);
-    console.log('right', animatedValues);
-    console.log('right', marginRight);
   }
 
   function onPressRight() {
@@ -130,43 +176,48 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
             onPressCart={eventCart}
             onPressSetting={eventSettings}
           />
-        }></AppHeader>
+        }
+      />
       <View style={styles.mContinerBody}>
         <LoginAndRegister />
-        <View style={styles.mStyleMine1}>
-          <MyOffers
-            onPress={() => {
-              // console.log('cái địt');
-            }}
-            textOrImg={true}
-            mStringText={numberDiscount}
-            mStringTitles="Phiếu giảm giá"
-          />
-          <MyOffers
-            textOrImg={true}
-            mStringText={scores}
-            mStringTitles="Điểm"
-          />
-          <MyOffers
-            textOrImg={false}
-            mImager={Images.ic_wallet}
-            mStringTitles="Ví"
-          />
-          <MyOffers
-            textOrImg={false}
-            mImager={Images.ic_giftcard}
-            mStringTitles="Thẻ quà tặng"
-          />
+        <View>
+          <View style={styles.mStyleMine1}>
+            <MyOffers
+              onPress={() => {}}
+              textOrImg={true}
+              mStringText={numberDiscount}
+              mStringTitles="Phiếu giảm giá"
+              styleContent={styles.spaceMax}
+            />
+            <MyOffers
+              textOrImg={true}
+              mStringText={scores}
+              mStringTitles="Điểm"
+              styleContent={styles.spaceMax}
+            />
+            <MyOffers
+              textOrImg={false}
+              mImager={Images.ic_wallet}
+              mStringTitles="Ví"
+              styleContent={styles.spaceMax}
+            />
+            <MyOffers
+              textOrImg={false}
+              mImager={Images.ic_giftcard}
+              mStringTitles="Thẻ quà tặng"
+              styleContent={styles.spaceMax}
+            />
+          </View>
         </View>
         <View style={styles.mStyleMine2}>
           <Text
             style={{
-              fontSize: sizes._17sdp,
+              fontSize: sizes._20sdp,
               fontFamily: 'OpenSans-SemiBold',
               color: ArrayColors._color_black,
-              fontWeight: 'bold',
-              marginHorizontal: sizes._10sdp,
-              marginTop: sizes._6sdp,
+              fontWeight: '600',
+              marginHorizontal: sizes._18sdp,
+              marginTop: sizes._10sdp,
             }}>
             Đơn hàng của tôi
           </Text>
@@ -174,22 +225,34 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
             <MyOffers
               textOrImg={false}
               mImager={Images.ic_mark}
-              mStringTitles="Hàng đã nhận"
-            />
-            <MyOffers
-              textOrImg={false}
-              mImager={Images.ic_handle}
-              mStringTitles="Xử lý"
+              mStringTitles="Chờ xác nhận"
+              styleContent={styles.spaceMax}
+              badge={invoiceStatus.confirm}
+              onPress={() => navigate(NameScreen.INVOICE)}
             />
             <MyOffers
               textOrImg={false}
               mImager={Images.ic_send}
-              mStringTitles="Đã vận chuyển"
+              mStringTitles="Đang xử lý"
+              styleContent={styles.spaceMax}
+              badge={invoiceStatus.handle}
+              onPress={() => navigate(NameScreen.INVOICE)}
+            />
+            <MyOffers
+              textOrImg={false}
+              mImager={Images.ic_handle}
+              mStringTitles="Đang vận chuyển"
+              styleContent={styles.spaceMax}
+              badge={invoiceStatus.transport}
+              onPress={() => navigate(NameScreen.INVOICE)}
             />
             <MyOffers
               textOrImg={false}
               mImager={Images.ic_back}
-              mStringTitles="Trả lại hàng"
+              mStringTitles="Đã mua"
+              styleContent={styles.spaceMax}
+              badge={invoiceStatus.done}
+              onPress={() => navigate(NameScreen.INVOICE)}
             />
           </View>
         </View>
@@ -210,11 +273,13 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
               textOrImg={false}
               mImager={Images.ic_headsetphone}
               mStringTitles="Câu hỏi"
+              styleContent={styles.spaceMax}
             />
             <MyOffers
               textOrImg={false}
               mImager={Images.ic_survey_center}
               mStringTitles="Trung tâm khảo sát"
+              styleContent={styles.spaceMax}
             />
           </View>
         </View>
@@ -243,7 +308,7 @@ export default ScreenAccount;
 const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
-    backgroundColor: ArrayColors._color_white,
+    backgroundColor: ArrayColors.darkGrayAccount,
   },
   mContinerBody: {
     backgroundColor: ArrayColors.darkGrayAccount,
@@ -253,34 +318,32 @@ const styles = StyleSheet.create({
     // width: sizes._screen_width /2,
     backgroundColor: ArrayColors._color_white,
     flexDirection: 'row',
-    marginHorizontal: sizes._10sdp,
+    marginHorizontal: sizes._18sdp,
+    marginTop: sizes._18sdp,
+    paddingTop: sizes._10sdp,
+    borderStartColor: ArrayColors._color_white,
   },
   mStyleTextLoginAndRegister: {
     fontSize: sizes._20sdp,
-    fontWeight: 'bold',
-    fontFamily: 'OpenSans-SemiBold',
-    lineHeight: sizes._32sdp,
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
     color: ArrayColors._color_black,
   },
   mStyleMine1: {
     backgroundColor: ArrayColors._color_white,
     width: sizes._screen_width,
-    // flex: 3,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingTop: sizes._32sdp,
-    alignItems: 'center',
+    paddingTop: sizes._14sdp,
   },
   mStyleMine2: {
     backgroundColor: ArrayColors._color_white,
     width: sizes._screen_width,
-    marginTop: sizes._10sdp,
+    marginTop: sizes._18sdp,
   },
   mStyleMine2_1: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginTop: sizes._18sdp,
-    alignItems: 'center',
+    paddingTop: sizes._14sdp,
   },
 
   mStyleMine3_1: {
@@ -291,7 +354,13 @@ const styles = StyleSheet.create({
   mStyleFlashList: {
     backgroundColor: ArrayColors._color_white,
     width: sizes._screen_width,
-    flex: 10,
+    flex: 1,
     marginTop: sizes._10sdp,
+  },
+  space: {
+    height: sizes._18sdp,
+  },
+  spaceMax: {
+    flex: 1,
   },
 });

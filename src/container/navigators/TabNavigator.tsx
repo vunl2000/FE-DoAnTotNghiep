@@ -21,6 +21,7 @@ import ScreenListAddress from '../screens/address/ScreenListAddress';
 import {getBanner} from '../../store/actions/fristOpenActions';
 import {loadCatory} from '../../store/actions/catoryActions';
 import {loadProducts} from '../../store/actions/productsActions';
+import ScreenInvoice from '../screens/invoice/ScreenInvoice';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -33,10 +34,12 @@ export enum NameScreen {
   SCREENOTPSETTING = 'ScreenVeryOTP',
   CHANGEPASS = 'ScreenChangePass',
   LIST_ADDRESS = 'ScreenListAddress',
+  ONBOARDING = 'OnboardingFirst',
+  INVOICE = 'ScreenStatusInvoice',
 }
 
 export default function TabNavigator() {
-  const {firstOpen} = useSelector((state: any) => state.firstOpen);
+  const open = useSelector((state: any) => state.firstOpen.firstOpen);
   const dispatch: any = useDispatch();
   useEffect(() => {
     dispatch(getBanner());
@@ -46,7 +49,7 @@ export default function TabNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={firstOpen ? 'AppContainer' : 'OnboardingFirst'}>
+        initialRouteName={open ? NameScreen.HOME : NameScreen.ONBOARDING}>
         <Stack.Screen
           name="OnboardingFirst"
           component={OnboardingFirst}
@@ -122,6 +125,11 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ScreenChangePass"
           component={ScreenChangePass}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ScreenStatusInvoice"
+          component={ScreenInvoice}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

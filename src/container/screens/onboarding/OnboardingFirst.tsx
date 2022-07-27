@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,19 +8,16 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
 import sizes from '../../../res/sizes/sizes';
 import {slides} from '../../../data/DataFirst';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {openApp} from '../../../store/actions/fristOpenActions';
+import ArrayColors from '../../../res/colors/ArrayColors';
+import {useNavigation} from '@react-navigation/native';
+import {NameScreen} from '../../navigators/TabNavigator';
 
-const COLORS = {
-  primary: '#FFFFFF',
-  black: '#000000',
-  gray: '#555555',
-  redd: '#B086FF',
-  purple: '#F9E1FC',
-};
 const Slide = ({item}: any) => {
   return (
     <View style={{alignContent: 'center'}}>
@@ -31,134 +28,132 @@ const Slide = ({item}: any) => {
   );
 };
 
-const OnboardingFirst = ({navigation}: any) => {
+const OnboardingFirst = () => {
+  const {navigate}: any = useNavigation();
   const dispatch: any = useDispatch();
-  const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
-  const ref = React.useRef<any>(null);
+  const {firstOpen} = useSelector((state: any) => state.firstOpen);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const animatedValue = useRef(new Animated.Value(0)).current;
+  const silderRef: any = useRef(null);
 
-  function eventStart() {
-    dispatch(openApp());
-    navigation.navigate('AppContainer');
-  }
+  const vieableItemChanged: any = useRef(({viewableItems}: any) => {
+    setCurrentIndex(viewableItems[0].index);
+  }).current;
+
+  const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
+
+  const next = () => {
+    if (currentIndex < slides.length - 1) {
+      silderRef.current.scrollToIndex({index: currentIndex + 1});
+    } else {
+      dispatch(openApp());
+      navigate(NameScreen.HOME);
+    }
+  };
+
+  const skip = () => {
+    silderRef.current.scrollToIndex({index: slides.length - 1});
+  };
+
+  const keyExtractor = (_: any, index: any) => index.toString();
+
+  const PagingDot: FunctionComponent<{color: any; opacity: any}> = ({
+    color,
+    opacity,
+  }) => {
+    return (
+      <Animated.View
+        style={[styles.indicator, {backgroundColor: color, opacity: opacity}]}
+      />
+    );
+  };
 
   const Footer = () => {
     return (
-      <View
-        style={{
-          height: sizes._screen_height * 0.2,
-          justifyContent: 'space-between',
-          paddingHorizontal: sizes._20sdp,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginTop: sizes._20sdp,
-          }}>
-          {slides.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.indicator,
-                currentSlideIndex == index && {
-                  backgroundColor: COLORS.gray,
-                  width: sizes._25sdp,
-                },
-              ]}
-            />
-          ))}
+      <View style={styles.content}>
+        <TouchableOpacity style={styles.spaceMax} onPress={skip}>
+          <Text
+            style={[
+              styles.textDefault,
+              {color: ArrayColors._color_un_active, fontWeight: '400'},
+            ]}>
+            {currentIndex === slides.length - 1 ? null : 'Bỏ qua'}
+          </Text>
+        </TouchableOpacity>
+        <View style={styles.contentIndicator}>
+          {slides.map((_: any, index: any) => {
+            const inputRange = [
+              (index - 1) * sizes._screen_width,
+              index * sizes._screen_width,
+              (index + 1) * sizes._screen_width,
+            ];
+
+            const colorOutputRange = [
+              ArrayColors._color_white_gray,
+              ArrayColors._color_black,
+              ArrayColors._color_white_gray,
+            ];
+
+            const color = animatedValue.interpolate({
+              inputRange,
+              outputRange: colorOutputRange,
+              extrapolate: 'clamp',
+            });
+            const opacity = animatedValue.interpolate({
+              inputRange,
+              outputRange: [0.7, 1, 0.7],
+              extrapolate: 'clamp',
+            });
+            return (
+              <PagingDot
+                color={color}
+                opacity={opacity}
+                key={index.toString()}
+              />
+            );
+          })}
         </View>
-        <View style={{marginBottom: sizes._20sdp}}>
-          {currentSlideIndex == slides.length - 1 ? (
-            <View style={{height: sizes._50sdp}}>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={[styles.btn]}
-                onPress={eventStart}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: sizes._18sdp,
-                    color: COLORS.redd,
-                  }}>
-                  Bắt Đầu
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={[
-                  styles.btn,
-                  {
-                    backgroundColor: 'transparent',
-                    borderWidth: sizes._2sdp,
-                    borderColor: COLORS.redd,
-                  },
-                ]}
-                onPress={skip}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: sizes._18sdp,
-                    color: COLORS.redd,
-                  }}>
-                  Bỏ qua
-                </Text>
-              </TouchableOpacity>
-              <View style={{width: sizes._30sdp}} />
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={[styles.btn]}
-                onPress={goNextSlide}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: sizes._18sdp,
-                    color: COLORS.redd,
-                  }}>
-                  Tiếp
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
+        <TouchableOpacity
+          onPress={next}
+          style={[styles.spaceMax, {alignItems: 'flex-end'}]}>
+          <Text
+            style={[
+              styles.textDefault,
+              {
+                color:
+                  currentIndex === slides.length - 1
+                    ? ArrayColors.skyBlue
+                    : ArrayColors._color_black,
+
+                fontWeight: currentIndex === slides.length - 1 ? '700' : '400',
+              },
+            ]}>
+            {currentIndex === slides.length - 1 ? 'Bắt đầu' : 'Tiếp'}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   };
 
-  const updateCurrentSlideIndex = ({e}: any) => {
-    const contentOffsetX = e.nativeEvent.contentOffset.x;
-    const currentIdex = Math.round(contentOffsetX / sizes._screen_width);
-    setCurrentSlideIndex(currentIdex);
-  };
-  const goNextSlide = () => {
-    const nextSlideIndex = currentSlideIndex + sizes._1sdp;
-    if (nextSlideIndex != slides.length) {
-      const offset = nextSlideIndex * sizes._screen_width;
-      ref?.current?.scrollToOffset({offset});
-      setCurrentSlideIndex(nextSlideIndex);
-    }
-  };
-  const skip = () => {
-    const lastSlideIndex = slides.length - sizes._1sdp;
-    const offset = lastSlideIndex * sizes._screen_width;
-    ref?.current?.scrollToOffset({offset});
-    setCurrentSlideIndex(lastSlideIndex);
-  };
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.purple}}>
-      <FlatList
-        ref={ref}
-        onMomentumScrollEnd={updateCurrentSlideIndex}
-        pagingEnabled
+    <SafeAreaView style={styles.container}>
+      <Animated.FlatList
         data={slides}
-        contentContainerStyle={{height: sizes._screen_height * 0.8}}
         horizontal
-        scrollEnabled={false}
+        pagingEnabled
+        listKey={'onbroading_app'}
+        keyExtractor={keyExtractor}
         showsHorizontalScrollIndicator={false}
         renderItem={({item}) => <Slide item={item} />}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {x: animatedValue}}}],
+          {useNativeDriver: false},
+        )}
+        scrollEventThrottle={32}
+        bounces={false}
+        onViewableItemsChanged={vieableItemChanged}
+        viewabilityConfig={viewConfig}
+        ref={silderRef}
       />
       <Footer />
     </SafeAreaView>
@@ -168,12 +163,17 @@ const OnboardingFirst = ({navigation}: any) => {
 export default OnboardingFirst;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: ArrayColors._color_white,
+  },
   title: {
-    color: COLORS.black,
+    color: ArrayColors._color_black,
     fontSize: sizes._28sdp,
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: sizes._60sdp,
+    fontFamily: 'OpenSans-Bold',
   },
   image: {
     height: '60%',
@@ -182,26 +182,36 @@ const styles = StyleSheet.create({
     marginTop: sizes._50sdp,
   },
   subtitle: {
-    color: COLORS.gray,
-    fontSize: sizes._14sdp,
+    color: ArrayColors._color_un_active,
+    fontSize: sizes._16sdp,
     lineHeight: sizes._24sdp,
-    // maxWidth:'75%',
     textAlign: 'center',
+    fontWeight: '400',
     marginTop: sizes._13sdp,
+    fontFamily: 'OpenSans-Regular',
+  },
+  textDefault: {
+    fontSize: sizes._18sdp,
+    fontFamily: 'OpenSans-Regular',
   },
   indicator: {
-    height: sizes._4sdp,
+    height: sizes._10sdp,
     width: sizes._10sdp,
-    backgroundColor: COLORS.redd,
-    marginHorizontal: sizes._3sdp,
-    borderRadius: sizes._2sdp,
+    marginHorizontal: sizes._8sdp,
+    borderRadius: sizes._10sdp / 2,
   },
-  btn: {
+  content: {
+    flexDirection: 'row',
+    padding: sizes._22sdp,
+    justifyContent: 'space-around',
+  },
+  contentIndicator: {
     flex: 1,
-    height: sizes._50sdp,
-    borderRadius: sizes._10sdp,
-    backgroundColor: COLORS.primary,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  spaceMax: {
+    width: sizes._100sdp,
   },
 });
