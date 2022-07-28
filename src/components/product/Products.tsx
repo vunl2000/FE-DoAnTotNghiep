@@ -6,7 +6,7 @@ import ProductItem from './Product.Item';
 import {useSelector} from 'react-redux';
 import ArrayColors from '../../res/colors/ArrayColors';
 
-type Props = {title?: any};
+type Props = {title?: any; data?: any};
 const renderProDuct = ({item, index}: any) => {
   return <ProductItem item={item} index={index} />;
 };
@@ -15,17 +15,15 @@ const keyItem = (item: any) => item._id;
 
 const space = () => <View style={styles.spaceVertical} />;
 
-const ProDucts = ({title}: Props) => {
-  const {products} = useSelector((state: any) => state.product);
-
+const ProDucts = ({title, data}: Props) => {
   return (
     <>
       <View style={styles.label}>
         <Text style={styles.textLabel}>{title}</Text>
       </View>
       <FlatList
-        data={products}
-        extraData={products}
+        data={data}
+        extraData={data}
         renderItem={renderProDuct}
         numColumns={2}
         listKey="list_products"

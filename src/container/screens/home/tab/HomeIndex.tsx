@@ -1,12 +1,12 @@
 import {FlatList, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import sizes from '../../../res/sizes/sizes';
-import TopCatory from '../../../components/home/catory/TopCatory';
-import Banner from '../../../components/home/banner/Banner';
-import Products from '../../../components/product/Products';
+import sizes from '../../../../res/sizes/sizes';
+import TopCatory from '../../../../components/home/catory/TopCatory';
+import Banner from '../../../../components/home/banner/Banner';
+import Products from '../../../../components/product/Products';
 import {useSelector} from 'react-redux';
 
-import HomeCatory from '../../../components/home/catory/HomeCatory';
+import HomeCatory from '../../../../components/home/catory/HomeCatory';
 
 interface Props {}
 
@@ -16,6 +16,7 @@ const isEmty = null;
 const HomeIndex: React.FC<Props> = props => {
   const [bannerSale, setBannerSale] = useState();
   const [bannerHeader, setBannerHeader] = useState();
+  const {products} = useSelector((state: any) => state.product);
   let uri1 =
     'https://img.ltwebstatic.com/images3_acp/2022/07/26/16588342618f4d1bf9f87bd45fa262ecdf8879987f.gif';
   let uri2 =
@@ -32,7 +33,7 @@ const HomeIndex: React.FC<Props> = props => {
 
       <HomeCatory />
       <Banner size="medium" uri={uri3} mode="cover" />
-      <Products title={'Đề xuất'} />
+      <Products title={'Đề xuất'} data={products} />
     </View>
   );
 

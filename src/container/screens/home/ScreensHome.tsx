@@ -1,11 +1,15 @@
 import {StyleSheet, SafeAreaView, Animated, View} from 'react-native';
 import React, {useEffect} from 'react';
-import Header from '../../components/header/Header';
-import ArrayColors from '../../res/colors/ArrayColors';
-import sizes from '../../res/sizes/sizes';
-import HomeStack from '../navigators/HomeStack';
+import Header from '../../../components/header/Header';
+import ArrayColors from '../../../res/colors/ArrayColors';
+import sizes from '../../../res/sizes/sizes';
+import HomeStack from '../../navigators/HomeStack';
 import {useDispatch, useSelector} from 'react-redux';
-import {loadAll, loadMen, loadWomen} from '../../store/actions/catoryActions';
+import {
+  loadAll,
+  loadMen,
+  loadWomen,
+} from '../../../store/actions/catoryActions';
 import {Value} from 'react-native-reanimated';
 
 const ScreensHome = () => {

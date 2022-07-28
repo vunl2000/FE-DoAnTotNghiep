@@ -2,6 +2,7 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
+import {Badge} from 'react-native-paper';
 
 type Props = {
   onPress?: any;
@@ -25,16 +26,9 @@ const BadgesIcon = (props: Props) => {
       {() => (
         <View style={styles.badgeIconView}>
           {count === 0 ? null : (
-            <Text
-              style={[
-                styles.badge,
-                {
-                  paddingVertical: sizes._5sdp,
-                  paddingHorizontal: count < 10 ? sizes._9sdp : sizes._7sdp,
-                },
-              ]}>
+            <Badge size={sizes._18sdp} style={styles.badge}>
               {count}
-            </Text>
+            </Badge>
           )}
           <Image source={icon} style={styles.icons} />
         </View>
@@ -57,14 +51,9 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   badge: {
-    color: ArrayColors._color_white,
     position: 'absolute',
-    zIndex: 10,
-    top: -sizes._20sdp,
-    right: -sizes._14sdp,
-    fontSize: sizes._font_size_medium_medium_medium,
-    backgroundColor: ArrayColors._color_red,
-    borderRadius: sizes._30sdp,
+    top: -sizes._16sdp,
+    right: -sizes._10sdp,
   },
   icons: {
     width: sizes._24sdp,

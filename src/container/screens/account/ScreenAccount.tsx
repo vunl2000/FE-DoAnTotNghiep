@@ -76,13 +76,12 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     if (accounts.isAuthenticated) {
       dispatch(loadInvoiceUser(accounts.result[0]._id));
     }
-  }, [accounts]);
+  }, []);
 
   useEffect(() => {
     try {
       let handle: any = null,
         processed: any = null,
-        confirm: any = null,
         transport: any = null,
         done: any = null;
       if (!isFalse && listInvoice) {
@@ -103,7 +102,6 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
         setInvoiceStatus({
           handle,
           processed,
-          confirm,
           transport,
           done,
         });
@@ -227,7 +225,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
               mImager={Images.ic_mark}
               mStringTitles="Chờ xác nhận"
               styleContent={styles.spaceMax}
-              badge={invoiceStatus.confirm}
+              badge={invoiceStatus.handle}
               onPress={() => navigate(NameScreen.INVOICE)}
             />
             <MyOffers
@@ -235,7 +233,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
               mImager={Images.ic_send}
               mStringTitles="Đang xử lý"
               styleContent={styles.spaceMax}
-              badge={invoiceStatus.handle}
+              badge={invoiceStatus.processed}
               onPress={() => navigate(NameScreen.INVOICE)}
             />
             <MyOffers

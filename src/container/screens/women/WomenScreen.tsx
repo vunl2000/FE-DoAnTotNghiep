@@ -1,21 +1,53 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Banner from '../../../components/home/banner/Banner';
 import WomenCatory from '../../../components/home/catory/WomenCatory';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import SoloGan from '../../../components/home/banner/SoloGan';
 import sizes from '../../../res/sizes/sizes';
+import ProDucts from '../../../components/product/Products';
+import {useSelector} from 'react-redux';
+import axios from 'axios';
+import {API_URL, GET_PRODUCT_BY_ID_OBJECT} from '@env';
 
 type Props = {};
 const renderEmty = null;
 const isEmty = null;
 const WomenScreen = (props: Props) => {
+  const [listWomen, setListWomen] = useState<any>([]);
+  const [isLoader, setIsLoader] = useState<any>(true);
+  const {typeCatory} = useSelector((state: any) => state.catory);
   let srcTop =
     'https://img.ltwebstatic.com/images3_ach/2022/06/27/1656331239bb13f9f9e24d58c9e7866049e9380e96_thumbnail_840x.webp';
   let srcHeader =
     'https://img.ltwebstatic.com/images3_ach/2022/06/16/1655364091a4d5f726f9ec3abe66e64a0283484685.webp';
   let sale = 'https://imgaz1.chiccdn.com/os/202207/20220706215325_934.jpg.webp';
-
+  useEffect(() => {
+    typeCatory.forEach((item: any) => {
+      if (item.titleTypeProduct === 'Nữ') {
+        let data = JSON.stringify({
+          idTypeProduct: item._id,
+        });
+        axios({
+          method: 'POST',
+          url: API_URL + GET_PRODUCT_BY_ID_OBJECT,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data,
+        })
+          .then(res => {
+            let resData = res.data;
+            setListWomen(resData.result);
+            setIsLoader(false);
+          })
+          .catch(err => {
+            setIsLoader(true);
+            console.log(err);
+          });
+      }
+    });
+  }, [typeCatory]);
   const HotDays = () => (
     <View style={styles.hotDays}>
       <Text style={styles.labelHotDay}>
@@ -48,6 +80,7 @@ const WomenScreen = (props: Props) => {
       <WomenCatory />
       <Banner size="medium" uri={srcHeader} mode="cover" />
       <HotDays />
+      <ProDucts title={'Tạo sao không thử!'} data={listWomen} />
     </>
   );
 
@@ -79,7 +112,7 @@ const styles = StyleSheet.create({
     height: sizes._18sdp,
   },
   hotDays: {
-    paddingVertical: sizes._18sdp,
+    paddingTop: sizes._18sdp,
   },
   labelHotDay: {
     fontSize: sizes._18sdp,
