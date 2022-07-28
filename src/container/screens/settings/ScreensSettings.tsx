@@ -17,16 +17,21 @@ import {useSelector, useDispatch} from 'react-redux';
 import {onStoreApp} from '../../../utils/StoreApp';
 import {NameScreen} from '../../navigators/TabNavigator';
 import {logOut} from '../../../store/actions/loginActions';
+import {clearErrors} from '../../../store/actions/errActions';
 import {persistor} from '../../../store';
+import ModalConfirm from '../../../components/modal/ModalConfirm';
 
 const ScreensSettings = ({navigation}: any) => {
   const [event, setEvent] = React.useState<string | any>(true);
+  const [eventAccount, seteventAccount] = React.useState<string | any>(false);
+
+  const [visible, setVisible] = React.useState<string | any>(false);
+
   const dispatch: string | any = useDispatch();
   const accounts = useSelector((state: any) => state.account);
   const [storageUser, setStorageUser] = React.useState<string | any>(
     'Đăng nhập / Đăng Ký ',
   );
-
   const pkg = require('../../../../package.json');
 
   React.useLayoutEffect(() => {
@@ -36,13 +41,16 @@ const ScreensSettings = ({navigation}: any) => {
         console.log('undefined');
         setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
+        seteventAccount(true);
       } else {
         if (accounts.isAuthenticated === true) {
           setStorageUser(accounts.result[0].name);
           setEvent(false);
+          seteventAccount(true);
         } else {
           setStorageUser(accounts.result[0].name);
           setEvent(false);
+          seteventAccount(true);
         }
       }
     } catch (e) {
@@ -51,13 +59,25 @@ const ScreensSettings = ({navigation}: any) => {
   }, [accounts.isAuthenticated]);
 
   function eventLogOut() {
-    console.log('pl');
-
-    dispatch(logOut());
-    //persistor.purge();
+    setVisible(true);
   }
   function eventLogInAndRegister() {
     navigation.navigate('ScreenLogin');
+  }
+  function showAddresses() {
+    navigation.navigate('ScreenLogin');
+  }
+  function onPressConfirm() {
+    console.log('okkkk');
+    dispatch(logOut());
+    dispatch(clearErrors());
+    navigation.navigate('ScreenAccount');
+  }
+  function onPressCance() {
+    setVisible(false);
+  }
+  function visibleDisabled() {
+    setVisible(false);
   }
   function LoginAndRegister() {
     return (
@@ -139,19 +159,19 @@ const ScreensSettings = ({navigation}: any) => {
             style={{
               height: 1,
               width: sizes._screen_width,
-              backgroundColor: ArrayColors.gray,
+              backgroundColor: ArrayColors.blue_item_catory,
             }}></View>
           {/* Địa chỉ */}
-          <View style={styles.item_conten}>
+          <TouchableOpacity onPress={showAddresses} style={styles.item_conten}>
             <Text style={styles.title_conten}>{'Địa chỉ'}</Text>
-            <TouchableOpacity>
+            <View>
               <Icons
                 name="chevron-forward"
                 size={24}
                 color={ArrayColors._color_black}
               />
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         </View>
 
         {/* Phần 3 */}
@@ -172,7 +192,7 @@ const ScreensSettings = ({navigation}: any) => {
             style={{
               height: 1,
               width: sizes._screen_width,
-              backgroundColor: ArrayColors.gray,
+              backgroundColor: ArrayColors.blue_item_catory,
             }}></View>
           {/* Ứng dụng của tôi*/}
           <TouchableOpacity onPress={onStoreApp} style={styles.item_conten}>
@@ -189,7 +209,7 @@ const ScreensSettings = ({navigation}: any) => {
             style={{
               height: 1,
               width: sizes._screen_width,
-              backgroundColor: ArrayColors.gray,
+              backgroundColor: ArrayColors.blue_item_catory,
             }}></View>
           {/* Giới thiệu */}
           <TouchableOpacity
@@ -207,53 +227,64 @@ const ScreensSettings = ({navigation}: any) => {
         </View>
 
         {/* Đổi mật khẩu */}
-        <View style={styles.item_container}>
-          {/* Xác thực tài khoản */}
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate(NameScreen.SCREENOTPSETTING);
-            }}
-            style={styles.item_conten}>
-            <Text style={styles.title_conten}>{'Xác thực tài khoản'}</Text>
-            <View>
-              <Icons
-                name="chevron-forward"
-                size={24}
-                color={ArrayColors._color_black}
-              />
+        {eventAccount && (
+          <View>
+            <View style={styles.item_container}>
+              {/* Xác thực tài khoản */}
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(NameScreen.SCREENOTPSETTING);
+                }}
+                style={styles.item_conten}>
+                <Text style={styles.title_conten}>{'Xác thực tài khoản'}</Text>
+                <View>
+                  <Icons
+                    name="chevron-forward"
+                    size={24}
+                    color={ArrayColors._color_black}
+                  />
+                </View>
+              </TouchableOpacity>
+              <View
+                style={{
+                  height: 1,
+                  width: sizes._screen_width,
+                  backgroundColor: ArrayColors.blue_item_catory,
+                }}></View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(NameScreen.CHANGEPASS);
+                }}
+                style={styles.item_conten}>
+                <Text style={styles.title_conten}>Đổi mật khẩu</Text>
+                <View>
+                  <Icons
+                    name="chevron-forward"
+                    size={24}
+                    color={ArrayColors._color_black}
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-          <View
-            style={{
-              height: 1,
-              width: sizes._screen_width,
-              backgroundColor: ArrayColors.gray,
-            }}></View>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate(NameScreen.CHANGEPASS);
-            }}
-            style={styles.item_conten}>
-            <Text style={styles.title_conten}>Đổi mật khẩu</Text>
-            <View>
-              <Icons
-                name="chevron-forward"
-                size={24}
-                color={ArrayColors._color_black}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-        {/* Đăng xuất */}
-        <View style={styles.item_container}>
-          <View style={styles.item_conten}>
+            {/* Đăng xuất */}
             <TouchableOpacity
               onPress={eventLogOut}
-              style={styles.item_tochable}>
-              <Text style={styles.title_tochable}>{'Đăng xuất'}</Text>
+              style={{
+                backgroundColor: ArrayColors._color_white,
+                marginVertical: sizes._22sdp,
+              }}>
+              <View
+                style={{
+                  width: sizes._screen_width,
+                  height: sizes._56sdp,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={styles.title_tochable}>{'Đăng xuất'}</Text>
+              </View>
             </TouchableOpacity>
           </View>
-        </View>
+        )}
       </View>
     );
   }
@@ -278,6 +309,12 @@ const ScreensSettings = ({navigation}: any) => {
             </Text>
           </View>
         </View>
+        <ModalConfirm
+          onPressCance={onPressCance}
+          onPressConfirm={onPressConfirm}
+          visibleDisabled={visibleDisabled}
+          visible={visible}
+        />
       </View>
     </SafeAreaView>
   );

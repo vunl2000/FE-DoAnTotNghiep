@@ -12,6 +12,8 @@ import {
   Alert,
   Modal,
   ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import React, {useRef} from 'react';
 import ArrayColors from '../../../../res/colors/ArrayColors';
@@ -117,6 +119,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
         navigation.goBack();
         ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
         console.log(accounts);
+        dispatch(clearErrors());
       }, 1500);
     }
 
@@ -132,17 +135,34 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
         case 400: {
           // setIsLoading(false);
           ToastAndroid.show(
-            'Đăng nhập thất bại vui lòng kiểm tra lại thông tin',
+            'Đăng nhập thất bại vui lòng thử lại sau',
             ToastAndroid.SHORT,
           );
+          // dispatch(clearErrors());
+          break;
+        }
+        case 401: {
+          ToastAndroid.show(
+            'Thông tin nhập vào không được để trống',
+            ToastAndroid.SHORT,
+          );
+          // dispatch(clearErrors());
+          break;
+        }
+        case 402: {
+          ToastAndroid.show('Người dùng không tồn tại', ToastAndroid.SHORT);
+          // dispatch(clearErrors());
+          break;
+        }
+        case 403: {
+          ToastAndroid.show('Mật khẩu không chính xác', ToastAndroid.SHORT);
+          // dispatch(clearErrors());
           break;
         }
         default:
           console.log('Error');
       }
-    } catch {
-      console.log('Đã có lỗi xảy ra');
-    }
+    } catch {}
   }, [error]);
 
   function handleLogin() {
@@ -173,97 +193,99 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
     navigation.goBack();
   }
   return (
-    <SafeAreaView style={styles.mContainer}>
-      <AppHeader
-        content
-        customContent={
-          <HeaderShown titleScreen="ĐĂNG NHẬP" onBackPress={onBackPress} />
-        }></AppHeader>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: sizes._36sdp,
-          marginHorizontal: sizes._20sdp,
-        }}>
-        <Text style={{fontSize: sizes._24sdp, textAlign: 'center'}}>
-          Chào mừng bạn đến với ứng dụng mua sắm trực tuyển
-        </Text>
-      </View>
-
-      <View
-        style={{
-          marginHorizontal: sizes._20sdp,
-          marginTop: sizes._20sdp,
-          width: sizes._screen_width - sizes._40sdp,
-        }}>
-        <Input
-          value={email}
-          onPress_1={clearTextEmail}
-          titleInPut="Email"
-          placeholder="Địa chỉ email"
-          nameImg_1={Images.ic_mark_cut}
-          onChangeText={text => eventEditEmail(text)}
-          setIconViewEmail={visibleIconEmail}
-        />
-        {warningEmail && (
-          <Text
-            style={{
-              fontSize: sizes._16sdp,
-              color: ArrayColors._color_red,
-              fontWeight: 'bold',
-            }}>
-            {labelEmail}
-          </Text>
-        )}
-        <Input
-          value={password}
-          onPress_1={clearTextPassword}
-          onPress_2={eventOnOff}
-          titleInPut="Mật khẩu"
-          placeholder="Mật khẩu"
-          nameImg_1={Images.ic_mark_cut}
-          nameImg_2={Images.ic_eye_off}
-          nameImg_3={Images.ic_eys_on}
-          setIconView={viewEye}
-          onChangeText={text => eventEditPassword(text)}
-          secureTextEntry={showPassword}
-          setIconViewEmail={visibleIconPassword}
-          setIconViewPassword={visibleIconPassword}
-        />
-        {warningPassWord && (
-          <Text
-            style={{
-              fontSize: sizes._16sdp,
-              color: ArrayColors._color_red,
-              fontWeight: 'bold',
-            }}>
-            {labelPassWord}
-          </Text>
-        )}
-        <TextForgotPassword />
-        <Button onPress={handleLogin} title="Đăng nhập"></Button>
-        <GoogleOrFacebook />
-        <Policy />
-      </View>
-      <TouchableOpacity
-        onPress={eventRegister}
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginVertical: sizes._24sdp,
-        }}>
-        <Text
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.mContainer}>
+        <AppHeader
+          content
+          customContent={
+            <HeaderShown titleScreen="ĐĂNG NHẬP" onBackPress={onBackPress} />
+          }></AppHeader>
+        <View
           style={{
-            color: ArrayColors._color_facebook,
-            fontWeight: 'bold',
-            fontSize: sizes._18sdp,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: sizes._36sdp,
+            marginHorizontal: sizes._20sdp,
           }}>
-          Bạn chưa có tài khoản ?
-        </Text>
-      </TouchableOpacity>
-      {/* {isLoading ? <Loading /> : null} */}
-    </SafeAreaView>
+          <Text style={{fontSize: sizes._24sdp, textAlign: 'center'}}>
+            Chào mừng bạn đến với ứng dụng mua sắm trực tuyển
+          </Text>
+        </View>
+
+        <View
+          style={{
+            marginHorizontal: sizes._20sdp,
+            marginTop: sizes._20sdp,
+            width: sizes._screen_width - sizes._40sdp,
+          }}>
+          <Input
+            value={email}
+            onPress_1={clearTextEmail}
+            titleInPut="Email"
+            placeholder="Địa chỉ email"
+            nameImg_1={Images.ic_mark_cut}
+            onChangeText={text => eventEditEmail(text)}
+            setIconViewEmail={visibleIconEmail}
+          />
+          {warningEmail && (
+            <Text
+              style={{
+                fontSize: sizes._16sdp,
+                color: ArrayColors._color_red,
+                fontWeight: 'bold',
+              }}>
+              {labelEmail}
+            </Text>
+          )}
+          <Input
+            value={password}
+            onPress_1={clearTextPassword}
+            onPress_2={eventOnOff}
+            titleInPut="Mật khẩu"
+            placeholder="Mật khẩu"
+            nameImg_1={Images.ic_mark_cut}
+            nameImg_2={Images.ic_eye_off}
+            nameImg_3={Images.ic_eys_on}
+            setIconView={viewEye}
+            onChangeText={text => eventEditPassword(text)}
+            secureTextEntry={showPassword}
+            setIconViewEmail={visibleIconPassword}
+            setIconViewPassword={visibleIconPassword}
+          />
+          {warningPassWord && (
+            <Text
+              style={{
+                fontSize: sizes._16sdp,
+                color: ArrayColors._color_red,
+                fontWeight: 'bold',
+              }}>
+              {labelPassWord}
+            </Text>
+          )}
+          <TextForgotPassword />
+          <Button onPress={handleLogin} title="Đăng nhập"></Button>
+          <GoogleOrFacebook />
+          <Policy />
+        </View>
+        <TouchableOpacity
+          onPress={eventRegister}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: sizes._24sdp,
+          }}>
+          <Text
+            style={{
+              color: ArrayColors._color_facebook,
+              fontWeight: 'bold',
+              fontSize: sizes._18sdp,
+            }}>
+            Bạn chưa có tài khoản ?
+          </Text>
+        </TouchableOpacity>
+        {/* {isLoading ? <Loading /> : null} */}
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -146,8 +146,7 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
       setTimeout(() => {
         // setIsLoading(false);
         // navigation.goBack();
-        ToastAndroid.show('Đăng ký thành công', ToastAndroid.SHORT);
-        console.log(register);
+        ToastAndroid.show('Đăng ký thành công.', ToastAndroid.SHORT);
         navigation.navigate('ScreenVeryfiOTP');
       }, 3000);
     }
@@ -158,14 +157,28 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
     try {
       const errorCode = error.code.code;
       switch (errorCode) {
-        case 400: {
+        case 500: {
           // setIsLoading(false);
-          ToastAndroid.show('Đăng ký thất bại', ToastAndroid.SHORT);
+          ToastAndroid.show(
+            'Đăng ký thất bại vui lòng thử lại sau.',
+            ToastAndroid.SHORT,
+          );
           break;
         }
-        case 408: {
+        case 501: {
           ToastAndroid.show(
-            'Email này đã có người sử dụng',
+            'Email này đã có người sử dụng.',
+            ToastAndroid.SHORT,
+          );
+          break;
+        }
+        case 502: {
+          ToastAndroid.show('Mật khẩu không khớp.', ToastAndroid.SHORT);
+          break;
+        }
+        case 503: {
+          ToastAndroid.show(
+            'Mật khẩu phải lớn hơn 6 ký tự.',
             ToastAndroid.SHORT,
           );
           break;

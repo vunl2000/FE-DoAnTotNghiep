@@ -9,7 +9,7 @@ export function verifyOTP(userEmail: any, userOTP: any, userID: any) {
   });
   const config = {
     method: 'POST',
-    url: 'http://192.168.254.1:3000/account-user/verify-otp',
+    url: API_URL_VERYFI_OTP,
     headers: {
       'Content-Type': 'application/json',
     },

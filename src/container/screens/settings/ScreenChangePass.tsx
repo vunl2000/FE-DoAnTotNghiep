@@ -5,6 +5,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import React from 'react';
 import Input from '../../../components/accounts/Input';
@@ -24,11 +26,6 @@ const ScreenChangePass = ({navigation}: any) => {
   const [viewEye, setViewEye] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(true);
 
-  const [warningPassWord, setWarningPassword] = React.useState<string | any>(
-    false,
-  );
-  const [labelPassWord, setLabelPassword] = React.useState<string | any>('');
-
   const [passwordold, setPasswordold] = React.useState<string | any>('');
   const [visibleIconPasswordold, setVisibleIconPasswordold] =
     React.useState(false);
@@ -42,6 +39,20 @@ const ScreenChangePass = ({navigation}: any) => {
   const [labelPassWordold, setLabelPasswordold] = React.useState<string | any>(
     '',
   );
+
+  const [warningPassWordNew, setWarningPasswordNew] = React.useState<
+    string | any
+  >(false);
+
+  const [labelPassWordNew, setLabelPasswordNew] = React.useState<string | any>(
+    '',
+  );
+
+  const [warningPassWord, setWarningPassword] = React.useState<string | any>(
+    false,
+  );
+
+  const [labelPassWord, setLabelPassword] = React.useState<string | any>('');
 
   const [passwordnew, setPasswordnew] = React.useState<string | any>('');
   const [visibleIconPasswordnew, setVisibleIconPasswordnew] =
@@ -96,7 +107,7 @@ const ScreenChangePass = ({navigation}: any) => {
   }
   function eventOnOffold() {
     setViewEyeold(!viewEye);
-    setShowPasswordold(!showPassword);
+    setShowPasswordold(!showPasswordold);
   }
 
   function eventEditPasswordnew(text: string | any) {
@@ -117,7 +128,7 @@ const ScreenChangePass = ({navigation}: any) => {
   }
   function eventOnOffnew() {
     setViewEyenew(!viewEye);
-    setShowPasswordnew(!showPassword);
+    setShowPasswordnew(!showPasswordnew);
   }
 
   function HeaderContent() {
@@ -139,15 +150,34 @@ const ScreenChangePass = ({navigation}: any) => {
       </View>
     );
   }
+  function eventConfirm() {
+    if (passwordold === '') {
+      console.log('Bỏ trống');
+      setLabelPasswordold('Không được bỏ trống');
+      setWarningPasswordold(true);
+    } else if (passwordnew === '') {
+      setLabelPasswordNew('Không được bỏ trống');
+      setWarningPasswordNew(true);
+    } else if (password === '') {
+      setLabelPassword('Không được bỏ trống');
+      setWarningPassword(true);
+    } else if (passwordnew !== password) {
+      setLabelPassword('Xác thực mật khẩu không đúng');
+      setWarningPassword(true);
+    } else if (passwordnew < 6) {
+      setLabelPasswordNew('Mật khẩu phải lớn hơn 6 ký tự');
+      setWarningPasswordNew(true);
+    }
+  }
 
-  const RenderView = (
-    <View
-      style={{
-        marginHorizontal: sizes._20sdp,
-        marginTop: sizes._20sdp,
-        width: sizes._screen_width - sizes._40sdp,
-      }}>
-      <View>
+  function RenderView() {
+    return (
+      <View
+        style={{
+          marginHorizontal: sizes._20sdp,
+          marginTop: sizes._20sdp,
+          width: sizes._screen_width - sizes._40sdp,
+        }}>
         <Input
           value={passwordold}
           onPress_1={clearTextPasswordold}
@@ -163,9 +193,17 @@ const ScreenChangePass = ({navigation}: any) => {
           setIconViewEmail={visibleIconPasswordold}
           setIconViewPassword={visibleIconPasswordold}
         />
-      </View>
+        {warningPassWordold && (
+          <Text
+            style={{
+              fontSize: sizes._16sdp,
+              color: ArrayColors._color_red,
+              fontWeight: 'bold',
+            }}>
+            {labelPassWordold}
+          </Text>
+        )}
 
-      <View>
         <Input
           value={passwordnew}
           onPress_1={clearTextPasswordnew}
@@ -181,9 +219,17 @@ const ScreenChangePass = ({navigation}: any) => {
           setIconViewEmail={visibleIconPasswordnew}
           setIconViewPassword={visibleIconPasswordnew}
         />
-      </View>
+        {warningPassWordNew && (
+          <Text
+            style={{
+              fontSize: sizes._16sdp,
+              color: ArrayColors._color_red,
+              fontWeight: 'bold',
+            }}>
+            {labelPassWordNew}
+          </Text>
+        )}
 
-      <View>
         <Input
           value={password}
           onPress_1={clearTextPassword}
@@ -199,25 +245,31 @@ const ScreenChangePass = ({navigation}: any) => {
           setIconViewEmail={visibleIconPassword}
           setIconViewPassword={visibleIconPassword}
         />
+        {warningPassWord && (
+          <Text
+            style={{
+              fontSize: sizes._16sdp,
+              color: ArrayColors._color_red,
+              fontWeight: 'bold',
+            }}>
+            {labelPassWord}
+          </Text>
+        )}
+
+        <Button title="Xác nhận" onPress={eventConfirm} />
       </View>
-      <Button title="Xác nhận" />
-    </View>
-  );
+    );
+  }
 
   return (
-    <SafeAreaView style={styles.mContainer}>
-      <AppHeader content customContent={<HeaderContent />} />
-      <View style={styles.mContainerBody}>
-        <FlatList
-          renderItem={null}
-          data={[]}
-          ListFooterComponent={RenderView}
-          listKey="screen_settings"
-          removeClippedSubviews
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.mContainer}>
+        <AppHeader content customContent={<HeaderContent />} />
+        <View style={styles.mContainerBody}>
+          <RenderView />
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -229,11 +281,9 @@ const styles = StyleSheet.create({
     backgroundColor: ArrayColors._color_white,
   },
   mContainerBody: {
-    flex: 1,
     backgroundColor: ArrayColors.gray_bg_light,
   },
   containerHeader: {
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: ArrayColors._color_white,
   },

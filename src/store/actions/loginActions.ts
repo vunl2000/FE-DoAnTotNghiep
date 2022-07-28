@@ -19,6 +19,7 @@ export const userLogins =
     //Load user form url
 
     const mFormData = JSON.stringify({email, password});
+    console.log(API_URL_LOGIN_USERS);
 
     axios({
       method: 'POST',
@@ -46,8 +47,8 @@ export const userLogins =
   };
 
 export const logOut = () => async (dispatch: AllDispatchProps) => {
-  console.log("goi den chua");
-  
+  console.log('goi den chua');
+
   return dispatch({
     type: LOGOUT_SUCCES,
     payload: null,
