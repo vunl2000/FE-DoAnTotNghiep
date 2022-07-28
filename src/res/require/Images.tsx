@@ -83,6 +83,9 @@ const image = {
   user_no_bgr: require('../../assets/images/user_no_bgr.png'),
   ic_camera: require('../../assets/images/ic_camera.png'),
 
+  box_empty: require('../../assets/images/box.png'),
+  error: require('../../assets/images/error.png'),
+
   // ////////////////////////////////
   // like_png: require('../../assets/gif/like_png.png'),
   // like_png: require('../../assets/gif/like_png.png'),

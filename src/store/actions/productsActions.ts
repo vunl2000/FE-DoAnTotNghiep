@@ -3,36 +3,29 @@ import {
   lOADING_PRODUCT,
   LOADED_PRODUCT,
   ADD_TO_CART,
+  DELETE_TO_CART,
 } from './types';
 import {API_URL_GETALL_PRODUCT} from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
 // Load products
-export const loadProducts =
-  () => async (dispatch: AllDispatchProps, getState: any) => {
-    dispatch({type: lOADING_PRODUCT, payload: null});
-    if (!getState.products) {
-      //Load product form url
-      await axios({
-        method: 'GET',
-        url: API_URL_GETALL_PRODUCT,
-      })
-        .then(res => {
-          dispatch({type: LOADED_PRODUCT, payload: res.data});
-        })
-        .catch(err => {
-          dispatch(
-            returnErrors(
-              err.respon.code,
-              err.respon.message,
-              'LOAD_PRODUCT_FAIL',
-            ),
-          );
-        });
-    } else {
-      dispatch({type: LOADED_PRODUCT, payload: getState.products});
-    }
-  };
+
+export const loadProducts = () => async (dispatch: AllDispatchProps) => {
+  dispatch({type: lOADING_PRODUCT, payload: null});
+
+  await axios({
+    method: 'GET',
+    url: API_URL_GETALL_PRODUCT,
+  })
+    .then(res => {
+      dispatch({type: LOADED_PRODUCT, payload: res.data});
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(err.respon.code, err.respon.message, 'LOAD_PRODUCT_FAIL'),
+      );
+    });
+};
 
 export const addToCart = (item: any, size: any, color: any) => {
   return {
@@ -50,19 +43,17 @@ export function updateCart(payload: any) {
     payload,
   };
 }
-export function deleteCart(payload: any) {
+export function deleteCart(id: any) {
   return {
-    type: 'DELETE_CART',
-    payload,
+    type: DELETE_TO_CART,
+    payload: {id},
   };
 }
 
 export function increaseQuantity(id: any) {
   return {
     type: 'INCREASE_QUANTITY',
-    payload: {
-      id,
-    },
+    payload: {id},
   };
 }
 export function changeSelectCart(id: any) {

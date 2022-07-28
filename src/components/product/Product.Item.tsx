@@ -7,33 +7,38 @@ import {NameScreen} from '../../container/navigators/TabNavigator';
 import image from '../../res/require/Images';
 import FastImage from 'react-native-fast-image';
 import BetterImage from '../images/BetterImage';
+import {TypeCartItem, TypeProductItem} from '../../store/actions/types';
 
 type Props = {
-  item?: any;
-  index?: any;
+  item?: TypeProductItem;
+  index?: number | any;
 };
 
 const formartMoney = (val: any) => {
   return val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + ' đ';
 };
 
-const ProductItem = (props: Props) => {
-  const {imageProduct, title_product, price} = props.item;
-
+const ProductItem = ({item, index}: Props) => {
   const {navigate}: any = useNavigation();
 
   return (
     <TouchableOpacity
-      style={styles.container}
-      onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: props.item})}>
+      style={[
+        styles.container,
+        {
+          marginLeft: index % 2 == 0 ? sizes._18sdp : 0,
+          marginRight: sizes._18sdp,
+        },
+      ]}
+      onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
       <BetterImage
         source={{
-          uri: imageProduct[0],
+          uri: item?.imageProduct[0],
         }}
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.textPrice}>{formartMoney(price)}</Text>
+      <Text style={styles.textPrice}>{formartMoney(item?.price)}</Text>
     </TouchableOpacity>
   );
 };
@@ -42,11 +47,11 @@ export default ProductItem;
 
 const styles = StyleSheet.create({
   container: {
-    width: (sizes._screen_width - sizes._48sdp) / 2,
+    flex: 0.5,
     justifyContent: 'center',
   },
   image: {
-    width: (sizes._screen_width - sizes._48sdp) / 2,
+    width: (sizes._screen_width - sizes._54sdp) / 2,
     height: sizes._243sdp,
   },
   textPrice: {

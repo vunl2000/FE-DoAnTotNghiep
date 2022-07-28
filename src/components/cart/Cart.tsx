@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import CartItem from './Cart.Item';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
+import {TypeCartItem} from '../../store/actions/types';
 
 type Props = {};
 

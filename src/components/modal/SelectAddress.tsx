@@ -22,8 +22,19 @@ type Props = {
   cityProvince?: any;
 };
 
-const SelectAddress = ({isOpen, onChangeOpen, onChangeCityProvince}: Props) => {
+const SelectAddress = ({
+  isOpen,
+  onChangeOpen,
+  onChangeCityProvince,
+  cityProvince,
+}: Props) => {
   const {province} = useSelector((state: any) => state.address);
+
+  const activeColor = (code: number | any): TextStyle => ({
+    fontWeight: cityProvince.code === code ? '700' : '400',
+    fontFamily:
+      cityProvince.code === code ? 'OpenSans-Bold' : 'OpenSans-Regular',
+  });
 
   const renderItem = ({item, index}: any) => {
     return (
@@ -34,7 +45,9 @@ const SelectAddress = ({isOpen, onChangeOpen, onChangeCityProvince}: Props) => {
             onChangeCityProvince(item.code, item.name);
             onChangeOpen();
           }}>
-          <Text style={[styles.textDefault]}>{item.name}</Text>
+          <Text style={[styles.textDefault, activeColor(item.code)]}>
+            {item.name}
+          </Text>
         </TouchableOpacity>
         <Divider />
       </>
@@ -68,14 +81,16 @@ const SelectAddress = ({isOpen, onChangeOpen, onChangeCityProvince}: Props) => {
 
           <Divider />
           <View style={{flex: 1}}>
-            <FlatList
-              data={province.results}
-              extraData={province.results}
-              renderItem={renderItem}
-              keyExtractor={keyExtracter}
-              removeClippedSubviews
-              showsVerticalScrollIndicator={false}
-            />
+            {province ? (
+              <FlatList
+                data={province}
+                extraData={province}
+                renderItem={renderItem}
+                keyExtractor={keyExtracter}
+                removeClippedSubviews
+                showsVerticalScrollIndicator={false}
+              />
+            ) : null}
           </View>
         </View>
       </View>
@@ -99,8 +114,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textDefault: {
-    fontWeight: '400',
-    fontFamily: 'OpenSans-Regular',
     color: ArrayColors._color_black,
     fontSize: sizes._20sdp,
     flex: 1,

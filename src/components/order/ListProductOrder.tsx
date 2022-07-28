@@ -6,6 +6,7 @@ import ColumView from './ColumView';
 import BetterImage from '../images/BetterImage';
 import FastImage from 'react-native-fast-image';
 import {formartMoney} from '../../utils/Utilities';
+import {TypeCartItem} from '../../store/actions/types';
 
 type Props = {
   cartSeleted?: any;
@@ -14,11 +15,17 @@ type Props = {
 };
 
 const ListProductOrder = ({dataCartSeleted, cartSeleted, sumPrice}: Props) => {
-  const renderItem = ({item, index}: any) => (
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: TypeCartItem;
+    index: number | any;
+  }) => (
     <View style={styles.contentItem}>
       <BetterImage
         source={{
-          uri: item.image,
+          uri: item.imageProduct,
         }}
         style={styles.img}
         resizeMode={FastImage.resizeMode.cover}
@@ -26,14 +33,14 @@ const ListProductOrder = ({dataCartSeleted, cartSeleted, sumPrice}: Props) => {
       <View style={styles.quantity}>
         <View style={styles.circle}>
           <View style={styles.spaceMax} />
-          <Text style={styles.textQlity}>x{item.quantity}</Text>
+          <Text style={styles.textQlity}>x{item.qty}</Text>
           <View style={styles.spaceMax} />
         </View>
       </View>
     </View>
   );
   const renderSpace = () => <View style={styles.space} />;
-
+        const key = (item: any, index: any) => index.toString();
   return (
     <View style={styles.container}>
       <ColumView
@@ -51,6 +58,8 @@ const ListProductOrder = ({dataCartSeleted, cartSeleted, sumPrice}: Props) => {
             listKey="product_seleted"
             removeClippedSubviews
             ItemSeparatorComponent={renderSpace}
+            horizontal
+            keyExtractor={key}
           />
         </View>
       ) : null}

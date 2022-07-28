@@ -1,7 +1,6 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import sizes from '../../res/sizes/sizes';
-import BetterImage from '../images/BetterImage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {formartMoney} from '../../utils/Utilities';
@@ -10,16 +9,17 @@ import CustomCheckBox from './CheckBox';
 import {useDispatch} from 'react-redux';
 import {changeSelectCart} from '../../store/actions/productsActions';
 import FastImage from 'react-native-fast-image';
+import {TypeCartItem} from '../../store/actions/types';
 
 type Props = {
-  item?: any;
+  item?: TypeCartItem;
 };
 
 const CartItem = ({item}: Props) => {
   const dispatch: any = useDispatch();
 
   const changeSelected = () => {
-    dispatch(changeSelectCart(item.id));
+    dispatch(changeSelectCart(item?.id));
   };
 
   const ColorAndSize = () => (
@@ -28,12 +28,9 @@ const CartItem = ({item}: Props) => {
         style={[
           styles.color,
           {
-            backgroundColor:
-              item.color === '#00000'
-                ? ArrayColors._color_black
-                : item.color === '#fffff'
-                ? ArrayColors.white
-                : item.color,
+            backgroundColor: item?.color
+              ? item?.color
+              : ArrayColors._color_white,
           },
         ]}
       />
@@ -42,7 +39,7 @@ const CartItem = ({item}: Props) => {
         size={sizes._18sdp}
         color={ArrayColors._color_black}
       />
-      <Text style={styles.textSize}>{item.size}</Text>
+      <Text style={styles.textSize}>{item?.size}</Text>
       <Icon
         name="chevron-down"
         size={sizes._18sdp}
@@ -53,11 +50,14 @@ const CartItem = ({item}: Props) => {
 
   return (
     <View style={styles.container}>
-      <CustomCheckBox checked={item.selected} changeSelected={changeSelected} />
+      <CustomCheckBox
+        checked={item?.selected}
+        changeSelected={changeSelected}
+      />
       <View style={styles.space} />
       <FastImage
         source={{
-          uri: item.image,
+          uri: item?.imageProduct,
           cache: FastImage.cacheControl.cacheOnly,
         }}
         style={styles.img}
@@ -71,7 +71,7 @@ const CartItem = ({item}: Props) => {
               style={styles.textNameProduct}
               ellipsizeMode="tail"
               numberOfLines={1}>
-              {item.name}
+              {item?.titleProduct}
             </Text>
             <View style={{flexDirection: 'row'}}>
               <ColorAndSize />
@@ -88,8 +88,8 @@ const CartItem = ({item}: Props) => {
         </View>
 
         <View style={styles.bottomContent}>
-          <Text style={styles.itemPrice}>{formartMoney(item.price)}</Text>
-          <ButtonQty value={item.quantity} id={item.id} />
+          <Text style={styles.itemPrice}>{formartMoney(item?.price)}</Text>
+          <ButtonQty value={item?.qty} id={item?.id} />
         </View>
       </View>
     </View>
@@ -100,7 +100,7 @@ export default CartItem;
 
 const styles = StyleSheet.create({
   container: {
-    padding: sizes._16sdp,
+    padding: sizes._18sdp,
     flexDirection: 'row',
   },
   img: {

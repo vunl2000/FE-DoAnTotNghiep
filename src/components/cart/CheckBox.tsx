@@ -3,16 +3,13 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
-import {useDispatch} from 'react-redux';
-import {changeSelectCart} from '../../store/actions/productsActions';
+
 type CheckBoxProps = {
   checked?: boolean;
   changeSelected?: () => void;
 };
 
 const CustomCheckBox = ({checked, changeSelected}: CheckBoxProps) => {
-  const dispatch: any = useDispatch();
-
   return (
     <TouchableOpacity onPress={changeSelected}>
       <View style={styles.maxWidth} />

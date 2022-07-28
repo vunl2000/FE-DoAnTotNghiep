@@ -76,6 +76,7 @@ const ArrayColors = new (class {
   skyBlue = 'skyblue';
   yellow = '#f8c907';
   pink = '#ff4c98';
+  pinkText = '#FF2D87';
   gold = 'gold';
   line = '#282C35';
   darkGray = '#999999';

@@ -22,6 +22,7 @@ import IconHeader from '../../../components/icons/IconHeader';
 import BadgesIcon from '../../../components/icons/BadgesIcon';
 import image from '../../../res/require/Images';
 import {NameScreen} from '../../navigators/TabNavigator';
+import {TypeProductItem} from '../../../store/actions/types';
 
 type DetailProps = {};
 
@@ -33,9 +34,8 @@ const DetailProduct = (props: DetailProps) => {
   const route: any = useRoute();
   const {goBack, navigate}: any = useNavigation();
   const [isShow, setIsShow] = useState(false);
-  const {imageProduct, title_product, price} = route.params?.item;
+  const item: TypeProductItem = route.params?.item;
 
-  console.log(carts, numberCart);
   const renderItem = ({item, index}: any) => (
     <FastImage
       source={{
@@ -57,7 +57,7 @@ const DetailProduct = (props: DetailProps) => {
     <View style={styles.content}>
       <View style={styles.listImg}>
         <FlatList
-          data={imageProduct}
+          data={item.imageProduct}
           listKey="image_product"
           keyExtractor={keyItem}
           renderItem={renderItem}
@@ -67,8 +67,8 @@ const DetailProduct = (props: DetailProps) => {
           pagingEnabled
         />
       </View>
-      <Text style={styles.textNameProduct}>{title_product}</Text>
-      <Text style={styles.textPriceProduct}>{formartMoney(price)}</Text>
+      <Text style={styles.textNameProduct}>{item.titleProduct}</Text>
+      <Text style={styles.textPriceProduct}>{formartMoney(item.price)}</Text>
     </View>
   );
 

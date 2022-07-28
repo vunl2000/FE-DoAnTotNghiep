@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
   text_version: {
     fontSize: sizes._15sdp,
     fontWeight: '400',
-    fontFamily: 'OpenSans',
+    fontFamily: 'OpenSans-Regular',
     color: ArrayColors._color_black,
   },
 });

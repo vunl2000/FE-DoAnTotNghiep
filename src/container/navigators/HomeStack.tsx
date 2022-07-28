@@ -100,7 +100,9 @@ function MyTabBar({state, descriptors, navigation, position}: any) {
 
 const HomeStack = (props: Props) => {
   return (
-    <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
+    <Tab.Navigator
+      tabBar={props => <MyTabBar {...props} />}
+      screenOptions={{lazy: true}}>
       <Tab.Screen
         name="Home"
         component={HomeIndex}

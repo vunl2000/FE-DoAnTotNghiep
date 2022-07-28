@@ -25,9 +25,13 @@ const WomenCatory = (props: Props) => {
         ]}>
         Xem tất cả {'>'}
       </Text>
-      <ContentCatory data={women.slice(0, 8)} />
+      {women.slice(0, 8).length > 0 ? (
+        <ContentCatory data={women.slice(0, 8)} />
+      ) : null}
       <View style={styles.spaceHeight} />
-      <ContentCatory data={women.slice(8, 16)} />
+      {women.slice(8, 16).length > 0 ? (
+        <ContentCatory data={women.slice(8, 16)} />
+      ) : null}
     </View>
   );
 };
