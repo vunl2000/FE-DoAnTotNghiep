@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
@@ -10,23 +10,17 @@ import {formartMoney} from '../../utils/Utilities';
 type Props = {
   index?: any;
   item?: any;
-  status?: any;
 };
 
-const InvoiceItem = ({index, item, status}: Props) => {
+const InvoiceItem = ({index, item}: Props) => {
   const {navigate}: any = useNavigation();
-
+  const [price, setPrice] = useState(0);
   useEffect(() => {
-    let count = 0;
     let price = 0;
-    let products: any = [];
-    item.listBillDetail.forEach((item: any) => {
-      if (item.selected) {
-        count += item.qty;
-        price += item.qty * item.price;
-        products.push(item);
-      }
+    item.billDetails.forEach((item: any) => {
+      price += item.quantity * item.price;
     });
+    setPrice(price);
   }, []);
 
   const Active = () => (
@@ -39,18 +33,18 @@ const InvoiceItem = ({index, item, status}: Props) => {
           paddingBottom: sizes._10sdp,
         },
       ]}>
-      <Text style={styles.textDefault}>#{item?.idBill}</Text>
+      <Text style={styles.textDefault}>#{item?._id}</Text>
       <View style={[styles.container, {alignItems: 'center'}]}>
         <View
           style={[
             styles.color,
             {
               backgroundColor:
-                status === 0
+                item.status === 0
                   ? ArrayColors.red
-                  : status === 1
+                  : item.status === 1
                   ? ArrayColors.green
-                  : status === 2
+                  : item.status === 2
                   ? ArrayColors.skyBlue
                   : ArrayColors._color_orange,
             },
@@ -58,11 +52,11 @@ const InvoiceItem = ({index, item, status}: Props) => {
         />
         <View style={styles.space} />
         <Text style={styles.textSub}>
-          {status === 0
+          {item.status === 0
             ? 'Chờ xác nhận'
-            : status === 1
+            : item.status === 1
             ? 'Đang xử lý'
-            : status === 2
+            : item.status === 2
             ? 'Đang vận chuyển'
             : 'Đã mua'}
         </Text>
@@ -75,7 +69,7 @@ const InvoiceItem = ({index, item, status}: Props) => {
       <View style={styles.container}>
         <FastImage
           source={{
-            uri: item?.listBillDetail[0].imageProduct,
+            uri: item.billDetails[0].imageProduct,
             cache: FastImage.cacheControl.cacheOnly,
           }}
           style={styles.img}
@@ -89,16 +83,18 @@ const InvoiceItem = ({index, item, status}: Props) => {
                 style={styles.textNameProduct}
                 ellipsizeMode="tail"
                 numberOfLines={1}>
-                {item?.listBillDetail[0].titleProduct}
+                {item.billDetails[0].titleProduct}
               </Text>
             </View>
-            <Text style={styles.textSub}>{4} sản phẩm</Text>
+            <Text style={styles.textSub}>
+              {item.billDetails.length} sản phẩm
+            </Text>
           </View>
 
           <View style={styles.bottomContent}>
             <Text style={styles.textDefault}>
               Tổng cộng:{' '}
-              <Text style={styles.itemPrice}>{formartMoney(item?.price)}</Text>
+              <Text style={styles.itemPrice}>{formartMoney(price)}</Text>
             </Text>
           </View>
         </View>
@@ -113,6 +109,7 @@ const styles = StyleSheet.create({
   mContainer: {
     padding: sizes._18sdp,
     backgroundColor: ArrayColors._color_white,
+    marginTop: sizes._10sdp,
   },
   container: {
     flexDirection: 'row',

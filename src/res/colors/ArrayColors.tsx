@@ -109,6 +109,7 @@ const ArrayColors = new (class {
   //bg catory
   catory_bg_home = '#EFEFEF';
   gray_custom = '#D9D9D9';
+  gray_custom_small = 'rgba(217, 217, 217, 0.4)';
   gray_bg_light = '#F1F1F1';
   bg_inline = '#f2f2f2';
 })();

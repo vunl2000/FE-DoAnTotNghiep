@@ -1,19 +1,19 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import MenScreen from '../screens/men/MenScreen';
-import WomenScreen from '../screens/women/WomenScreen';
-import HomeIndex from '../screens/home/tab/HomeIndex';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
+import CatoryWomen from '../screens/catory/tab/CatoryWomen';
+import CatoryMen from '../screens/catory/tab/CatoryMen';
 
 const Tab = createMaterialTopTabNavigator();
+type Props = {};
 
-type Props = {
-  changeScoll?: any;
-};
-
-function MyTabBar({state, descriptors, navigation, position}: any) {
+export enum NameCatory {
+  WOMEN = 'CatoryWomen',
+  MEN = 'CatoryMen',
+}
+const MyTabBar = ({state, descriptors, navigation, position}: any) => {
   return (
     <View style={{flexDirection: 'row'}}>
       {state.routes.map((route: any, index: any) => {
@@ -66,6 +66,7 @@ function MyTabBar({state, descriptors, navigation, position}: any) {
               justifyContent: 'center',
               alignItems: 'center',
               height: sizes._32sdp,
+              marginTop: sizes._10sdp,
             }}>
             <View>
               <Text
@@ -96,36 +97,25 @@ function MyTabBar({state, descriptors, navigation, position}: any) {
       })}
     </View>
   );
-}
+};
 
-const HomeStack = (props: Props) => {
+const TopTabCatory = (props: Props) => {
   return (
-    <Tab.Navigator
-      tabBar={props => <MyTabBar {...props} />}
-      screenOptions={{lazy: true}}>
+    <Tab.Navigator tabBar={(props: any) => <MyTabBar {...props} />}>
       <Tab.Screen
-        name="Home"
-        component={HomeIndex}
-        options={{
-          tabBarLabel: 'Shop',
-        }}
+        name={NameCatory.WOMEN}
+        component={CatoryWomen}
+        options={{tabBarLabel: 'Nữ'}}
       />
       <Tab.Screen
-        name="Women"
-        component={WomenScreen}
-        options={{
-          tabBarLabel: 'Nữ',
-        }}
-      />
-      <Tab.Screen
-        name="Men"
-        component={MenScreen}
+        name={NameCatory.MEN}
+        component={CatoryMen}
         options={{tabBarLabel: 'Nam'}}
       />
     </Tab.Navigator>
   );
 };
 
-export default HomeStack;
+export default TopTabCatory;
 
 const styles = StyleSheet.create({});

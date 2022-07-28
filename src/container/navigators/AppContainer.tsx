@@ -7,9 +7,9 @@ import image from '../../res/require/Images';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
 //Screens
-import ScreensHome from '../screens/ScreensHome';
-import ScreensProduct from '../screens/ScreensProduct';
-import ScreenCart from '../screens/ScreenCart';
+import ScreensHome from '../screens/home/ScreensHome';
+import ScreensProduct from '../screens/catory/ScreensProduct';
+import ScreenCart from '../screens/cart/ScreenCart';
 import ScreenNewspaper from '../screens/spaper/ScreenNewspaper';
 import ScreenAccount from '../screens/account/ScreenAccount';
 import {useRoute} from '@react-navigation/native';

@@ -24,6 +24,7 @@ export default (state = initalState, {payload, type}: any) => {
         isFalse: true,
       };
     }
+
     default:
       return state;
   }

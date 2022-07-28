@@ -15,4 +15,6 @@ declare module '@env' {
   export const API_URL_GENERATE_OTP: string;
   export const API_GET_BILL_USER: string;
   export const API_GET_BILL_DETAIL_USER: string;
+  export const GET_PRODUCT_BY_ID_OBJECT: string;
+  export const GET_PRODUCT_BY_ID: string;
 }

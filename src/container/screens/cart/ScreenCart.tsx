@@ -7,21 +7,21 @@ import {
   Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import ArrayColors from '../../res/colors/ArrayColors';
-import AppHeader from '../../components/header/AppHeader';
-import IconHeader from '../../components/icons/IconHeader';
-import sizes from '../../res/sizes/sizes';
-import image from '../../res/require/Images';
-import ButtonSub from '../../components/button/ButtonSub';
+import ArrayColors from '../../../res/colors/ArrayColors';
+import AppHeader from '../../../components/header/AppHeader';
+import IconHeader from '../../../components/icons/IconHeader';
+import sizes from '../../../res/sizes/sizes';
+import image from '../../../res/require/Images';
+import ButtonSub from '../../../components/button/ButtonSub';
 import {useDispatch, useSelector} from 'react-redux';
-import Cart from '../../components/cart/Cart';
-import CustomCheckBox from '../../components/cart/CheckBox';
-import {formartMoney} from '../../utils/Utilities';
+import Cart from '../../../components/cart/Cart';
+import CustomCheckBox from '../../../components/cart/CheckBox';
+import {formartMoney} from '../../../utils/Utilities';
 import {useNavigation} from '@react-navigation/native';
-import {NameScreen} from '../navigators/TabNavigator';
-import {showToast} from '../../components/modal/ToastCustom';
-import {slectedAllCart} from '../../store/actions/productsActions';
-import {TypeCartItem} from '../../store/actions/types';
+import {NameScreen} from '../../navigators/TabNavigator';
+import {showToast} from '../../../components/modal/ToastCustom';
+import {slectedAllCart} from '../../../store/actions/productsActions';
+import {TypeCartItem} from '../../../store/actions/types';
 
 interface Props {}
 
@@ -62,13 +62,13 @@ const ScreenCart = (props: Props) => {
 
   const addToBill = () => {
     if (auth.isAuthenticated) {
-      if (!auth.authentication) {
-        showToast('Bạn cần xác thực tài khoản để thanh toán!');
-      } else {
-        cartSeleted > 0
-          ? navigate(NameScreen.ORDER)
-          : showToast('Vui lòng chọn sản phẩm đặt hàng!');
-      }
+      // if (!auth.authentication) {
+      //   showToast('Bạn cần xác thực tài khoản để thanh toán!');
+      // } else {
+      cartSeleted > 0
+        ? navigate(NameScreen.ORDER)
+        : showToast('Vui lòng chọn sản phẩm đặt hàng!');
+      // }
     } else {
       showToast('Bạn chưa đăng nhập!');
       navigate(NameScreen.LOGIN_AND_REGISTER);

@@ -36,6 +36,7 @@ const ScreenHandle = (props: Props) => {
           idBill: item._id,
         });
         axios({
+          method: 'POST',
           url: API_URL + API_GET_BILL_DETAIL_USER,
           headers: {
             token: `Bearer ${token}`,
@@ -49,16 +50,19 @@ const ScreenHandle = (props: Props) => {
             itemDetail = resData.result;
             itemDetail['billDetails'] = resData.billDetails;
 
-            setListBillDetail([...listBillDetail, itemDetail]);
+            setListBillDetail(prev => [...prev, itemDetail]);
             setError(false);
           })
-          .catch(err => setError(true));
+          .catch(err => {
+            setError(true);
+            console.log(err);
+          });
       });
     }
-  }, [listBill, accounts]);
+  }, [listBill]);
 
   const renderItem = ({item, index}: any) => (
-    <InvoiceItem item={item} index={index} status={0} />
+    <InvoiceItem item={item} index={index} />
   );
 
   const keyExtractor = (item: any) => item._id;
@@ -83,7 +87,7 @@ const ScreenHandle = (props: Props) => {
           data={listBillDetail}
           extraData={listBillDetail}
           keyExtractor={keyExtractor}
-          renderItem={null}
+          renderItem={renderItem}
           bounces={false}
           removeClippedSubviews
           scrollEventThrottle={32}
