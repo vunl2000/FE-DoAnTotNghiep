@@ -5,7 +5,11 @@ import sizes from '../../res/sizes/sizes';
 import Images from '../../res/require/Images';
 import Svg from 'react-native-svg';
 
-const Loading = () => {
+interface Props {
+  visible? : boolean;
+}
+
+const Loading = (props : Props) => {
   const mapText = [
     Images.icons8_bra_100,
     Images.icons8_dress_100,
@@ -39,7 +43,7 @@ const Loading = () => {
       statusBarTranslucent={true}
       animationType="slide"
       transparent={true}
-      visible={true}>
+      visible={props.visible}>
       <View
         style={{
           backgroundColor: ArrayColors._color_gray_translucenLoading,
