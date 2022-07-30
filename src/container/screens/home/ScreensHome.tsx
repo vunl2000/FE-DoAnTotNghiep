@@ -1,5 +1,5 @@
 import {StyleSheet, SafeAreaView, Animated, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import Header from '../../../components/header/Header';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import sizes from '../../../res/sizes/sizes';
@@ -11,11 +11,18 @@ import {
   loadWomen,
 } from '../../../store/actions/catoryActions';
 import {Value} from 'react-native-reanimated';
+import ModalSearch from '../../../components/modal/ModalSearch';
 
-const ScreensHome = () => {
+interface Props {
+  onPressSearch?: () => void;
+}
+
+const ScreensHome = (props: Props) => {
   const dispatch: any = useDispatch();
   const {typeCatory} = useSelector((state: any) => state.catory);
   const [height, setHeight] = React.useState(0);
+
+  const [isViewModel, setIsViewModel] = React.useState<string | any>(false);
 
   const activeIndexAnimation = React.useRef(new Animated.Value(0)).current;
 
@@ -53,17 +60,25 @@ const ScreensHome = () => {
     });
   }, [typeCatory]);
 
+  function eventSearch() {
+    setIsViewModel(true);
+  }
+  function eventSearchDissmiss() {
+    setIsViewModel(false);
+  }
+
   return (
     <SafeAreaView style={mContainer}>
-      <Header logo />
+      <Header onPressSearch={eventSearch} logo />
       <View style={styles.contentView}>
         <HomeStack changeScoll={changeScoll} />
       </View>
+      <ModalSearch invisible={eventSearchDissmiss} visible={isViewModel} />
     </SafeAreaView>
   );
 };
 
-export default ScreensHome;
+export default memo(ScreensHome);
 
 const styles = StyleSheet.create({
   mContainer: {

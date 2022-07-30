@@ -29,7 +29,7 @@ const ScreensIntroduce = ({navigation}: any) => {
           }}
         />
         <View style={styles.contentHeader}>
-          <Text style={styles.textLabel}>Giới thiệu về chúng tôi</Text>
+          <Text style={styles.textLabel}>GIỚI THIỆU</Text>
         </View>
         <View style={{width: sizes._42sdp}} />
       </View>
@@ -156,10 +156,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontWeight: '600',
-    fontFamily: 'OpenSans-SemiBold',
+    fontSize: sizes._24sdp,
+    fontWeight: 'bold',
     color: ArrayColors._color_black,
-    fontSize: sizes._20sdp,
   },
   item_container: {
     margin: sizes._20sdp,
@@ -167,15 +166,17 @@ const styles = StyleSheet.create({
   item_header_title: {
     fontSize: sizes._25sdp,
     fontWeight: '700',
-    margin: sizes._10sdp,
+    // margin: sizes._10sdp,
+    marginBottom: sizes._10sdp,
     color: ArrayColors._color_black,
     fontFamily: 'OpenSans-SemiBold',
   },
   item_body_title: {
-    fontSize: sizes._17sdp,
+    fontSize: sizes._16sdp,
     fontWeight: 'normal',
-    color: ArrayColors._color_black_gray,
+    color: ArrayColors._color_gray_sombre,
     fontFamily: 'OpenSans-SemiBold',
+    lineHeight: sizes._28sdp,
   },
   item_header_body_title: {
     fontSize: sizes._19sdp,

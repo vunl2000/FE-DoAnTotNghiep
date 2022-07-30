@@ -21,6 +21,8 @@ target 'DoAnTotNghiep' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'react-native-voice', :path => '../node_modules/@react-native-voice/voice'
+
   target 'DoAnTotNghiepTests' do
     inherit! :complete
     # Pods for testing

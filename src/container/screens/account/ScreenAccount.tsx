@@ -158,9 +158,6 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
         <View>
           <Text style={styles.mStyleTextLoginAndRegister}>{storageUser}</Text>
         </View>
-        {/* <View>
-          <Text style={styles.mStyleTextLoginAndRegister}>Đăng ký {`>`}</Text>
-        </View> */}
       </Pressable>
     );
   }
@@ -313,7 +310,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mStyleText: {
-    // width: sizes._screen_width /2,
+    width: sizes._screen_width,
     backgroundColor: ArrayColors._color_white,
     flexDirection: 'row',
     marginHorizontal: sizes._18sdp,

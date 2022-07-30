@@ -15,7 +15,7 @@ const keyItem = (item: any) => item._id;
 
 const space = () => <View style={styles.spaceVertical} />;
 
-const ProDucts = ({title, data}: Props) => {
+const ProDucts = ({title, data}: Props |any) => {
   return (
     <>
       <View style={styles.label}>

@@ -13,15 +13,15 @@ import AppHeader from '../../../components/header/AppHeader';
 import sizes from '../../../res/sizes/sizes';
 import IconHeader from '../../../components/icons/IconHeader';
 import Icons from 'react-native-vector-icons/Ionicons';
-import {useSelector, useDispatch} from 'react-redux';
-import {onStoreApp} from '../../../utils/StoreApp';
-import {NameScreen} from '../../navigators/TabNavigator';
-import {logOut} from '../../../store/actions/loginActions';
-import {clearErrors} from '../../../store/actions/errActions';
-import {persistor} from '../../../store';
+import { useSelector, useDispatch } from 'react-redux';
+import { onStoreApp } from '../../../utils/StoreApp';
+import { NameScreen } from '../../navigators/TabNavigator';
+import { logOut } from '../../../store/actions/loginActions';
+import { clearErrors } from '../../../store/actions/errActions';
+import { persistor } from '../../../store';
 import ModalConfirm from '../../../components/modal/ModalConfirm';
 
-const ScreensSettings = ({navigation}: any) => {
+const ScreensSettings = ({ navigation }: any) => {
   const [event, setEvent] = React.useState<string | any>(true);
   const [eventAccount, seteventAccount] = React.useState<string | any>(false);
 
@@ -41,7 +41,7 @@ const ScreensSettings = ({navigation}: any) => {
         console.log('undefined');
         setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
-        seteventAccount(true);
+        seteventAccount(false);
       } else {
         if (accounts.isAuthenticated === true) {
           setStorageUser(accounts.result[0].name);
@@ -81,18 +81,17 @@ const ScreensSettings = ({navigation}: any) => {
   }
   function LoginAndRegister() {
     return (
-      <Pressable
-        style={({pressed}) => [
-          {
-            backgroundColor: pressed
-              ? ArrayColors.light
-              : ArrayColors._color_white,
-          },
-          {
-            backgroundColor: ArrayColors._color_white,
-            flexDirection: 'row',
-          },
-        ]}
+      <Pressable style={({ pressed }) => [
+        {
+          backgroundColor: pressed
+            ? ArrayColors.light
+            : ArrayColors._color_white,
+        },
+        {
+          backgroundColor: ArrayColors._color_white,
+          flexDirection: 'row',
+        },
+      ]}
         onPress={event ? eventLogInAndRegister : null}>
         <View>
           <Text
@@ -125,7 +124,7 @@ const ScreensSettings = ({navigation}: any) => {
         <View style={styles.contentHeader}>
           <Text style={styles.textLabel}>CÀI ĐẶT</Text>
         </View>
-        <View style={{width: sizes._42sdp}} />
+        <View style={{ width: sizes._42sdp }} />
       </View>
     );
   }
@@ -144,7 +143,7 @@ const ScreensSettings = ({navigation}: any) => {
           {/* Vị trí */}
           <View style={styles.item_conten}>
             <Text style={styles.title_conten}>{'Vị trí'}</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={styles.title_conten}>VN</Text>
               <TouchableOpacity>
                 <Icons

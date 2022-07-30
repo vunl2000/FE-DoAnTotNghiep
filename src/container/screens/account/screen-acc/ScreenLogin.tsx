@@ -157,9 +157,13 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
         default:
           console.log('Error');
       }
+      setInvisible(false);
     } catch {
       console.log('Error');
     }
+    // return(()=>{
+    //   setInvisible(false);
+    // })
   }, [error]);
 
   function handleLogin() {

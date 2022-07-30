@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     backgroundColor: ArrayColors._color_white,
   },
   mContainerBody: {
-    backgroundColor: ArrayColors.gray_bg_light,
+    backgroundColor: ArrayColors._color_white,
   },
   containerHeader: {
     flexDirection: 'row',
