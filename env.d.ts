@@ -17,4 +17,5 @@ declare module '@env' {
   export const API_GET_BILL_DETAIL_USER: string;
   export const GET_PRODUCT_BY_ID_OBJECT: string;
   export const GET_PRODUCT_BY_ID: string;
+  export const GET_PRODUCT_SREACH_TITLE_PRODUCTS: string;
 }

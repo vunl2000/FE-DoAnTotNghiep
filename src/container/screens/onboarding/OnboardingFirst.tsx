@@ -30,6 +30,7 @@ const Slide = ({ item }: any) => {
 
 const OnboardingFirst = () => {
   const { navigate }: any = useNavigation();
+  const {replace}: any = useNavigation();
   const dispatch: any = useDispatch();
   const { firstOpen } = useSelector((state: any) => state.firstOpen);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -47,7 +48,7 @@ const OnboardingFirst = () => {
       silderRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
       dispatch(openApp());
-      navigate(NameScreen.HOME);
+      replace(NameScreen.HOME);
     }
   };
 
