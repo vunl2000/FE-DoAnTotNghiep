@@ -1,11 +1,11 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import Banner from '../../../components/home/banner/Banner';
-import WomenCatory from '../../../components/home/catory/WomenCatory';
-import ArrayColors from '../../../res/colors/ArrayColors';
-import SoloGan from '../../../components/home/banner/SoloGan';
-import sizes from '../../../res/sizes/sizes';
-import ProDucts from '../../../components/product/Products';
+import Banner from '../../../../components/home/banner/Banner';
+import WomenCatory from '../../../../components/home/catory/WomenCatory';
+import ArrayColors from '../../../../res/colors/ArrayColors';
+import SoloGan from '../../../../components/home/banner/SoloGan';
+import sizes from '../../../../res/sizes/sizes';
+import ProDucts from '../../../../components/product/Products';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {API_URL, GET_PRODUCT_BY_ID_OBJECT} from '@env';

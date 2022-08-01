@@ -1,12 +1,12 @@
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import ArrayColors from '../../../res/colors/ArrayColors';
-import MenCatory from '../../../components/home/catory/MenCatory';
-import Banner from '../../../components/home/banner/Banner';
-import ProDucts from '../../../components/product/Products';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {API_URL, GET_PRODUCT_BY_ID_OBJECT} from '@env';
+import Banner from '../../../../components/home/banner/Banner';
+import MenCatory from '../../../../components/home/catory/MenCatory';
+import ProDucts from '../../../../components/product/Products';
+import ArrayColors from '../../../../res/colors/ArrayColors';
 
 type Props = {};
 

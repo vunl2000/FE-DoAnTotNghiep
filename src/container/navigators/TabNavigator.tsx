@@ -22,6 +22,7 @@ import {getBanner} from '../../store/actions/fristOpenActions';
 import {loadCatory} from '../../store/actions/catoryActions';
 import {loadProducts} from '../../store/actions/productsActions';
 import ScreenInvoice from '../screens/invoice/ScreenInvoice';
+import ProductView from '../screens/product/ProductView';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -36,6 +37,7 @@ export enum NameScreen {
   LIST_ADDRESS = 'ScreenListAddress',
   ONBOARDING = 'OnboardingFirst',
   INVOICE = 'ScreenStatusInvoice',
+  PRODUCT_VIEW = 'ProductView',
 }
 
 export default function TabNavigator() {
@@ -130,6 +132,11 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ScreenStatusInvoice"
           component={ScreenInvoice}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ProductView"
+          component={ProductView}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

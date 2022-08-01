@@ -1,8 +1,8 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import MenScreen from '../screens/men/MenScreen';
-import WomenScreen from '../screens/women/WomenScreen';
+import MenScreen from '../screens/home/men/MenScreen';
+import WomenScreen from '../screens/home/women/WomenScreen';
 import HomeIndex from '../screens/home/tab/HomeIndex';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
