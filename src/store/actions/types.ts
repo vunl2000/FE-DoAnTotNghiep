@@ -68,6 +68,9 @@ export const LOADING_CATORY_ACCESSORY_SUCCES =
   'LOADING_CATORY_ACCESSORY_SUCCES';
 export const LOADING_CATORY_ACCESSORY_ERR = 'LOADING_CATORY_ACCESSORY_ERR';
 
+
+export const ADD_ITEM_HISTORY = "ADD_ITEM_HISTORY"
+export const CLEAR_ITEM_HISTORY  = "CLEAR_ITEM_HISTORY"
 //Action Props
 export type ActionProps = {
   type: any;

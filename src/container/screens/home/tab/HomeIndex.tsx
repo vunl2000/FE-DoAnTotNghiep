@@ -5,7 +5,6 @@ import TopCatory from '../../../../components/home/catory/TopCatory';
 import Banner from '../../../../components/home/banner/Banner';
 import Products from '../../../../components/product/Products';
 import {useSelector} from 'react-redux';
-
 import HomeCatory from '../../../../components/home/catory/HomeCatory';
 
 interface Props {}
@@ -14,6 +13,7 @@ const renderContent = null;
 const isEmty = null;
 
 const HomeIndex: React.FC<Props> = props => {
+  
   const [bannerSale, setBannerSale] = useState();
   const [bannerHeader, setBannerHeader] = useState();
   const {products} = useSelector((state: any) => state.product);
@@ -60,6 +60,7 @@ const HomeIndex: React.FC<Props> = props => {
         bounces={false}
         scrollEventThrottle={32}
       />
+     
     </View>
   );
 };

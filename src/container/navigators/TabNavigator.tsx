@@ -22,6 +22,7 @@ import {getBanner} from '../../store/actions/fristOpenActions';
 import {loadCatory} from '../../store/actions/catoryActions';
 import {loadProducts} from '../../store/actions/productsActions';
 import ScreenInvoice from '../screens/invoice/ScreenInvoice';
+import SearchScreen from '../screens/search/SearchScreen';
 import ProductView from '../screens/product/ProductView';
 
 export enum NameScreen {
@@ -137,6 +138,12 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ProductView"
           component={ProductView}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="SearchScreen"
+          component={SearchScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

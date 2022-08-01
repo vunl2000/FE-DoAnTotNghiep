@@ -1,21 +1,25 @@
-import {StyleSheet, SafeAreaView, Animated, View} from 'react-native';
-import React, {useEffect} from 'react';
+import { StyleSheet, SafeAreaView, Animated, View } from 'react-native';
+import React, { memo, useEffect } from 'react';
 import Header from '../../../components/header/Header';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import sizes from '../../../res/sizes/sizes';
 import HomeStack from '../../navigators/HomeStack';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   loadAll,
   loadMen,
   loadWomen,
 } from '../../../store/actions/catoryActions';
-import {Value} from 'react-native-reanimated';
+import { Value } from 'react-native-reanimated';
 
-const ScreensHome = () => {
+
+
+const ScreensHome = ({ navigation }: { navigation: any }) => {
   const dispatch: any = useDispatch();
-  const {typeCatory} = useSelector((state: any) => state.catory);
+  const { typeCatory } = useSelector((state: any) => state.catory);
   const [height, setHeight] = React.useState(0);
+
+  const [isViewModel, setIsViewModel] = React.useState<string | any>(false);
 
   const activeIndexAnimation = React.useRef(new Animated.Value(0)).current;
 
@@ -33,7 +37,7 @@ const ScreensHome = () => {
     }).start();
   }
 
-  const {mContainer} = styles;
+  const { mContainer } = styles;
 
   const changeScoll = (val: any) => {
     setHeight(val);
@@ -53,9 +57,14 @@ const ScreensHome = () => {
     });
   }, [typeCatory]);
 
+  function eventSearch() {
+    navigation.navigate("SearchScreen")
+  }
+
+
   return (
     <SafeAreaView style={mContainer}>
-      <Header logo />
+      <Header onPressSearch={eventSearch} logo />
       <View style={styles.contentView}>
         <HomeStack changeScoll={changeScoll} />
       </View>
@@ -63,7 +72,7 @@ const ScreensHome = () => {
   );
 };
 
-export default ScreensHome;
+export default memo(ScreensHome);
 
 const styles = StyleSheet.create({
   mContainer: {

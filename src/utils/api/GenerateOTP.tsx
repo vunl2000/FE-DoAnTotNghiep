@@ -8,7 +8,7 @@ export async function GenerateOTP(userEmail: any, userID: any) {
   });
   const config = await {
     method: 'POST',
-    url: 'http://192.168.254.1:3000/account-user/get-gen-otp',
+    url: API_URL_GENERATE_OTP,
     headers: {
       'Content-Type': 'application/json',
     },

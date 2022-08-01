@@ -3,9 +3,13 @@ import React from 'react';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
 import Images from '../../res/require/Images';
-import Svg from 'react-native-svg';
+import {WebView} from 'react-native-webview';
 
-const Loading = () => {
+interface Props {
+  visible?: boolean;
+}
+
+const Loading = (props: Props) => {
   const mapText = [
     Images.icons8_bra_100,
     Images.icons8_dress_100,
@@ -15,31 +19,12 @@ const Loading = () => {
     Images.icons8_tshirt_100,
     Images.icons8_women_shoe_side_view_100,
   ];
-
-  const [images, setImages] = React.useState(Images.ic_account);
-  const [count, setCount] = React.useState<string | any>(0);
-  const [time, setTime] = React.useState<string | any>(700);
-
-  React.useLayoutEffect(() => {
-    setTimeout(() => {
-      if (mapText.length <= count) {
-        setCount(0);
-        setImages(mapText[0]);
-      } else {
-        setCount(count + 1);
-        setImages(mapText[count]);
-
-        console.log('700', count);
-      }
-    }, 600);
-  }, [count]);
-
   return (
     <Modal
       statusBarTranslucent={true}
       animationType="slide"
       transparent={true}
-      visible={true}>
+      visible={props.visible}>
       <View
         style={{
           backgroundColor: ArrayColors._color_gray_translucenLoading,
@@ -56,13 +41,17 @@ const Loading = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Image
+            <WebView
+              scalesPageToFit={false}
+              originWhitelist={['*']}
+              domStorageEnabled={true}
+              source={{
+                uri: 'https://static.chiccdn.com/pwa/dist/static/img/PureIconLoading.433f3ebe.svg',
+              }}
               style={{
                 width: sizes._48sdp,
                 height: sizes._48sdp,
-                resizeMode: 'contain',
               }}
-              source={images}
             />
           </View>
         </View>
@@ -72,5 +61,3 @@ const Loading = () => {
 };
 
 export default Loading;
-
-const styles = StyleSheet.create({});

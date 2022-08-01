@@ -91,17 +91,17 @@ const ScreenRegister = ({navigation}: {navigation: any}) => {
       setLabelPasswordConfirm('Mật khẩu không khớp');
       setWarningPassWordConfirm(true);
     } else {
-      navigation.navigate('ScreenRegisterDetail', {
-        emailNext: email,
-        passwordNext: password,
-        passwordConfirmNext: passwordConfirm,
-      });
+      // navigation.navigate('ScreenRegisterDetail', {
+      //   emailNext: email,
+      //   passwordNext: password,
+      //   passwordConfirmNext: passwordConfirm,
+      // });
     }
-    // navigation.navigate('ScreenRegisterDetail', {
-    //   emailNext: email,
-    //   passwordNext: password,
-    //   passwordConfirmNext: passwordConfirm,
-    // });
+    navigation.navigate('ScreenRegisterDetail', {
+      emailNext: email,
+      passwordNext: password,
+      passwordConfirmNext: passwordConfirm,
+    });
     console.log(isNullEmptyBlank(password));
   }
   function eventLogin() {

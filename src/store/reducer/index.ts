@@ -3,12 +3,13 @@ import errReducer from './errReducer';
 import productReducer from './productReducer';
 import loginReducer from './loginReducer';
 import registerReducer from './registerReducer';
-
 import firstOpenReducer from './fristOpenReducer';
 import addressReducer from './addressReducer';
 import catoryReducer from './catoryReducer';
 import billReducer from './billReducer';
 import invoiceReducer from './invoiceReducer';
+import historyReducer from './historyReducer';
+
 
 export default combineReducers({
   product: productReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
   catory: catoryReducer,
   bill: billReducer,
   invoice: invoiceReducer,
+  itemHistory: historyReducer,
 });
