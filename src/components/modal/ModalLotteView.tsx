@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Modal} from 'react-native';
+import { StyleSheet, Text, View, Modal } from 'react-native';
 import React from 'react';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';

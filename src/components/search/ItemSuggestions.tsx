@@ -7,6 +7,7 @@ import {arrKey} from '../../data/ArrKeySuggestions';
 type Props = {};
 
 const ItemSuggestions = (props: Props) => {
+  
   function eventClickItem(item: string | any) {
     console.log(item);
     ///điều hướng tới màn hình sản phẩm

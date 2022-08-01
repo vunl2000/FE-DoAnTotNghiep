@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
-import {arrKey} from '../../data/ArrKeySuggestions';
-import {useDispatch, useSelector} from 'react-redux';
+import { arrKey } from '../../data/ArrKeySuggestions';
+import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 type Props = {};
 
@@ -11,40 +11,19 @@ const ItemHistory = (props: Props) => {
   const [productData, setProductData] = React.useState<string | any>([]);
   const item = useSelector((state: any) => state.itemHistory);
 
-  // React.useEffect(() => {
-  //   getData('@product_userSearch')
-  //     .then(data => data)
-  //     .then(value => {
-  //        console.log('yourKey Value:  ' + value);
-  //       setProductData(value);
-  //     })
-  //     .catch(err => console.log(err));
-  // }, []);
-  console.log(item);
-  
 
-  const getData = async (key: any) => {
-    // get Data from Storage
-    try {
-      const data = await AsyncStorage.getItem(key);
-      if (data !== null) {
-        console.log(JSON.parse(data));
-        return data;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+
+
+  console.log(item);
   console.log(productData);
 
-
   function eventClickItem(item: string | any) {
-
     console.log(item);
     ///điều hướng tới màn hình sản phẩm
   }
   return (
-    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
 
       {item.itemHistory.map((item: any, index: any) => {
         return (

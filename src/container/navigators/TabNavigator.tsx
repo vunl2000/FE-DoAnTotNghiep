@@ -22,6 +22,8 @@ import {getBanner} from '../../store/actions/fristOpenActions';
 import {loadCatory} from '../../store/actions/catoryActions';
 import {loadProducts} from '../../store/actions/productsActions';
 import ScreenInvoice from '../screens/invoice/ScreenInvoice';
+import SearchScreen from '../screens/search/SearchScreen';
+
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -132,6 +134,12 @@ export default function TabNavigator() {
           component={ScreenInvoice}
           options={{headerShown: false}}
         />
+          <Stack.Screen
+          name="SearchScreen"
+          component={SearchScreen}
+          options={{headerShown: false}}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

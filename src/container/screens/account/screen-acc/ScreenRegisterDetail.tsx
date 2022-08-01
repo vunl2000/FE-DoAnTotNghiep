@@ -202,17 +202,20 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
       setWarningNumberPhone(true);
       setLabelNumberPhone('Không được bỏ trống');
     } else {
-      dispatch(
-        userRegister({
-          name,
-          croppedImage,
-          phone,
-          email,
-          password,
-          passwordConfirm,
-        }),
-      );
+      // dispatch(
+      //   userRegister({
+      //     name,
+      //     croppedImage,
+      //     phone,
+      //     email,
+      //     password,
+      //     passwordConfirm,
+      //   }),
+      // );
+
     }
+    navigation.navigate('ScreenVeryfiOTP');
+
   }
 
   const renderContent = (
