@@ -4,10 +4,12 @@ import {
   LOADED_PRODUCT,
   ADD_TO_CART,
   DELETE_TO_CART,
+  CHANGE_HEART,
 } from './types';
-import {API_URL_GETALL_PRODUCT} from '@env';
+import {API_URL, API_URL_GETALL_PRODUCT, GET_HEART} from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
+import store from '..';
 // Load products
 
 export const loadProducts = () => async (dispatch: AllDispatchProps) => {
@@ -18,7 +20,12 @@ export const loadProducts = () => async (dispatch: AllDispatchProps) => {
     url: API_URL_GETALL_PRODUCT,
   })
     .then(res => {
-      dispatch({type: LOADED_PRODUCT, payload: res.data});
+      let data = res.data;
+      let newData = data.result.map((item: any) => ({
+        ...item,
+        heart_active: false,
+      }));
+      dispatch({type: LOADED_PRODUCT, payload: newData});
     })
     .catch(err => {
       dispatch(
@@ -73,6 +80,15 @@ export function slectedAllCart() {
 export function decreaseQuantity(id: any) {
   return {
     type: 'DECREASE_QUANTITY',
+    payload: {
+      id,
+    },
+  };
+}
+
+export function changeHeart(id: any) {
+  return {
+    type: 'CHANGE_HEART',
     payload: {
       id,
     },

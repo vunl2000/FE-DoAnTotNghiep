@@ -6,24 +6,62 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import sizes from '../../../res/sizes/sizes';
 import AppHeader from '../../../components/header/AppHeader';
 import BadgesIcon from '../../../components/icons/BadgesIcon';
 import {useSelector} from 'react-redux';
-import {useRoute} from '@react-navigation/native';
 import IconHeader from '../../../components/icons/IconHeader';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconSub from 'react-native-vector-icons/MaterialCommunityIcons';
 import image from '../../../res/require/Images';
 import {Divider} from 'react-native-paper';
+import axios from 'axios';
+import {API_URL, GET_PRODUCT_SREACH_TITLE_PRODUCTS} from '@env';
+import ProductItemHeart from '../../../components/product/Product.ItemHeart';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 type Props = {};
 
 const ProductView = (props: Props) => {
-  const {carts, numberCart} = useSelector((state: any) => state.product);
-  const route: any = useRoute();
+  const [listSearch, setListSearch] = useState<any>([]);
+  const {goBack}: any = useNavigation();
+  const {params}: any = useRoute();
+  const searchKey = params.searchKey;
+
+  const backPress = () => goBack();
+
+  const getData = async (params: any) => {
+    let data = JSON.stringify({
+      titleProduct: params.toString(),
+    });
+
+    await axios({
+      method: 'POST',
+      url: API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS,
+      data: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        let data = res.data;
+        setListSearch(data.result);
+        console.log(data.result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getData(searchKey);
+  }, []);
+
+  const {numberCart} = useSelector((state: any) => state.product);
+
+  //Header Screen
   const HeaderContent = () => (
     <View style={styles.containerHeader}>
       <IconHeader
@@ -31,18 +69,27 @@ const ProductView = (props: Props) => {
         sizes={sizes._24sdp}
         color={ArrayColors._color_black}
         style={styles.iconHeader}
-        onPress={() => {}}
+        onPress={backPress}
       />
       <View style={styles.contentHeader}>
-        <Icon size={sizes._22sdp} name="search-outline" />
-        <TouchableWithoutFeedback>
-          <Text style={[styles.textPlaholder, {flex: 1}]}>Tìm kiếm</Text>
-        </TouchableWithoutFeedback>
+        {searchKey ? (
+          <TouchableWithoutFeedback>
+            <Text style={[styles.textPlaholder, {flex: 1}]}>{searchKey}</Text>
+          </TouchableWithoutFeedback>
+        ) : (
+          <>
+            <Icon size={sizes._22sdp} name="search-outline" />
+            <TouchableWithoutFeedback>
+              <Text style={[styles.textPlaholder, {flex: 1}]}>Tìm kiếm</Text>
+            </TouchableWithoutFeedback>
+          </>
+        )}
         <Icon size={sizes._22sdp} name="close-circle" />
       </View>
       <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={() => {}} />
     </View>
   );
+  //Filter san pham
   const Filter = () => (
     <View style={styles.contentSeach}>
       <View style={styles.itemSeach}>
@@ -65,12 +112,27 @@ const ProductView = (props: Props) => {
       </View>
     </View>
   );
+  //RenderItem Flatlist
+  const renderItem = ({item, index}: {item: any; index: number}) => (
+    <ProductItemHeart item={item} index={index} />
+  );
+
+  const keyExtractor = (item: any) => item._id;
+  //View Content
   const renderContent = (
     <>
       <Filter />
       <Divider />
+      <FlatList
+        data={listSearch}
+        extraData={listSearch}
+        renderItem={renderItem}
+        numColumns={2}
+        keyExtractor={keyExtractor}
+      />
     </>
   );
+
   return (
     <SafeAreaView style={styles.mContainer}>
       <AppHeader content customContent={<HeaderContent />} />
@@ -78,6 +140,7 @@ const ProductView = (props: Props) => {
         <FlatList
           data={null}
           renderItem={null}
+          listKey="search_screens"
           ListFooterComponent={renderContent}
         />
       </View>

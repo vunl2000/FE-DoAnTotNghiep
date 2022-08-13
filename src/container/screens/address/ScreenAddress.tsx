@@ -45,7 +45,7 @@ interface Address {
   codeZip: string;
 }
 
-const ScreenAdress = (props: Props) => {
+const ScreenAddress = (props: Props) => {
   const {listAddress} = useSelector((state: any) => state.address);
 
   const [cityProvince, setcityProvince] = useState({
@@ -492,7 +492,7 @@ const ScreenAdress = (props: Props) => {
   );
 };
 
-export default ScreenAdress;
+export default ScreenAddress;
 
 const styles = StyleSheet.create({
   container: {

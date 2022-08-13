@@ -19,6 +19,7 @@ import FastImage from 'react-native-fast-image';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart} from '../../store/actions/productsActions';
 import BetterImage from '../images/BetterImage';
+import {showToast} from './ToastCustom';
 
 export interface Props {
   isShow?: any;
@@ -52,10 +53,12 @@ const AddToCart = ({isShow, onChangeShow, item}: Props) => {
     size: '',
     onSelected: null,
   });
+
   const [colorSelected, setColorSelected] = useState({
     color: '',
     onSelected: null,
   });
+
   const clearOptions = () => {
     setColorSelected({
       color: '',
@@ -66,24 +69,17 @@ const AddToCart = ({isShow, onChangeShow, item}: Props) => {
       onSelected: null,
     });
   };
-  const showToastWithGravityAndOffset = (msg: string | any) => {
-    ToastAndroid.showWithGravityAndOffset(
-      msg,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
+
   const spaceItem = () => <View style={styles.space} />;
+
   const addCart = () => {
     if (sizeSelected.size !== '' && colorSelected.color !== '') {
       dispatch(addToCart(item, sizeSelected.size, colorSelected.color));
       clearOptions();
       onChangeShow();
-      return showToastWithGravityAndOffset('Đã thêm vào giỏ hàng!');
+      return showToast('Đã thêm vào giỏ hàng!');
     }
-    return showToastWithGravityAndOffset('Vui lòng chọn size và màu!');
+    return showToast('Vui lòng chọn size và màu!');
   };
 
   const onSelectedSize = (val: any, index: any) => {

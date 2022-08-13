@@ -86,6 +86,8 @@ const image = {
   box_empty: require('../../assets/images/box.png'),
   error: require('../../assets/images/error.png'),
 
+  heart_empty: require('../../assets/images/item_heart_empty.png'),
+
   // ////////////////////////////////
   // like_png: require('../../assets/gif/like_png.png'),
   // like_png: require('../../assets/gif/like_png.png'),

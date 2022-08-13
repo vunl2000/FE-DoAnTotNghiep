@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
@@ -8,14 +8,12 @@ import image from '../../res/require/Images';
 import FastImage from 'react-native-fast-image';
 import BetterImage from '../images/BetterImage';
 import {TypeProductItem} from '../../store/actions/types';
+import IconHeader from '../icons/IconHeader';
+import {formartMoney} from '../../utils/Utilities';
 
 type Props = {
   item?: TypeProductItem;
   index?: number | any;
-};
-
-const formartMoney = (val: any) => {
-  return val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + ' đ';
 };
 
 const ProductItemHeart = ({item, index}: Props) => {
@@ -38,7 +36,21 @@ const ProductItemHeart = ({item, index}: Props) => {
         style={styles.image}
         resizeMode="contain"
       />
+      <View style={styles.mockIcon}>
+        <IconHeader
+          name={'heart-outline'}
+          sizes={sizes._24sdp}
+          color={ArrayColors._color_black_gray12}
+          style={styles.iconHear}
+          onPress={() => {}}
+        />
+      </View>
       <Text style={styles.textPrice}>{formartMoney(item?.price)}</Text>
+      <View style={{flex: 1, paddingRight: sizes._10sdp}}>
+        <Text style={styles.textLabel} ellipsizeMode="tail" numberOfLines={1}>
+          {item?.titleProduct}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -47,7 +59,7 @@ export default ProductItemHeart;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
+    flex: 0.3,
     justifyContent: 'center',
   },
   image: {
@@ -60,5 +72,24 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Bold',
     color: ArrayColors._color_black,
     marginVertical: sizes._10sdp,
+  },
+  textLabel: {
+    fontSize: sizes._font_size_large,
+    fontWeight: '400',
+    fontFamily: 'OpenSans-Regular',
+    color: ArrayColors._color_black,
+    marginBottom: sizes._10sdp,
+  },
+  iconHear: {
+    borderRadius: sizes._42sdp / 2,
+    width: sizes._42sdp,
+    height: sizes._42sdp,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mockIcon: {
+    position: 'absolute',
+    right: sizes._10sdp,
+    bottom: '23%',
   },
 });

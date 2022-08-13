@@ -14,6 +14,7 @@ import {
   TypeCartItem,
   TypeProductItem,
   DELETE_TO_CART,
+  CHANGE_HEART,
 } from './../actions/types';
 
 const initalState = {
@@ -35,7 +36,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
     case LOADED_PRODUCT:
       return {
         ...state,
-        products: payload.result,
+        products: payload,
         isLoading: false,
       };
     case ADD_TO_CART:
@@ -59,7 +60,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
           ...state,
           carts: [...state.carts, cart],
           numberCart: state.numberCart + 1,
-          allSelected: false
+          allSelected: false,
         };
       } else {
         const inCart = state.carts.find((item: TypeCartItem) =>
@@ -78,7 +79,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
               )
             : [...state.carts, cart],
           numberCart: state.numberCart + 1,
-          allSelected: false
+          allSelected: false,
         };
       }
 
@@ -122,7 +123,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
       let product: any = state.carts.find(
         (item: TypeCartItem) => item.id === payload.id,
       );
-    
+
       if (product.qty > 1) {
         return {
           ...state,
@@ -135,26 +136,37 @@ export default (state = initalState, {payload, type}: ActionProps) => {
       return {
         ...state,
       };
-    case DELETE_TO_CART:{
-      if(state.carts.length === 1){
-        return{
+    case DELETE_TO_CART: {
+      if (state.carts.length === 1) {
+        return {
           ...state,
           carts: [],
-          numberCart: 0 ,
-          allSelected: false
-        }
-      }else{
-        let itemCart : TypeCartItem|any = state.carts.find((item: TypeCartItem) =>
-      item.id === payload.id);
-      
-      return{
-        ...state,
-        carts: state.carts.filter((item: TypeCartItem) =>
-        item.id !== payload.id),
-        numberCart: state.numberCart - itemCart.qty
-      }
+          numberCart: 0,
+          allSelected: false,
+        };
+      } else {
+        let itemCart: TypeCartItem | any = state.carts.find(
+          (item: TypeCartItem) => item.id === payload.id,
+        );
+
+        return {
+          ...state,
+          carts: state.carts.filter(
+            (item: TypeCartItem) => item.id !== payload.id,
+          ),
+          numberCart: state.numberCart - itemCart.qty,
+        };
       }
     }
+    case CHANGE_HEART:
+      return {
+        ...state,
+        products: state.products.map((item: any) =>
+          item._id === payload.id
+            ? {...item, heart_active: !item.heart_active}
+            : item,
+        ),
+      };
     default:
       return state;
   }

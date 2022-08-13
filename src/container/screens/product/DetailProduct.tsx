@@ -7,8 +7,10 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  ViewStyle,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import AppHeader from '../../../components/header/AppHeader';
 import sizes from '../../../res/sizes/sizes';
@@ -23,6 +25,24 @@ import BadgesIcon from '../../../components/icons/BadgesIcon';
 import image from '../../../res/require/Images';
 import {NameScreen} from '../../navigators/TabNavigator';
 import {TypeProductItem} from '../../../store/actions/types';
+import axios from 'axios';
+import {API_URL, BY_VIEW_PRODUCTS} from '@env';
+
+const colorRender = (
+  positions: any,
+  index: number,
+  color: string,
+): ViewStyle => ({
+  width: positions != index ? sizes._30sdp : sizes._26sdp,
+  height: positions != index ? sizes._30sdp : sizes._26sdp,
+  borderRadius: positions == index ? sizes._32sdp / 2 : sizes._28sdp / 2,
+  backgroundColor:
+    color == '#ffffff'
+      ? ArrayColors._color_blue_light
+      : color == '#00000'
+      ? ArrayColors._color_white_black
+      : color,
+});
 
 type DetailProps = {};
 
@@ -36,6 +56,43 @@ const DetailProduct = (props: DetailProps) => {
   const [isShow, setIsShow] = useState(false);
   const item: TypeProductItem = route.params?.item;
 
+  const [sizeSelected, setSizeSelected] = useState({
+    size: '',
+    onSelected: null,
+  });
+
+  const [colorSelected, setColorSelected] = useState({
+    color: '',
+    onSelected: null,
+  });
+
+  const onSelectedSize = (val: any, index: any) => {
+    index != sizeSelected.onSelected
+      ? setSizeSelected({size: val, onSelected: index})
+      : setSizeSelected({size: '', onSelected: null});
+  };
+  const onSelectedColor = (val: any, index: any) => {
+    index != colorSelected.onSelected
+      ? setColorSelected({color: val, onSelected: index})
+      : setColorSelected({color: '', onSelected: null});
+  };
+
+  const countView = async () => {
+    let data = JSON.stringify({
+      mIdProduct: item._id,
+    });
+    axios({
+      method: 'POST',
+      url: API_URL + BY_VIEW_PRODUCTS,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+  };
+
   const renderItem = ({item, index}: any) => (
     <FastImage
       source={{
@@ -46,12 +103,42 @@ const DetailProduct = (props: DetailProps) => {
     />
   );
   const keyItem = (item: any, index: number) => index.toString();
+
   const onChangeShow = () => {
     setIsShow(!isShow);
   };
 
   const onBackPress = () => goBack();
+
   const goToCart = () => navigate(NameScreen.HOME, {screen: 'ScreenCart'});
+
+  const SizeProduct = () => (
+    <View>
+      <Text style={styles.textLabel}>Kích thước</Text>
+      <View style={styles.renderList}>
+        {item.size_product.map((_item: any, index: number) => {
+          return (
+            <TouchableWithoutFeedback
+              key={index.toString()}
+              onPress={() => onSelectedSize(_item, index)}>
+              <View
+                style={[
+                  styles.sizeItem,
+                  {
+                    borderColor:
+                      index === sizeSelected.onSelected
+                        ? ArrayColors._color_black
+                        : ArrayColors._color_white_black,
+                  },
+                ]}>
+                <Text style={styles.sizeText}>{_item}</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          );
+        })}
+      </View>
+    </View>
+  );
 
   const renderView = () => (
     <View style={styles.content}>
@@ -67,8 +154,20 @@ const DetailProduct = (props: DetailProps) => {
           pagingEnabled
         />
       </View>
-      <Text style={styles.textNameProduct}>{item.titleProduct}</Text>
-      <Text style={styles.textPriceProduct}>{formartMoney(item.price)}</Text>
+
+      <View style={styles.rowContent}>
+        <View style={styles.spaceLager}>
+          <Text style={styles.textNameProduct}>{item.titleProduct}</Text>
+          <Text style={styles.textPriceProduct}>
+            {formartMoney(item.price)}
+          </Text>
+        </View>
+        <View>
+          <Text>Lượt xem {item.view}</Text>
+        </View>
+      </View>
+
+      <SizeProduct />
     </View>
   );
 
@@ -100,6 +199,10 @@ const DetailProduct = (props: DetailProps) => {
       </TouchableOpacity>
     </View>
   );
+
+  useEffect(() => {
+    countView();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -179,7 +282,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontFamily: 'OpenSans-Regular',
     marginTop: sizes._8sdp,
-    marginLeft: sizes._8sdp,
     fontSize: sizes._font_size_large,
     color: ArrayColors._color_black,
   },
@@ -187,8 +289,39 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     width: '100%',
     fontFamily: 'OpenSans-Bold',
-    marginLeft: sizes._8sdp,
     fontSize: sizes._font_size_big,
+    color: ArrayColors._color_black,
+  },
+  rowContent: {
+    flexDirection: 'row',
+    paddingHorizontal: sizes._10sdp,
+    alignItems: 'center',
+  },
+  spaceLager: {
+    flex: 1,
+  },
+  renderList: {
+    flexDirection: 'row',
+    padding: sizes._16sdp,
+  },
+  sizeText: {
+    fontSize: sizes._16sdp,
+    color: ArrayColors._color_black,
+  },
+  sizeItem: {
+    borderWidth: sizes._2sdp,
+    borderRadius: sizes._50sdp,
+    paddingHorizontal: sizes._24sdp,
+    paddingVertical: sizes._16sdp,
+    marginRight: sizes._16sdp,
+    backgroundColor: ArrayColors._color_white,
+  },
+  textLabel: {
+    fontWeight: '400',
+    fontFamily: 'OpenSans-Regular',
+    marginTop: sizes._8sdp,
+    marginLeft: sizes._8sdp,
+    fontSize: sizes._font_size_big_large,
     color: ArrayColors._color_black,
   },
 });

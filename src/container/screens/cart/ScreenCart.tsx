@@ -44,7 +44,7 @@ const ScreenCart = (props: Props) => {
     dispatch(slectedAllCart());
   };
 
-  const navigateLogin = () => navigate(NameScreen.LOGIN_AND_REGISTER);
+  const navigateLogin = () => navigate(NameScreen.LOGIN);
 
   useEffect(() => {
     let count = 0;
@@ -71,7 +71,7 @@ const ScreenCart = (props: Props) => {
       // }
     } else {
       showToast('Bạn chưa đăng nhập!');
-      navigate(NameScreen.LOGIN_AND_REGISTER);
+      navigate(NameScreen.LOGIN);
     }
   };
 
