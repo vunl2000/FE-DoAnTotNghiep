@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   FlatList,
+  Image,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -13,6 +14,7 @@ import {Divider} from 'react-native-paper';
 import {API_URL, GET_PRODUCT_BY_ID} from '@env';
 import axios from 'axios';
 import CatoryItem from './Catory.Item';
+import image from '../../res/require/Images';
 
 type Props = {
   data?: any;
@@ -31,32 +33,47 @@ const Catory = ({data}: Props) => {
     selectMenu._id !== _id && setSelectMenu({index, _id});
   };
 
+  const getData = async () => {
+    let data = JSON.stringify({
+      titleCategoryProduct: selectMenu._id,
+    });
+    await axios({
+      method: 'POST',
+      url: API_URL + GET_PRODUCT_BY_ID,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data,
+    })
+      .then(res => {
+        let resData = res.data;
+        setDatatCatory(resData.result);
+        setIsloading(true);
+      })
+      .catch(err => {
+        setIsloading(false);
+        console.log(err);
+      });
+  };
   useEffect(() => {
     try {
-      let data = JSON.stringify({
-        titleCategoryProduct: selectMenu._id,
-      });
-      axios({
-        method: 'POST',
-        url: API_URL + GET_PRODUCT_BY_ID,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data,
-      })
-        .then(res => {
-          let resData = res.data;
-          setDatatCatory(resData.result);
-          setIsloading(true);
-        })
-        .catch(err => {
-          setIsloading(false);
-          console.log(err);
-        });
+      getData();
     } catch (error) {
       console.log(error);
     }
   }, [selectMenu]);
+
+  const Exception = () => (
+    <View style={styles.exception}>
+      <Image
+        source={image.box_empty}
+        style={styles.imgEmpty}
+        resizeMode="contain"
+      />
+      <View style={{height: sizes._18sdp}} />
+      <Text style={styles.textPlaholders}>Không tìm thấy sản phẩm nào</Text>
+    </View>
+  );
 
   const renderItem = ({item, index}: any) => (
     <TouchableWithoutFeedback onPress={() => onSelectMenu(item._id, index)}>
@@ -111,14 +128,18 @@ const Catory = ({data}: Props) => {
         </View>
         <View style={styles.contentRight}>
           {isLoading ? (
-            <FlatList
-              data={datatCatory}
-              extraData={datatCatory}
-              renderItem={renderItemRigth}
-              listKey="menu_catory_right"
-              keyExtractor={key}
-              numColumns={2}
-            />
+            datatCatory.length > 0 ? (
+              <FlatList
+                data={datatCatory}
+                extraData={datatCatory}
+                renderItem={renderItemRigth}
+                listKey="menu_catory_right"
+                keyExtractor={key}
+                numColumns={2}
+              />
+            ) : (
+              <Exception />
+            )
           ) : (
             <ActivityIndicator size={'large'} />
           )}
@@ -146,6 +167,8 @@ const styles = StyleSheet.create({
     fontSize: sizes._18sdp,
     flexWrap: 'wrap',
     textAlign: 'center',
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
   },
   contentLeft: {
     flex: 0.3,
@@ -229,8 +252,25 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: sizes._16sdp,
     color: ArrayColors._color_black,
+    fontFamily: 'OpenSans-Bold',
   },
   space: {
     width: sizes._16sdp,
+  },
+  exception: {
+    paddingVertical: sizes._18sdp,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flex: 1,
+  },
+  textPlaholders: {
+    fontSize: sizes._18sdp,
+    color: ArrayColors._color_un_active,
+    fontFamily: 'OpenSans-Regular',
+    fontWeight: '400',
+  },
+  imgEmpty: {
+    width: sizes._80sdp,
+    height: sizes._80sdp,
   },
 });

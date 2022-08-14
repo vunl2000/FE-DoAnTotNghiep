@@ -248,7 +248,7 @@ const ProductHeart = (props: Props) => {
           <View style={styles.spaceHeightMedium} />
         </View>
       )}
-      {auth ? null : (
+      {auth.isAuthenticated ? null : (
         <>
           <Text style={styles.textLabelEmpty}>
             Đăng nhập để xem sản phẩm yêu thích

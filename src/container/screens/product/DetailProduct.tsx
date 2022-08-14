@@ -19,7 +19,7 @@ import ArrayColors from '../../../res/colors/ArrayColors';
 import AddToCart from '../../../components/modal/AddToCart';
 import {formartMoney} from '../../../utils/Utilities';
 import FastImage from 'react-native-fast-image';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import IconHeader from '../../../components/icons/IconHeader';
 import BadgesIcon from '../../../components/icons/BadgesIcon';
 import image from '../../../res/require/Images';
@@ -27,6 +27,8 @@ import {NameScreen} from '../../navigators/TabNavigator';
 import {TypeProductItem} from '../../../store/actions/types';
 import axios from 'axios';
 import {API_URL, BY_VIEW_PRODUCTS} from '@env';
+import {addToCart} from '../../../store/actions/productsActions';
+import {showToast} from '../../../components/modal/ToastCustom';
 
 const colorRender = (
   positions: any,
@@ -54,8 +56,11 @@ const DetailProduct = (props: DetailProps) => {
   const route: any = useRoute();
   const {goBack, navigate}: any = useNavigation();
   const [isShow, setIsShow] = useState(false);
-  const item: TypeProductItem = route.params?.item;
+  const dispatch: any = useDispatch();
 
+  const item: TypeProductItem = route.params?.item;
+  const {_id, imageProduct, titleProduct, price, size_product, color_product} =
+    item;
   const [sizeSelected, setSizeSelected] = useState({
     size: '',
     onSelected: null,
@@ -77,11 +82,22 @@ const DetailProduct = (props: DetailProps) => {
       : setColorSelected({color: '', onSelected: null});
   };
 
+  const clearOptions = () => {
+    setColorSelected({
+      color: '',
+      onSelected: null,
+    });
+    setSizeSelected({
+      size: '',
+      onSelected: null,
+    });
+  };
+
   const countView = async () => {
     let data = JSON.stringify({
       mIdProduct: item._id,
     });
-    axios({
+    await axios({
       method: 'POST',
       url: API_URL + BY_VIEW_PRODUCTS,
       headers: {
@@ -105,12 +121,62 @@ const DetailProduct = (props: DetailProps) => {
   const keyItem = (item: any, index: number) => index.toString();
 
   const onChangeShow = () => {
-    setIsShow(!isShow);
+    if (sizeSelected.size !== '' && colorSelected.color !== '') {
+      dispatch(addToCart(item, sizeSelected.size, colorSelected.color));
+      clearOptions();
+      return showToast('Đã thêm vào giỏ hàng!');
+    } else if (sizeSelected.size !== '' && colorSelected.color === '') {
+      return showToast('Vui lòng chọn màu!');
+    } else if (sizeSelected.size === '' && colorSelected.color !== '') {
+      return showToast('Vui lòng chọn size!');
+    } else {
+      return setIsShow(!isShow);
+    }
   };
 
   const onBackPress = () => goBack();
 
   const goToCart = () => navigate(NameScreen.HOME, {screen: 'ScreenCart'});
+
+  const ColorProduct = () => (
+    <>
+      {color_product != null ? (
+        <View>
+          <Text style={styles.textLabel}>Màu sắc</Text>
+          <View style={styles.renderList}>
+            {color_product.map((_item: any, index: number) => {
+              return (
+                <TouchableWithoutFeedback
+                  key={index.toString()}
+                  onPress={() => onSelectedColor(_item, index)}>
+                  <View
+                    style={[
+                      styles.colorItem,
+                      {
+                        borderWidth:
+                          colorSelected.onSelected == index ? sizes._2sdp : 0,
+                        borderColor:
+                          colorSelected.onSelected == index
+                            ? ArrayColors._color_black
+                            : ArrayColors._color_white,
+                      },
+                    ]}>
+                    <View
+                      style={colorRender(
+                        colorSelected.onSelected,
+                        index,
+                        _item,
+                      )}
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              );
+            })}
+          </View>
+        </View>
+      ) : null}
+    </>
+  );
 
   const SizeProduct = () => (
     <View>
@@ -166,7 +232,7 @@ const DetailProduct = (props: DetailProps) => {
           <Text>Lượt xem {item.view}</Text>
         </View>
       </View>
-
+      <ColorProduct />
       <SizeProduct />
     </View>
   );
@@ -323,5 +389,13 @@ const styles = StyleSheet.create({
     marginLeft: sizes._8sdp,
     fontSize: sizes._font_size_big_large,
     color: ArrayColors._color_black,
+  },
+  colorItem: {
+    width: sizes._30sdp,
+    height: sizes._30sdp,
+    borderRadius: sizes._32sdp / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: sizes._16sdp,
   },
 });

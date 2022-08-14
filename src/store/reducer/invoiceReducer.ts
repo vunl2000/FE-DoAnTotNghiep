@@ -2,6 +2,7 @@ import {
   LOADED_INVOICE_USER,
   LOADED_INVOICE_DETAIL_USER,
   LOADED_INVOICE_ERR,
+  INVOICE_CLEAR,
   TypeBill,
 } from './../actions/types';
 
@@ -22,6 +23,12 @@ export default (state = initalState, {payload, type}: any) => {
       return {
         ...state,
         isFalse: true,
+      };
+    }
+    case INVOICE_CLEAR: {
+      return {
+        listInvoice: [],
+        isFalse: false,
       };
     }
 

@@ -59,11 +59,11 @@ export default ProductItemHeart;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.3,
+    width: (sizes._screen_width - sizes._18sdp * 3) / 2,
     justifyContent: 'center',
   },
   image: {
-    width: (sizes._screen_width - sizes._54sdp) / 2,
+    width: (sizes._screen_width - sizes._18sdp * 3) / 2,
     height: sizes._243sdp,
   },
   textPrice: {

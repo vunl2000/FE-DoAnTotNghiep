@@ -3,6 +3,8 @@ import React from 'react';
 import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import BetterImage from '../../images/BetterImage';
+import {useNavigation} from '@react-navigation/native';
+import {NameScreen} from '../../../container/navigators/TabNavigator';
 
 type Props = {
   item?: any;
@@ -10,9 +12,18 @@ type Props = {
 };
 
 const ContentCatoryItem = (props: Props) => {
+  const {navigate}: any = useNavigation();
+
   const {_id, titleCategoryProduct, categoryImgProduct} = props.item;
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() =>
+        navigate(NameScreen.PRODUCT_VIEW, {
+          titleCategoryProduct: _id,
+          title: titleCategoryProduct,
+        })
+      }>
       <View style={styles.coverImage}>
         <BetterImage
           source={{

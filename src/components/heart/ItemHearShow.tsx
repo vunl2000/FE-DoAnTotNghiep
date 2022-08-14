@@ -11,7 +11,7 @@ import {formartMoney} from '../../utils/Utilities';
 type Props = {
   item: any;
   index: any;
-  onPress: any;
+  onPress?: any;
 };
 
 const ItemHeartShow = ({item, index, onPress}: Props) => {

@@ -12,6 +12,7 @@ import {
 } from '../../../store/actions/catoryActions';
 import {Value} from 'react-native-reanimated';
 import {NameScreen} from '../../navigators/TabNavigator';
+import {HomeName} from '../../navigators/AppContainer';
 
 const ScreensHome = ({navigation}: {navigation: any}) => {
   const dispatch: any = useDispatch();
@@ -64,9 +65,18 @@ const ScreensHome = ({navigation}: {navigation: any}) => {
     navigation.navigate(NameScreen.HEART_PRODUCT);
   }
 
+  function eventCart() {
+    navigation.navigate(HomeName.CART);
+  }
+
   return (
     <SafeAreaView style={mContainer}>
-      <Header onPressHeart={eventHeart} onPressSearch={eventSearch} logo />
+      <Header
+        onPressHeart={eventHeart}
+        onPressSearch={eventSearch}
+        logo
+        onPressCart={eventCart}
+      />
       <View style={styles.contentView}>
         <HomeStack changeScoll={changeScoll} />
       </View>

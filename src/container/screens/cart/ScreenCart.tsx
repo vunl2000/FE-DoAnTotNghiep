@@ -45,6 +45,7 @@ const ScreenCart = (props: Props) => {
   };
 
   const navigateLogin = () => navigate(NameScreen.LOGIN);
+  const navigateHeart = () => navigate(NameScreen.HEART_PRODUCT);
 
   useEffect(() => {
     let count = 0;
@@ -86,6 +87,7 @@ const ScreenCart = (props: Props) => {
         color={ArrayColors._color_black}
         sizes={sizes._24sdp}
         style={styles.iconHeaderRight}
+        onPress={navigateHeart}
       />
     </View>
   );

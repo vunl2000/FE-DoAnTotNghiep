@@ -1,5 +1,6 @@
 import {
   FlatList,
+  Image,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -18,7 +19,11 @@ import IconSub from 'react-native-vector-icons/MaterialCommunityIcons';
 import image from '../../../res/require/Images';
 import {Divider} from 'react-native-paper';
 import axios from 'axios';
-import {API_URL, GET_PRODUCT_SREACH_TITLE_PRODUCTS} from '@env';
+import {
+  API_URL,
+  GET_PRODUCT_BY_ID,
+  GET_PRODUCT_SREACH_TITLE_PRODUCTS,
+} from '@env';
 import ProductItemHeart from '../../../components/product/Product.ItemHeart';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
@@ -28,9 +33,14 @@ const ProductView = (props: Props) => {
   const [listSearch, setListSearch] = useState<any>([]);
   const {goBack}: any = useNavigation();
   const {params}: any = useRoute();
-  const searchKey = params.searchKey;
+
+  const searchKey = params?.searchKey;
+  const titleCategoryProduct = params?.titleCategoryProduct;
+  const title = params?.title;
 
   const backPress = () => goBack();
+
+  const renderSpaceItem = () => <View style={styles.spaceMediumY} />;
 
   const getData = async (params: any) => {
     let data = JSON.stringify({
@@ -55,11 +65,48 @@ const ProductView = (props: Props) => {
       });
   };
 
+  const getDataByTitleId = async (params: any) => {
+    let data = JSON.stringify({
+      titleCategoryProduct: params.toString(),
+    });
+
+    await axios({
+      method: 'POST',
+      url: API_URL + GET_PRODUCT_BY_ID,
+      data: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        let data = res.data;
+        setListSearch(data.result);
+        console.log(data.result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
-    getData(searchKey);
+    if (searchKey) {
+      getData(searchKey);
+    }
+
+    if (titleCategoryProduct) {
+      getDataByTitleId(titleCategoryProduct);
+    }
   }, []);
 
   const {numberCart} = useSelector((state: any) => state.product);
+
+  const Exception = () => (
+    <View style={styles.exception}>
+      <Image source={image.box_empty} style={styles.img} resizeMode="contain" />
+      <View style={styles.spaceMediumY} />
+      <Text style={styles.textPlaholders}>Không tìm thấy sản phẩm nào</Text>
+    </View>
+  );
 
   //Header Screen
   const HeaderContent = () => (
@@ -71,21 +118,29 @@ const ProductView = (props: Props) => {
         style={styles.iconHeader}
         onPress={backPress}
       />
-      <View style={styles.contentHeader}>
-        {searchKey ? (
+      {searchKey ? (
+        <View style={styles.contentHeader}>
           <TouchableWithoutFeedback>
             <Text style={[styles.textPlaholder, {flex: 1}]}>{searchKey}</Text>
           </TouchableWithoutFeedback>
-        ) : (
-          <>
-            <Icon size={sizes._22sdp} name="search-outline" />
-            <TouchableWithoutFeedback>
-              <Text style={[styles.textPlaholder, {flex: 1}]}>Tìm kiếm</Text>
-            </TouchableWithoutFeedback>
-          </>
-        )}
-        <Icon size={sizes._22sdp} name="close-circle" />
-      </View>
+
+          <Icon size={sizes._22sdp} name="close-circle" />
+        </View>
+      ) : null}
+      {titleCategoryProduct ? (
+        <View
+          style={[
+            styles.content,
+            {
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          ]}>
+          <Text style={styles.textSub} numberOfLines={1} ellipsizeMode="tail">
+            {title}
+          </Text>
+        </View>
+      ) : null}
       <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={() => {}} />
     </View>
   );
@@ -120,17 +175,22 @@ const ProductView = (props: Props) => {
   const keyExtractor = (item: any) => item._id;
   //View Content
   const renderContent = (
-    <>
+    <View style={styles.content}>
       <Filter />
       <Divider />
-      <FlatList
-        data={listSearch}
-        extraData={listSearch}
-        renderItem={renderItem}
-        numColumns={2}
-        keyExtractor={keyExtractor}
-      />
-    </>
+      {listSearch.length > 0 ? (
+        <FlatList
+          data={listSearch}
+          extraData={listSearch}
+          renderItem={renderItem}
+          numColumns={2}
+          keyExtractor={keyExtractor}
+          ItemSeparatorComponent={renderSpaceItem}
+        />
+      ) : (
+        <Exception />
+      )}
+    </View>
   );
 
   return (
@@ -225,5 +285,21 @@ const styles = StyleSheet.create({
   },
   spaceMediumY: {
     height: sizes._18sdp,
+  },
+  exception: {
+    paddingVertical: sizes._18sdp,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  textPlaholders: {
+    fontSize: sizes._18sdp,
+    color: ArrayColors._color_un_active,
+    fontFamily: 'OpenSans-Regular',
+    fontWeight: '400',
+  },
+  img: {
+    width: sizes._80sdp,
+    height: sizes._80sdp,
   },
 });
