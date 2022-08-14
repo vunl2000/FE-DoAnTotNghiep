@@ -15,27 +15,27 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import ArrayColors from '../../../../res/colors/ArrayColors';
 import AppHeader from '../../../../components/header/AppHeader';
 import sizes from '../../../../res/sizes/sizes';
 import Images from '../../../../res/require/Images';
 import Input from '../../../../components/accounts/Input';
 import Button from '../../../../components/accounts/Button';
-import {userLogins} from '../../../../store/actions/loginActions';
-import {clearErrors} from '../../../../store/actions/errActions';
+import { userLogins } from '../../../../store/actions/loginActions';
+import { clearErrors } from '../../../../store/actions/errActions';
 
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import TextForgotPassword from '../../../../components/accounts/TextForgotPassword';
 import HeaderShown from '../../../../components/accounts/HeaderShown';
-import {checkMail} from '../../../../utils/Utilities';
+import { checkMail } from '../../../../utils/Utilities';
 
 import Loading from '../../../../components/modal/Loading';
 type Props = {};
 
-const ScreenLogin = ({navigation}: {navigation: any}) => {
+const ScreenLogin = ({ navigation }: { navigation: any }) => {
   const isAndroid = Platform.OS === 'android';
 
   const [email, setEmail] = React.useState<string | any>('');
@@ -109,7 +109,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
   console.log(error);
 
   React.useEffect(() => {
-    const {isAuthenticated, token} = accounts;
+    const { isAuthenticated, token } = accounts;
 
     if (isAuthenticated) {
       setTimeout(() => {
@@ -178,9 +178,9 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
       setLabelEmail('Vui lòng nhập đúng định dạng');
       setWarningEmail(true);
     } else {
-      dispatch(userLogins({email, password}));
+      dispatch(userLogins({ email, password }));
       setInvisible(true);
-      console.log({email, password});
+      console.log({ email, password });
     }
   }
   function eventRegister() {
@@ -192,6 +192,10 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
   function onBackPress() {
     dispatch(clearErrors());
     navigation.goBack();
+  }
+  function eventForgotPassword() {
+    
+    navigation.navigate('ScreenForgotPassword');
   }
   return (
     <>
@@ -209,7 +213,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
               marginTop: sizes._36sdp,
               marginHorizontal: sizes._20sdp,
             }}>
-            <Text style={{fontSize: sizes._24sdp, textAlign: 'center'}}>
+            <Text style={{ fontSize: sizes._24sdp, textAlign: 'center' }}>
               Chào mừng bạn đến với ứng dụng mua sắm trực tuyển
             </Text>
           </View>
@@ -264,7 +268,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
                 {labelPassWord}
               </Text>
             )}
-            <TextForgotPassword />
+            <TextForgotPassword onPress={eventForgotPassword} />
             <Button onPress={handleLogin} title="Đăng nhập"></Button>
             <GoogleOrFacebook />
             <Policy />

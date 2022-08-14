@@ -19,7 +19,7 @@ import Button from '../../../components/accounts/Button';
 
 type Props = {};
 
-const ScreenChangePass = ({navigation}: any) => {
+const ScreenChangePass = ({ navigation }: any) => {
   const [password, setPassword] = React.useState<string | any>('');
   const [visibleIconPassword, setVisibleIconPassword] = React.useState(false);
 
@@ -61,33 +61,13 @@ const ScreenChangePass = ({navigation}: any) => {
   const [viewEyenew, setViewEyenew] = React.useState(true);
   const [showPasswordnew, setShowPasswordnew] = React.useState(true);
 
-  const [warningPassWordnew, setWarningPasswordnew] = React.useState<
-    string | any
-  >(false);
-  const [labelPassWordnew, setLabelPasswordnew] = React.useState<string | any>(
-    '',
-  );
+  // const [warningPassWordnew, setWarningPasswordnew] = React.useState<
+  //   string | any
+  // >(false);
+  // const [labelPassWordnew, setLabelPasswordnew] = React.useState<string | any>(
+  //   '',
+  // );
 
-  function eventEditPassword(text: string | any) {
-    setPassword(text);
-    if (text != null) {
-      console.log('text != null');
-      setVisibleIconPassword(true);
-      setWarningPassword(false);
-      setLabelPassword(null);
-    } else {
-      console.log('text == null');
-      setVisibleIconPassword(false);
-    }
-  }
-  function clearTextPassword() {
-    setPassword('');
-    setVisibleIconPassword(false);
-  }
-  function eventOnOff() {
-    setViewEye(!viewEye);
-    setShowPassword(!showPassword);
-  }
 
   function eventEditPasswordold(text: string | any) {
     setPasswordold(text);
@@ -110,13 +90,34 @@ const ScreenChangePass = ({navigation}: any) => {
     setShowPasswordold(!showPasswordold);
   }
 
+  function eventEditPassword(text: string | any) {
+    setPassword(text);
+    if (text != null) {
+      console.log('text != null');
+      setVisibleIconPassword(true);
+      setWarningPassword(false);
+      setLabelPassword(null);
+    } else {
+      console.log('text == null');
+      setVisibleIconPassword(false);
+    }
+  }
+  function clearTextPassword() {
+    setPassword('');
+    setVisibleIconPassword(false);
+  }
+  function eventOnOff() {
+    setViewEye(!viewEye);
+    setShowPassword(!showPassword);
+  }
+
   function eventEditPasswordnew(text: string | any) {
     setPasswordnew(text);
     if (text != null) {
       console.log('text != null');
       setVisibleIconPasswordnew(true);
-      setWarningPasswordnew(false);
-      setLabelPasswordnew(null);
+      setWarningPasswordNew(false);
+      setLabelPasswordNew(null);
     } else {
       console.log('text == null');
       setVisibleIconPasswordnew(false);
@@ -146,7 +147,7 @@ const ScreenChangePass = ({navigation}: any) => {
         <View style={styles.contentHeader}>
           <Text style={styles.textLabel}>Đổi mật khẩu</Text>
         </View>
-        <View style={{width: sizes._42sdp}} />
+        <View style={{ width: sizes._42sdp }} />
       </View>
     );
   }
@@ -213,7 +214,7 @@ const ScreenChangePass = ({navigation}: any) => {
           nameImg_1={image.ic_mark_cut}
           nameImg_2={image.ic_eye_off}
           nameImg_3={image.ic_eys_on}
-          setIconView={viewEye}
+          setIconView={viewEyenew}
           onChangeText={text => eventEditPasswordnew(text)}
           secureTextEntry={showPasswordnew}
           setIconViewEmail={visibleIconPasswordnew}

@@ -12,9 +12,6 @@ const ItemHistory = (props: Props) => {
   const item = useSelector((state: any) => state.itemHistory);
 
 
-
-
-
   console.log(item);
   console.log(productData);
 

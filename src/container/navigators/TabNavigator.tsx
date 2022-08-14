@@ -24,7 +24,7 @@ import {loadProducts} from '../../store/actions/productsActions';
 import ScreenInvoice from '../screens/invoice/ScreenInvoice';
 import SearchScreen from '../screens/search/SearchScreen';
 import ProductView from '../screens/product/ProductView';
-
+import ScreenForgotPassword from '../screens/account/screen-acc/ScreenForgotPassword'
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
@@ -144,6 +144,12 @@ export default function TabNavigator() {
         <Stack.Screen
           name="ProductView"
           component={ProductView}
+          options={{headerShown: false}}
+        />
+          
+          <Stack.Screen
+          name="ScreenForgotPassword"
+          component={ScreenForgotPassword}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
