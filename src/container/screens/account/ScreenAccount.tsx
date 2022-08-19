@@ -187,17 +187,8 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     );
   }
 
-  return (
-    <SafeAreaView style={styles.mContainer}>
-      <AppHeader
-        content
-        customContent={
-          <HeaderAccounts
-            onPressCart={eventCart}
-            onPressSetting={eventSettings}
-          />
-        }
-      />
+  const renderContent = (
+    <>
       <View style={styles.mContinerBody}>
         <LoginAndRegister />
         <View>
@@ -316,6 +307,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
             textLeft="Danh sách yêu thích"
             textRight="Đã xem gần đây"
           />
+          <View style={styles.space} />
           {accounts.isAuthenticated ? (
             <FlatList
               data={listHeart}
@@ -346,7 +338,29 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           )}
         </View>
       </View>
-      {/* {isLoading ? <Loading /> : null} */}
+    </>
+  );
+
+  return (
+    <SafeAreaView style={styles.mContainer}>
+      <AppHeader
+        content
+        customContent={
+          <HeaderAccounts
+            onPressCart={eventCart}
+            onPressSetting={eventSettings}
+          />
+        }
+      />
+      <View style={{flex: 1}}>
+        <FlatList
+          data={null}
+          renderItem={null}
+          ListFooterComponent={renderContent}
+          showsVerticalScrollIndicator={false}
+          listKey={'more-service'}
+        />
+      </View>
     </SafeAreaView>
   );
 };

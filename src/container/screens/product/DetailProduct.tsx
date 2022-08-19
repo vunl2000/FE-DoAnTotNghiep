@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   ViewStyle,
+  ImageURISource,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useRoute, useNavigation} from '@react-navigation/native';
@@ -29,6 +30,13 @@ import axios from 'axios';
 import {API_URL, BY_VIEW_PRODUCTS} from '@env';
 import {addToCart} from '../../../store/actions/productsActions';
 import {showToast} from '../../../components/modal/ToastCustom';
+import TranSport from '../../../components/order/TranSport';
+import ColumView from '../../../components/order/ColumView';
+import {Divider, ProgressBar, Surface} from 'react-native-paper';
+import LevelComment from '../../../components/product/LevelComment';
+import CustomRatingBar from '../../../components/product/CustomRatingBar';
+import ItemComment from '../../../components/product/Item.Comment';
+import ProductItem from '../../../components/product/Product.Item';
 
 const colorRender = (
   positions: any,
@@ -51,8 +59,34 @@ type DetailProps = {};
 const renderContent = null;
 const isEmty = null;
 
+const dataComent = [
+  {
+    userName: 'AnhHoa',
+    comment: 'Hàng chất lượng lắm nha mn!',
+    color: ArrayColors._color_black,
+    size: 'M',
+    defaultRating: 5,
+  },
+  {
+    userName: 'AnhHoa2',
+    comment: 'Hàng chất lượng!',
+    color: ArrayColors._color_black,
+    size: 'M',
+    defaultRating: 5,
+  },
+  {
+    userName: 'AnhHoa3',
+    comment: 'Ủng hộ shop dài lun :3',
+    color: ArrayColors._color_black,
+    size: 'X',
+    defaultRating: 5,
+  },
+];
+
 const DetailProduct = (props: DetailProps) => {
-  const {carts, numberCart} = useSelector((state: any) => state.product);
+  const {carts, numberCart, products} = useSelector(
+    (state: any) => state.product,
+  );
   const route: any = useRoute();
   const {goBack, navigate}: any = useNavigation();
   const [isShow, setIsShow] = useState(false);
@@ -118,7 +152,12 @@ const DetailProduct = (props: DetailProps) => {
       resizeMode={FastImage.resizeMode.cover}
     />
   );
+  const renderListSucces = ({item, index}: any) => (
+    <ProductItem item={item} index={index} />
+  );
   const keyItem = (item: any, index: number) => index.toString();
+
+  const keyExtractor = (item: any) => item._id;
 
   const onChangeShow = () => {
     if (sizeSelected.size !== '' && colorSelected.color !== '') {
@@ -141,7 +180,7 @@ const DetailProduct = (props: DetailProps) => {
   const ColorProduct = () => (
     <>
       {color_product != null ? (
-        <View>
+        <View style={{backgroundColor: ArrayColors.white}}>
           <Text style={styles.textLabel}>Màu sắc</Text>
           <View style={styles.renderList}>
             {color_product.map((_item: any, index: number) => {
@@ -178,8 +217,31 @@ const DetailProduct = (props: DetailProps) => {
     </>
   );
 
+  const viewLeft = (img: ImageURISource, text: string) => (
+    <View style={styles.customLeftView}>
+      <Image source={img} resizeMode="contain" style={styles.icon} />
+      <View style={styles.spaceSmallY} />
+      <Text
+        style={[styles.textDefault, {flex: 1}]}
+        numberOfLines={2}
+        ellipsizeMode="tail">
+        {text}
+      </Text>
+      <View style={styles.spaceSmallY} />
+    </View>
+  );
+  const MoreOther = () => (
+    <View style={styles.customLeftView}>
+      <Text style={styles.textDefault}>Xem thêm</Text>
+      <Icons
+        name="chevron-forward"
+        size={sizes._24sdp}
+        color={ArrayColors._color_black}
+      />
+    </View>
+  );
   const SizeProduct = () => (
-    <View>
+    <View style={{backgroundColor: ArrayColors.white}}>
       <Text style={styles.textLabel}>Kích thước</Text>
       <View style={styles.renderList}>
         {item.size_product.map((_item: any, index: number) => {
@@ -203,6 +265,87 @@ const DetailProduct = (props: DetailProps) => {
           );
         })}
       </View>
+    </View>
+  );
+
+  const TranSportDetail = () => (
+    <View style={styles.tranSport}>
+      <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
+        Vận chuyển
+      </Text>
+      <View style={styles.sapceMediumX} />
+      <ColumView
+        customLeft={viewLeft(
+          image.ic_car_green,
+          'Miễn phí vận chuyển cho các đơn hàng trên 500.000đ',
+        )}
+        styleContainer={styles.columeMedium}
+        iconRight
+      />
+      <Divider />
+      <ColumView
+        customLeft={viewLeft(image.ic_private_green, 'Chính sách bảo vệ')}
+        styleContainer={styles.columeMedium}
+        iconRight
+      />
+      <Divider />
+      <ColumView
+        styleContainer={styles.columeMedium}
+        styleText={styles.textDefault}
+        styleTextLabel={styles.textDefault}
+        valueLeft="Hướng dẫn kích thước"
+        iconRight
+      />
+    </View>
+  );
+  const Comment = () => (
+    <View style={styles.commentContent}>
+      <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
+        Nhận xét (4)
+      </Text>
+
+      <Surface style={styles.levelComment}>
+        <View style={styles.contentLeft}>
+          <Text style={styles.textPriceProduct}>4.6</Text>
+          <CustomRatingBar defaultRating={4} />
+        </View>
+        <Text>Kích thước đặt mua?</Text>
+        <View style={styles.sapceSmallX} />
+        <LevelComment label={'Nhỏ'} progress={0.5} />
+        <View style={styles.sapceSmallX} />
+        <LevelComment label={'Kích thước chính xác'} progress={1} />
+        <View style={styles.sapceSmallX} />
+        <LevelComment label={'Lớn'} progress={0} />
+        <View style={styles.sapceSmallX} />
+      </Surface>
+      {dataComent.length > 0 ? (
+        <>
+          {dataComent.map((item: any, index: any) => (
+            <ItemComment data={item} key={index.toString()} />
+          ))}
+          <View style={styles.sapceSmallX} />
+          <MoreOther />
+        </>
+      ) : null}
+    </View>
+  );
+
+  const ListSuggestions = () => (
+    <View style={styles.listSuggestions}>
+      <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
+        Cõ lẽ bạn sẽ thích
+      </Text>
+      <View style={styles.sapceMediumX} />
+      <FlatList
+        data={products}
+        extraData={products}
+        keyExtractor={keyExtractor}
+        renderItem={renderListSucces}
+        numColumns={2}
+        listKey="List_Suggestions"
+        removeClippedSubviews
+        showsHorizontalScrollIndicator={false}
+      />
     </View>
   );
 
@@ -232,8 +375,22 @@ const DetailProduct = (props: DetailProps) => {
           <Text>Lượt xem {item.view}</Text>
         </View>
       </View>
+
       <ColorProduct />
+
       <SizeProduct />
+
+      <View style={styles.sapceMediumX} />
+
+      <TranSportDetail />
+
+      <View style={styles.sapceMediumX} />
+
+      <Comment />
+
+      <View style={styles.sapceMediumX} />
+
+      <ListSuggestions />
     </View>
   );
 
@@ -300,7 +457,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
-    backgroundColor: ArrayColors._color_white,
+    backgroundColor: ArrayColors.darkGrayAccount,
   },
   contentHeder: {
     flex: 1,
@@ -317,7 +474,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-  listImg: {},
+  listImg: {
+    backgroundColor: ArrayColors.white,
+  },
   img: {
     width: sizes._screen_width,
     height: sizes._csreen_height * 0.6,
@@ -353,7 +512,6 @@ const styles = StyleSheet.create({
   },
   textPriceProduct: {
     fontWeight: '700',
-    width: '100%',
     fontFamily: 'OpenSans-Bold',
     fontSize: sizes._font_size_big,
     color: ArrayColors._color_black,
@@ -362,6 +520,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: sizes._10sdp,
     alignItems: 'center',
+    backgroundColor: ArrayColors.white,
   },
   spaceLager: {
     flex: 1,
@@ -397,5 +556,60 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: sizes._16sdp,
+  },
+  sapceSmallX: {
+    height: sizes._10sdp,
+  },
+  sapceMediumX: {
+    height: sizes._18sdp,
+  },
+  spaceSmallY: {
+    width: sizes._10sdp,
+  },
+  spaceMediumY: {
+    width: sizes._18sdp,
+  },
+  columeMedium: {
+    height: sizes._72sdp,
+  },
+  textDefault: {
+    fontSize: sizes._18sdp,
+    color: ArrayColors._color_black,
+    fontFamily: 'OpenSans-Regular',
+    fontWeight: '400',
+  },
+  tranSport: {
+    backgroundColor: ArrayColors._color_white,
+    paddingVertical: sizes._18sdp,
+  },
+  icon: {
+    width: sizes._26sdp,
+    height: sizes._26sdp,
+  },
+  customLeftView: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: sizes._72sdp,
+  },
+  commentContent: {
+    backgroundColor: ArrayColors.white,
+    paddingVertical: sizes._18sdp,
+  },
+  levelComment: {
+    margin: sizes._18sdp,
+    backgroundColor: ArrayColors.darkGrayLight,
+    padding: sizes._18sdp,
+    elevation: 4,
+  },
+  contentLeft: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+  },
+  listSuggestions: {
+    backgroundColor: ArrayColors.white,
+    paddingVertical: sizes._18sdp,
   },
 });

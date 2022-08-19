@@ -10,6 +10,8 @@ const image = {
   ic_product_active: require('../../assets/images/ic_category_active.png'),
   ic_cart_active: require('../../assets/images/ic_cart_active.png'),
   ic_paper_active: require('../../assets/images/ic_new_active.png'),
+  ic_car_green: require('../../assets/images/ic_car_green.png'),
+  ic_private_green: require('../../assets/images/ic_private_green.png'),
   ic_account_active: require('../../assets/images/ic_user_active.png'),
   dress: require('../../assets/images/dress_1.png'),
   ao_nam: require('../../assets/images/ao_nam.png'),
@@ -87,6 +89,9 @@ const image = {
   error: require('../../assets/images/error.png'),
 
   heart_empty: require('../../assets/images/item_heart_empty.png'),
+
+  star_unactive: require('../../assets/images/star_unactive.png'),
+  star_active: require('../../assets/images/star_active.png'),
 
   // ////////////////////////////////
   // like_png: require('../../assets/gif/like_png.png'),
