@@ -18,8 +18,14 @@ declare module '@env' {
   export const GET_PRODUCT_BY_ID_OBJECT: string;
   export const GET_PRODUCT_BY_ID: string;
   export const GET_PRODUCT_SREACH_TITLE_PRODUCTS: string;
+  export const GET_PRODUCT_SREACH_TITLE_PRODUCTS_DATE_HIGH: string;
+  export const GET_PRODUCT_SREACH_TITLE_PRODUCTS_DATE_LOW: string;
+  export const GET_PRODUCT_SREACH_TITLE_PRODUCTS_HIGH: string;
+  export const GET_PRODUCT_SREACH_TITLE_PRODUCTS_LOW: string;
   export const BY_VIEW_PRODUCTS: string;
   export const COUNT_HEART: string;
   export const GET_HEART: string;
   export const MINES_HEART: string;
+  export const GET_SIZE: string;
+  export const GET_COLOR: string;
 }

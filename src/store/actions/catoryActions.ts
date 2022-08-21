@@ -1,4 +1,4 @@
-import {AllDispatchProps, CLEAR_ERRORS} from './types';
+import {AllDispatchProps, CLEAR_ERRORS, LOAD_COLORS, LOAD_SIZES} from './types';
 import {
   LOADING_CATORY,
   LOADING_CATORY_SUCCES,
@@ -14,7 +14,7 @@ import {
   LOADING_CATORY_ACCESSORY_ERR,
 } from '../actions/types';
 import axios from 'axios';
-import {API_URL, GET_CATORY, GET_CATORY_TYPE} from '@env';
+import {API_URL, GET_CATORY, GET_CATORY_TYPE, GET_COLOR, GET_SIZE} from '@env';
 import {returnErrors} from './errActions';
 
 export const loadCatory = () => async (dispatch: AllDispatchProps) => {
@@ -143,3 +143,30 @@ export const loadWomen =
       });
     }
   };
+
+export const loadSizes = () => async (dispatch: AllDispatchProps) => {
+  await axios({
+    method: 'GET',
+    url: API_URL + GET_SIZE,
+  })
+    .then(res => {
+      let data = res.data;
+      dispatch({type: LOAD_SIZES, payload: data.result});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+export const loadColors = () => async (dispatch: AllDispatchProps) => {
+  await axios({
+    method: 'GET',
+    url: API_URL + GET_COLOR,
+  })
+    .then(res => {
+      let data = res.data;
+      dispatch({type: LOAD_COLORS, payload: data.result});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};

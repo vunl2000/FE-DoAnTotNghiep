@@ -26,7 +26,7 @@ const ArrayColors = new (class {
   _color_gray_light_glossy = '#F5F5F5';
   _color_gray_sombre = '#727070';
   _color_gray_pale = '#817E7E';
-  _color_gray_translucen = 'rgba(0, 0, 0, 0.68)';
+  _color_gray_translucen = 'rgba(0, 0, 0, 0.4)';
   _color_gray_translucenLoading = 'rgba(0, 0, 0, 0.62)';
 
   _color_text_title = '#4D4B4B';
@@ -50,7 +50,7 @@ const ArrayColors = new (class {
   _color_blue_primary_drak = '#172799';
   _color_blue_swarthy = '#283A91';
 
-  _color_orange = '#FFAB40';
+  _color_orange = '#FAFF00';
   _color_orange_medium = '#FF7A00';
   _color_orange_medium_more = '#F78E1E';
 
@@ -90,6 +90,8 @@ const ArrayColors = new (class {
   redAlpha = 'rgba(255; 84; 84; 0.15)';
   greenAlpha = 'rgba(96; 197; 168; 0.15)';
   purpleAlpha = 'rgba(146; 6; 228; 0.15)';
+  greens = '#00FF85';
+  brown = '#FFB800';
 
   // bags background colors
   bag1Bg = '#ea7a72';
