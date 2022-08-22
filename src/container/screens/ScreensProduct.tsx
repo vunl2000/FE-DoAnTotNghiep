@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import React from 'react';
 import ArrayColors from '../../res/colors/ArrayColors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const ScreensProduct = () => {
   const {mContainer} = styles;
   return (

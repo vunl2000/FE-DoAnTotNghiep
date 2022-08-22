@@ -37,7 +37,7 @@ const sizes = new (class {
           PixelRatio.roundToNearestPixel(
             ((value > 2 ? value - 2 : 1) * this.width) / 414,
           ),
-        ); 
+        );
       }
     } else {
       return (value * this.width) / (this.os === 'ios' ? 375 : 400);
@@ -1055,6 +1055,7 @@ const sizes = new (class {
   _font_size_medium = this._14sdp;
   _font_size_large_large = this._15sdp;
   _font_size_large = this._16sdp;
+  _font_size_big_large = this._18sdp;
   _font_size_big_big = this._19sdp;
   _font_size_big = this._20sdp;
   _font_size_max = this._23sdp;

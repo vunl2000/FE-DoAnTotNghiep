@@ -18,9 +18,9 @@ interface Props {
   onPressSearch?: () => void;
   onPressCart?: () => void;
   logo?: boolean;
-  activeIndexAnimation: any;
+  activeIndexAnimation?: any;
 }
-const Header: React.FC<Props> = props => {
+const Header: React.FC<Props> = (props: Props) => {
   const {
     mContainer,
     mStyle,
@@ -69,22 +69,13 @@ const Header: React.FC<Props> = props => {
             />
           )}
         </View>
-
-        {/* {props.logo && (
-          <Image
-            source={images.ic_logo}
-            style={styles.mStyleImg}
-            resizeMode="contain"
-          />
-        )} */}
-
         <View
           style={{
             flexDirection: 'row',
             position: 'absolute',
             top: 0,
             // left: 0,
-            right: 0,
+            right: sizes._16sdp,
           }}>
           <IconHeaderAnimated
             activeIndexAnimation={props.activeIndexAnimation}
@@ -132,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // marginHorizontal: 10,
-    marginLeft: sizes._10sdp,
+    marginLeft: sizes._16sdp,
   },
   iconStyle_2: {
     borderRadius: sizes._42sdp / 2,

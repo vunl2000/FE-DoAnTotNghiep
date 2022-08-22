@@ -4,6 +4,7 @@ import TabNavigator from '../container/navigators/TabNavigator';
 
 export default function App() {
   const {mContainer}: any = styles;
+
   return (
     <View style={mContainer}>
       <StatusBar

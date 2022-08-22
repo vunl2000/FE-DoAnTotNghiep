@@ -3,17 +3,16 @@ const ArrayColors = new (class {
   _color_black = '#000000';
   _color_red = '#FF030A';
   _color_white_black = '#E5E5E5';
+  _color_un_active = '#555555';
   // _color_linear = {["#ED1C24";'#339CB1']};
-  _color_white_bright = 'rgba(229; 229; 229; 0)';
-  _color_white_sombre = '#DADADA';
+  _color_white_bright = 'rgba(229, 229, 229, 0)';
+  _color_white_sombre = 'rgba(255,255,255,0.8)';
 
   _color_black_light = '#44494D';
-
+  _color_black_gray = '#4a4a4a';
   _color_black_gray11 = '#1C1C1C';
 
   _color_black_gray12 = '#373737';
-
-
 
   _color_gray = '#CCCCCC';
   _color_white_gray = '#B9BCBE';
@@ -27,13 +26,14 @@ const ArrayColors = new (class {
   _color_gray_light_glossy = '#F5F5F5';
   _color_gray_sombre = '#727070';
   _color_gray_pale = '#817E7E';
-  _color_gray_translucen = 'rgba(0; 0; 0; 0.68)';
+  _color_gray_translucen = 'rgba(0, 0, 0, 0.68)';
+  _color_gray_translucenLoading = 'rgba(0, 0, 0, 0.62)';
 
   _color_text_title = '#4D4B4B';
   _color_header_ln_start = '#FF030A';
   _color_header_ln_end = '#A30408';
-  _color_rect_ln_start = 'rgba(255; 255; 255; 0.66)';
-  _color_rect_ln_end = 'rgba(255; 255; 255; 0)';
+  _color_rect_ln_start = 'rgba(255, 255, 255, 0.66)';
+  _color_rect_ln_end = 'rgba(255, 255, 255, 0)';
   _color_boder_meet = '#AFAFAF';
 
   _color_red_dark = '#D20B2E';
@@ -54,6 +54,8 @@ const ArrayColors = new (class {
   _color_orange_medium = '#FF7A00';
   _color_orange_medium_more = '#F78E1E';
 
+  _color_facebook = '#007AD9';
+
   primary = '#637aff';
   primaryDark = '#2759ff';
   primaryLite = '#637aff99';
@@ -68,6 +70,8 @@ const ArrayColors = new (class {
   red = '#ff2f68';
   lightRed = '#ff4f7e';
   darkRed = '#d9365e';
+  red_light_tx = '#eb683d';
+  ruby = '#D13232';
   purple = '#8f06e4';
   skyBlue = 'skyblue';
   yellow = '#f8c907';
@@ -75,6 +79,7 @@ const ArrayColors = new (class {
   gold = 'gold';
   line = '#282C35';
   darkGray = '#999999';
+  darkGrayAccount = '#F6F6F6';
 
   darkOverlayColor = 'rgba(0; 0; 0; 0.4)';
   darkOverlayColor2 = 'rgba(0; 0; 0; 0.8)';
@@ -96,5 +101,14 @@ const ArrayColors = new (class {
   bag9Bg = '#eb849c';
   bag10Bg = '#979dc1';
   bag11Bg = '#c7d3c0';
+
+  //blue
+  blue_item_catory = 'rgba(135, 206, 235, 0.2)';
+
+  //bg catory
+  catory_bg_home = '#EFEFEF';
+  gray_custom = '#D9D9D9';
+  gray_bg_light = '#F1F1F1';
+  bg_inline = '#f2f2f2';
 })();
 export default ArrayColors;

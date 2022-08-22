@@ -1,17 +1,21 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  FlatList,
-  Animated,
-} from 'react-native';
-import React from 'react';
+import {StyleSheet, SafeAreaView, Animated} from 'react-native';
+import React, {useEffect} from 'react';
 import Header from '../../components/header/Header';
 import ArrayColors from '../../res/colors/ArrayColors';
-import {FAKEDATA} from '../../data/fakedata/Data';
 import sizes from '../../res/sizes/sizes';
+import HomeStack from '../navigators/HomeStack';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  loadAll,
+  loadCatory,
+  loadMen,
+  loadWomen,
+} from '../../store/actions/catoryActions';
+import {loadProducts} from '../../store/actions/productsActions';
+import {loadProvince} from '../../store/actions/addressActions';
 const ScreensHome = () => {
+  const dispatch: any = useDispatch();
+  const {typeCatory} = useSelector((state: any) => state.catory);
   const [height, setHeight] = React.useState(0);
 
   const activeIndexAnimation = React.useRef(new Animated.Value(0)).current;
@@ -30,47 +34,35 @@ const ScreensHome = () => {
     }).start();
   }
 
-  const renderItem = ({item, index}: {item: any; index: any}) => {
-    return (
-      <View
-        style={{
-          height: 58,
-          marginVertical: 5,
-          marginHorizontal: 5,
-          backgroundColor: '#000',
-        }}>
-        <View style={{justifyContent: 'center'}}>
-          <Text
-            style={{
-              lineHeight: 24,
-              fontSize: 16,
-              fontWeight: '400',
-              color: '#fff',
-            }}>
-            {item?.mission}
-          </Text>
-        </View>
-      </View>
-    );
-  };
   const {mContainer} = styles;
+
+  const changeScoll = (val: any) => {
+    setHeight(val);
+  };
+  useEffect(() => {
+    dispatch(loadCatory());
+    dispatch(loadProducts());
+    dispatch(loadProvince());
+  }, []);
+
+  useEffect(() => {
+    typeCatory.forEach((item: any) => {
+      if (item.titleTypeProduct === 'Shop') {
+        dispatch(loadAll(item._id));
+      }
+      if (item.titleTypeProduct === 'Nam') {
+        dispatch(loadMen(item._id));
+      }
+      if (item.titleTypeProduct === 'Nữ') {
+        dispatch(loadWomen(item._id));
+      }
+    });
+  }, [typeCatory]);
 
   return (
     <SafeAreaView style={mContainer}>
-      <Header logo activeIndexAnimation={activeIndexAnimation} />
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <FlatList
-          data={FAKEDATA || []}
-          renderItem={renderItem}
-          keyExtractor={(item, index) =>
-            item && item.id ? `${item?.id?.toString()}` : index?.toString()
-          }
-          onScroll={event => {
-            setHeight(event.nativeEvent.contentOffset.y);
-            console.log(event.nativeEvent.contentOffset.y);
-          }}
-        />
-      </View>
+      <Header logo />
+      <HomeStack changeScoll={changeScoll} />
     </SafeAreaView>
   );
 };
@@ -81,5 +73,6 @@ const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
     backgroundColor: ArrayColors._color_white,
+    paddingBottom: sizes._80sdp,
   },
 });
