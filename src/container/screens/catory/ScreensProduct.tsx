@@ -14,12 +14,15 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import BadgesIcon from '../../../components/icons/BadgesIcon';
 import image from '../../../res/require/Images';
 import {useSelector} from 'react-redux';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import TopTabCatory from '../../navigators/TopTabCatory';
+import {NameScreen} from '../../navigators/TabNavigator';
+import {HomeName} from '../../navigators/AppContainer';
 
 const ScreensProduct = () => {
   const {carts, numberCart} = useSelector((state: any) => state.product);
   const route: any = useRoute();
+  const {navigate}: any = useNavigation();
 
   const HeaderContent = () => (
     <View style={styles.containerHeader}>
@@ -32,11 +35,16 @@ const ScreensProduct = () => {
       />
       <View style={styles.contentHeader}>
         <Icon size={sizes._22sdp} name="search-outline" />
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={() => navigate(NameScreen.SEARCH_SCREEN)}>
           <Text style={styles.textPlaholder}>Tìm kiếm</Text>
         </TouchableWithoutFeedback>
       </View>
-      <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={() => {}} />
+      <BadgesIcon
+        icon={image.ic_cart}
+        count={numberCart}
+        onPress={() => navigate(HomeName.CART)}
+      />
     </View>
   );
   return (

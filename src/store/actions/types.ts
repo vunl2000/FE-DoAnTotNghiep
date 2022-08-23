@@ -29,6 +29,7 @@ export const SELECT_ALL_CART = 'SELECT_ALL_CART';
 export const DELETE_TO_CART = 'DELETE_TO_CART';
 export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
 export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
+export const CHANGE_HEART = 'CHANGE_HEART';
 
 //Error Types
 export const GET_ERRORS = 'GET_ERRORS';
@@ -52,6 +53,7 @@ export const CREATE_FAIL = 'CREATE_FAIL';
 export const LOADED_INVOICE_USER = 'LOADED_INVOICE_BY_USER';
 export const LOADED_INVOICE_DETAIL_USER = 'LOADED_INVOICE_DETAIL_USER';
 export const LOADED_INVOICE_ERR = 'LOADED_INVOICE_ERR';
+export const INVOICE_CLEAR = 'INVOICE_CLEAR';
 
 //Catory Types
 export const LOADING_CATORY = 'LOADING_CATORY';
@@ -68,9 +70,8 @@ export const LOADING_CATORY_ACCESSORY_SUCCES =
   'LOADING_CATORY_ACCESSORY_SUCCES';
 export const LOADING_CATORY_ACCESSORY_ERR = 'LOADING_CATORY_ACCESSORY_ERR';
 
-
-export const ADD_ITEM_HISTORY = "ADD_ITEM_HISTORY"
-export const CLEAR_ITEM_HISTORY  = "CLEAR_ITEM_HISTORY"
+export const ADD_ITEM_HISTORY = 'ADD_ITEM_HISTORY';
+export const CLEAR_ITEM_HISTORY = 'CLEAR_ITEM_HISTORY';
 //Action Props
 export type ActionProps = {
   type: any;
@@ -102,8 +103,8 @@ export interface TypeProductItem {
   trademark: string;
   imageProduct: string[];
   descriptionProduct: string;
-  heart: number;
-  view: number;
+  heart?: number;
+  view?: number;
   comments: number;
   size_product: string[];
   color_product: string[];

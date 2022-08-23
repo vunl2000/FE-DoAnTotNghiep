@@ -1,9 +1,9 @@
-import {StyleSheet, StatusBar, View} from 'react-native';
+import { StyleSheet, StatusBar, View } from 'react-native';
 import React from 'react';
 import TabNavigator from '../container/navigators/TabNavigator';
-
+import ServicersNotification from '../ServicersNotification'
 export default function App() {
-  const {mContainer}: any = styles;
+  const { mContainer }: any = styles;
 
   return (
     <View style={mContainer}>
@@ -13,10 +13,10 @@ export default function App() {
         barStyle={'dark-content'}
       />
       <TabNavigator />
+      <ServicersNotification />
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   mContainer: {
     flex: 1,

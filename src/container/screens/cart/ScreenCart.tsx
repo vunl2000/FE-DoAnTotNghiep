@@ -44,7 +44,8 @@ const ScreenCart = (props: Props) => {
     dispatch(slectedAllCart());
   };
 
-  const navigateLogin = () => navigate(NameScreen.LOGIN_AND_REGISTER);
+  const navigateLogin = () => navigate(NameScreen.LOGIN);
+  const navigateHeart = () => navigate(NameScreen.HEART_PRODUCT);
 
   useEffect(() => {
     let count = 0;
@@ -71,7 +72,7 @@ const ScreenCart = (props: Props) => {
       // }
     } else {
       showToast('Bạn chưa đăng nhập!');
-      navigate(NameScreen.LOGIN_AND_REGISTER);
+      navigate(NameScreen.LOGIN);
     }
   };
 
@@ -86,6 +87,7 @@ const ScreenCart = (props: Props) => {
         color={ArrayColors._color_black}
         sizes={sizes._24sdp}
         style={styles.iconHeaderRight}
+        onPress={navigateHeart}
       />
     </View>
   );

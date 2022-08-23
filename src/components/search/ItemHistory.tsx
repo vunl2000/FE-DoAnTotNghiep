@@ -1,15 +1,19 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
-import { arrKey } from '../../data/ArrKeySuggestions';
-import { useDispatch, useSelector } from 'react-redux';
+import {arrKey} from '../../data/ArrKeySuggestions';
+import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
+import {NameScreen} from '../../container/navigators/TabNavigator';
 type Props = {};
 
 const ItemHistory = (props: Props) => {
   const [productData, setProductData] = React.useState<string | any>([]);
   const item = useSelector((state: any) => state.itemHistory);
+
+  const {replace}: any = useNavigation();
 
 
   console.log(item);
@@ -18,13 +22,13 @@ const ItemHistory = (props: Props) => {
   function eventClickItem(item: string | any) {
     console.log(item);
     ///điều hướng tới màn hình sản phẩm
+    replace(NameScreen.PRODUCT_VIEW, {searchKey: item.textInput});
   }
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-
+    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
       {item.itemHistory.map((item: any, index: any) => {
         return (
-          <View style={styles.mContainerArr} key={index}>
+          <View style={styles.mContainerArr} key={index.toString()}>
             <TouchableOpacity
               onPress={() => eventClickItem(item)}
               style={styles.mItemArr}>

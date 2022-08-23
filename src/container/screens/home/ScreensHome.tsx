@@ -1,22 +1,22 @@
-import { StyleSheet, SafeAreaView, Animated, View } from 'react-native';
-import React, { memo, useEffect } from 'react';
+import {StyleSheet, SafeAreaView, Animated, View} from 'react-native';
+import React, {memo, useEffect} from 'react';
 import Header from '../../../components/header/Header';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import sizes from '../../../res/sizes/sizes';
 import HomeStack from '../../navigators/HomeStack';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   loadAll,
   loadMen,
   loadWomen,
 } from '../../../store/actions/catoryActions';
-import { Value } from 'react-native-reanimated';
+import {Value} from 'react-native-reanimated';
+import {NameScreen} from '../../navigators/TabNavigator';
+import {HomeName} from '../../navigators/AppContainer';
 
-
-
-const ScreensHome = ({ navigation }: { navigation: any }) => {
+const ScreensHome = ({navigation}: {navigation: any}) => {
   const dispatch: any = useDispatch();
-  const { typeCatory } = useSelector((state: any) => state.catory);
+  const {typeCatory} = useSelector((state: any) => state.catory);
   const [height, setHeight] = React.useState(0);
 
   const [isViewModel, setIsViewModel] = React.useState<string | any>(false);
@@ -37,7 +37,7 @@ const ScreensHome = ({ navigation }: { navigation: any }) => {
     }).start();
   }
 
-  const { mContainer } = styles;
+  const {mContainer} = styles;
 
   const changeScoll = (val: any) => {
     setHeight(val);
@@ -58,13 +58,25 @@ const ScreensHome = ({ navigation }: { navigation: any }) => {
   }, [typeCatory]);
 
   function eventSearch() {
-    navigation.navigate("SearchScreen")
+    navigation.navigate(NameScreen.SEARCH_SCREEN);
   }
 
+  function eventHeart() {
+    navigation.navigate(NameScreen.HEART_PRODUCT);
+  }
+
+  function eventCart() {
+    navigation.navigate(HomeName.CART);
+  }
 
   return (
     <SafeAreaView style={mContainer}>
-      <Header onPressSearch={eventSearch} logo />
+      <Header
+        onPressHeart={eventHeart}
+        onPressSearch={eventSearch}
+        logo
+        onPressCart={eventCart}
+      />
       <View style={styles.contentView}>
         <HomeStack changeScoll={changeScoll} />
       </View>

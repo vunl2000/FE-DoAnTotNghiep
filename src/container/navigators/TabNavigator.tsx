@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import AppContainer from '../navigators/AppContainer';
 import DetailProduct from '../screens/product/DetailProduct';
@@ -9,36 +9,44 @@ import ScreenRegister from '../screens/account/screen-acc/ScreenRegister';
 import ScreenRegisterDetail from '../screens/account/screen-acc/ScreenRegisterDetail';
 import ScreenVeryfiOTP from '../screens/account/screen-acc/ScreenVeryfiOTP';
 import OnboardingFirst from '../../container/screens/onboarding/OnboardingFirst';
-import ScreenAdress from '../screens/address/ScreenAdress';
 import ScreenOrder from '../screens/order/ScreenOrder';
 import ScreenUserSpaper from '../screens/userspaper/ScreenUserSpaper';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ScreensSettings from '../screens/settings/ScreensSettings';
 import ScreensIntroduce from '../screens/settings/ScreensIntroduce';
 import ScreenVeryOTP from '../screens/settings/ScreenVeryOTP';
 import ScreenChangePass from '../screens/settings/ScreenChangePass';
 import ScreenListAddress from '../screens/address/ScreenListAddress';
-import {getBanner} from '../../store/actions/fristOpenActions';
-import {loadCatory} from '../../store/actions/catoryActions';
-import {loadProducts} from '../../store/actions/productsActions';
+import { getBanner } from '../../store/actions/fristOpenActions';
+import { loadCatory } from '../../store/actions/catoryActions';
+import { loadProducts } from '../../store/actions/productsActions';
 import ScreenInvoice from '../screens/invoice/ScreenInvoice';
 import SearchScreen from '../screens/search/SearchScreen';
 import ProductView from '../screens/product/ProductView';
 import ScreenForgotPassword from '../screens/account/screen-acc/ScreenForgotPassword'
+import ProductHeart from '../screens/heart/ProductHeart';
+import ScreenAddress from '../screens/address/ScreenAddress';
+
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
-  LOGIN_AND_REGISTER = 'ScreenLogin',
+  LOGIN = 'ScreenLogin',
+  REGISTER = 'ScreenRegister',
   ADDRESS = 'ScreenAddress',
   ORDER = 'ScreenOrder',
-  SETTINGS = 'ScreenSettings',
+  SETTINGS = 'ScreensSettings',
   INTRODUCE = 'ScreensIntroduce',
-  SCREENOTPSETTING = 'ScreenVeryOTP',
+  VERY_OTP = 'ScreenVeryOTP',
   CHANGEPASS = 'ScreenChangePass',
   LIST_ADDRESS = 'ScreenListAddress',
   ONBOARDING = 'OnboardingFirst',
-  INVOICE = 'ScreenStatusInvoice',
   PRODUCT_VIEW = 'ProductView',
+  SEARCH_SCREEN = 'SearchScreen',
+  HEART_PRODUCT = 'ProductHeart',
+  OTP = 'ScreenVeryfiOTP',
+  REGISTER_DETAIL = 'ScreenRegisterDetail',
+  USER_SPAPER = 'ScreenUserSpaper',
+  INVOICE = 'ScreenInvoice',
 }
 
 export default function TabNavigator() {
@@ -54,103 +62,109 @@ export default function TabNavigator() {
       <Stack.Navigator
         initialRouteName={open ? NameScreen.HOME : NameScreen.ONBOARDING}>
         <Stack.Screen
-          name="OnboardingFirst"
+          name={NameScreen.ONBOARDING}
           component={OnboardingFirst}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="AppContainer"
+          name={NameScreen.HOME}
           component={AppContainer}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="DetailProduct"
+          name={NameScreen.DETAIL_PRODUCT}
           component={DetailProduct}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenLogin"
+          name={NameScreen.LOGIN}
           component={ScreenLogin}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenRegister"
+          name={NameScreen.REGISTER}
           component={ScreenRegister}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
-          name="ScreenVeryfiOTP"
+          name={NameScreen.OTP}
           component={ScreenVeryfiOTP}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenRegisterDetail"
+          name={NameScreen.REGISTER_DETAIL}
           component={ScreenRegisterDetail}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
-          name="ScreenAddress"
-          component={ScreenAdress}
-          options={{headerShown: false}}
+          name={NameScreen.ADDRESS}
+          component={ScreenAddress}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenListAddress"
+          name={NameScreen.LIST_ADDRESS}
           component={ScreenListAddress}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenOrder"
+          name={NameScreen.ORDER}
           component={ScreenOrder}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenUserSpaper"
+          name={NameScreen.USER_SPAPER}
           component={ScreenUserSpaper}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenSettings"
+          name={NameScreen.SETTINGS}
           component={ScreensSettings}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreensIntroduce"
+          name={NameScreen.INTRODUCE}
           component={ScreensIntroduce}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenVeryOTP"
+          name={NameScreen.VERY_OTP}
           component={ScreenVeryOTP}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenChangePass"
+          name={NameScreen.CHANGEPASS}
           component={ScreenChangePass}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ScreenStatusInvoice"
+          name={NameScreen.INVOICE}
           component={ScreenInvoice}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
-          <Stack.Screen
-          name="SearchScreen"
-          component={SearchScreen}
-          options={{headerShown: false}}
-        />
-        
+
         <Stack.Screen
-          name="ProductView"
-          component={ProductView}
-          options={{headerShown: false}}
-        />
-          
-          <Stack.Screen
           name="ScreenForgotPassword"
           component={ScreenForgotPassword}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
+          />
+
+        <Stack.Screen
+          name={NameScreen.PRODUCT_VIEW}
+          component={ProductView}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name={NameScreen.SEARCH_SCREEN}
+          component={SearchScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NameScreen.HEART_PRODUCT}
+          component={ProductHeart}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

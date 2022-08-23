@@ -35,7 +35,13 @@ const mTabBarOptions: any = {
   headerShown: false,
   tabBarHideOnKeyboard: true,
 };
-
+export enum HomeName {
+  INDEX = 'ScreensHome',
+  CATORY = 'ScreensProduct',
+  CART = 'ScreenCart',
+  BLOG = 'ScreenNewspaper',
+  ACCOUNT = 'ScreenAccount',
+}
 const AppContainer: FC = () => {
   const {numberCart} = useSelector((state: any) => state.product);
   const route: any = useRoute();
@@ -46,7 +52,7 @@ const AppContainer: FC = () => {
       screenOptions={mTabBarOptions}
       initialRouteName={initScreen != null ? initScreen : 'HomeScreen'}>
       <bottomTab.Screen
-        name="HomeScreen"
+        name={HomeName.INDEX}
         component={ScreensHome}
         options={{
           tabBarIcon: ({focused}: any) => (
@@ -83,7 +89,7 @@ const AppContainer: FC = () => {
         }}
       />
       <bottomTab.Screen
-        name="ScreensProduct"
+        name={HomeName.CATORY}
         component={ScreensProduct}
         options={{
           tabBarIcon: ({focused}: any) => (
@@ -121,7 +127,7 @@ const AppContainer: FC = () => {
         }}
       />
       <bottomTab.Screen
-        name="ScreenCart"
+        name={HomeName.CART}
         component={ScreenCart}
         options={{
           tabBarBadge: numberCart == 0 ? null : numberCart,
@@ -159,7 +165,7 @@ const AppContainer: FC = () => {
         }}
       />
       <bottomTab.Screen
-        name="ScreenNewspaper"
+        name={HomeName.BLOG}
         component={ScreenNewspaper}
         options={{
           tabBarIcon: ({focused}: any) => (
@@ -196,7 +202,7 @@ const AppContainer: FC = () => {
         }}
       />
       <bottomTab.Screen
-        name="ScreenAccount"
+        name={HomeName.ACCOUNT}
         component={ScreenAccount}
         options={{
           // headerShown: false,

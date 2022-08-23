@@ -4,6 +4,7 @@ import {
   LOADED_INVOICE_USER,
   LOADED_INVOICE_DETAIL_USER,
   LOADED_INVOICE_ERR,
+  INVOICE_CLEAR,
 } from './../actions/types';
 import axios from 'axios';
 import store from '..';
@@ -39,3 +40,9 @@ export const loadInvoiceUser =
       dishpatch({type: LOADED_INVOICE_ERR, payload: null});
     }
   };
+
+export const clearInvoice = () => {
+  return {
+    type: INVOICE_CLEAR,
+  };
+};

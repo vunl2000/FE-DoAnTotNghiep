@@ -2,6 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
 import sizes from '../../res/sizes/sizes';
+import ArrayColors from '../../res/colors/ArrayColors';
 
 type Props = {
   item?: any;
@@ -23,7 +24,9 @@ const CatoryItem = ({item, index}: Props) => {
         resizeMode={FastImage.resizeMode.contain}
         style={styles.img}
       />
-      <Text>{item.titleProduct}</Text>
+      <Text style={styles.textSub} numberOfLines={1} ellipsizeMode="tail">
+        {item.titleProduct}
+      </Text>
     </View>
   );
 };
@@ -37,5 +40,12 @@ const styles = StyleSheet.create({
   img: {
     width: sizes._132sdp,
     height: sizes._190sdp,
+  },
+  textSub: {
+    fontSize: sizes._15sdp,
+    fontWeight: '400',
+    fontFamily: 'OpenSans-Regular',
+    flexWrap: 'wrap',
+    color: ArrayColors._color_black,
   },
 });

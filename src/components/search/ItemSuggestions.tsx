@@ -3,14 +3,18 @@ import React from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {arrKey} from '../../data/ArrKeySuggestions';
+import {useNavigation} from '@react-navigation/native';
+import {NameScreen} from '../../container/navigators/TabNavigator';
 
 type Props = {};
 
 const ItemSuggestions = (props: Props) => {
-  
+  const {replace}: any = useNavigation();
+
   function eventClickItem(item: string | any) {
-    console.log(item);
-    ///điều hướng tới màn hình sản phẩm
+    console.log(item.slice(2, item.length));
+    //điều hướng tới màn hình sản phẩm
+    replace(NameScreen.PRODUCT_VIEW, {searchKey: item.slice(2, item.length)});
   }
   return (
     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>

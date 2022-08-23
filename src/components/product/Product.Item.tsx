@@ -8,14 +8,11 @@ import image from '../../res/require/Images';
 import FastImage from 'react-native-fast-image';
 import BetterImage from '../images/BetterImage';
 import {TypeProductItem} from '../../store/actions/types';
+import {formartMoney} from '../../utils/Utilities';
 
 type Props = {
   item?: TypeProductItem;
   index?: number | any;
-};
-
-const formartMoney = (val: any) => {
-  return val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + ' đ';
 };
 
 const ProductItem = ({item, index}: Props) => {

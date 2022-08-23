@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,16 +11,16 @@ import {
   Animated,
 } from 'react-native';
 import sizes from '../../../res/sizes/sizes';
-import { slides } from '../../../data/DataFirst';
-import { useDispatch, useSelector } from 'react-redux';
-import { openApp } from '../../../store/actions/fristOpenActions';
+import {slides} from '../../../data/DataFirst';
+import {useDispatch, useSelector} from 'react-redux';
+import {openApp} from '../../../store/actions/fristOpenActions';
 import ArrayColors from '../../../res/colors/ArrayColors';
-import { useNavigation } from '@react-navigation/native';
-import { NameScreen } from '../../navigators/TabNavigator';
+import {useNavigation} from '@react-navigation/native';
+import {NameScreen} from '../../navigators/TabNavigator';
 
-const Slide = ({ item }: any) => {
+const Slide = ({item}: any) => {
   return (
-    <View style={{ alignContent: 'center' }}>
+    <View style={{alignContent: 'center'}}>
       <Image source={item.image} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.subtitle}>{item.subtitle}</Text>
@@ -29,23 +29,24 @@ const Slide = ({ item }: any) => {
 };
 
 const OnboardingFirst = () => {
-  const { navigate }: any = useNavigation();
+
   const {replace}: any = useNavigation();
+
   const dispatch: any = useDispatch();
-  const { firstOpen } = useSelector((state: any) => state.firstOpen);
+  const {firstOpen} = useSelector((state: any) => state.firstOpen);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const animatedValue = useRef(new Animated.Value(0)).current;
   const silderRef: any = useRef(null);
 
-  const vieableItemChanged: any = useRef(({ viewableItems }: any) => {
+  const vieableItemChanged: any = useRef(({viewableItems}: any) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
 
-  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+  const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
 
   const next = () => {
     if (currentIndex < slides.length - 1) {
-      silderRef.current.scrollToIndex({ index: currentIndex + 1 });
+      silderRef.current.scrollToIndex({index: currentIndex + 1});
     } else {
       dispatch(openApp());
       replace(NameScreen.HOME);
@@ -53,18 +54,18 @@ const OnboardingFirst = () => {
   };
 
   const skip = () => {
-    silderRef.current.scrollToIndex({ index: slides.length - 1 });
+    silderRef.current.scrollToIndex({index: slides.length - 1});
   };
 
   const keyExtractor = (_: any, index: any) => index.toString();
 
-  const PagingDot: FunctionComponent<{ color: any; opacity: any }> = ({
+  const PagingDot: FunctionComponent<{color: any; opacity: any}> = ({
     color,
     opacity,
   }) => {
     return (
       <Animated.View
-        style={[styles.indicator, { backgroundColor: color, opacity: opacity }]}
+        style={[styles.indicator, {backgroundColor: color, opacity: opacity}]}
       />
     );
   };
@@ -76,7 +77,7 @@ const OnboardingFirst = () => {
           <Text
             style={[
               styles.textDefault,
-              { color: ArrayColors._color_un_active, fontWeight: '400' },
+              {color: ArrayColors._color_un_active, fontWeight: '400'},
             ]}>
             {currentIndex === slides.length - 1 ? null : 'Bỏ qua'}
           </Text>
@@ -116,7 +117,7 @@ const OnboardingFirst = () => {
         </View>
         <TouchableOpacity
           onPress={next}
-          style={[styles.spaceMax, { alignItems: 'flex-end' }]}>
+          style={[styles.spaceMax, {alignItems: 'flex-end'}]}>
           <Text
             style={[
               styles.textDefault,
@@ -145,10 +146,10 @@ const OnboardingFirst = () => {
         listKey={'onbroading_app'}
         keyExtractor={keyExtractor}
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => <Slide item={item} />}
+        renderItem={({item}) => <Slide item={item} />}
         onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: animatedValue } } }],
-          { useNativeDriver: false },
+          [{nativeEvent: {contentOffset: {x: animatedValue}}}],
+          {useNativeDriver: false},
         )}
         scrollEventThrottle={32}
         bounces={false}
@@ -157,7 +158,6 @@ const OnboardingFirst = () => {
         ref={silderRef}
       />
       <Footer />
-
     </SafeAreaView>
   );
 };

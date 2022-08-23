@@ -24,7 +24,7 @@ import Input from '../../../../components/accounts/Input';
 import Button from '../../../../components/accounts/Button';
 import { userLogins } from '../../../../store/actions/loginActions';
 import { clearErrors } from '../../../../store/actions/errActions';
-
+import ModalConfirmPasswordChange from '../../../../components/modal/ModalConfirmPasswordChange'
 import { useDispatch, useSelector } from 'react-redux';
 import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
@@ -33,6 +33,9 @@ import HeaderShown from '../../../../components/accounts/HeaderShown';
 import { checkMail } from '../../../../utils/Utilities';
 
 import Loading from '../../../../components/modal/Loading';
+import axios from 'axios';
+import { API_URL, GET_HEART } from '@env';
+import { changeHeart } from '../../../../store/actions/productsActions';
 type Props = {};
 
 const ScreenLogin = ({ navigation }: { navigation: any }) => {
@@ -47,7 +50,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
   const [visibleIconEmail, setVisibleIconEmail] = React.useState(false);
   const [visibleIconPassword, setVisibleIconPassword] = React.useState(false);
 
-  const [invisible, setInvisible] = React.useState(false);
+  // const [invisible, setInvisible] = React.useState(false);
   const animatedValues: any = React.useRef(new Animated.Value(0)).current;
 
   const [warningEmail, setWarningEmail] = React.useState<string | any>(false);
@@ -63,7 +66,8 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
   const [labelEmail, setLabelEmail] = React.useState<string | any>('');
   const [labelPassWord, setLabelPassword] = React.useState<string | any>('');
 
-  // const [isLoading, setIsLoading] = React.useState<string | any>(false);
+  const [isLoading, setIsLoading] = React.useState<string | any>(false);
+  const [showCheg, setShowCheg] = React.useState<any | boolean>(false);
 
   function eventOnOff() {
     setViewEye(!viewEye);
@@ -108,17 +112,48 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
 
   console.log(error);
 
+  const getAllHeart = async (idUser: any, token: any) => {
+    let data = JSON.stringify({
+      idUser: idUser,
+    });
+    await axios({
+      method: 'POST',
+      url: API_URL + GET_HEART,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => {
+        let data = res.data;
+        let getData: any = data.results;
+        getData.forEach((val: any) => {
+          let idProduct = val.heart.idProduct;
+          dispatch(changeHeart(idProduct));
+          console.log('change ' + idProduct);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   React.useEffect(() => {
     const { isAuthenticated, token } = accounts;
 
     if (isAuthenticated) {
       setTimeout(() => {
-        // setIsLoading(false);
-        navigation.goBack();
-        ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
-        console.log(accounts);
-        dispatch(clearErrors());
-        setInvisible(false);
+        if (accounts.code === 200) {
+          setIsLoading(false);
+          navigation.goBack();
+          ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
+          console.log(accounts);
+          dispatch(clearErrors());
+          getAllHeart(accounts.result[0]._id, `Bearer ${token}`);
+        }
+
+        // setInvisible(false);
       }, 1500);
     }
   }, [accounts]);
@@ -128,7 +163,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
       const errorCode = error.code.code;
       switch (errorCode) {
         case 400: {
-          // setIsLoading(false);
+          setIsLoading(false);
           ToastAndroid.show(
             'Đăng nhập thất bại vui lòng thử lại sau',
             ToastAndroid.SHORT,
@@ -137,6 +172,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
           break;
         }
         case 401: {
+          setIsLoading(false);
           ToastAndroid.show(
             'Thông tin nhập vào không được để trống',
             ToastAndroid.SHORT,
@@ -145,20 +181,24 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
           break;
         }
         case 402: {
+          setIsLoading(false);
           ToastAndroid.show('Người dùng không tồn tại', ToastAndroid.SHORT);
           // dispatch(clearErrors());
           break;
         }
         case 403: {
+          setIsLoading(false);
           ToastAndroid.show('Mật khẩu không chính xác', ToastAndroid.SHORT);
           // dispatch(clearErrors());
           break;
         }
         default:
+          setIsLoading(false);
           console.log('Error');
       }
-      setInvisible(false);
+      // setInvisible(false);
     } catch {
+      setIsLoading(false);
       console.log('Error');
     }
     // return(()=>{
@@ -178,15 +218,15 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
       setLabelEmail('Vui lòng nhập đúng định dạng');
       setWarningEmail(true);
     } else {
+      setIsLoading(true);
       dispatch(userLogins({ email, password }));
-      setInvisible(true);
+      setIsLoading(true);
       console.log({ email, password });
     }
   }
   function eventRegister() {
     dispatch(clearErrors());
     navigation.navigate('ScreenRegister');
-    //navigation.navigate('ScreenVeryfiOTP');
   }
 
   function onBackPress() {
@@ -194,8 +234,11 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     navigation.goBack();
   }
   function eventForgotPassword() {
-    
-    navigation.navigate('ScreenForgotPassword');
+
+    setShowCheg(true);
+
+
+    //  navigation.navigate('ScreenForgotPassword');
   }
   return (
     <>
@@ -289,10 +332,11 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
               Bạn chưa có tài khoản ?
             </Text>
           </TouchableOpacity>
-          {/* {isLoading ? <Loading /> : null} */}
+          {isLoading ? <Loading /> : null}
+          <ModalConfirmPasswordChange visible={showCheg} />
         </SafeAreaView>
       </TouchableWithoutFeedback>
-      <Loading visible={invisible} />
+      {/* <Loading visible={invisible} /> */}
     </>
   );
 };

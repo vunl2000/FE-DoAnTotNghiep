@@ -4,21 +4,11 @@ import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
 import Images from '../../res/require/Images';
 import {WebView} from 'react-native-webview';
-
 interface Props {
   visible?: boolean;
 }
 
 const Loading = (props: Props) => {
-  const mapText = [
-    Images.icons8_bra_100,
-    Images.icons8_dress_100,
-    Images.icons8_hanger_100,
-    Images.icons8_lipstick_100,
-    Images.icons8_skirt_100,
-    Images.icons8_tshirt_100,
-    Images.icons8_women_shoe_side_view_100,
-  ];
   return (
     <Modal
       statusBarTranslucent={true}
