@@ -39,6 +39,10 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const OPEN_APP = 'CLEAR_ERRORS';
 export const BANNER_APP = 'BANNER_APP';
 
+//device Fire Token 
+export const DEVICE_TOKEN = 'DEVICE_TOKEN';
+// export const BANNER_APP = 'BANNER_APP';
+
 //ADDRESS TYPES
 export const GET_PROVINCE = 'GET_PROVINCE';
 export const ADD_LIST_ADDRESS = 'ADD_LIST_ADDRESS';

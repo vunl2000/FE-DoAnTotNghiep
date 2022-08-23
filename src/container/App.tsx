@@ -20,5 +20,6 @@ export default function App() {
 const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
+    
   },
 });
