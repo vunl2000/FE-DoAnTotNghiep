@@ -12,7 +12,6 @@ export default (state = initalState, { payload, type }: any) => {
                 deviceCall: true,
             };
         }
-
         default:
             return state;
     }
