@@ -9,7 +9,11 @@ const CatoryWomen = (props: Props) => {
   const {women} = useSelector((state: any) => state.catory);
   return (
     <View>
-      <Catory data={women} />
+      <Catory
+        data={women}
+        keyListLeft="menu_men_left"
+        keyListRight="view_product_men_right"
+      />
     </View>
   );
 };

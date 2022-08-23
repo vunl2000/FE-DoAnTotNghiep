@@ -6,7 +6,7 @@ import ProductItem from './Product.Item';
 import {useSelector} from 'react-redux';
 import ArrayColors from '../../res/colors/ArrayColors';
 
-type Props = {title?: any; data?: any};
+type Props = {title?: any; data?: any; keyList?: any};
 const renderProDuct = ({item, index}: any) => {
   return <ProductItem item={item} index={index} />;
 };
@@ -15,7 +15,7 @@ const keyItem = (item: any) => item._id;
 
 const space = () => <View style={styles.spaceVertical} />;
 
-const ProDucts = ({title, data}: Props |any) => {
+const ProDucts = ({title, data, keyList}: Props | any) => {
   return (
     <>
       <View style={styles.label}>
@@ -26,12 +26,15 @@ const ProDucts = ({title, data}: Props |any) => {
         extraData={data}
         renderItem={renderProDuct}
         numColumns={2}
-        listKey="list_products"
+        listKey={keyList}
         keyExtractor={keyItem}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews
+        bounces={false}
         ItemSeparatorComponent={space}
         initialNumToRender={16}
+        maxToRenderPerBatch={16}
+        windowSize={10}
       />
     </>
   );
@@ -62,6 +65,5 @@ const styles = StyleSheet.create({
     color: ArrayColors._color_black,
     marginVertical: sizes._10sdp,
     textAlign: 'center',
-   
   },
 });

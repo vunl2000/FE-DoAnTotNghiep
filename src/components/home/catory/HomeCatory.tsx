@@ -30,20 +30,27 @@ const HomeCatory = (props: Props) => {
           Xem tất cả {'>'}
         </Text>
       </TouchableWithoutFeedback>
-      {accessory.length > 0 ? (
-        <ContentCatory data={accessory.slice(0, 8)} />
-      ) : null}
 
-      {men.length > 0 ? (
+      {women.slice(0, 8).length === 8 ? (
         <>
-          <View style={styles.spaceHeight} />
-          <ContentCatory data={men.slice(0, 8)} />
+          <ContentCatory data={women.slice(0, 8)} keyList="firts_catory_home" />
         </>
       ) : null}
-      {women.length > 0 ? (
+
+      {men.slice(0, 8).length === 8 ? (
         <>
           <View style={styles.spaceHeight} />
-          <ContentCatory data={women.slice(0, 8)} />
+          <ContentCatory data={men.slice(0, 8)} keyList="next_catory_home" />
+        </>
+      ) : null}
+
+      {accessory.slice(0, 8).length === 8 ? (
+        <>
+          <View style={styles.spaceHeight} />
+          <ContentCatory
+            data={accessory.slice(0, 8)}
+            keyList="second_catory_home"
+          />
         </>
       ) : null}
     </View>

@@ -59,8 +59,11 @@ const TopCatory = (props: Props) => {
         keyExtractor={key}
         horizontal
         showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
         removeClippedSubviews
+        bounces={false}
+        initialNumToRender={4}
+        maxToRenderPerBatch={4}
+        windowSize={4}
       />
     </>
   );

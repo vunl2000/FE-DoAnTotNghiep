@@ -15,10 +15,16 @@ const MenScreen = (props: Props) => {
   const [isLoader, setIsLoader] = useState<any>(true);
   const {typeCatory} = useSelector((state: any) => state.catory);
 
-  let srcContent =
-    'https://imgaz1.chiccdn.com/os/202207/20220725042455_348.jpg';
-  let srcTop =
-    'https://img.ltwebstatic.com/images3_ach/2022/06/16/1655368170602f33678ebf79bfc4618dd8993d035b.webp';
+  // let srcContent =
+  //   'https://imgaz1.chiccdn.com/os/202207/20220725042455_348.jpg';
+  // let srcTop =
+  //   'https://img.ltwebstatic.com/images3_ach/2022/06/16/1655368170602f33678ebf79bfc4618dd8993d035b.webp';
+
+  const {banner} = useSelector((state: any) => state.firstOpen);
+
+  const searchUrl = (keySearch: any) => {
+    return banner.filter((item: any) => item.title_ads === keySearch).image_ads;
+  };
 
   useEffect(() => {
     typeCatory.forEach((item: any) => {
@@ -46,12 +52,17 @@ const MenScreen = (props: Props) => {
       }
     });
   }, [typeCatory]);
+
   const renderContent = (
     <>
-      <Banner size="medium" uri={srcTop} mode="cover" />
+      <Banner size="medium" uri={searchUrl('Man_1')} mode="cover" />
       <MenCatory />
-      <Banner size="medium" uri={srcContent} mode="cover" />
-      <ProDucts title={'Khí chất dành cho bạn!'} data={listMen} />
+      <Banner size="medium" uri={searchUrl('Man_2')} mode="cover" />
+      <ProDucts
+        title={'Khí chất dành cho bạn!'}
+        data={listMen}
+        keyList="Men_screen"
+      />
     </>
   );
 

@@ -50,7 +50,9 @@ const ScreensProduct = () => {
   return (
     <SafeAreaView style={styles.mContainer}>
       <AppHeader content customContent={<HeaderContent />} />
-      <TopTabCatory />
+      <View style={styles.contentView}>
+        <TopTabCatory />
+      </View>
     </SafeAreaView>
   );
 };
@@ -90,6 +92,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  contentView: {
+    flex: 1,
+    paddingBottom: sizes._80sdp,
   },
   textPlaholder: {
     fontSize: sizes._16sdp,

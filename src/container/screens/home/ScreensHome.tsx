@@ -6,7 +6,7 @@ import sizes from '../../../res/sizes/sizes';
 import HomeStack from '../../navigators/HomeStack';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  loadAll,
+  loadAccessory,
   loadColors,
   loadMen,
   loadSizes,
@@ -47,8 +47,8 @@ const ScreensHome = ({navigation}: {navigation: any}) => {
 
   useEffect(() => {
     typeCatory.forEach((item: any) => {
-      if (item.titleTypeProduct === 'Shop') {
-        dispatch(loadAll(item._id));
+      if (item.titleTypeProduct === 'Phụ kiện') {
+        dispatch(loadAccessory(item._id));
       }
       if (item.titleTypeProduct === 'Nam') {
         dispatch(loadMen(item._id));
