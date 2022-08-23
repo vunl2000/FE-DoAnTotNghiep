@@ -11,6 +11,8 @@ import {
   LOADING_CATORY_ACCESSORY,
   LOADING_CATORY_ACCESSORY_SUCCES,
   LOADING_CATORY_ACCESSORY_ERR,
+  LOAD_SIZES,
+  LOAD_COLORS,
 } from '../actions/types';
 
 const initalState = {
@@ -19,6 +21,8 @@ const initalState = {
   accessory: [],
   typeCatory: [],
   pending: false,
+  listSizes: [],
+  listColors: [],
 };
 
 export default (state = initalState, {payload, type}: any) => {
@@ -87,6 +91,16 @@ export default (state = initalState, {payload, type}: any) => {
       return {
         ...state,
         pending: false,
+      };
+    case LOAD_SIZES:
+      return {
+        ...state,
+        listSizes: payload,
+      };
+    case LOAD_COLORS:
+      return {
+        ...state,
+        listColors: payload,
       };
 
     default:

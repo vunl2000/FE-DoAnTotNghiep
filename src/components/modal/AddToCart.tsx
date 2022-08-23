@@ -35,12 +35,7 @@ const colorRender = (
   width: positions != index ? sizes._30sdp : sizes._26sdp,
   height: positions != index ? sizes._30sdp : sizes._26sdp,
   borderRadius: positions == index ? sizes._32sdp / 2 : sizes._28sdp / 2,
-  backgroundColor:
-    color == '#ffffff'
-      ? ArrayColors._color_blue_light
-      : color == '#00000'
-      ? ArrayColors._color_white_black
-      : color,
+  backgroundColor: color,
 });
 
 const AddToCart = ({isShow, onChangeShow, item}: Props) => {

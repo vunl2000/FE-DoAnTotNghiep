@@ -7,7 +7,9 @@ import HomeStack from '../../navigators/HomeStack';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   loadAll,
+  loadColors,
   loadMen,
+  loadSizes,
   loadWomen,
 } from '../../../store/actions/catoryActions';
 import {Value} from 'react-native-reanimated';
@@ -56,6 +58,11 @@ const ScreensHome = ({navigation}: {navigation: any}) => {
       }
     });
   }, [typeCatory]);
+
+  useEffect(() => {
+    dispatch(loadSizes());
+    dispatch(loadColors());
+  }, []);
 
   function eventSearch() {
     navigation.navigate(NameScreen.SEARCH_SCREEN);

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, ImageURISource} from 'react-native';
 import React, {FC} from 'react';
 import {useSelector} from 'react-redux';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -18,7 +18,7 @@ import {useRoute} from '@react-navigation/native';
 const bottomTab = createBottomTabNavigator();
 
 const mTabBarOptions: any = {
-  tabBarShowLabel: false,
+  tabBarShowLabel: true,
   tabBarActiveTintColor: '#fff',
   tabBarStyle: {
     position: 'absolute',
@@ -42,6 +42,41 @@ export enum HomeName {
   BLOG = 'ScreenNewspaper',
   ACCOUNT = 'ScreenAccount',
 }
+
+const tabBarIcon =
+  (active: ImageURISource, inactive: ImageURISource) =>
+  ({focused, color, size}: {focused: boolean; color: string; size: number}) =>
+    (
+      <Image
+        style={{
+          width: sizes._26sdp,
+          height: sizes._26sdp,
+          resizeMode: 'contain',
+          tintColor: focused
+            ? ArrayColors._color_black
+            : ArrayColors._color_un_active,
+        }}
+        source={focused ? active : inactive}
+      />
+    );
+const tabBarLabel =
+  (text: string) =>
+  ({focused, color}: {focused: boolean; color: string}) =>
+    (
+      <Text
+        style={{
+          fontSize: sizes._16sdp,
+          fontWeight: '700',
+          fontFamily: 'OpenSans-Bold',
+          color: focused
+            ? ArrayColors._color_black
+            : ArrayColors._color_un_active,
+          marginBottom: sizes._14sdp,
+        }}>
+        {text}
+      </Text>
+    );
+
 const AppContainer: FC = () => {
   const {numberCart} = useSelector((state: any) => state.product);
   const route: any = useRoute();
@@ -55,188 +90,33 @@ const AppContainer: FC = () => {
         name={HomeName.INDEX}
         component={ScreensHome}
         options={{
-          tabBarIcon: ({focused}: any) => (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                top: sizes._3sdp,
-              }}>
-              <Image
-                source={focused ? image.ic_home_active : image.ic_home}
-                resizeMode="contain"
-                style={{
-                  width: sizes._24sdp,
-                  height: sizes._24sdp,
-                  tintColor: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                }}
-              />
-              <Text
-                style={{
-                  color: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                  fontWeight: '700',
-                  fontFamily: 'OpenSans-Bold',
-                  fontSize: sizes._15sdp,
-                }}>
-                Trang chủ
-              </Text>
-            </View>
-          ),
+          tabBarLabel: tabBarLabel('Trang chủ'),
+          tabBarIcon: tabBarIcon(image.ic_home_active, image.ic_home),
         }}
       />
       <bottomTab.Screen
         name={HomeName.CATORY}
         component={ScreensProduct}
         options={{
-          tabBarIcon: ({focused}: any) => (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                top: sizes._3sdp,
-              }}>
-              <Image
-                source={focused ? image.ic_product_active : image.ic_product}
-                resizeMode="contain"
-                style={{
-                  width: sizes._24sdp,
-                  height: sizes._24sdp,
-
-                  tintColor: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                }}
-              />
-              <Text
-                style={{
-                  color: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                  fontWeight: '700',
-                  fontFamily: 'OpenSans-Bold',
-                  fontSize: sizes._15sdp,
-                }}>
-                Sản phẩm
-              </Text>
-            </View>
-          ),
+          tabBarLabel: tabBarLabel('Sản phẩm'),
+          tabBarIcon: tabBarIcon(image.ic_product_active, image.ic_product),
         }}
       />
       <bottomTab.Screen
         name={HomeName.CART}
         component={ScreenCart}
         options={{
+          tabBarLabel: tabBarLabel('Giỏ hàng'),
           tabBarBadge: numberCart == 0 ? null : numberCart,
-          tabBarIcon: ({focused}: any) => (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                top: sizes._3sdp,
-              }}>
-              <Image
-                source={focused ? image.ic_cart_active : image.ic_cart}
-                resizeMode="contain"
-                style={{
-                  width: sizes._24sdp,
-                  height: sizes._24sdp,
-                  tintColor: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                }}
-              />
-              <Text
-                style={{
-                  color: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                  fontWeight: '700',
-                  fontFamily: 'OpenSans-Bold',
-                  fontSize: sizes._15sdp,
-                }}>
-                Giỏ hàng
-              </Text>
-            </View>
-          ),
-        }}
-      />
-      <bottomTab.Screen
-        name={HomeName.BLOG}
-        component={ScreenNewspaper}
-        options={{
-          tabBarIcon: ({focused}: any) => (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                top: sizes._3sdp,
-              }}>
-              <Image
-                source={focused ? image.ic_paper_active : image.ic_paper}
-                resizeMode="contain"
-                style={{
-                  width: sizes._24sdp,
-                  height: sizes._24sdp,
-                  tintColor: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                }}
-              />
-              <Text
-                style={{
-                  color: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                  fontWeight: '700',
-                  fontFamily: 'OpenSans-Bold',
-                  fontSize: sizes._15sdp,
-                }}>
-                Xã hội
-              </Text>
-            </View>
-          ),
+          tabBarIcon: tabBarIcon(image.ic_cart_active, image.ic_cart),
         }}
       />
       <bottomTab.Screen
         name={HomeName.ACCOUNT}
         component={ScreenAccount}
         options={{
-          // headerShown: false,
-          tabBarIcon: ({focused}: any) => (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                top: sizes._3sdp,
-              }}>
-              <Image
-                source={focused ? image.ic_account_active : image.ic_account}
-                resizeMode="contain"
-                style={{
-                  width: sizes._24sdp,
-                  height: sizes._24sdp,
-                  tintColor: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                }}
-              />
-              <Text
-                style={{
-                  color: focused
-                    ? ArrayColors._color_black
-                    : ArrayColors._color_un_active,
-                  fontWeight: '700',
-                  fontFamily: 'OpenSans-Bold',
-                  fontSize: sizes._15sdp,
-                }}>
-                Tài khoản
-              </Text>
-            </View>
-          ),
+          tabBarLabel: tabBarLabel('Tài khoản'),
+          tabBarIcon: tabBarIcon(image.ic_account_active, image.ic_account),
         }}
       />
     </bottomTab.Navigator>
