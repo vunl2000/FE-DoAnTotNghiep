@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import errReducer from './errReducer';
 import productReducer from './productReducer';
 import loginReducer from './loginReducer';
@@ -9,6 +9,7 @@ import catoryReducer from './catoryReducer';
 import billReducer from './billReducer';
 import invoiceReducer from './invoiceReducer';
 import historyReducer from './historyReducer';
+import deviceFBTokenReducer from './deviceFBTokenReducer';
 
 
 export default combineReducers({
@@ -22,4 +23,5 @@ export default combineReducers({
   bill: billReducer,
   invoice: invoiceReducer,
   itemHistory: historyReducer,
+  deviceCall: deviceFBTokenReducer,
 });

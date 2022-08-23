@@ -37,15 +37,10 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
     console.log(event);
 
 
-    // const [userEmail, setUserEmail] = React.useState<string | any>(
-    //   register.result.email,
-    // );
     const [userEmail, setUserEmail] = React.useState<string | any>(
-
+        register.result.email,
     );
-    // const [userID, setUserID] = React.useState<string | any>(register.result._id);
-    const [userID, setUserID] = React.useState<string | any>("");
-
+    const [userID, setUserID] = React.useState<string | any>(register.result._id);
     const [userOTP, setUserOTP] = React.useState<string | any>('');
 
     const [visibleIconOTP, setVisibleIconOTP] = React.useState<string | any>(
@@ -72,7 +67,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
         navigation.navigate('ScreenLogin');
     }
     function handleConfirm() {
-        console.log('co cai deo gi vauy', userOTP);
+        // console.log('co cai deo gi vauy', userOTP);
 
         if (userOTP === '') {
             setIsWarning(true);
@@ -97,6 +92,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
         if (seconds <= 0) {
             setSeconds(10);
             GenerateOTP(userEmail, userID);
+            console.log(userEmail, userID);
 
         }
     }

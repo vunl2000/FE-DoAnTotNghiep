@@ -15,6 +15,7 @@ const ItemHistory = (props: Props) => {
 
   const {replace}: any = useNavigation();
 
+
   console.log(item);
   console.log(productData);
 

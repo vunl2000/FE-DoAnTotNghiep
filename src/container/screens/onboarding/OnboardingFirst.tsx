@@ -29,8 +29,9 @@ const Slide = ({item}: any) => {
 };
 
 const OnboardingFirst = () => {
+
   const {replace}: any = useNavigation();
-  const {navigate}: any = useNavigation();
+
   const dispatch: any = useDispatch();
   const {firstOpen} = useSelector((state: any) => state.firstOpen);
   const [currentIndex, setCurrentIndex] = useState<number>(0);

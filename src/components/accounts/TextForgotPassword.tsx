@@ -3,11 +3,15 @@ import React from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import TitleHome from '../title/TitleHome';
-type Props = {};
+type Props = {
+    onPress?: () =>void;
+};
 
 const TextForgotPassword = (props: Props) => {
     return (
-        <TouchableOpacity style={styles.mContainerText}>
+        <TouchableOpacity 
+        onPress={props.onPress}
+        style={styles.mContainerText}>
             <TitleHome
                 title="Quên mật khẩu?"
                 style={styles.mStyleITextRsPassword}></TitleHome>

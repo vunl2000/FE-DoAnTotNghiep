@@ -62,5 +62,6 @@ const styles = StyleSheet.create({
     color: ArrayColors._color_black,
     marginVertical: sizes._10sdp,
     textAlign: 'center',
+   
   },
 });

@@ -96,12 +96,13 @@ const ScreenRegister = ({navigation}: {navigation: any}) => {
       //   passwordNext: password,
       //   passwordConfirmNext: passwordConfirm,
       // });
+      navigation.navigate('ScreenRegisterDetail', {
+        emailNext: email,
+        passwordNext: password,
+        passwordConfirmNext: passwordConfirm,
+      });
     }
-    navigation.navigate('ScreenRegisterDetail', {
-      emailNext: email,
-      passwordNext: password,
-      passwordConfirmNext: passwordConfirm,
-    });
+   
     console.log(isNullEmptyBlank(password));
   }
   function eventLogin() {
