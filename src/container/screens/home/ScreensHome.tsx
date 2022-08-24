@@ -6,19 +6,11 @@ import sizes from '../../../res/sizes/sizes';
 import HomeStack from '../../navigators/HomeStack';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-<<<<<<< HEAD
-    loadAll,
-    loadColors,
-    loadMen,
-    loadSizes,
-    loadWomen,
-=======
   loadAccessory,
   loadColors,
   loadMen,
   loadSizes,
   loadWomen,
->>>>>>> origin/vunl
 } from '../../../store/actions/catoryActions';
 import { Value } from 'react-native-reanimated';
 import { NameScreen } from '../../navigators/TabNavigator';
@@ -53,21 +45,21 @@ const ScreensHome = ({ navigation }: { navigation: any }) => {
         setHeight(val);
     };
 
-<<<<<<< HEAD
-    useEffect(() => {
-        typeCatory.forEach((item: any) => {
-            if (item.titleTypeProduct === 'Shop') {
-                dispatch(loadAll(item._id));
-            }
-            if (item.titleTypeProduct === 'Nam') {
-                dispatch(loadMen(item._id));
-            }
-            if (item.titleTypeProduct === 'Nữ') {
-                dispatch(loadWomen(item._id));
-            }
-        });
-    }, [typeCatory]);
-=======
+
+//     useEffect(() => {
+//         typeCatory.forEach((item: any) => {
+//             if (item.titleTypeProduct === 'Shop') {
+//                 dispatch(loadAll(item._id));
+//             }
+//             if (item.titleTypeProduct === 'Nam') {
+//                 dispatch(loadMen(item._id));
+//             }
+//             if (item.titleTypeProduct === 'Nữ') {
+//                 dispatch(loadWomen(item._id));
+//             }
+//         });
+//     }, [typeCatory]);
+// =======
   useEffect(() => {
     typeCatory.forEach((item: any) => {
       if (item.titleTypeProduct === 'Phụ kiện') {
@@ -81,7 +73,7 @@ const ScreensHome = ({ navigation }: { navigation: any }) => {
       }
     });
   }, [typeCatory]);
->>>>>>> origin/vunl
+
 
     useEffect(() => {
         dispatch(loadSizes());
