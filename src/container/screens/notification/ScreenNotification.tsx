@@ -35,6 +35,9 @@ const ScreenNotification = ({ navigation }: any) => {
     function onBackPress() {
         navigation.goBack();
     }
+    function onScroll() {
+
+    }
 
     function renderItem({ item, index }: any) {
         console.log(item.title);
@@ -76,7 +79,7 @@ const ScreenNotification = ({ navigation }: any) => {
             <FlatList
                 data={dataNotification}
                 renderItem={renderItem}
-                onScroll={loadMore}
+                onScroll={onScroll}
                 // ListFooterComponent={RenderView}
                 listKey="Screen_Notification"
                 showsVerticalScrollIndicator={false}
