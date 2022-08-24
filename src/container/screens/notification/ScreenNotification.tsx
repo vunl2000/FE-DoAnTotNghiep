@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image } from 'react-native'
 import React from 'react'
 import AppHeader from '../../../components/header/AppHeader';
 import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import HeaderShown from '../../../components/accounts/HeaderShown';
 import axios from 'axios';
+import Images from '../../../res/require/Images';
 const ScreenNotification = ({ navigation }: any) => {
 
     const [dataNotification, setDataNotification] = React.useState<any>([])
@@ -45,6 +46,10 @@ const ScreenNotification = ({ navigation }: any) => {
         return (
             <View style={[styles.mContainerData, { marginVertical: index % 2 == 0 ? sizes._10sdp : 0 }]}>
                 <View style={{ flexDirection: "column", padding: sizes._10sdp }}>
+                    <Image
+                        resizeMode='contain'
+                        style={{ width: sizes._screen_width - sizes._40sdp, height: sizes._screen_width / 3 }}
+                        source={Images.img_notifications} />
                     <Text style={{
                         fontSize: sizes._20sdp,
                         color: ArrayColors._color_black,
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
     },
     mContainerData: {
         width: sizes._screen_width - sizes._20sdp,
-        // height: sizes._screen_width / 5,
+        height: sizes._screen_width / 1.7,
         backgroundColor: ArrayColors._color_white,
         marginHorizontal: sizes._10sdp,
 
