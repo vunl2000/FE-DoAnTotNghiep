@@ -1,11 +1,12 @@
-import {OPEN_APP, BANNER_APP} from './../actions/types';
+import { OPEN_APP, BANNER_APP, CHECK_NOTIFICATION } from './../actions/types';
 
 const initalState = {
   firstOpen: false,
   banner: [],
+  initialRoute: null
 };
 
-export default (state = initalState, {payload, type}: any) => {
+export default (state = initalState, { payload, type }: any) => {
   switch (type) {
     case OPEN_APP: {
       return {
@@ -20,7 +21,6 @@ export default (state = initalState, {payload, type}: any) => {
         banner: payload.data,
       };
     }
-
     default:
       return state;
   }

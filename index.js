@@ -16,3 +16,6 @@ const AppRedux = () => (
 );
 
 AppRegistry.registerComponent(appName, () => AppRedux);
+
+// AppRegistry.registerHeadlessTask('RNFirebaseBackgroundMessage', () => firebaseBackgroundMessage);
+

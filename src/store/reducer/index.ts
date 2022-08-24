@@ -11,7 +11,6 @@ import invoiceReducer from './invoiceReducer';
 import historyReducer from './historyReducer';
 import deviceFBTokenReducer from './deviceFBTokenReducer';
 
-
 export default combineReducers({
   product: productReducer,
   err: errReducer,

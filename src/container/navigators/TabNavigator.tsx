@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
 import AppContainer from '../navigators/AppContainer';
 import DetailProduct from '../screens/product/DetailProduct';
 import ScreenLogin from '../screens/account/screen-acc/ScreenLogin';
@@ -26,7 +25,16 @@ import ProductView from '../screens/product/ProductView';
 import ScreenForgotPassword from '../screens/account/screen-acc/ScreenForgotPassword';
 import ProductHeart from '../screens/heart/ProductHeart';
 import ScreenAddress from '../screens/address/ScreenAddress';
-
+import ScreenNotification from '../screens/notification/ScreenNotification';
+import notifee, {AndroidStyle} from '@notifee/react-native';
+import messaging from '@react-native-firebase/messaging';
+import axios from 'axios';
+import {deviceToken} from '../../store/actions/deviceFireBaseToken';
+import {PUSH_NOTIFICATION} from '@env';
+import AnswerQuestions from '../screens/questions/AnswerQuestions';
+import ScreenWalet from '../screens/walet/ScreenWalet';
+import ScreenGiftcard from '../screens/walet/ScreenGiftcard';
+import ScreenCheckQuestions from '../screens/questions/ScreenCheckQuestions';
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
@@ -47,20 +55,128 @@ export enum NameScreen {
   REGISTER_DETAIL = 'ScreenRegisterDetail',
   USER_SPAPER = 'ScreenUserSpaper',
   INVOICE = 'ScreenInvoice',
+  ANSWERQUESTIONS = 'AnswerQuestions',
+  SCREENWALET = 'ScreenWalet',
+  SCREENGIF = 'ScreenGiftcard',
+  SCREENCHECKQUESTIONS = 'ScreenCheckQuestions',
 }
+const Stack = createNativeStackNavigator();
 
-export default function TabNavigator() {
+export default function TabNavigator({navigation}: any) {
+  const isCheckDevice = useSelector(
+    (state: any) => state.deviceCall.deviceCall,
+  );
   const open = useSelector((state: any) => state.firstOpen.firstOpen);
+  const [loading, setLoading] = useState(true);
+
   const dispatch: any = useDispatch();
-  useEffect(() => {
+
+  const [initialRoute, setInitialRoute] = React.useState('');
+
+  // console.log(initialRoute);
+
+  React.useEffect(() => {
+    onNotificationOpenedApp();
+
+    getFCMToken();
+
+    onGetInitialNotification();
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      DisplayNotification(remoteMessage);
+    });
+
     dispatch(getBanner());
     dispatch(loadCatory());
     dispatch(loadProducts());
+
+    return unsubscribe;
   }, []);
+
+  const getFCMToken = () => {
+    messaging()
+      .getToken()
+      .then(token => {
+        console.log('fireBaseToken', token);
+        if (!isCheckDevice) {
+          pushFirebaseToen(token);
+        }
+      });
+  };
+  const onNotificationOpenedApp = () => {
+    messaging().onNotificationOpenedApp((remoteMessage: any) => {
+      navigation.navigate(remoteMessage.data.type);
+
+      console.log(remoteMessage);
+    });
+  };
+  const onGetInitialNotification = () => {
+    messaging()
+      .getInitialNotification()
+      .then((remoteMessage: any) => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          setInitialRoute(remoteMessage.data.type);
+        }
+        setLoading(false);
+      });
+  };
+
+  async function DisplayNotification(remoteMessage: any) {
+    const channelId = await notifee.createChannel({
+      id: '659424688855',
+      name: 'Default Channel',
+    });
+
+    await notifee.displayNotification({
+      title: `<p style="color: #4caf50;"><b>${remoteMessage.notification.title}</span></p></b></p> &#128576;`,
+      android: {
+        channelId,
+        style: {
+          type: AndroidStyle.BIGTEXT,
+          text: remoteMessage.notification.body,
+        }, // optional, defaults to 'ic_launcher'.
+        smallIcon: 'ic_launcher',
+      },
+    });
+  }
+  async function pushFirebaseToen(token: any) {
+    const data = JSON.stringify({tokenPush: token});
+    const config = {
+      method: 'post',
+      url: PUSH_NOTIFICATION,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    console.log(data);
+    await axios(config)
+      .then(function (response: any) {
+        console.log(JSON.stringify(response.data));
+        dispatch(deviceToken());
+      })
+      .catch(function (error: any) {
+        console.log(error);
+      });
+  }
+  if (loading) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={open ? NameScreen.HOME : NameScreen.ONBOARDING}>
+        initialRouteName={
+          open
+            ? initialRoute !== ''
+              ? initialRoute
+              : NameScreen.HOME
+            : NameScreen.ONBOARDING
+        }>
         <Stack.Screen
           name={NameScreen.ONBOARDING}
           component={OnboardingFirst}
@@ -164,6 +280,32 @@ export default function TabNavigator() {
         <Stack.Screen
           name={NameScreen.HEART_PRODUCT}
           component={ProductHeart}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={'ScreenNotification'}
+          component={ScreenNotification}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={NameScreen.ANSWERQUESTIONS}
+          component={AnswerQuestions}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NameScreen.SCREENWALET}
+          component={ScreenWalet}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NameScreen.SCREENGIF}
+          component={ScreenGiftcard}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NameScreen.SCREENCHECKQUESTIONS}
+          component={ScreenCheckQuestions}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

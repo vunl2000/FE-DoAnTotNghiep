@@ -28,4 +28,5 @@ declare module '@env' {
   export const MINES_HEART: string;
   export const GET_SIZE: string;
   export const GET_COLOR: string;
+  export const PUSH_NOTIFICATION : string;
 }

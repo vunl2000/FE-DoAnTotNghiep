@@ -211,12 +211,18 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
               mImager={Images.ic_wallet}
               mStringTitles="Ví"
               styleContent={styles.spaceMax}
+              onPress={() => {
+                navigation.navigate(NameScreen.SCREENWALET);
+              }}
             />
             <MyOffers
               textOrImg={false}
               mImager={Images.ic_giftcard}
               mStringTitles="Thẻ quà tặng"
               styleContent={styles.spaceMax}
+              onPress={() => {
+                navigation.navigate(NameScreen.SCREENGIF);
+              }}
             />
           </View>
         </View>
@@ -281,12 +287,18 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           </Text>
           <View style={styles.mStyleMine3_1}>
             <MyOffers
+              onPress={() => {
+                navigation.navigate(NameScreen.ANSWERQUESTIONS);
+              }}
               textOrImg={false}
               mImager={Images.ic_headsetphone}
               mStringTitles="Câu hỏi"
               styleContent={styles.spaceMax}
             />
             <MyOffers
+              onPress={() => {
+                navigation.navigate(NameScreen.SCREENCHECKQUESTIONS);
+              }}
               textOrImg={false}
               mImager={Images.ic_survey_center}
               mStringTitles="Trung tâm khảo sát"
