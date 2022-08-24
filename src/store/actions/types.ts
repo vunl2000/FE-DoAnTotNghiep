@@ -37,6 +37,7 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 //Local Strogae
 export const OPEN_APP = 'CLEAR_ERRORS';
+// export const CHECK_NOTIFICATION = 'CHECK_NOTIFICATION';
 export const BANNER_APP = 'BANNER_APP';
 
 //device Fire Token 

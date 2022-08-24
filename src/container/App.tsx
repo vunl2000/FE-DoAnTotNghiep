@@ -1,7 +1,6 @@
 import { StyleSheet, StatusBar, View } from 'react-native';
 import React from 'react';
 import TabNavigator from '../container/navigators/TabNavigator';
-import ServicersNotification from '../ServicersNotification'
 export default function App() {
   const { mContainer }: any = styles;
 
@@ -13,7 +12,7 @@ export default function App() {
         barStyle={'dark-content'}
       />
       <TabNavigator />
-      <ServicersNotification />
+      {/* <ServicersNotification /> */}
     </View>
   );
 }
