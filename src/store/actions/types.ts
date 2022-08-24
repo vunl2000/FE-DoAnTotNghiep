@@ -30,6 +30,8 @@ export const DELETE_TO_CART = 'DELETE_TO_CART';
 export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
 export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
 export const CHANGE_HEART = 'CHANGE_HEART';
+export const CLEAR_PRODUCTS = 'CLEAR_PRODUCTS';
+export const CLEAR_ALL_PRODUTS = 'CLEAR_ALL_PRODUTS';
 
 //Error Types
 export const GET_ERRORS = 'GET_ERRORS';
@@ -39,7 +41,7 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const OPEN_APP = 'CLEAR_ERRORS';
 export const BANNER_APP = 'BANNER_APP';
 
-//device Fire Token 
+//device Fire Token
 export const DEVICE_TOKEN = 'DEVICE_TOKEN';
 // export const BANNER_APP = 'BANNER_APP';
 
@@ -47,6 +49,7 @@ export const DEVICE_TOKEN = 'DEVICE_TOKEN';
 export const GET_PROVINCE = 'GET_PROVINCE';
 export const ADD_LIST_ADDRESS = 'ADD_LIST_ADDRESS';
 export const SET_DEFAULT_ADDRESS = 'SET_DEFAULT_ADDRESS';
+export const CLEAR_ALL_ADDRESS = 'CLEAR_ALL_ADDRESS';
 //Bill type
 export const CREATE_BILL = 'CREATE_BILL';
 export const SENDING_DETAIL_BILL = 'SENDING_DETAIL_BILL';

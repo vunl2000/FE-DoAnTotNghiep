@@ -5,6 +5,7 @@ import {
   GET_PROVINCE,
   SET_DEFAULT_ADDRESS,
   ADD_LIST_ADDRESS,
+  CLEAR_ALL_ADDRESS,
 } from './types';
 import {API_PROVINCE} from '@env';
 import {returnErrors} from './errActions';
@@ -34,11 +35,18 @@ export const addAddress = (item: any, isDefault: boolean | any) => {
     },
   };
 };
+
 export const setDefaultAddress = (id: string | any) => {
   return {
     type: SET_DEFAULT_ADDRESS,
     payload: {
       id,
     },
+  };
+};
+
+export const clearAddress = () => {
+  return {
+    type: CLEAR_ALL_ADDRESS,
   };
 };

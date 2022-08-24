@@ -5,6 +5,8 @@ import {
   ADD_TO_CART,
   DELETE_TO_CART,
   CHANGE_HEART,
+  CLEAR_PRODUCTS,
+  CLEAR_ALL_PRODUTS,
 } from './types';
 import {API_URL, API_URL_GETALL_PRODUCT, GET_HEART} from '@env';
 import axios from 'axios';
@@ -92,5 +94,17 @@ export function changeHeart(id: any) {
     payload: {
       id,
     },
+  };
+}
+
+export function clearProducts() {
+  return {
+    type: CLEAR_PRODUCTS,
+  };
+}
+
+export function clearAll() {
+  return {
+    type: CLEAR_ALL_PRODUTS,
   };
 }

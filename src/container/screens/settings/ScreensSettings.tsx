@@ -22,6 +22,8 @@ import {persistor} from '../../../store';
 import ModalConfirm from '../../../components/modal/ModalConfirm';
 import {clearInvoice} from '../../../store/actions/invoiceActions';
 import {HomeName} from '../../navigators/AppContainer';
+import {clearAll} from '../../../store/actions/productsActions';
+import {clearAddress} from '../../../store/actions/addressActions';
 
 const ScreensSettings = ({navigation}: any) => {
   const [event, setEvent] = React.useState<string | any>(true);
@@ -74,6 +76,8 @@ const ScreensSettings = ({navigation}: any) => {
     dispatch(logOut());
     dispatch(clearErrors());
     dispatch(clearInvoice());
+    dispatch(clearAll());
+    dispatch(clearAddress());
     navigation.navigate(HomeName.ACCOUNT);
   }
   function onPressCance() {

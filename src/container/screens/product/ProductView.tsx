@@ -224,7 +224,8 @@ const ProductView = (props: Props) => {
     );
   };
   const keyExtractor = (item: any) => item._id;
-
+  const space = () => <View style={styles.spaceSmallY} />;
+  const line = () => <Divider />;
   const Exception = () => (
     <View style={styles.exception}>
       <Image source={image.box_empty} style={styles.img} resizeMode="contain" />
@@ -243,29 +244,22 @@ const ProductView = (props: Props) => {
         style={styles.iconHeader}
         onPress={backPress}
       />
-      {searchKey ? (
-        <View style={styles.contentHeader}>
-          <TouchableWithoutFeedback>
-            <Text style={[styles.textPlaholder, {flex: 1}]}>{searchKey}</Text>
-          </TouchableWithoutFeedback>
+      <View style={searchKey ? styles.contentHeaderBg : styles.contentHeader}>
+        {searchKey ? (
+          <>
+            <TouchableWithoutFeedback>
+              <Text style={[styles.textPlaholder, {flex: 1}]}>{searchKey}</Text>
+            </TouchableWithoutFeedback>
 
-          <Icon size={sizes._22sdp} name="close-circle" />
-        </View>
-      ) : null}
-      {titleCategoryProduct ? (
-        <View
-          style={[
-            styles.content,
-            {
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
-          ]}>
+            <Icon size={sizes._22sdp} name="close-circle" />
+          </>
+        ) : null}
+        {titleCategoryProduct ? (
           <Text style={styles.textSub} numberOfLines={1} ellipsizeMode="tail">
             {title}
           </Text>
-        </View>
-      ) : null}
+        ) : null}
+      </View>
       <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={() => {}} />
     </View>
   );
@@ -321,6 +315,11 @@ const ProductView = (props: Props) => {
         numColumns={3}
         showsHorizontalScrollIndicator={false}
         columnWrapperStyle={{justifyContent: 'space-evenly'}}
+        removeClippedSubviews={true}
+        bounces={false}
+        initialNumToRender={3}
+        maxToRenderPerBatch={3}
+        windowSize={1}
       />
     </View>
   );
@@ -339,7 +338,12 @@ const ProductView = (props: Props) => {
         numColumns={4}
         showsHorizontalScrollIndicator={false}
         columnWrapperStyle={{justifyContent: 'space-evenly'}}
-        ItemSeparatorComponent={() => <View style={styles.spaceSmallY} />}
+        ItemSeparatorComponent={space}
+        removeClippedSubviews={true}
+        bounces={false}
+        initialNumToRender={4}
+        maxToRenderPerBatch={4}
+        windowSize={2}
       />
     </View>
   );
@@ -362,7 +366,12 @@ const ProductView = (props: Props) => {
           justifyContent: 'space-between',
           paddingHorizontal: sizes._18sdp,
         }}
-        ItemSeparatorComponent={() => <View style={styles.spaceSmallY} />}
+        ItemSeparatorComponent={space}
+        removeClippedSubviews={true}
+        bounces={false}
+        initialNumToRender={8}
+        maxToRenderPerBatch={8}
+        windowSize={8}
       />
     </View>
   );
@@ -446,93 +455,100 @@ const ProductView = (props: Props) => {
           ItemSeparatorComponent={renderSpaceItem}
           listKey="result-search"
           bounces={false}
-          removeClippedSubviews
-          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          removeClippedSubviews={true}
+          initialNumToRender={4}
+          maxToRenderPerBatch={4}
+          windowSize={2}
         />
       ) : (
         <Exception />
       )}
-      {classify ? (
-        <View style={styles.overlay}>
-          <View style={styles.showClassify}>
-            <FlatList
-              data={dataClassify}
-              extraData={dataClassify}
-              keyExtractor={keyDefault}
-              renderItem={renderClassify}
-              showsVerticalScrollIndicator={false}
-              removeClippedSubviews
-              scrollEventThrottle={16}
-              bounces={false}
-              ItemSeparatorComponent={() => <Divider />}
-              listKey="classify"
-            />
-          </View>
-          <TouchableWithoutFeedback onPress={() => setClassify(false)}>
-            <View style={styles.content} />
-          </TouchableWithoutFeedback>
-        </View>
-      ) : null}
-      {filter ? (
-        <View style={styles.overlay}>
-          <View
-            style={[
-              styles.spaceSmallY,
-              {backgroundColor: ArrayColors._color_white},
-            ]}
-          />
-          <FilterCatory />
-          <View
-            style={[
-              styles.spaceSmallY,
-              {backgroundColor: ArrayColors._color_white},
-            ]}
-          />
-          <FilterSize />
-          <View
-            style={[
-              styles.spaceSmallY,
-              {backgroundColor: ArrayColors._color_white},
-            ]}
-          />
-          <FilterColor />
-          <View
-            style={[
-              styles.spaceMediumY,
-              {backgroundColor: ArrayColors._color_white},
-            ]}
-          />
-          <SumProduct />
-          <View
-            style={[
-              styles.spaceSmallY,
-              {backgroundColor: ArrayColors._color_white},
-            ]}
-          />
-          <TouchableWithoutFeedback onPress={() => setFilter(false)}>
-            <View style={styles.content} />
-          </TouchableWithoutFeedback>
-        </View>
-      ) : null}
     </View>
   );
 
   return (
     <SafeAreaView style={styles.mContainer}>
       <AppHeader content customContent={<HeaderContent />} />
-
+      <Filter />
+      <Divider />
       <View style={styles.content}>
-        <Filter />
-
-        <Divider />
         <FlatList
           data={null}
           renderItem={null}
           listKey="search_screens"
           ListFooterComponent={renderContent}
           showsVerticalScrollIndicator={false}
-          removeClippedSubviews
+          removeClippedSubviews={true}
+          bounces={false}
+          initialNumToRender={4}
+          maxToRenderPerBatch={4}
+          windowSize={2}
         />
+        {classify ? (
+          <View style={styles.overlay}>
+            <View style={styles.showClassify}>
+              <FlatList
+                data={dataClassify}
+                extraData={dataClassify}
+                keyExtractor={keyDefault}
+                renderItem={renderClassify}
+                showsVerticalScrollIndicator={false}
+                removeClippedSubviews
+                bounces={false}
+                ItemSeparatorComponent={line}
+                listKey="classify"
+                initialNumToRender={4}
+                maxToRenderPerBatch={4}
+                windowSize={1}
+              />
+            </View>
+            <TouchableWithoutFeedback onPress={() => setClassify(false)}>
+              <View style={styles.content} />
+            </TouchableWithoutFeedback>
+          </View>
+        ) : null}
+        {filter ? (
+          <View style={styles.overlay}>
+            <View
+              style={[
+                styles.spaceSmallY,
+                {backgroundColor: ArrayColors._color_white},
+              ]}
+            />
+            <FilterCatory />
+            <View
+              style={[
+                styles.spaceSmallY,
+                {backgroundColor: ArrayColors._color_white},
+              ]}
+            />
+            <FilterSize />
+            <View
+              style={[
+                styles.spaceSmallY,
+                {backgroundColor: ArrayColors._color_white},
+              ]}
+            />
+            <FilterColor />
+            <View
+              style={[
+                styles.spaceMediumY,
+                {backgroundColor: ArrayColors._color_white},
+              ]}
+            />
+            <SumProduct />
+            <View
+              style={[
+                styles.spaceSmallY,
+                {backgroundColor: ArrayColors._color_white},
+              ]}
+            />
+            <TouchableWithoutFeedback onPress={() => setFilter(false)}>
+              <View style={styles.content} />
+            </TouchableWithoutFeedback>
+          </View>
+        ) : null}
       </View>
     </SafeAreaView>
   );
@@ -544,7 +560,6 @@ const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
     backgroundColor: ArrayColors._color_white,
-    height: sizes._screen_height,
   },
   containerHeader: {
     flex: 1,
@@ -565,6 +580,11 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   contentHeader: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contentHeaderBg: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -648,7 +668,6 @@ const styles = StyleSheet.create({
   },
   modeContent: {
     flex: 1,
-    height: sizes._screen_height - sizes._header_height - sizes._35sdp,
   },
   showClassify: {
     backgroundColor: ArrayColors._color_white,
