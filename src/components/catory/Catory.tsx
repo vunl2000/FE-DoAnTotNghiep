@@ -15,28 +15,38 @@ import {API_URL, GET_PRODUCT_BY_ID} from '@env';
 import axios from 'axios';
 import CatoryItem from './Catory.Item';
 import image from '../../res/require/Images';
+import {useNavigation} from '@react-navigation/native';
+import {NameScreen} from '../../container/navigators/TabNavigator';
 
 type Props = {
   data?: any;
+  keyListLeft?: any;
+  keyListRight?: any;
 };
 
-const Catory = ({data}: Props) => {
+const Catory = ({data, keyListLeft, keyListRight}: Props) => {
   const [selectMenu, setSelectMenu] = useState({
     index: 0,
     _id: data[0]._id,
+    titleCategoryProduct: data[0].titleCategoryProduct,
   });
+
+  const {navigate}: any = useNavigation();
+
+  const goToProductsView = () =>
+    navigate(NameScreen.PRODUCT_VIEW, {
+      titleCategoryProduct: selectMenu._id,
+      title: selectMenu.titleCategoryProduct,
+    });
 
   const [datatCatory, setDatatCatory] = useState<any>([]);
   const [isLoading, setIsloading] = useState(false);
 
-  const onSelectMenu = (_id: any, index: number) => {
-    selectMenu._id !== _id && setSelectMenu({index, _id});
-  };
-
-  const getData = async () => {
+  const getData = async (id: any) => {
     let data = JSON.stringify({
-      titleCategoryProduct: selectMenu._id,
+      titleCategoryProduct: id,
     });
+
     await axios({
       method: 'POST',
       url: API_URL + GET_PRODUCT_BY_ID,
@@ -51,17 +61,22 @@ const Catory = ({data}: Props) => {
         setIsloading(true);
       })
       .catch(err => {
-        setIsloading(false);
         console.log(err);
       });
   };
+
   useEffect(() => {
     try {
-      getData();
+      setIsloading(false);
+      getData(selectMenu._id);
     } catch (error) {
       console.log(error);
     }
-  }, [selectMenu]);
+  }, [selectMenu._id]);
+
+  const onSelectMenu = (_id: any, index: number, titleCategoryProduct: any) => {
+    selectMenu._id !== _id && setSelectMenu({index, _id, titleCategoryProduct});
+  };
 
   const Exception = () => (
     <View style={styles.exception}>
@@ -76,7 +91,8 @@ const Catory = ({data}: Props) => {
   );
 
   const renderItem = ({item, index}: any) => (
-    <TouchableWithoutFeedback onPress={() => onSelectMenu(item._id, index)}>
+    <TouchableWithoutFeedback
+      onPress={() => onSelectMenu(item._id, index, item.titleCategoryProduct)}>
       <View
         style={[
           styles.contentItem,
@@ -109,10 +125,11 @@ const Catory = ({data}: Props) => {
   );
 
   const renderItemRigth = ({item, index}: any) => (
-    <CatoryItem index={index} item={item} />
+    <CatoryItem index={index} item={item} onPress={goToProductsView} />
   );
 
   const key = (item: any) => item._id;
+
   return (
     <View style={styles.container}>
       <Divider />
@@ -122,8 +139,13 @@ const Catory = ({data}: Props) => {
             data={data}
             extraData={data}
             renderItem={renderItem}
-            listKey="menu_catory"
+            listKey={keyListLeft}
             keyExtractor={key}
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            windowSize={10}
           />
         </View>
         <View style={styles.contentRight}>
@@ -133,9 +155,15 @@ const Catory = ({data}: Props) => {
                 data={datatCatory}
                 extraData={datatCatory}
                 renderItem={renderItemRigth}
-                listKey="menu_catory_right"
+                listKey={keyListRight}
                 keyExtractor={key}
                 numColumns={2}
+                showsVerticalScrollIndicator={false}
+                removeClippedSubviews
+                bounces={false}
+                initialNumToRender={6}
+                maxToRenderPerBatch={6}
+                windowSize={6}
               />
             ) : (
               <Exception />

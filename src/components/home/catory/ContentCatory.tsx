@@ -13,6 +13,7 @@ import {useDispatch} from 'react-redux';
 import ArrayColors from '../../../res/colors/ArrayColors';
 type Props = {
   data?: any;
+  keyList?: any;
 };
 
 const renderItem = ({item, index}: any) => (
@@ -27,7 +28,7 @@ const backGroundScrollbar = (width: any): ViewStyle => {
 
 const key = (item: any) => item._id;
 
-const ContentCatory = ({data}: Props) => {
+const ContentCatory = ({data, keyList}: Props) => {
   const ref = useRef(new Animated.Value(0)).current;
   const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
   const space = () => <View style={styles.space} />;
@@ -47,7 +48,7 @@ const ContentCatory = ({data}: Props) => {
         data={data}
         extraData={data}
         renderItem={renderItem}
-        listKey="content-catory"
+        listKey={keyList}
         keyExtractor={key}
         horizontal
         showsHorizontalScrollIndicator={false}

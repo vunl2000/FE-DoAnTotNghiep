@@ -17,11 +17,18 @@ const WomenScreen = (props: Props) => {
   const [listWomen, setListWomen] = useState<any>([]);
   const [isLoader, setIsLoader] = useState<any>(true);
   const {typeCatory} = useSelector((state: any) => state.catory);
-  let srcTop =
-    'https://img.ltwebstatic.com/images3_ach/2022/06/27/1656331239bb13f9f9e24d58c9e7866049e9380e96_thumbnail_840x.webp';
-  let srcHeader =
-    'https://img.ltwebstatic.com/images3_ach/2022/06/16/1655364091a4d5f726f9ec3abe66e64a0283484685.webp';
-  let sale = 'https://imgaz1.chiccdn.com/os/202207/20220706215325_934.jpg.webp';
+  // let srcTop =
+  //   'https://img.ltwebstatic.com/images3_ach/2022/06/27/1656331239bb13f9f9e24d58c9e7866049e9380e96_thumbnail_840x.webp';
+  // let srcHeader =
+  //   'https://img.ltwebstatic.com/images3_ach/2022/06/16/1655364091a4d5f726f9ec3abe66e64a0283484685.webp';
+  // let sale = 'https://imgaz1.chiccdn.com/os/202207/20220706215325_934.jpg.webp';
+
+  const {banner} = useSelector((state: any) => state.firstOpen);
+
+  const searchUrl = (keySearch: any) => {
+    return banner.filter((item: any) => item.title_ads === keySearch).image_ads;
+  };
+
   useEffect(() => {
     typeCatory.forEach((item: any) => {
       if (item.titleTypeProduct === 'Nữ') {
@@ -55,7 +62,7 @@ const WomenScreen = (props: Props) => {
       </Text>
       <View style={styles.space} />
       <SoloGan
-        uri={sale}
+        uri={searchUrl('Women_3')}
         resize="cover"
         reserve={false}
         title="7 ngày mua sắm"
@@ -64,7 +71,7 @@ const WomenScreen = (props: Props) => {
       />
       <View style={styles.space} />
       <SoloGan
-        uri={sale}
+        uri={searchUrl('Women_4')}
         resize="cover"
         reserve
         title="New Fashion"
@@ -76,11 +83,15 @@ const WomenScreen = (props: Props) => {
 
   const renderContent = (
     <>
-      <Banner size="medium" uri={srcTop} mode="cover" />
+      <Banner size="medium" uri={searchUrl('Women_1')} mode="cover" />
       <WomenCatory />
-      <Banner size="medium" uri={srcHeader} mode="cover" />
+      <Banner size="medium" uri={searchUrl('Women_2')} mode="cover" />
       <HotDays />
-      <ProDucts title={'Tạo sao không thử!'} data={listWomen} />
+      <ProDucts
+        title={'Tạo sao không thử!'}
+        data={listWomen}
+        keyList={'Women_screens'}
+      />
     </>
   );
 
