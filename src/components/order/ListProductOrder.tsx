@@ -7,6 +7,7 @@ import BetterImage from '../images/BetterImage';
 import FastImage from 'react-native-fast-image';
 import {formartMoney} from '../../utils/Utilities';
 import {TypeCartItem} from '../../store/actions/types';
+import {Image} from 'react-native';
 
 type Props = {
   cartSeleted?: any;
@@ -23,12 +24,12 @@ const ListProductOrder = ({dataCartSeleted, cartSeleted, sumPrice}: Props) => {
     index: number | any;
   }) => (
     <View style={styles.contentItem}>
-      <BetterImage
+      <Image
         source={{
           uri: item.imageProduct,
         }}
         style={styles.img}
-        resizeMode={FastImage.resizeMode.cover}
+        resizeMode={'cover'}
       />
       <View style={styles.quantity}>
         <View style={styles.circle}>
@@ -40,7 +41,7 @@ const ListProductOrder = ({dataCartSeleted, cartSeleted, sumPrice}: Props) => {
     </View>
   );
   const renderSpace = () => <View style={styles.space} />;
-        const key = (item: any, index: any) => index.toString();
+  const key = (item: any, index: any) => index.toString();
   return (
     <View style={styles.container}>
       <ColumView

@@ -152,6 +152,7 @@ const DetailProduct = (props: DetailProps) => {
     <FastImage
       source={{
         uri: item,
+        priority: FastImage.priority.high,
       }}
       style={styles.img}
       resizeMode={FastImage.resizeMode.cover}

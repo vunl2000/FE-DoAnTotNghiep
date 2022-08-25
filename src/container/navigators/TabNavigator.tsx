@@ -18,7 +18,7 @@ import ScreenChangePass from '../screens/settings/ScreenChangePass';
 import ScreenListAddress from '../screens/address/ScreenListAddress';
 import {getBanner} from '../../store/actions/fristOpenActions';
 import {loadCatory} from '../../store/actions/catoryActions';
-import {loadProducts} from '../../store/actions/productsActions';
+import {clearProducts, loadProducts} from '../../store/actions/productsActions';
 import ScreenInvoice from '../screens/invoice/ScreenInvoice';
 import SearchScreen from '../screens/search/SearchScreen';
 import ProductView from '../screens/product/ProductView';
@@ -76,6 +76,8 @@ export default function TabNavigator({navigation}: any) {
   // console.log(initialRoute);
 
   React.useEffect(() => {
+    dispatch(clearProducts());
+
     onNotificationOpenedApp();
 
     getFCMToken();

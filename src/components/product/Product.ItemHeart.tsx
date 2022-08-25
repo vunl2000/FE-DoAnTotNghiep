@@ -29,7 +29,7 @@ const ProductItemHeart = ({item, index}: Props) => {
         },
       ]}
       onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
-      <BetterImage
+      <Image
         source={{
           uri: item?.imageProduct[0],
         }}

@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: ArrayColors.darkGrayAccount,
-    paddingBottom: sizes._80sdp,
+    paddingBottom: sizes._62sdp,
   },
   iconHeaderRight: {
     width: sizes._42sdp,

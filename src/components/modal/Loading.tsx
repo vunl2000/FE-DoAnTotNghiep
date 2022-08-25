@@ -2,8 +2,7 @@ import {StyleSheet, Modal, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
-import Images from '../../res/require/Images';
-import {WebView} from 'react-native-webview';
+import LottieView from 'lottie-react-native';
 interface Props {
   visible?: boolean;
 }
@@ -31,17 +30,9 @@ const Loading = (props: Props) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <WebView
-              scalesPageToFit={false}
-              originWhitelist={['*']}
-              domStorageEnabled={true}
-              source={{
-                uri: 'https://static.chiccdn.com/pwa/dist/static/img/PureIconLoading.433f3ebe.svg',
-              }}
-              style={{
-                width: sizes._48sdp,
-                height: sizes._48sdp,
-              }}
+            <LottieView
+              source={require('../../assets/lottie/fashion_app_loading.json')}
+              autoPlay
             />
           </View>
         </View>

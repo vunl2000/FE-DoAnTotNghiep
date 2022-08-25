@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
     backgroundColor: ArrayColors.darkGrayAccount,
-    paddingBottom: sizes._80sdp,
+    paddingBottom: sizes._62sdp,
   },
   mContinerBody: {
     backgroundColor: ArrayColors.darkGrayAccount,

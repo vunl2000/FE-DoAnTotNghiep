@@ -9,6 +9,7 @@ import ProDucts from '../../../../components/product/Products';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {API_URL, GET_PRODUCT_BY_ID_OBJECT} from '@env';
+import ProductItem from '../../../../components/product/Product.Item';
 
 type Props = {};
 const renderEmty = null;
@@ -29,6 +30,11 @@ const WomenScreen = (props: Props) => {
     return banner.filter((item: any) => item.title_data === keySearch);
   };
 
+  const renderProDuct = ({item, index}: any) => {
+    return <ProductItem item={item} index={index} />;
+  };
+  const keyItem = (item: any) => item._id;
+  const space = () => <View style={styles.spaceY} />;
   useEffect(() => {
     typeCatory.forEach((item: any) => {
       if (item.titleTypeProduct === 'Nữ') {
@@ -49,7 +55,7 @@ const WomenScreen = (props: Props) => {
             setIsLoader(false);
           })
           .catch(err => {
-            setIsLoader(true);
+            setIsLoader(false);
             console.log(err);
           });
       }
@@ -81,7 +87,7 @@ const WomenScreen = (props: Props) => {
     </View>
   );
 
-  const renderContent = (
+  const renderContent = () => (
     <>
       <Banner
         size="medium"
@@ -95,11 +101,23 @@ const WomenScreen = (props: Props) => {
         mode="cover"
       />
       <HotDays />
-      <ProDucts
-        title={'Tạo sao không thử!'}
-        data={listWomen}
-        keyList={'Women_screens'}
-      />
+      <View style={styles.label}>
+        <Text style={styles.textLabel}>Tại sao không thử!</Text>
+      </View>
+      {isLoader ? null : (
+        <FlatList
+          data={listWomen.slice(0, 10)}
+          renderItem={renderProDuct}
+          numColumns={2}
+          listKey={'women-index'}
+          keyExtractor={keyItem}
+          showsVerticalScrollIndicator={false}
+          removeClippedSubviews={false}
+          ItemSeparatorComponent={space}
+          initialNumToRender={10}
+          bounces={false}
+        />
+      )}
     </>
   );
 
@@ -139,6 +157,21 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Bold',
     fontWeight: '700',
     lineHeight: sizes._24sdp,
+    textAlign: 'center',
+  },
+  spaceY: {
+    height: sizes._16sdp,
+  },
+  label: {
+    paddingVertical: sizes._16sdp,
+  },
+  textLabel: {
+    fontSize: sizes._18sdp,
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
+    lineHeight: sizes._26sdp,
+    color: ArrayColors._color_black,
+    marginVertical: sizes._10sdp,
     textAlign: 'center',
   },
 });
