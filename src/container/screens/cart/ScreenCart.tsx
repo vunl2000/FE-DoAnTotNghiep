@@ -63,13 +63,13 @@ const ScreenCart = (props: Props) => {
 
   const addToBill = () => {
     if (auth.isAuthenticated) {
-      // if (!auth.authentication) {
-      //   showToast('Bạn cần xác thực tài khoản để thanh toán!');
-      // } else {
-      cartSeleted > 0
-        ? navigate(NameScreen.ORDER)
-        : showToast('Vui lòng chọn sản phẩm đặt hàng!');
-      // }
+      if (!auth.result[0].authentication) {
+        showToast('Bạn cần xác thực tài khoản để thanh toán!');
+      } else {
+        cartSeleted > 0
+          ? navigate(NameScreen.ORDER)
+          : showToast('Vui lòng chọn sản phẩm đặt hàng!');
+      }
     } else {
       showToast('Bạn chưa đăng nhập!');
       navigate(NameScreen.LOGIN);

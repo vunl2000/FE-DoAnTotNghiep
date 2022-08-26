@@ -4,11 +4,12 @@ import sizes from '../../../../res/sizes/sizes';
 import TopCatory from '../../../../components/home/catory/TopCatory';
 import Banner from '../../../../components/home/banner/Banner';
 import Products from '../../../../components/product/Products';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import HomeCatory from '../../../../components/home/catory/HomeCatory';
 import ProductItem from '../../../../components/product/Product.Item';
 import {Text} from 'react-native';
 import ArrayColors from '../../../../res/colors/ArrayColors';
+import {changeHeart} from '../../../../store/actions/productsActions';
 
 interface Props {}
 
@@ -16,9 +17,9 @@ const renderContent = null;
 const isEmty = null;
 
 const HomeIndex: React.FC<Props> = props => {
-  const {products} = useSelector((state: any) => state.product);
+  const {products, listIDHeart} = useSelector((state: any) => state.product);
   const {banner} = useSelector((state: any) => state.firstOpen);
-
+  const dispatch: any = useDispatch();
   // let uri1 =
   //   'https://img.ltwebstatic.com/images3_acp/2022/07/26/16588342618f4d1bf9f87bd45fa262ecdf8879987f.gif';
   // let uri2 =
@@ -35,6 +36,14 @@ const HomeIndex: React.FC<Props> = props => {
   };
   const space = () => <View style={styles.spaceY} />;
   const keyItem = (item: any) => item._id;
+
+  useEffect(() => {
+    if (listIDHeart.length > 0) {
+      listIDHeart.forEach((val: any) => {
+        dispatch(changeHeart(val.idProduct, true));
+      });
+    }
+  }, [listIDHeart]);
 
   const renderView = (
     <View style={styles.container}>

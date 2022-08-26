@@ -21,9 +21,16 @@ import {Divider} from 'react-native-paper';
 import ButtonSub from '../../../components/button/ButtonSub';
 import axios from 'axios';
 import ItemHeart from '../../../components/heart/ItemHeart';
-import {API_URL, COUNT_HEART, GET_HEART} from '@env';
-import {changeHeart} from '../../../store/actions/productsActions';
+import {API_URL, COUNT_HEART, GET_HEART, MINES_HEART} from '@env';
+import {
+  changeHeart,
+  countHeart,
+  minuesHeart,
+} from '../../../store/actions/productsActions';
 import ItemHeartShow from '../../../components/heart/ItemHearShow';
+import {getRandomQuestionsArray} from '../../../utils/Utilities';
+import LottieView from 'lottie-react-native';
+import {showToast} from '../../../components/modal/ToastCustom';
 
 type Props = {};
 
@@ -31,134 +38,165 @@ const renderContent = null;
 const isEmty = null;
 
 const ProductHeart = (props: Props) => {
-  const [listHeart, setListHeart] = useState<any>([]);
-  const [listIDHeart, setListIDHeart] = useState<any>([]);
-  const [listNote, setListNote] = useState<any>([]);
-  const auth = useSelector((state: any) => state.account);
-
-  const {goBack, navigate}: any = useNavigation();
-  const {carts, numberCart, products} = useSelector(
+  const {listIDHeart, numberCart, products} = useSelector(
     (state: any) => state.product,
   );
 
+  const [listHeart, setListHeart] = useState<any>([]);
+  const [checked, setChecked] = useState<any>(null);
+  const [listNote, setListNote] = useState<any>(
+    getRandomQuestionsArray(12, products),
+  );
+
+  const [heart, setHeart] = useState<any>({
+    isHeart: false,
+    item: null,
+  });
+
+  const [minHeart, setMinHeart] = useState<any>({
+    isStatus: false,
+    item: null,
+  });
+
+  const {goBack, navigate}: any = useNavigation();
+
+  const auth = useSelector((state: any) => state.account);
+
   const onBackPress = () => goBack();
+
   const goToCart = () => navigate(NameScreen.HOME, {screen: 'ScreenCart'});
+
   const navigateLogin = () => navigate(NameScreen.LOGIN);
+
   const dispatch: any = useDispatch();
+
   const keySuggestions = (item: any) => item._id;
 
+  const changeHearts = (item: any) => {
+    if (auth.isAuthenticated) {
+      setHeart({isHeart: true, item});
+    } else {
+      navigateLogin();
+    }
+  };
+
+  const changeMinHeart = (item: any) => {
+    if (auth.isAuthenticated) {
+      setMinHeart({isStatus: true, item});
+      console.log(item);
+    } else {
+      navigateLogin();
+    }
+  };
+
   const renderItemSuggestions = ({item, index}: any) => (
-    <ItemHeart item={item} index={index} onPress={countHeart} />
+    <ItemHeart item={item} index={index} onPress={changeHearts} />
   );
 
   const renderItem = ({item, index}: any) => (
-    <ItemHeartShow item={item} index={index} onPress={minuesHeart} />
+    <ItemHeartShow item={item} index={index} onPress={changeMinHeart} />
   );
 
-  const getHeartUser = async () => {
-    if (auth.isAuthenticated) {
-      let token: string = `Bearer ${auth.token}`;
-
-      let data = JSON.stringify({
-        idUser: auth.result[0]._id,
-      });
-
-      await axios({
-        method: 'POST',
-        url: API_URL + GET_HEART,
-        headers: {
-          token: token,
-          'Content-Type': 'application/json',
-        },
-        data: data,
-      })
-        .then(res => {
-          let data = res.data;
-          let getData: any = data.results;
-          let idHeart: any = [];
-          getData.forEach((val: any) => {
-            let idProduct = val.heart.idProduct;
-            dispatch(changeHeart(idProduct));
-            console.log('change ' + idProduct);
-            idHeart.push({
-              _id: val.heart._id,
-              idProduct: val.heart.idProduct,
-            });
-          });
-          setListIDHeart(idHeart);
-          console.log(idHeart);
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-    }
-  };
-  const countHeart = async (idProduct: any) => {
-    if (auth.isAuthenticated) {
-      let token: string = `Bearer ${auth.token}`;
-
-      let data = JSON.stringify({
-        idUser: auth.result[0]._id,
-        idProduct: idProduct,
-      });
-
-      await axios({
-        method: 'POST',
-        url: API_URL + COUNT_HEART,
-        headers: {
-          token: token,
-          'Content-Type': 'application/json',
-        },
-        data: data,
-      })
-        .then(res => {
-          let data = res.data;
-          dispatch(changeHeart(idProduct));
-          console.log('change ' + idProduct);
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-    }
-  };
-
-  const minuesHeart = async (idProduct: any) => {
-    if (auth.isAuthenticated && listIDHeart.length > 0) {
-      let idHeart;
-      listIDHeart.forEach((element: any) => {
-        if (element.idProduct === idProduct) {
-          idHeart = element._id;
-        }
-      });
-      console.log(idHeart);
-      let token: string = `Bearer ${auth.token}`;
-
-      let data = JSON.stringify({
-        idUser: auth.result[0]._id,
-        idHeart: idHeart,
-        idProduct: idProduct,
-      });
-
-      await axios({
-        method: 'POST',
-        url: API_URL + GET_HEART,
-        headers: {
-          token: token,
-          'Content-Type': 'application/json',
-        },
-        data: data,
-      })
-        .then(res => {
-          dispatch(changeHeart(idProduct));
-          console.log('change ' + idProduct);
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-    }
-  };
-
   const renderSpace = () => <View style={styles.spaceHeightMedium} />;
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      let heart = products.filter((item: any) => item.heart_active);
+      setListHeart(heart);
+      products.find((item: any) =>
+        item.heart_active ? setChecked(true) : setChecked(false),
+      );
+      if (listIDHeart.length > 0 && !checked) {
+        listIDHeart.forEach((val: any) => {
+          dispatch(changeHeart(val.idProduct, true));
+        });
+      }
+    }
+  }, [auth.isAuthenticated, checked]);
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      if (heart.item != null && listIDHeart.length > 0) {
+        let check = listHeart.find((val: any) =>
+          val._id === heart.item._id ? true : false,
+        );
+
+        let heartId: any = listIDHeart.find(
+          (val: any) => val.idProduct === heart.item._id,
+        );
+
+        if (check) {
+          if (
+            dispatch(
+              minuesHeart(
+                heart.item,
+                `Bearer ${auth.token}`,
+                auth.result[0]._id,
+                heartId._id,
+              ),
+            )
+          ) {
+            setListHeart(
+              listHeart.filter((val: any) => val._id !== heart.item._id),
+            );
+            setMinHeart({
+              isStatus: false,
+              item: null,
+            });
+          } else {
+            showToast('Đã có lỗi trong quá trình xử lý');
+          }
+        } else {
+          if (
+            dispatch(
+              countHeart(
+                heart.item,
+                `Bearer ${auth.token}`,
+                auth.result[0]._id,
+              ),
+            )
+          ) {
+            setListHeart([...listHeart, heart.item]);
+            setHeart({
+              isHeart: false,
+              item: null,
+            });
+          } else {
+            showToast('Đã có lỗi trong quá trình xử lý');
+          }
+        }
+      }
+    }
+  }, [heart.isHeart]);
+
+  useEffect(() => {
+    if (minHeart.item != null && listIDHeart.length > 0) {
+      let heartId: any = listIDHeart.find(
+        (val: any) => val.idProduct === minHeart.item._id,
+      );
+
+      if (
+        dispatch(
+          minuesHeart(
+            minHeart.item,
+            `Bearer ${auth.token}`,
+            auth.result[0]._id,
+            heartId._id,
+          ),
+        )
+      ) {
+        setListHeart(
+          listHeart.filter((val: any) => val._id !== minHeart.item._id),
+        );
+        setMinHeart({
+          isStatus: false,
+          item: null,
+        });
+      } else {
+        showToast('Đã có lỗi trong quá trình xử lý');
+      }
+    }
+  }, [minHeart.isStatus]);
 
   const ContentHeader = () => (
     <View style={styles.contentHeder}>
@@ -182,6 +220,22 @@ const ProductHeart = (props: Props) => {
 
   const Suggestions = () => (
     <View style={styles.suggestions}>
+      {listHeart.length > 0 ? null : (
+        <>
+          <View
+            style={[styles.contentHeder, {paddingHorizontal: sizes._18sdp}]}>
+            <Text style={[styles.textEmptyHeart, {flex: 1}]}>
+              Lưu trữ mọi thứ bạn yêu thích trên một trang.
+            </Text>
+            <LottieView
+              source={require('../../../assets/lottie/heart.json')}
+              autoPlay
+              style={styles.imgEmpty}
+            />
+          </View>
+          <View style={styles.spaceHeightSmall} />
+        </>
+      )}
       <Text
         style={[
           styles.textLabel,
@@ -189,7 +243,6 @@ const ProductHeart = (props: Props) => {
             marginLeft: sizes._18sdp,
           },
         ]}>
-        {' '}
         Có lẽ bạn sẽ thích
       </Text>
       <View style={styles.spaceHeightMedium} />
@@ -200,7 +253,9 @@ const ProductHeart = (props: Props) => {
         renderItem={renderItemSuggestions}
         listKey="list-suggestions-heart"
         removeClippedSubviews
+        bounces={false}
         numColumns={3}
+        maxToRenderPerBatch={12}
         ItemSeparatorComponent={renderSpace}
         columnWrapperStyle={{
           flex: 1,
@@ -242,10 +297,15 @@ const ProductHeart = (props: Props) => {
         </View>
       ) : (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={image.heart_empty} resizeMode="contain" />
+          <Image
+            source={image.heart_empty}
+            resizeMode="contain"
+            style={styles.imgEmpty}
+          />
           <View style={styles.spaceHeightSmall} />
           <Text style={styles.textEmptyHeart}>Bạn chưa thích sản phẩm nào</Text>
           <View style={styles.spaceHeightMedium} />
+          <View></View>
         </View>
       )}
       {auth.isAuthenticated ? null : (
@@ -264,6 +324,7 @@ const ProductHeart = (props: Props) => {
       )}
     </View>
   );
+
   const renderView = (
     <View>
       <Divider />
@@ -272,18 +333,6 @@ const ProductHeart = (props: Props) => {
       <Suggestions />
     </View>
   );
-
-  useEffect(() => {
-    getHeartUser();
-  }, [auth]);
-
-  useEffect(() => {
-    let heart = products.filter((item: any) => item.heart_active);
-    let listNew = products.filter((item: any) => !item.heart_active);
-    setListHeart(heart);
-    setListNote(listNew);
-  }, [products]);
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={'transparent'} />
@@ -329,6 +378,10 @@ const styles = StyleSheet.create({
   img: {
     width: sizes._screen_width,
     height: sizes._csreen_height * 0.6,
+  },
+  imgEmpty: {
+    width: sizes._50sdp,
+    height: sizes._50sdp,
   },
   containerAddCart: {
     flexDirection: 'row',

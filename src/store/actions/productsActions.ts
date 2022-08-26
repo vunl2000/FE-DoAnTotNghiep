@@ -7,11 +7,25 @@ import {
   CHANGE_HEART,
   CLEAR_PRODUCTS,
   CLEAR_ALL_PRODUTS,
+  UPDATE_TO_CART,
+  INCREASE_QUANTITY,
+  SELECT_BILL_CART,
+  SELECT_ALL_CART,
+  DECREASE_QUANTITY,
+  AD_LIST_ID_HEART,
+  AD_ITEM_ID_HEART,
+  RM_ITEM_ID_HEART,
 } from './types';
-import {API_URL, API_URL_GETALL_PRODUCT, GET_HEART} from '@env';
+import {
+  API_URL,
+  API_URL_GETALL_PRODUCT,
+  COUNT_HEART,
+  GET_HEART,
+  MINES_HEART,
+} from '@env';
 import axios from 'axios';
 import {returnErrors} from './errActions';
-import store from '..';
+
 // Load products
 
 export const loadProducts = () => async (dispatch: AllDispatchProps) => {
@@ -48,7 +62,7 @@ export const addToCart = (item: any, size: any, color: any) => {
 };
 export function updateCart(payload: any) {
   return {
-    type: 'UPDATE_CART',
+    type: UPDATE_TO_CART,
     payload,
   };
 }
@@ -61,13 +75,13 @@ export function deleteCart(id: any) {
 
 export function increaseQuantity(id: any) {
   return {
-    type: 'INCREASE_QUANTITY',
+    type: INCREASE_QUANTITY,
     payload: {id},
   };
 }
 export function changeSelectCart(id: any) {
   return {
-    type: 'SELECT_BILL_CART',
+    type: SELECT_BILL_CART,
     payload: {
       id,
     },
@@ -75,24 +89,125 @@ export function changeSelectCart(id: any) {
 }
 export function slectedAllCart() {
   return {
-    type: 'SELECT_ALL_CART',
+    type: SELECT_ALL_CART,
     payload: null,
   };
 }
 export function decreaseQuantity(id: any) {
   return {
-    type: 'DECREASE_QUANTITY',
+    type: DECREASE_QUANTITY,
     payload: {
       id,
     },
   };
 }
+export const getHeartUser =
+  (token: any, id: any) => async (dispatch: AllDispatchProps) => {
+    if (token !== '' && token !== null) {
+      let data = JSON.stringify({
+        idUser: id,
+      });
 
-export function changeHeart(id: any) {
+      await axios({
+        method: 'POST',
+        url: API_URL + GET_HEART,
+        headers: {
+          token: token,
+          'Content-Type': 'application/json',
+        },
+        data: data,
+      })
+        .then(res => {
+          let data = res.data;
+          let getData: any = data.result;
+
+          dispatch({type: AD_LIST_ID_HEART, payload: getData});
+
+          getData.forEach((val: any) => {
+            let idProduct = val.idProduct;
+            dispatch(changeHeart(idProduct, true));
+          });
+          console.log('load heart succes');
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  };
+
+export const minuesHeart =
+  (item: any, token: any, id: any, idHeart: any) =>
+  async (dispatch: AllDispatchProps) => {
+    let data = JSON.stringify({
+      idUser: id,
+      idHeart: idHeart,
+      idProduct: item._id,
+    });
+
+    await axios({
+      method: 'POST',
+      url: API_URL + MINES_HEART,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => {
+        let data = res.data;
+        if (data.message === 'Success') {
+          console.log('min heart');
+          dispatch(changeHeart(item._id, false));
+          dispatch({type: RM_ITEM_ID_HEART, payload: idHeart});
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        return false;
+      });
+  };
+export const countHeart =
+  (item: any, token: any, id: any) => async (dispatch: AllDispatchProps) => {
+    let data = JSON.stringify({
+      idUser: id,
+      idProduct: item._id,
+    });
+
+    await axios({
+      method: 'POST',
+      url: API_URL + COUNT_HEART,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => {
+        let data: any = res.data;
+        if (data.message === 'Success') {
+          dispatch(changeHeart(item._id, true));
+          dispatch({type: AD_ITEM_ID_HEART, payload: data.result});
+          console.log('add heart');
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        return false;
+      });
+  };
+
+export function changeHeart(id: any, val: boolean) {
   return {
-    type: 'CHANGE_HEART',
+    type: CHANGE_HEART,
     payload: {
       id,
+      val,
     },
   };
 }
@@ -103,7 +218,7 @@ export function clearProducts() {
   };
 }
 
-export function clearAll() {
+export function clearAllCart() {
   return {
     type: CLEAR_ALL_PRODUTS,
   };

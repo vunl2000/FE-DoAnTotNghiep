@@ -35,7 +35,10 @@ import {checkMail} from '../../../../utils/Utilities';
 import Loading from '../../../../components/modal/Loading';
 import axios from 'axios';
 import {API_URL, GET_HEART} from '@env';
-import {changeHeart} from '../../../../store/actions/productsActions';
+import {
+  changeHeart,
+  getHeartUser,
+} from '../../../../store/actions/productsActions';
 type Props = {};
 
 const ScreenLogin = ({navigation}: {navigation: any}) => {
@@ -112,33 +115,6 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
 
   console.log(error);
 
-  const getAllHeart = async (idUser: any, token: any) => {
-    let data = JSON.stringify({
-      idUser: idUser,
-    });
-    await axios({
-      method: 'POST',
-      url: API_URL + GET_HEART,
-      headers: {
-        token: token,
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    })
-      .then(res => {
-        let data = res.data;
-        let getData: any = data.results;
-        getData.forEach((val: any) => {
-          let idProduct = val.heart.idProduct;
-          dispatch(changeHeart(idProduct));
-          console.log('change ' + idProduct);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   React.useEffect(() => {
     const {isAuthenticated, token} = accounts;
 
@@ -150,7 +126,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
           ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
           console.log(accounts);
           dispatch(clearErrors());
-          getAllHeart(accounts.result[0]._id, `Bearer ${token}`);
+          dispatch(getHeartUser(`Bearer ${token}`, accounts.result[0]._id));
         }
 
         // setInvisible(false);
