@@ -93,6 +93,9 @@ const image = {
   star_unactive: require('../../assets/images/star_unactive.png'),
   star_active: require('../../assets/images/star_active.png'),
 
+  img_ruler: require('../../assets/images/img_rule.png'),
+  img_shoes: require('../../assets/images/img_head.png'),
+  img_jean: require('../../assets/images/img_quan.png'),
   // ////////////////////////////////
   // like_png: require('../../assets/gif/like_png.png'),
   // like_png: require('../../assets/gif/like_png.png'),

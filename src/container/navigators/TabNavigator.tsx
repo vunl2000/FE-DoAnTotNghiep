@@ -30,6 +30,7 @@ import AnswerQuestions from '../screens/questions/AnswerQuestions';
 import ScreenWalet from '../screens/walet/ScreenWalet';
 import ScreenGiftcard from '../screens/walet/ScreenGiftcard';
 import ScreenCheckQuestions from '../screens/questions/ScreenCheckQuestions';
+import ScreenRulerSize from '../screens/sizeandcolor/ScreenRulerSize';
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
@@ -54,6 +55,7 @@ export enum NameScreen {
   SCREENWALET = 'ScreenWalet',
   SCREENGIF = 'ScreenGiftcard',
   SCREENCHECKQUESTIONS = 'ScreenCheckQuestions',
+  SCREENRULERSIZE = 'ScreenRulerSize',
 }
 
 export default function TabNavigator() {
@@ -67,7 +69,8 @@ export default function TabNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={open ? NameScreen.HOME : NameScreen.ONBOARDING}>
+        initialRouteName={open ? NameScreen.HOME : NameScreen.ONBOARDING}
+    >
         <Stack.Screen
           name={NameScreen.ONBOARDING}
           component={OnboardingFirst}
@@ -191,6 +194,11 @@ export default function TabNavigator() {
         <Stack.Screen
           name={NameScreen.SCREENCHECKQUESTIONS}
           component={ScreenCheckQuestions}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NameScreen.SCREENRULERSIZE}
+          component={ScreenRulerSize}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
