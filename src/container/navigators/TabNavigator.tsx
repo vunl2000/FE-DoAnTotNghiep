@@ -135,6 +135,7 @@ export default function TabNavigator({navigation}: any) {
 
     await notifee.displayNotification({
       title: `<p style="color: #4caf50;"><b>${remoteMessage.notification.title}</span></p></b></p> &#128576;`,
+
       android: {
         channelId,
         style: {
