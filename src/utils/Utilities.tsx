@@ -34,6 +34,30 @@ export const makeId = (length: number) => {
   return result;
 };
 
+const getRandomNumberBetween = (min: any, max: any) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const getRandomQuestionFromArray = (array: any) => {
+  const randomIndex = getRandomNumberBetween(0, array.length - 1);
+  return array[randomIndex];
+};
+
+export const getRandomQuestionsArray = (num: any, data: any) => {
+  const finalQuestionArray: any = [];
+
+  while (finalQuestionArray.length < num) {
+    const val = getRandomQuestionFromArray(data);
+
+    if (!finalQuestionArray.find((q: any) => q._id === val._id)) {
+      finalQuestionArray.push(val);
+    }
+  }
+  return finalQuestionArray;
+};
+
 export function useSwipe(
   onSwipeLeft?: any,
   onSwipeRight?: any,

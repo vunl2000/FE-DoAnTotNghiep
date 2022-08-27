@@ -91,12 +91,12 @@ const AddToCart = ({isShow, onChangeShow, item}: Props) => {
   const keyItem = (item: any, index: number) => index.toString();
 
   const renderItem = ({item, index}: any) => (
-    <BetterImage
+    <Image
       source={{
         uri: item,
       }}
       style={styles.img}
-      resizeMode={FastImage.resizeMode.cover}
+      resizeMode={'cover'}
     />
   );
   const AddToCart = () => (

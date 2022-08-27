@@ -1,6 +1,6 @@
-import {API_URL, API_GET_ALL_BANNER} from '@env';
+import { API_URL, API_GET_ALL_BANNER } from '@env';
 import axios from 'axios';
-import {OPEN_APP, AllDispatchProps, BANNER_APP} from './types';
+import { OPEN_APP, AllDispatchProps, BANNER_APP } from './types';
 
 export const openApp = () => {
   return {
@@ -14,6 +14,6 @@ export const getBanner = () => async (dishpatch: AllDispatchProps) => {
     url: API_URL + API_GET_ALL_BANNER,
     headers: {},
   })
-    .then(res => dishpatch({type: BANNER_APP, payload: res.data}))
+    .then(res => dishpatch({ type: BANNER_APP, payload: res.data }))
     .catch(err => console.log(err));
 };

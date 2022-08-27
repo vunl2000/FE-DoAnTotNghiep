@@ -30,12 +30,12 @@ const WomenCatory = (props: Props) => {
           Xem tất cả {'>'}
         </Text>
       </TouchableWithoutFeedback>
-      {women.slice(0, 8).length > 0 ? (
-        <ContentCatory data={women.slice(0, 8)} />
+      {women.slice(0, 8).length === 8 ? (
+        <ContentCatory data={women.slice(0, 8)} keyList="firts_catory_women" />
       ) : null}
       <View style={styles.spaceHeight} />
-      {women.slice(8, 16).length > 0 ? (
-        <ContentCatory data={women.slice(8, 16)} />
+      {women.slice(8, 16).length === 8 ? (
+        <ContentCatory data={women.slice(8, 16)} keyList="next_catory_women" />
       ) : null}
     </View>
   );

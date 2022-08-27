@@ -40,7 +40,7 @@ export const loadCatory = () => async (dispatch: AllDispatchProps) => {
     });
 };
 
-export const loadAll =
+export const loadAccessory =
   (id: string | any) => async (dispatch: AllDispatchProps) => {
     dispatch({type: LOADING_CATORY_ACCESSORY, payload: null});
     const data = JSON.stringify({

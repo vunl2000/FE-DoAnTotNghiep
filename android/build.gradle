@@ -55,6 +55,6 @@ allprojects {
     }
 }
 //Removing MyAppGlideModule
-project.ext {
-    excludeAppGlideModule = true
-}
+// project.ext {
+//     excludeAppGlideModule = true
+// }

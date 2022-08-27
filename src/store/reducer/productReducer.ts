@@ -9,12 +9,17 @@ import {
   GET_NUMBER_CART,
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
-  CHANGE_SELECT_CART,
+  SELECT_BILL_CART,
   SELECT_ALL_CART,
   TypeCartItem,
   TypeProductItem,
   DELETE_TO_CART,
   CHANGE_HEART,
+  CLEAR_PRODUCTS,
+  CLEAR_ALL_PRODUTS,
+  AD_LIST_ID_HEART,
+  AD_ITEM_ID_HEART,
+  RM_ITEM_ID_HEART,
 } from './../actions/types';
 
 const initalState = {
@@ -23,6 +28,7 @@ const initalState = {
   carts: [] as TypeCartItem[],
   numberCart: 0 as number,
   allSelected: false as boolean,
+  listIDHeart: [] as any,
 };
 
 export default (state = initalState, {payload, type}: ActionProps) => {
@@ -87,7 +93,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
       return {
         ...state,
       };
-    case CHANGE_SELECT_CART:
+    case SELECT_BILL_CART:
       let count = 0;
       state.carts.map((item: TypeCartItem) =>
         !item.selected ? (count += 1) : count,
@@ -158,15 +164,52 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         };
       }
     }
+
     case CHANGE_HEART:
       return {
         ...state,
         products: state.products.map((item: any) =>
-          item._id === payload.id
-            ? {...item, heart_active: !item.heart_active}
-            : item,
+          item._id === payload.id ? {...item, heart_active: payload.val} : item,
         ),
       };
+    case AD_LIST_ID_HEART:
+      return {
+        ...state,
+        listIDHeart: payload,
+      };
+    case AD_ITEM_ID_HEART:
+      console.log(payload);
+      return {
+        ...state,
+        listIDHeart: [...state.listIDHeart, payload],
+      };
+    case RM_ITEM_ID_HEART:
+      return {
+        ...state,
+        listIDHeart: state.listIDHeart.filter(
+          (item: any) => item._id !== payload,
+        ),
+      };
+
+    case CLEAR_PRODUCTS:
+      return {
+        ...state,
+        products: [],
+      };
+
+    case CLEAR_ALL_PRODUTS:
+      return {
+        isLoading: false,
+        products: state.products.map((item: any) => ({
+          ...item,
+          heart_active: false,
+        })),
+        carts: [],
+        numberCart: 0,
+        allSelected: false,
+        listIDHeart: [],
+      };
+
     default:
       return state;
   }

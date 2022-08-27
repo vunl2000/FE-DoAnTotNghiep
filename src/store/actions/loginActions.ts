@@ -23,7 +23,7 @@ export const userLogins =
 
     axios({
       method: 'POST',
-      url: "http://18.141.199.110:3000/account-user/login-user",
+      url: API_URL_LOGIN_USERS,
       data: mFormData,
       headers: {
         'content-type': 'application/json',

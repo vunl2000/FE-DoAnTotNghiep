@@ -28,7 +28,11 @@ import {NameScreen} from '../../navigators/TabNavigator';
 import {TypeProductItem} from '../../../store/actions/types';
 import axios from 'axios';
 import {API_URL, BY_VIEW_PRODUCTS} from '@env';
-import {addToCart} from '../../../store/actions/productsActions';
+import {
+  addToCart,
+  clearProducts,
+  loadProducts,
+} from '../../../store/actions/productsActions';
 import {showToast} from '../../../components/modal/ToastCustom';
 import TranSport from '../../../components/order/TranSport';
 import ColumView from '../../../components/order/ColumView';
@@ -37,6 +41,7 @@ import LevelComment from '../../../components/product/LevelComment';
 import CustomRatingBar from '../../../components/product/CustomRatingBar';
 import ItemComment from '../../../components/product/Item.Comment';
 import ProductItem from '../../../components/product/Product.Item';
+import ProDucts from '../../../components/product/Products';
 
 const colorRender = (
   positions: any,
@@ -97,7 +102,7 @@ const DetailProduct = (props: DetailProps) => {
     item;
   const [sizeSelected, setSizeSelected] = useState({
     size: '',
-    onSelected: null,
+    index: -1,
   });
 
   const [colorSelected, setColorSelected] = useState({
@@ -105,10 +110,8 @@ const DetailProduct = (props: DetailProps) => {
     onSelected: null,
   });
 
-  const onSelectedSize = (val: any, index: any) => {
-    index != sizeSelected.onSelected
-      ? setSizeSelected({size: val, onSelected: index})
-      : setSizeSelected({size: '', onSelected: null});
+  const onSelectedSize = (size: any, index: any) => {
+    setSizeSelected({size, index});
   };
   const onSelectedColor = (val: any, index: any) => {
     index != colorSelected.onSelected
@@ -123,7 +126,7 @@ const DetailProduct = (props: DetailProps) => {
     });
     setSizeSelected({
       size: '',
-      onSelected: null,
+      index: -1,
     });
   };
 
@@ -139,7 +142,9 @@ const DetailProduct = (props: DetailProps) => {
       },
       data: data,
     })
-      .then(res => console.log(res.data))
+      .then(res => {
+        console.log(res.data);
+      })
       .catch(err => console.log(err));
   };
 
@@ -147,17 +152,43 @@ const DetailProduct = (props: DetailProps) => {
     <FastImage
       source={{
         uri: item,
+        priority: FastImage.priority.high,
       }}
       style={styles.img}
       resizeMode={FastImage.resizeMode.cover}
     />
   );
+
   const renderListSucces = ({item, index}: any) => (
     <ProductItem item={item} index={index} />
   );
+
   const keyItem = (item: any, index: number) => index.toString();
 
   const keyExtractor = (item: any) => item._id;
+
+  const renderSize = ({item, index}: any) => {
+    let isSeleted = sizeSelected.index === index;
+    return (
+      <TouchableWithoutFeedback
+        onPress={() =>
+          onSelectedSize(isSeleted ? '' : item, isSeleted ? -1 : index)
+        }>
+        <View
+          style={[
+            styles.sizeItem,
+            {
+              borderColor:
+                index === sizeSelected.index
+                  ? ArrayColors._color_black
+                  : ArrayColors._color_white_black,
+            },
+          ]}>
+          <Text style={styles.sizeText}>{item}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  };
 
   const onChangeShow = () => {
     if (sizeSelected.size !== '' && colorSelected.color !== '') {
@@ -244,26 +275,20 @@ const DetailProduct = (props: DetailProps) => {
     <View style={{backgroundColor: ArrayColors.white}}>
       <Text style={styles.textLabel}>Kích thước</Text>
       <View style={styles.renderList}>
-        {item.size_product.map((_item: any, index: number) => {
-          return (
-            <TouchableWithoutFeedback
-              key={index.toString()}
-              onPress={() => onSelectedSize(_item, index)}>
-              <View
-                style={[
-                  styles.sizeItem,
-                  {
-                    borderColor:
-                      index === sizeSelected.onSelected
-                        ? ArrayColors._color_black
-                        : ArrayColors._color_white_black,
-                  },
-                ]}>
-                <Text style={styles.sizeText}>{_item}</Text>
-              </View>
-            </TouchableWithoutFeedback>
-          );
-        })}
+        <FlatList
+          data={size_product}
+          extraData={sizeSelected}
+          keyExtractor={keyItem}
+          renderItem={renderSize}
+          listKey="size_product"
+          horizontal
+          removeClippedSubviews
+          bounces={false}
+          maxToRenderPerBatch={8}
+          initialNumToRender={8}
+          windowSize={4}
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
     </View>
   );
@@ -336,16 +361,7 @@ const DetailProduct = (props: DetailProps) => {
         Cõ lẽ bạn sẽ thích
       </Text>
       <View style={styles.sapceMediumX} />
-      <FlatList
-        data={products}
-        extraData={products}
-        keyExtractor={keyExtractor}
-        renderItem={renderListSucces}
-        numColumns={2}
-        listKey="List_Suggestions"
-        removeClippedSubviews
-        showsHorizontalScrollIndicator={false}
-      />
+      <ProDucts data={products} keyList="list_suggestions" />
     </View>
   );
 

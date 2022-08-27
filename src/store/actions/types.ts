@@ -24,12 +24,17 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const GET_NUMBER_CART = 'GET_NUMBER_CART';
 export const UPDATE_TO_CART = 'UPDATE_TO_CART';
-export const CHANGE_SELECT_CART = 'SELECT_BILL_CART';
+export const SELECT_BILL_CART = 'SELECT_BILL_CART';
 export const SELECT_ALL_CART = 'SELECT_ALL_CART';
 export const DELETE_TO_CART = 'DELETE_TO_CART';
 export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
 export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
 export const CHANGE_HEART = 'CHANGE_HEART';
+export const AD_LIST_ID_HEART = 'AD_LIST_ID_HEART';
+export const AD_ITEM_ID_HEART = 'AD_ITEM_ID_HEART';
+export const RM_ITEM_ID_HEART = 'RM_ITEM_ID_HEART';
+export const CLEAR_PRODUCTS = 'CLEAR_PRODUCTS';
+export const CLEAR_ALL_PRODUTS = 'CLEAR_ALL_PRODUTS';
 
 //Error Types
 export const GET_ERRORS = 'GET_ERRORS';
@@ -37,9 +42,10 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 //Local Strogae
 export const OPEN_APP = 'CLEAR_ERRORS';
+// export const CHECK_NOTIFICATION = 'CHECK_NOTIFICATION';
 export const BANNER_APP = 'BANNER_APP';
 
-//device Fire Token 
+//device Fire Token
 export const DEVICE_TOKEN = 'DEVICE_TOKEN';
 // export const BANNER_APP = 'BANNER_APP';
 
@@ -47,6 +53,7 @@ export const DEVICE_TOKEN = 'DEVICE_TOKEN';
 export const GET_PROVINCE = 'GET_PROVINCE';
 export const ADD_LIST_ADDRESS = 'ADD_LIST_ADDRESS';
 export const SET_DEFAULT_ADDRESS = 'SET_DEFAULT_ADDRESS';
+export const CLEAR_ALL_ADDRESS = 'CLEAR_ALL_ADDRESS';
 //Bill type
 export const CREATE_BILL = 'CREATE_BILL';
 export const SENDING_DETAIL_BILL = 'SENDING_DETAIL_BILL';

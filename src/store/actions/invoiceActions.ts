@@ -7,20 +7,13 @@ import {
   INVOICE_CLEAR,
 } from './../actions/types';
 import axios from 'axios';
-import store from '..';
-
-const auth: any = store.getState().account.result[0];
-
-const tokenCover: any = store.getState().account.token;
-
-const token: string = `Bearer ${tokenCover}`;
 
 export const loadInvoiceUser =
-  (userID: any) => async (dishpatch: AllDispatchProps) => {
+  (userID: any, token: any) => async (dishpatch: AllDispatchProps) => {
     let data = JSON.stringify({
       idUser: userID.toString(),
     });
-    if (auth != null) {
+    if (token != null) {
       await axios({
         method: 'POST',
         url: API_URL + API_GET_BILL_USER,

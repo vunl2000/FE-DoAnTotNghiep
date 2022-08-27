@@ -1,101 +1,124 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import notifee, { AndroidStyle } from '@notifee/react-native';
-import messaging from '@react-native-firebase/messaging';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { deviceToken } from './store/actions/deviceFireBaseToken';
-
-const ServicersNotification = ({ navigation }: any) => {
-    const isCheckDevice = useSelector((state: any) => state.deviceCall.deviceCall);
-    const [firebaseToken, setFirebaseToken] = React.useState<string | any>("")
-    const dispatch: any = useDispatch();
-    console.log(isCheckDevice);
-
-    React.useEffect(() => {
-
-        if (!isCheckDevice) {
-            pushFirebaseToen();
-            console.log("okkkkkkkkkkkkkkkkkkkkkkkk");
-
-        }
-        getFCMToken();
-        //  onNotificationOpenedApp();
-        const unsubscribe = messaging().onMessage(async remoteMessage => {
-            // console.log('remoteMessage', JSON.stringify(remoteMessage));
-            DisplayNotification(remoteMessage);
-            // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-        });
-        return unsubscribe;
-    }, [])
-
-    const getFCMToken = () => {
-        messaging()
-            .getToken()
-            .then(token => {
-                console.log('fireBaseToken', token);
-                setFirebaseToken(token)
-            });
+// import { StyleSheet, Text, View } from 'react-native'
+// import React from 'react'
+// import notifee, { AndroidStyle } from '@notifee/react-native';
+// import messaging from '@react-native-firebase/messaging';
+// import axios from 'axios';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { deviceToken } from './store/actions/deviceFireBaseToken';
+// import { checkNotifications } from './store/actions/initialRouteAction';
+// import { useNavigation } from '@react-navigation/native';
+// const ServicersNotification = ({ navigation }: any) => {
+//     const isCheckDevice = useSelector((state: any) => state.deviceCall.deviceCall);
+//     const dispatch: any = useDispatch();
+//     const [initialRoute, setInitialRoute] = React.useState<any | string>('AppContainer');
 
 
-    };
-    // const onNotificationOpenedApp = () => {
+//     // React.useEffect(() => {
+//     //     onNotificationOpenedApp();
+//     //     getFCMToken();
+//     //     const unsubscribe = messaging().onMessage(async remoteMessage => {
+//     //         // console.log('remoteMessage', JSON.stringify(remoteMessage));
+//     //         DisplayNotification(remoteMessage);
+//     //         // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+//     //     });
 
-    //     messaging().onNotificationOpenedApp(remoteMessage => {
-    //         navigation.navigate("DetailProduct")
-    //         console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+//     //     messaging()
+//     //         .getInitialNotification()
+//     //         .then((remoteMessage: any) => {
+//     //             if (remoteMessage) {
+//     //                 console.log(
+//     //                     'Notification caused app to open from quit state:',
+//     //                     remoteMessage.notification,
+//     //                 );
+//     //                 // setInitialRoute()
+//     //                 //dispatch(checkNotifications(remoteMessage.data.type));
+//     //             }
+//     //             console.log(
+//     //                 'Notification caused app to open from quit state:',
+//     //                 remoteMessage.data,
+//     //             );
+//     //         });
 
-    //     })
-    // }
+//     //     return unsubscribe;
+//     // }, [])
 
-    async function DisplayNotification(remoteMessage: any) {
-        // Create a channel
-        const channelId = await notifee.createChannel({
-            id: 'default',
-            name: 'Default Channel',
-        });
+//     // const getFCMToken = () => {
+//     //     messaging()
+//     //         .getToken()
+//     //         .then(token => {
+//     //             console.log('fireBaseToken', token);
+//     //             // setFirebaseToken(token)
+//     //             if (!isCheckDevice) {
+//     //                 pushFirebaseToen(token);
 
-        // Display a notification
-        await notifee.displayNotification({
-            title: `<p style="color: #4caf50;"><b>${remoteMessage.notification.title}</span></p></b></p> &#128576;`,
-            // body: remoteMessage.notification.body,
-            android: {
-                channelId,
-                // smallIcon: "ic_launcher",
-                style: { type: AndroidStyle.BIGTEXT, text: remoteMessage.notification.body }, // optional, defaults to 'ic_launcher'.
-                smallIcon: 'ic_launcher',
-            },
-        });
-    }
-
-    async function pushFirebaseToen() {
-        console.log("---------------------");
-        
-        var data = JSON.stringify({ tokenPush: firebaseToken });
-        var config = {
-            method: 'post',
-            url: 'http://52.141.50.48:3000/api/user-send-token/create-token-notification',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: data
-        };
-
-        axios(config)
-            .then(function (response: any) {
-                console.log(JSON.stringify(response.data));
-                dispatch(deviceToken());
-            })
-            .catch(function (error: any) {
-                console.log(error);
-            });
+//     //             }
 
 
-    }
+//     //         });
+//     // };
+//     // const onNotificationOpenedApp = () => {
 
-    return null
+//     //     console.log("onNotificationOpenedApp");
 
-}
+//     //     messaging().onNotificationOpenedApp(remoteMessage => {
 
-export default ServicersNotification
+//     //         // navigation.navigate("ScreenNotification")
+
+//     //         console.log(remoteMessage);
+
+
+
+//     //     })
+//     // }
+
+//     // async function DisplayNotification(remoteMessage: any) {
+//     //     // Create a channel
+//     //     const channelId = await notifee.createChannel({
+//     //         id: 'default',
+//     //         name: 'Default Channel',
+//     //     });
+
+//     //     // Display a notification
+//     //     await notifee.displayNotification({
+//     //         title: `<p style="color: #4caf50;"><b>${remoteMessage.notification.title}</span></p></b></p> &#128576;`,
+//     //         // body: remoteMessage.notification.body,
+//     //         android: {
+//     //             channelId,
+//     //             style: { type: AndroidStyle.BIGTEXT, text: remoteMessage.notification.body }, // optional, defaults to 'ic_launcher'.
+//     //             smallIcon: 'ic_launcher',
+//     //         },
+//     //     });
+//     //     if (remoteMessage.data.type != "") {
+//     //         //dispatch(checkNotifications(remoteMessage.data.type));
+//     //     } 
+
+//     //     // console.log(
+//     //     //     'Notification caused app to open from quit state:',
+//     //     //     remoteMessage.data,
+//     //     // );
+
+//     // }
+//     // async function pushFirebaseToen(token: any) {
+//     //     const data = JSON.stringify({ tokenPush: token });
+//     //     const config = {
+//     //         method: 'post',
+//     //         url: 'http://52.141.50.48:3000/api/user-send-token/create-token-notification',
+//     //         headers: {
+//     //             'Content-Type': 'application/json'
+//     //         },
+//     //         data: data
+//     //     };
+//     //     console.log(data);
+//     //     await axios(config)
+//     //         .then(function (response: any) {
+//     //             console.log(JSON.stringify(response.data));
+//     //             dispatch(deviceToken());
+//     //         })
+//     //         .catch(function (error: any) {
+//     //             console.log(error);
+//     //         });
+//     // }
+//     return null
+// }
+// export default ServicersNotification
 

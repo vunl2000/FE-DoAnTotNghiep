@@ -22,6 +22,8 @@ import {persistor} from '../../../store';
 import ModalConfirm from '../../../components/modal/ModalConfirm';
 import {clearInvoice} from '../../../store/actions/invoiceActions';
 import {HomeName} from '../../navigators/AppContainer';
+import {clearAllCart} from '../../../store/actions/productsActions';
+import {clearAddress} from '../../../store/actions/addressActions';
 
 const ScreensSettings = ({navigation}: any) => {
   const [event, setEvent] = React.useState<string | any>(true);
@@ -67,13 +69,19 @@ const ScreensSettings = ({navigation}: any) => {
     navigation.navigate(NameScreen.LOGIN);
   }
   function showAddresses() {
-    navigation.navigate(NameScreen.LOGIN);
+    if (accounts.isAuthenticated) {
+      navigation.navigate(NameScreen.LIST_ADDRESS);
+    } else {
+      navigation.navigate(NameScreen.LOGIN);
+    }
   }
   function onPressConfirm() {
     console.log('okkkk');
     dispatch(logOut());
     dispatch(clearErrors());
     dispatch(clearInvoice());
+    dispatch(clearAllCart());
+    dispatch(clearAddress());
     navigation.navigate(HomeName.ACCOUNT);
   }
   function onPressCance() {
