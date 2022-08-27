@@ -31,6 +31,8 @@ import ScreenWalet from '../screens/walet/ScreenWalet';
 import ScreenGiftcard from '../screens/walet/ScreenGiftcard';
 import ScreenCheckQuestions from '../screens/questions/ScreenCheckQuestions';
 import ScreenRulerSize from '../screens/sizeandcolor/ScreenRulerSize';
+import CodeRule from '../screens/coderule/CodeRule';
+import Shipping from '../screens/coderule/Shipping';
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
@@ -56,6 +58,8 @@ export enum NameScreen {
   SCREENGIF = 'ScreenGiftcard',
   SCREENCHECKQUESTIONS = 'ScreenCheckQuestions',
   SCREENRULERSIZE = 'ScreenRulerSize',
+  SCREEN_CODE_RULE = 'CodeRule',
+  SCREEN_SHIPPING='Shipping'
 }
 
 export default function TabNavigator() {
@@ -70,7 +74,7 @@ export default function TabNavigator() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName={open ? NameScreen.HOME : NameScreen.ONBOARDING}
-    >
+       >
         <Stack.Screen
           name={NameScreen.ONBOARDING}
           component={OnboardingFirst}
@@ -96,7 +100,6 @@ export default function TabNavigator() {
           component={ScreenRegister}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={NameScreen.OTP}
           component={ScreenVeryfiOTP}
@@ -107,7 +110,6 @@ export default function TabNavigator() {
           component={ScreenRegisterDetail}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={NameScreen.ADDRESS}
           component={ScreenAddress}
@@ -153,19 +155,16 @@ export default function TabNavigator() {
           component={ScreenInvoice}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name="ScreenForgotPassword"
           component={ScreenForgotPassword}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={NameScreen.PRODUCT_VIEW}
           component={ProductView}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={NameScreen.SEARCH_SCREEN}
           component={SearchScreen}
@@ -196,9 +195,22 @@ export default function TabNavigator() {
           component={ScreenCheckQuestions}
           options={{headerShown: false}}
         />
+        {/* Man hinh huong dan kich thuoc */}
         <Stack.Screen
           name={NameScreen.SCREENRULERSIZE}
           component={ScreenRulerSize}
+          options={{headerShown: false}}
+        />
+        {/* màn hình quy tắc code */}
+        <Stack.Screen
+          name={NameScreen.SCREEN_CODE_RULE}
+          component={CodeRule}
+          options={{headerShown: false}}
+        />
+        {/* Hình thức giao hàng */}
+        <Stack.Screen
+          name={NameScreen.SCREEN_SHIPPING}
+          component={Shipping}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
