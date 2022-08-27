@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AppContainer from '../navigators/AppContainer';
 import DetailProduct from '../screens/product/DetailProduct';
 import ScreenLogin from '../screens/account/screen-acc/ScreenLogin';
@@ -10,7 +10,7 @@ import ScreenVeryfiOTP from '../screens/account/screen-acc/ScreenVeryfiOTP';
 import OnboardingFirst from '../../container/screens/onboarding/OnboardingFirst';
 import ScreenOrder from '../screens/order/ScreenOrder';
 import ScreenUserSpaper from '../screens/userspaper/ScreenUserSpaper';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ScreensSettings from '../screens/settings/ScreensSettings';
 import ScreensIntroduce from '../screens/settings/ScreensIntroduce';
 import ScreenVeryOTP from '../screens/settings/ScreenVeryOTP';
@@ -26,11 +26,11 @@ import ScreenForgotPassword from '../screens/account/screen-acc/ScreenForgotPass
 import ProductHeart from '../screens/heart/ProductHeart';
 import ScreenAddress from '../screens/address/ScreenAddress';
 import ScreenNotification from '../screens/notification/ScreenNotification';
-import notifee, {AndroidStyle} from '@notifee/react-native';
+import notifee, { AndroidStyle } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import axios from 'axios';
-import {deviceToken} from '../../store/actions/deviceFireBaseToken';
-import {PUSH_NOTIFICATION} from '@env';
+import { deviceToken } from '../../store/actions/deviceFireBaseToken';
+import { PUSH_NOTIFICATION } from '@env';
 import AnswerQuestions from '../screens/questions/AnswerQuestions';
 import ScreenWalet from '../screens/walet/ScreenWalet';
 import ScreenGiftcard from '../screens/walet/ScreenGiftcard';
@@ -69,7 +69,7 @@ export enum NameScreen {
 }
 const Stack = createNativeStackNavigator();
 
-export default function TabNavigator({navigation}: any) {
+export default function TabNavigator({ navigation }: any) {
   const isCheckDevice = useSelector(
     (state: any) => state.deviceCall.deviceCall,
   );
@@ -154,7 +154,7 @@ export default function TabNavigator({navigation}: any) {
     });
   }
   async function pushFirebaseToen(token: any) {
-    const data = JSON.stringify({tokenPush: token});
+    const data = JSON.stringify({ tokenPush: token });
     const config = {
       method: 'post',
       url: PUSH_NOTIFICATION,
@@ -190,128 +190,128 @@ export default function TabNavigator({navigation}: any) {
         <Stack.Screen
           name={NameScreen.ONBOARDING}
           component={OnboardingFirst}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.HOME}
           component={AppContainer}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.DETAIL_PRODUCT}
           component={DetailProduct}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.LOGIN}
           component={ScreenLogin}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.REGISTER}
           component={ScreenRegister}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.OTP}
           component={ScreenVeryfiOTP}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.REGISTER_DETAIL}
           component={ScreenRegisterDetail}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.ADDRESS}
           component={ScreenAddress}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.LIST_ADDRESS}
           component={ScreenListAddress}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.ORDER}
           component={ScreenOrder}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.USER_SPAPER}
           component={ScreenUserSpaper}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.SETTINGS}
           component={ScreensSettings}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.INTRODUCE}
           component={ScreensIntroduce}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.VERY_OTP}
           component={ScreenVeryOTP}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.CHANGEPASS}
           component={ScreenChangePass}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.INVOICE}
           component={ScreenInvoice}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="ScreenForgotPassword"
           component={ScreenForgotPassword}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.PRODUCT_VIEW}
           component={ProductView}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.SEARCH_SCREEN}
           component={SearchScreen}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.HEART_PRODUCT}
           component={ProductHeart}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={'ScreenNotification'}
           component={ScreenNotification}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={NameScreen.ANSWERQUESTIONS}
           component={AnswerQuestions}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.SCREENWALET}
           component={ScreenWalet}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.SCREENGIF}
           component={ScreenGiftcard}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={NameScreen.SCREENCHECKQUESTIONS}
           component={ScreenCheckQuestions}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         {/* Man hinh huong dan kich thuoc */}
         <Stack.Screen

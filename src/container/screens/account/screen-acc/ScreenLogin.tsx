@@ -22,7 +22,10 @@ import sizes from '../../../../res/sizes/sizes';
 import Images from '../../../../res/require/Images';
 import Input from '../../../../components/accounts/Input';
 import Button from '../../../../components/accounts/Button';
-import {userLogins} from '../../../../store/actions/loginActions';
+import {
+  userLogins,
+  userLoginsGoogle,
+} from '../../../../store/actions/loginActions';
 import {clearErrors} from '../../../../store/actions/errActions';
 import ModalConfirmPasswordChange from '../../../../components/modal/ModalConfirmPasswordChange';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,16 +33,26 @@ import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import TextForgotPassword from '../../../../components/accounts/TextForgotPassword';
 import HeaderShown from '../../../../components/accounts/HeaderShown';
+
 import {checkMail} from '../../../../utils/Utilities';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
 
 import Loading from '../../../../components/modal/Loading';
 import axios from 'axios';
 import {API_URL, GET_HEART} from '@env';
-import {
-  changeHeart,
-  getHeartUser,
-} from '../../../../store/actions/productsActions';
+import {getHeartUser} from '../../../../store/actions/productsActions';
 type Props = {};
+
+GoogleSignin.configure({
+  webClientId:
+    '659424688855-g0p0leovj74ivmuvjnmrdb2upcdtu1r2.apps.googleusercontent.com',
+  // offlineAccess: true, // if you want to access Google API on behalf
+});
 
 const ScreenLogin = ({navigation}: {navigation: any}) => {
   const isAndroid = Platform.OS === 'android';
@@ -71,6 +84,9 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
 
   const [isLoading, setIsLoading] = React.useState<string | any>(false);
   const [showCheg, setShowCheg] = React.useState<any | boolean>(false);
+
+  const [loading, setLoadings] = React.useState(false);
+  const [userInfo, setUserInfo] = React.useState();
 
   function eventOnOff() {
     setViewEye(!viewEye);
@@ -113,7 +129,46 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
     setVisibleIconEmail(false);
   }
 
-  console.log(error);
+  async function eventLoginGoogle() {
+    setLoadings(true);
+    const {idToken}: any = await GoogleSignin.signIn().catch(e => {
+      Alert.alert(e.message);
+      setLoadings(false);
+    });
+    // Create a Google credential with the token
+    const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
+    // Sign-in the user with the credential
+    await auth()
+      .signInWithCredential(googleCredential)
+      .then((res: any) => {
+        setUserInfo(res);
+      })
+      .catch(e => {
+        Alert.alert(e.message);
+      });
+    auth()
+      .currentUser?.getIdToken(true)
+      .then(idToken => {
+        console.log(idToken);
+        if (idToken) {
+          dispatch(userLoginsGoogle(idToken));
+        } else {
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  // const googleSignOut = async () => {
+  //   setLoading(true)
+  //   auth().signOut().then(async () => {
+  //     await GoogleSignin.signOut();
+  //     await GoogleSignin.revokeAccess();
+  //     console.log('User sign-out successfully!');
+  //   }).catch(e => Alert.alert('Error', e.message));
+  //   setLoading(false)
+  // }
 
   React.useEffect(() => {
     const {isAuthenticated, token} = accounts;
@@ -133,7 +188,6 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
       }, 1500);
     }
   }, [accounts]);
-
   React.useEffect(() => {
     try {
       const errorCode = error.code.code;
@@ -203,6 +257,10 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
   function eventRegister() {
     dispatch(clearErrors());
     navigation.navigate('ScreenRegister');
+
+    // return(()=>{
+    //   setInvisible(false);
+    // })
   }
 
   function onBackPress() {
@@ -214,6 +272,7 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
 
     //  navigation.navigate('ScreenForgotPassword');
   }
+
   return (
     <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -234,7 +293,6 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
               Chào mừng bạn đến với ứng dụng mua sắm trực tuyển
             </Text>
           </View>
-
           <View
             style={{
               marginHorizontal: sizes._20sdp,
@@ -287,7 +345,8 @@ const ScreenLogin = ({navigation}: {navigation: any}) => {
             )}
             <TextForgotPassword onPress={eventForgotPassword} />
             <Button onPress={handleLogin} title="Đăng nhập"></Button>
-            <GoogleOrFacebook />
+
+            <GoogleOrFacebook eventLoginGoogle={eventLoginGoogle} />
             <Policy />
           </View>
           <TouchableOpacity
