@@ -25,6 +25,7 @@ import {
 import {showToast} from '../../../components/modal/ToastCustom';
 import {deleteCart} from '../../../store/actions/productsActions';
 import {NameScreen} from '../../navigators/TabNavigator';
+import Geolocation from 'react-native-geolocation-service';
 
 type Props = {};
 
@@ -44,7 +45,14 @@ const ScreenOrder = (props: Props) => {
   const onBackPress = () => goBack();
 
   const onPayMent = () => {
-    dispatch(createBill(address));
+    const check = true;
+
+    if (!address) {
+      showToast('Bạn cần chọn địa chỉ để giao hàng');
+    }
+
+    if (check) {
+    }
   };
   useEffect(() => {
     if (isStep == 1 && bill != null && dataCartSeleted.length > 0) {
@@ -69,7 +77,7 @@ const ScreenOrder = (props: Props) => {
   }, [isStep, bill, isFalse]);
 
   useEffect(() => {
-    if (listAddress.length > 0) {
+    if (listAddress.length !== 0) {
       listAddress.find((_item: Address) => {
         _item.default && setAddress(_item);
       });
@@ -119,7 +127,8 @@ const ScreenOrder = (props: Props) => {
       <Pay />
 
       <View style={styles.spaceMedium} />
-      <ColumView
+
+      {/* <ColumView
         styleContainer={styles.columeMedium}
         valueLeft="Áp dụng phiếu giảm giá"
         valueRight={formartMoney(0)}
@@ -144,7 +153,8 @@ const ScreenOrder = (props: Props) => {
         styleTextLabel={styles.textDefault}
         iconRight
       />
-      <View style={styles.spaceMedium} />
+      <View style={styles.spaceMedium} /> */}
+
       <ListProductOrder
         dataCartSeleted={dataCartSeleted}
         cartSeleted={cartSeleted}

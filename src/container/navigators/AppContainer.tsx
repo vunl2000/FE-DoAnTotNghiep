@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, Image, ImageURISource} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ImageURISource,
+  TouchableOpacity,
+} from 'react-native';
 import React, {FC} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -26,39 +33,98 @@ export enum HomeName {
   ACCOUNT = 'ScreenAccount',
 }
 
-const tabBarIcon =
-  (active: ImageURISource, inactive: ImageURISource) =>
-  ({focused, color, size}: {focused: boolean; color: string; size: number}) =>
-    (
-      <Image
-        style={{
-          width: sizes._26sdp,
-          height: sizes._26sdp,
-          resizeMode: 'contain',
-          tintColor: focused
-            ? ArrayColors._color_black
-            : ArrayColors._color_un_active,
-        }}
-        source={focused ? active : inactive}
-      />
-    );
-const tabBarLabel =
-  (text: string) =>
-  ({focused, color}: {focused: boolean; color: string}) =>
-    (
-      <Text
-        style={{
-          fontSize: sizes._16sdp,
-          fontWeight: '700',
-          fontFamily: 'OpenSans-Bold',
-          color: focused
-            ? ArrayColors._color_black
-            : ArrayColors._color_un_active,
-          marginBottom: sizes._14sdp,
-        }}>
-        {text}
-      </Text>
-    );
+const imageTabBar = [
+  {active: image.ic_home_active, unactive: image.ic_home},
+  {active: image.ic_product_active, unactive: image.ic_product},
+  {active: image.ic_cart_active, unactive: image.ic_cart},
+  {active: image.ic_account_active, unactive: image.ic_account},
+];
+
+function MyTabBar({state, descriptors, navigation}: any) {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        height: sizes._72sdp,
+        backgroundColor: ArrayColors._color_white,
+        elevation: 2,
+      }}>
+      {state.routes.map((route: any, index: any) => {
+        const {options} = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
+
+        const isFocused = state.index === index;
+        const imageAction = imageTabBar[index];
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            // The `merge: true` option makes sure that the params inside the tab screen are preserved
+            navigation.navigate({name: route.name, merge: true});
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          });
+        };
+
+        return (
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityState={isFocused ? {selected: true} : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            activeOpacity={1}
+            key={route.key}
+            onLongPress={onLongPress}
+            style={{
+              flex: 1,
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              style={{
+                width: sizes._26sdp,
+                height: sizes._26sdp,
+                resizeMode: 'contain',
+                tintColor: isFocused
+                  ? ArrayColors._color_black
+                  : ArrayColors._color_un_active,
+              }}
+              source={isFocused ? imageAction.active : imageAction.unactive}
+            />
+            <View style={{height: sizes._8sdp}} />
+            <Text
+              style={{
+                fontSize: sizes._16sdp,
+                fontWeight: '700',
+                fontFamily: 'OpenSans-Bold',
+                color: isFocused
+                  ? ArrayColors._color_black
+                  : ArrayColors._color_un_active,
+              }}>
+              {label}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
 
 const AppContainer: FC = () => {
   const {numberCart} = useSelector((state: any) => state.product);
@@ -76,18 +142,11 @@ const AppContainer: FC = () => {
       };
     }, []),
   );
+
   return (
     <bottomTab.Navigator
+      tabBar={props => <MyTabBar {...props} />}
       screenOptions={{
-        tabBarShowLabel: true,
-        tabBarActiveTintColor: '#fff',
-        tabBarStyle: {
-          position: 'absolute',
-          left: 0,
-          bottom: 0,
-          backgroundColor: ArrayColors._color_white,
-          height: sizes._72sdp,
-        },
         headerShown: false,
         tabBarHideOnKeyboard: true,
         lazy: true,
@@ -97,33 +156,29 @@ const AppContainer: FC = () => {
         name={HomeName.INDEX}
         component={ScreensHome}
         options={{
-          tabBarLabel: tabBarLabel('Trang chủ'),
-          tabBarIcon: tabBarIcon(image.ic_home_active, image.ic_home),
+          tabBarLabel: 'Trang chủ',
         }}
       />
       <bottomTab.Screen
         name={HomeName.CATORY}
         component={ScreensProduct}
         options={{
-          tabBarLabel: tabBarLabel('Sản phẩm'),
-          tabBarIcon: tabBarIcon(image.ic_product_active, image.ic_product),
+          tabBarLabel: 'Sản phẩm',
         }}
       />
       <bottomTab.Screen
         name={HomeName.CART}
         component={ScreenCart}
         options={{
-          tabBarLabel: tabBarLabel('Giỏ hàng'),
+          tabBarLabel: 'Giỏ hàng',
           tabBarBadge: numberCart == 0 ? null : numberCart,
-          tabBarIcon: tabBarIcon(image.ic_cart_active, image.ic_cart),
         }}
       />
       <bottomTab.Screen
         name={HomeName.ACCOUNT}
         component={ScreenAccount}
         options={{
-          tabBarLabel: tabBarLabel('Tài khoản'),
-          tabBarIcon: tabBarIcon(image.ic_account_active, image.ic_account),
+          tabBarLabel: 'Tài khoản',
         }}
       />
     </bottomTab.Navigator>
