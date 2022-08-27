@@ -11,14 +11,18 @@ import {
   ViewStyle,
   ImageURISource,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useRoute, useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState, useRef} from 'react';
+import {
+  useRoute,
+  useNavigation,
+  useFocusEffect,
+} from '@react-navigation/native';
 import AppHeader from '../../../components/header/AppHeader';
 import sizes from '../../../res/sizes/sizes';
 import Icons from 'react-native-vector-icons/Ionicons';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import AddToCart from '../../../components/modal/AddToCart';
-import {formartMoney} from '../../../utils/Utilities';
+import {formartMoney, makeId} from '../../../utils/Utilities';
 import FastImage from 'react-native-fast-image';
 import {useDispatch, useSelector} from 'react-redux';
 import IconHeader from '../../../components/icons/IconHeader';
@@ -31,6 +35,7 @@ import {API_URL, BY_VIEW_PRODUCTS} from '@env';
 import {
   addToCart,
   clearProducts,
+  countView,
   loadProducts,
 } from '../../../store/actions/productsActions';
 import {showToast} from '../../../components/modal/ToastCustom';
@@ -42,64 +47,100 @@ import CustomRatingBar from '../../../components/product/CustomRatingBar';
 import ItemComment from '../../../components/product/Item.Comment';
 import ProductItem from '../../../components/product/Product.Item';
 import ProDucts from '../../../components/product/Products';
-
-const colorRender = (
-  positions: any,
-  index: number,
-  color: string,
-): ViewStyle => ({
-  width: positions != index ? sizes._30sdp : sizes._26sdp,
-  height: positions != index ? sizes._30sdp : sizes._26sdp,
-  borderRadius: positions == index ? sizes._32sdp / 2 : sizes._28sdp / 2,
-  backgroundColor:
-    color == '#ffffff'
-      ? ArrayColors._color_blue_light
-      : color == '#00000'
-      ? ArrayColors._color_white_black
-      : color,
-});
+import ColorItem from '../../../components/size/ColorItem';
+import SizeItem from '../../../components/size/SizeItem';
+import {
+  getAllRate,
+  getAllRateStart,
+} from '../../../store/actions/invoiceActions';
+import CommentItem from '../../../components/size/CommentItem';
 
 type DetailProps = {};
 
 const renderContent = null;
 const isEmty = null;
 
-const dataComent = [
-  {
-    userName: 'AnhHoa',
-    comment: 'Hàng chất lượng lắm nha mn!',
-    color: ArrayColors._color_black,
-    size: 'M',
-    defaultRating: 5,
-  },
-  {
-    userName: 'AnhHoa2',
-    comment: 'Hàng chất lượng!',
-    color: ArrayColors._color_black,
-    size: 'M',
-    defaultRating: 5,
-  },
-  {
-    userName: 'AnhHoa3',
-    comment: 'Ủng hộ shop dài lun :3',
-    color: ArrayColors._color_black,
-    size: 'X',
-    defaultRating: 5,
-  },
-];
+const renderListSucces = ({item, index}: any) => (
+  <ProductItem item={item} index={index} />
+);
+
+const keyItem = (item: any, index: number) => makeId(5);
+const keyExtractor = (item: any, index: number) => item._id;
+const keyDefault = (item: any, index: number) => index.toString();
+
+const viewLeft = (img: ImageURISource, text: string) => (
+  <View style={styles.customLeftView}>
+    <Image source={img} resizeMode="contain" style={styles.icon} />
+    <View style={styles.spaceSmallY} />
+    <Text
+      style={[styles.textDefault, {flex: 1}]}
+      numberOfLines={2}
+      ellipsizeMode="tail">
+      {text}
+    </Text>
+    <View style={styles.spaceSmallY} />
+  </View>
+);
+
+const TranSportDetail = () => (
+  <View style={styles.tranSport}>
+    <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
+      Vận chuyển
+    </Text>
+    <View style={styles.sapceMediumX} />
+    <ColumView
+      customLeft={viewLeft(
+        image.ic_car_green,
+        'Miễn phí vận chuyển cho các đơn hàng trên 500.000đ',
+      )}
+      styleContainer={styles.columeMedium}
+      iconRight
+    />
+    <Divider />
+    <ColumView
+      customLeft={viewLeft(image.ic_private_green, 'Chính sách bảo vệ')}
+      styleContainer={styles.columeMedium}
+      iconRight
+    />
+    <Divider />
+    <ColumView
+      styleContainer={styles.columeMedium}
+      styleText={styles.textDefault}
+      styleTextLabel={styles.textDefault}
+      valueLeft="Hướng dẫn kích thước"
+      iconRight
+    />
+  </View>
+);
+
+// const ListSuggestions = () => (
+//   <View style={styles.listSuggestions}>
+//     <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
+//       Cõ lẽ bạn sẽ thích
+//     </Text>
+//     <View style={styles.sapceMediumX} />
+//     <ProDucts data={products} keyList="list_suggestions" />
+//   </View>
+// );
+const spaceComment = () => <Divider style={styles.divider} />;
 
 const DetailProduct = (props: DetailProps) => {
-  const {carts, numberCart, products} = useSelector(
-    (state: any) => state.product,
-  );
+  const {numberCart, products} = useSelector((state: any) => state.product);
+
+  const {listAllComment, listAllStart, isStart, small, large, fit} =
+    useSelector((state: any) => state.invoice);
+
+  const [currentIndex, setCurrentIndex] = useState<number>(1);
   const route: any = useRoute();
   const {goBack, navigate}: any = useNavigation();
   const [isShow, setIsShow] = useState(false);
   const dispatch: any = useDispatch();
 
   const item: TypeProductItem = route.params?.item;
+
   const {_id, imageProduct, titleProduct, price, size_product, color_product} =
     item;
+
   const [sizeSelected, setSizeSelected] = useState({
     size: '',
     index: -1,
@@ -107,22 +148,20 @@ const DetailProduct = (props: DetailProps) => {
 
   const [colorSelected, setColorSelected] = useState({
     color: '',
-    onSelected: null,
+    index: -1,
   });
 
   const onSelectedSize = (size: any, index: any) => {
     setSizeSelected({size, index});
   };
-  const onSelectedColor = (val: any, index: any) => {
-    index != colorSelected.onSelected
-      ? setColorSelected({color: val, onSelected: index})
-      : setColorSelected({color: '', onSelected: null});
+  const onSelectedColor = (color: any, index: any) => {
+    setColorSelected({color, index});
   };
 
   const clearOptions = () => {
     setColorSelected({
       color: '',
-      onSelected: null,
+      index: -1,
     });
     setSizeSelected({
       size: '',
@@ -130,65 +169,15 @@ const DetailProduct = (props: DetailProps) => {
     });
   };
 
-  const countView = async () => {
-    let data = JSON.stringify({
-      mIdProduct: item._id,
-    });
-    await axios({
-      method: 'POST',
-      url: API_URL + BY_VIEW_PRODUCTS,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => console.log(err));
-  };
+  const vieableItemChanged: any = useRef(({viewableItems}: any) => {
+    setCurrentIndex(viewableItems[0].index);
+    console.log(viewableItems[0]);
+  }).current;
 
-  const renderItem = ({item, index}: any) => (
-    <FastImage
-      source={{
-        uri: item,
-        priority: FastImage.priority.high,
-      }}
-      style={styles.img}
-      resizeMode={FastImage.resizeMode.cover}
-    />
-  );
-
-  const renderListSucces = ({item, index}: any) => (
-    <ProductItem item={item} index={index} />
-  );
-
-  const keyItem = (item: any, index: number) => index.toString();
-
-  const keyExtractor = (item: any) => item._id;
-
-  const renderSize = ({item, index}: any) => {
-    let isSeleted = sizeSelected.index === index;
-    return (
-      <TouchableWithoutFeedback
-        onPress={() =>
-          onSelectedSize(isSeleted ? '' : item, isSeleted ? -1 : index)
-        }>
-        <View
-          style={[
-            styles.sizeItem,
-            {
-              borderColor:
-                index === sizeSelected.index
-                  ? ArrayColors._color_black
-                  : ArrayColors._color_white_black,
-            },
-          ]}>
-          <Text style={styles.sizeText}>{item}</Text>
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  };
+  const viewConfig = useRef({
+    viewAreaCoveragePercentThreshold: 50,
+    waitForInteraction: true,
+  }).current;
 
   const onChangeShow = () => {
     if (sizeSelected.size !== '' && colorSelected.color !== '') {
@@ -207,60 +196,123 @@ const DetailProduct = (props: DetailProps) => {
   const onBackPress = () => goBack();
 
   const goToCart = () => navigate(NameScreen.HOME, {screen: 'ScreenCart'});
+  //Modal
+  const BtnShowAddCart = () => (
+    <View style={styles.containerAddCart}>
+      <TouchableOpacity>
+        <Icons
+          name="heart-outline"
+          size={sizes._24sdp}
+          color={ArrayColors._color_black}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.btnAddCart} onPress={onChangeShow}>
+        <Text style={styles.textBtnAdd}>Thêm vào giỏ hàng</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  //Header
+  const ContentHeader = () => (
+    <View style={styles.contentHeder}>
+      <IconHeader
+        name={'chevron-back'}
+        sizes={sizes._24sdp}
+        onPress={onBackPress}
+        style={styles.iconLeft}
+        color={ArrayColors._color_black}
+      />
+      <View style={[styles.content, {marginHorizontal: sizes._16sdp}]} />
+      <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={goToCart} />
+    </View>
+  );
+  //Color
+  const renderColor = ({item, index}: any) => {
+    let check: boolean = colorSelected.index === index;
+    return (
+      <ColorItem
+        item={item}
+        index={index}
+        isSelected={check}
+        onPress={onSelectedColor}
+      />
+    );
+  };
 
   const ColorProduct = () => (
     <>
-      {color_product != null ? (
+      {color_product.length !== 0 ? (
         <View style={{backgroundColor: ArrayColors.white}}>
           <Text style={styles.textLabel}>Màu sắc</Text>
           <View style={styles.renderList}>
-            {color_product.map((_item: any, index: number) => {
-              return (
-                <TouchableWithoutFeedback
-                  key={index.toString()}
-                  onPress={() => onSelectedColor(_item, index)}>
-                  <View
-                    style={[
-                      styles.colorItem,
-                      {
-                        borderWidth:
-                          colorSelected.onSelected == index ? sizes._2sdp : 0,
-                        borderColor:
-                          colorSelected.onSelected == index
-                            ? ArrayColors._color_black
-                            : ArrayColors._color_white,
-                      },
-                    ]}>
-                    <View
-                      style={colorRender(
-                        colorSelected.onSelected,
-                        index,
-                        _item,
-                      )}
-                    />
-                  </View>
-                </TouchableWithoutFeedback>
-              );
-            })}
+            <FlatList
+              data={color_product}
+              extraData={color_product}
+              keyExtractor={keyDefault}
+              renderItem={renderColor}
+              listKey="select_colors"
+              numColumns={5}
+              bounces={false}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
         </View>
       ) : null}
     </>
   );
 
-  const viewLeft = (img: ImageURISource, text: string) => (
-    <View style={styles.customLeftView}>
-      <Image source={img} resizeMode="contain" style={styles.icon} />
-      <View style={styles.spaceSmallY} />
-      <Text
-        style={[styles.textDefault, {flex: 1}]}
-        numberOfLines={2}
-        ellipsizeMode="tail">
-        {text}
-      </Text>
-      <View style={styles.spaceSmallY} />
-    </View>
+  //Size
+
+  const renderSize = ({item, index}: any) => {
+    let isSeleted = sizeSelected.index === index;
+    return (
+      <SizeItem
+        item={item}
+        index={index}
+        isSelected={isSeleted}
+        onPress={onSelectedSize}
+      />
+    );
+  };
+
+  const SizeProduct = () => (
+    <>
+      {size_product.length !== 0 ? (
+        <View style={{backgroundColor: ArrayColors.white}}>
+          <Text style={styles.textLabel}>Kích thước</Text>
+          <View style={styles.renderList}>
+            <FlatList
+              data={size_product}
+              extraData={size_product}
+              keyExtractor={keyItem}
+              renderItem={renderSize}
+              listKey="size_products"
+              numColumns={5}
+              bounces={false}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        </View>
+      ) : null}
+    </>
   );
+  //Render Image
+  const renderItem = ({item, index}: any) => (
+    <FastImage
+      source={{
+        uri: item,
+        priority: FastImage.priority.high,
+      }}
+      style={styles.img}
+      resizeMode={FastImage.resizeMode.cover}
+    />
+  );
+  //Comment
+
+  const renderComment = ({item, index}: any) => {
+    return <CommentItem item={item} index={index} color="#000000" size="M" />;
+  };
+
   const MoreOther = () => (
     <View style={styles.customLeftView}>
       <Text style={styles.textDefault}>Xem thêm</Text>
@@ -271,113 +323,69 @@ const DetailProduct = (props: DetailProps) => {
       />
     </View>
   );
-  const SizeProduct = () => (
-    <View style={{backgroundColor: ArrayColors.white}}>
-      <Text style={styles.textLabel}>Kích thước</Text>
-      <View style={styles.renderList}>
-        <FlatList
-          data={size_product}
-          extraData={sizeSelected}
-          keyExtractor={keyItem}
-          renderItem={renderSize}
-          listKey="size_product"
-          horizontal
-          removeClippedSubviews
-          bounces={false}
-          maxToRenderPerBatch={8}
-          initialNumToRender={8}
-          windowSize={4}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
-    </View>
-  );
 
-  const TranSportDetail = () => (
-    <View style={styles.tranSport}>
-      <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
-        Vận chuyển
-      </Text>
-      <View style={styles.sapceMediumX} />
-      <ColumView
-        customLeft={viewLeft(
-          image.ic_car_green,
-          'Miễn phí vận chuyển cho các đơn hàng trên 500.000đ',
-        )}
-        styleContainer={styles.columeMedium}
-        iconRight
-      />
-      <Divider />
-      <ColumView
-        customLeft={viewLeft(image.ic_private_green, 'Chính sách bảo vệ')}
-        styleContainer={styles.columeMedium}
-        iconRight
-      />
-      <Divider />
-      <ColumView
-        styleContainer={styles.columeMedium}
-        styleText={styles.textDefault}
-        styleTextLabel={styles.textDefault}
-        valueLeft="Hướng dẫn kích thước"
-        iconRight
-      />
-    </View>
-  );
   const Comment = () => (
     <View style={styles.commentContent}>
       <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
-        Nhận xét (4)
+        Nhận xét ({listAllComment.length})
       </Text>
 
       <Surface style={styles.levelComment}>
         <View style={styles.contentLeft}>
-          <Text style={styles.textPriceProduct}>4.6</Text>
-          <CustomRatingBar defaultRating={4} />
+          <Text style={styles.textPriceProduct}>{isStart}</Text>
+          <CustomRatingBar defaultRating={isStart} />
         </View>
-        <Text>Kích thước đặt mua?</Text>
         <View style={styles.sapceSmallX} />
-        <LevelComment label={'Nhỏ'} progress={0.5} />
+        <Text style={styles.textDefault}>Kích thước đặt mua?</Text>
         <View style={styles.sapceSmallX} />
-        <LevelComment label={'Kích thước chính xác'} progress={1} />
+        <LevelComment label={'Nhỏ'} progress={small} />
         <View style={styles.sapceSmallX} />
-        <LevelComment label={'Lớn'} progress={0} />
+        <LevelComment label={'Kích thước chính xác'} progress={fit} />
+        <View style={styles.sapceSmallX} />
+        <LevelComment label={'Lớn'} progress={large} />
         <View style={styles.sapceSmallX} />
       </Surface>
-      {dataComent.length > 0 ? (
-        <>
-          {dataComent.map((item: any, index: any) => (
-            <ItemComment data={item} key={index.toString()} />
-          ))}
-          <View style={styles.sapceSmallX} />
-          <MoreOther />
-        </>
-      ) : null}
+
+      <View style={styles.sapceSmallX} />
+
+      <FlatList
+        data={listAllComment.slice(0, 3)}
+        extraData={listAllComment.slice(0, 3)}
+        listKey="comments-list"
+        keyExtractor={keyExtractor}
+        renderItem={renderComment}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={spaceComment}
+      />
+      <View style={styles.sapceSmallX} />
+      <Divider />
+      <MoreOther />
     </View>
   );
 
-  const ListSuggestions = () => (
-    <View style={styles.listSuggestions}>
-      <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
-        Cõ lẽ bạn sẽ thích
-      </Text>
-      <View style={styles.sapceMediumX} />
-      <ProDucts data={products} keyList="list_suggestions" />
-    </View>
-  );
-
-  const renderView = () => (
+  //RenderView
+  const renderView = (
     <View style={styles.content}>
       <View style={styles.listImg}>
         <FlatList
-          data={item.imageProduct}
+          data={imageProduct}
           listKey="image_product"
           keyExtractor={keyItem}
           renderItem={renderItem}
           horizontal
+          bounces={false}
           removeClippedSubviews
+          scrollEventThrottle={32}
+          onViewableItemsChanged={vieableItemChanged}
+          viewabilityConfig={viewConfig}
           showsHorizontalScrollIndicator={false}
           pagingEnabled
         />
+        <View style={styles.currentImg}>
+          <Text style={styles.textBtnAdd}>
+            {currentIndex}/{imageProduct.length}
+          </Text>
+        </View>
       </View>
 
       <View style={styles.rowContent}>
@@ -402,46 +410,31 @@ const DetailProduct = (props: DetailProps) => {
 
       <View style={styles.sapceMediumX} />
 
-      <Comment />
+      {listAllComment.length !== 0 && listAllStart.length !== 0 ? (
+        <Comment />
+      ) : null}
 
       <View style={styles.sapceMediumX} />
 
-      <ListSuggestions />
-    </View>
-  );
-
-  const ContentHeader = () => (
-    <View style={styles.contentHeder}>
-      <IconHeader
-        name={'chevron-back'}
-        sizes={sizes._24sdp}
-        onPress={onBackPress}
-        style={styles.iconLeft}
-        color={ArrayColors._color_black}
-      />
-      <View style={[styles.content, {marginHorizontal: sizes._16sdp}]} />
-      <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={goToCart} />
-    </View>
-  );
-
-  const BtnShowAddCart = () => (
-    <View style={styles.containerAddCart}>
-      <TouchableOpacity>
-        <Icons
-          name="heart-outline"
-          size={sizes._24sdp}
-          color={ArrayColors._color_black}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.btnAddCart} onPress={onChangeShow}>
-        <Text style={styles.textBtnAdd}>Thêm vào giỏ hàng</Text>
-      </TouchableOpacity>
+      {/* <ListSuggestions /> */}
     </View>
   );
 
   useEffect(() => {
-    countView();
+    dispatch(countView(_id));
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      dispatch(getAllRate(_id));
+      dispatch(getAllRateStart(_id));
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, []),
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -454,6 +447,7 @@ const DetailProduct = (props: DetailProps) => {
           listKey="detail-product"
           ListFooterComponent={renderView}
           showsVerticalScrollIndicator={false}
+          bounces={false}
         />
         <BtnShowAddCart />
       </View>
@@ -492,6 +486,14 @@ const styles = StyleSheet.create({
   },
   listImg: {
     backgroundColor: ArrayColors.white,
+    width: '100%',
+  },
+  currentImg: {
+    position: 'absolute',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: sizes._18sdp,
   },
   img: {
     width: sizes._screen_width,
@@ -549,14 +551,6 @@ const styles = StyleSheet.create({
     fontSize: sizes._16sdp,
     color: ArrayColors._color_black,
   },
-  sizeItem: {
-    borderWidth: sizes._2sdp,
-    borderRadius: sizes._50sdp,
-    paddingHorizontal: sizes._24sdp,
-    paddingVertical: sizes._16sdp,
-    marginRight: sizes._16sdp,
-    backgroundColor: ArrayColors._color_white,
-  },
   textLabel: {
     fontWeight: '400',
     fontFamily: 'OpenSans-Regular',
@@ -564,14 +558,6 @@ const styles = StyleSheet.create({
     marginLeft: sizes._8sdp,
     fontSize: sizes._font_size_big_large,
     color: ArrayColors._color_black,
-  },
-  colorItem: {
-    width: sizes._30sdp,
-    height: sizes._30sdp,
-    borderRadius: sizes._32sdp / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: sizes._16sdp,
   },
   sapceSmallX: {
     height: sizes._10sdp,
@@ -607,7 +593,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: sizes._72sdp,
+    height: sizes._50sdp,
   },
   commentContent: {
     backgroundColor: ArrayColors.white,
@@ -627,5 +613,8 @@ const styles = StyleSheet.create({
   listSuggestions: {
     backgroundColor: ArrayColors.white,
     paddingVertical: sizes._18sdp,
+  },
+  divider: {
+    marginVertical: sizes._6sdp,
   },
 });

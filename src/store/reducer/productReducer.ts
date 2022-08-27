@@ -20,6 +20,7 @@ import {
   AD_LIST_ID_HEART,
   AD_ITEM_ID_HEART,
   RM_ITEM_ID_HEART,
+  COUNT_VIEW_PRODUCT,
 } from './../actions/types';
 
 const initalState = {
@@ -195,6 +196,13 @@ export default (state = initalState, {payload, type}: ActionProps) => {
       return {
         ...state,
         products: [],
+      };
+    case COUNT_VIEW_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map((item: any) =>
+          item._id === payload ? {...item, view: item.view + 1} : item,
+        ),
       };
 
     case CLEAR_ALL_PRODUTS:

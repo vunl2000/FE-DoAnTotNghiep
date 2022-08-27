@@ -31,9 +31,12 @@ const ProductItem = ({item, index}: Props) => {
       <FastImage
         source={{
           uri: item?.imageProduct[0],
+          priority: FastImage.priority.high,
+          cache: FastImage.cacheControl.web,
         }}
         style={styles.image}
         resizeMode={FastImage.resizeMode.contain}
+        fallback
       />
       <Text style={styles.textPrice}>{formartMoney(item?.price)}</Text>
     </TouchableOpacity>

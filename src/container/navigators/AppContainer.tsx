@@ -12,7 +12,8 @@ import ScreensProduct from '../screens/catory/ScreensProduct';
 import ScreenCart from '../screens/cart/ScreenCart';
 import ScreenNewspaper from '../screens/spaper/ScreenNewspaper';
 import ScreenAccount from '../screens/account/ScreenAccount';
-import {useRoute} from '@react-navigation/native';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
+import {clearRateComent} from '../../store/actions/invoiceActions';
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
@@ -63,6 +64,18 @@ const AppContainer: FC = () => {
   const {numberCart} = useSelector((state: any) => state.product);
   const route: any = useRoute();
   const initScreen = route.params?.screen;
+  const dispatch: any = useDispatch();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+
+      return () => {
+        dispatch(clearRateComent());
+        console.log('clear comment');
+      };
+    }, []),
+  );
   return (
     <bottomTab.Navigator
       screenOptions={{
@@ -79,7 +92,7 @@ const AppContainer: FC = () => {
         tabBarHideOnKeyboard: true,
         lazy: true,
       }}
-      initialRouteName={initScreen != null ? initScreen : initScreen}>
+      initialRouteName={initScreen}>
       <bottomTab.Screen
         name={HomeName.INDEX}
         component={ScreensHome}

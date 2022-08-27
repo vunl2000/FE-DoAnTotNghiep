@@ -35,6 +35,7 @@ export const AD_ITEM_ID_HEART = 'AD_ITEM_ID_HEART';
 export const RM_ITEM_ID_HEART = 'RM_ITEM_ID_HEART';
 export const CLEAR_PRODUCTS = 'CLEAR_PRODUCTS';
 export const CLEAR_ALL_PRODUTS = 'CLEAR_ALL_PRODUTS';
+export const COUNT_VIEW_PRODUCT = 'COUNT_VIEW_PRODUCT';
 
 //Error Types
 export const GET_ERRORS = 'GET_ERRORS';
@@ -82,9 +83,17 @@ export const LOADING_CATORY_ACCESSORY_SUCCES =
 export const LOADING_CATORY_ACCESSORY_ERR = 'LOADING_CATORY_ACCESSORY_ERR';
 export const LOAD_SIZES = 'LOAD_SIZES';
 export const LOAD_COLORS = 'LOAD_COLORS';
+export const CHECK_NOTIFICATION = 'CHECK_NOTIFICATION';
 
 export const ADD_ITEM_HISTORY = 'ADD_ITEM_HISTORY';
 export const CLEAR_ITEM_HISTORY = 'CLEAR_ITEM_HISTORY';
+
+//Rate
+export const RATE_COMENTS_PRODUCT = 'RATE_COMENTS_PRODUCT';
+export const RATE_ALL_PRODUCT = 'RATE_ALL_PRODUCT';
+export const RATE_STARTS_PRODUCT = 'RATE_STARTS_PRODUCT';
+export const RATE_CLEAR = 'RATE_CLEAR';
+
 //Action Props
 export type ActionProps = {
   type: any;

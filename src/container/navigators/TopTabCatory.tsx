@@ -47,6 +47,7 @@ const MyTabBar = ({state, descriptors, navigation, position}: any) => {
         };
 
         const inputRange = state.routes.map((_: any, i: any) => i);
+
         const opacity = position.interpolate({
           inputRange,
           outputRange: inputRange.map((i: any) => (i === index ? 1 : 0)),
@@ -117,5 +118,3 @@ const TopTabCatory = (props: Props) => {
 };
 
 export default TopTabCatory;
-
-const styles = StyleSheet.create({});

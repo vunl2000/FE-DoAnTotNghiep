@@ -15,10 +15,12 @@ import {
   AD_LIST_ID_HEART,
   AD_ITEM_ID_HEART,
   RM_ITEM_ID_HEART,
+  COUNT_VIEW_PRODUCT,
 } from './types';
 import {
   API_URL,
   API_URL_GETALL_PRODUCT,
+  BY_VIEW_PRODUCTS,
   COUNT_HEART,
   GET_HEART,
   MINES_HEART,
@@ -169,6 +171,7 @@ export const minuesHeart =
         return false;
       });
   };
+
 export const countHeart =
   (item: any, token: any, id: any) => async (dispatch: AllDispatchProps) => {
     let data = JSON.stringify({
@@ -211,7 +214,29 @@ export function changeHeart(id: any, val: boolean) {
     },
   };
 }
-
+export const countView = (id: any) => async (dispatch: AllDispatchProps) => {
+  let data = JSON.stringify({
+    mIdProduct: id,
+  });
+  await axios({
+    method: 'POST',
+    url: API_URL + BY_VIEW_PRODUCTS,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: data,
+  })
+    .then(res => {
+      let data: any = res.data;
+      if (data.message === 'Success') {
+        return dispatch({type: COUNT_VIEW_PRODUCT, payload: id});
+      }
+      if (data.message === 'Error') {
+        return;
+      }
+    })
+    .catch(err => console.log(err));
+};
 export function clearProducts() {
   return {
     type: CLEAR_PRODUCTS,
