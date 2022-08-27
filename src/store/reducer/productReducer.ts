@@ -15,6 +15,8 @@ import {
   TypeProductItem,
   DELETE_TO_CART,
   CHANGE_HEART,
+  CLEAR_PRODUCTS,
+  CLEAR_ALL_PRODUTS,
 } from './../actions/types';
 
 const initalState = {
@@ -166,6 +168,19 @@ export default (state = initalState, {payload, type}: ActionProps) => {
             ? {...item, heart_active: !item.heart_active}
             : item,
         ),
+      };
+    case CLEAR_PRODUCTS:
+      return {
+        ...state,
+        products: [],
+      };
+    case CLEAR_ALL_PRODUTS:
+      return {
+        isLoading: false,
+        products: [],
+        carts: [],
+        numberCart: 0,
+        allSelected: false,
       };
     default:
       return state;

@@ -3,7 +3,14 @@ import React from 'react'
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import Images from '../../res/require/Images';
-type Props = {}
+import {
+    GoogleSignin,
+    GoogleSigninButton,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
+type Props = {
+    eventLoginGoogle?: () => void
+}
 
 const GoogleOrFacebook = (props: Props) => {
     return (
@@ -41,12 +48,13 @@ const GoogleOrFacebook = (props: Props) => {
             </View>
             <View
                 style={{
-                    flexDirection: 'row',
+                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginVertical: sizes._24sdp,
                 }}>
-                <TouchableOpacity
+
+                {/* <TouchableOpacity
                     style={{
                         backgroundColor: '#FFFFFF',
                         width: sizes._48sdp,
@@ -64,16 +72,22 @@ const GoogleOrFacebook = (props: Props) => {
                             width: sizes._32sdp,
                             height: sizes._32sdp,
                         }}
-                    />
-                </TouchableOpacity>
+                    /> */}
+                {/* </TouchableOpacity> */}
+                <GoogleSigninButton
+                    style={{ width: sizes._screen_width / 2, height: sizes._58sdp }}
+                    size={GoogleSigninButton.Size.Wide}
+                    color={GoogleSigninButton.Color.Dark}
+                    onPress={props.eventLoginGoogle}
+                />
                 <TouchableOpacity
                     style={{
                         backgroundColor: ArrayColors._color_facebook,
-                        width: sizes._48sdp,
+                        width: sizes._screen_width / 2 - sizes._10sdp,
                         height: sizes._48sdp,
                         borderWidth: 1,
                         borderColor: ArrayColors._color_facebook,
-                        borderRadius: sizes._48sdp / 2,
+                        borderRadius: sizes._4sdp,
                         justifyContent: 'center',
                         alignItems: 'center',
                         marginHorizontal: sizes._6sdp,

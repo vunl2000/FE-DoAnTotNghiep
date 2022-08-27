@@ -23,7 +23,8 @@ const HomeIndex: React.FC<Props> = props => {
   const {banner} = useSelector((state: any) => state.firstOpen);
 
   const searchUrl = (keySearch: any) => {
-    return banner.filter((item: any) => item.title_ads === keySearch).image_ads;
+    return banner.filter((item: any) => item.title_ads === keySearch)[0]
+      .image_ads;
   };
 
   const renderView = (

@@ -30,7 +30,7 @@ import notifee, { AndroidStyle } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import axios from 'axios';
 import { deviceToken } from '../../store/actions/deviceFireBaseToken';
-import { PUSH_NOTIFICATION } from '@env'
+import { PUSH_NOTIFICATION } from '@env';
 import AnswerQuestions from '../screens/questions/AnswerQuestions';
 import ScreenWalet from '../screens/walet/ScreenWalet';
 import ScreenGiftcard from '../screens/walet/ScreenGiftcard';
@@ -63,18 +63,19 @@ export enum NameScreen {
 const Stack = createNativeStackNavigator();
 
 export default function TabNavigator({ navigation }: any) {
-  const isCheckDevice = useSelector((state: any) => state.deviceCall.deviceCall);
+  const isCheckDevice = useSelector(
+    (state: any) => state.deviceCall.deviceCall,
+  );
   const open = useSelector((state: any) => state.firstOpen.firstOpen);
   const [loading, setLoading] = useState(true);
 
   const dispatch: any = useDispatch();
 
-  const [initialRoute, setInitialRoute] = React.useState("");
+  const [initialRoute, setInitialRoute] = React.useState('');
 
   // console.log(initialRoute);
 
   React.useEffect(() => {
-
     onNotificationOpenedApp();
 
     getFCMToken();
@@ -90,7 +91,7 @@ export default function TabNavigator({ navigation }: any) {
     dispatch(loadProducts());
 
     return unsubscribe;
-  }, [])
+  }, []);
 
   const getFCMToken = () => {
     messaging()
@@ -103,17 +104,13 @@ export default function TabNavigator({ navigation }: any) {
       });
   };
   const onNotificationOpenedApp = () => {
-
     messaging().onNotificationOpenedApp((remoteMessage: any) => {
-
-      navigation.navigate(remoteMessage.data.type)
+      navigation.navigate(remoteMessage.data.type);
 
       console.log(remoteMessage);
-
-    })
-  }
+    });
+  };
   const onGetInitialNotification = () => {
-
     messaging()
       .getInitialNotification()
       .then((remoteMessage: any) => {
@@ -126,7 +123,7 @@ export default function TabNavigator({ navigation }: any) {
         }
         setLoading(false);
       });
-  }
+  };
 
   async function DisplayNotification(remoteMessage: any) {
     const channelId = await notifee.createChannel({
@@ -136,10 +133,13 @@ export default function TabNavigator({ navigation }: any) {
 
     await notifee.displayNotification({
       title: `<p style="color: #4caf50;"><b>${remoteMessage.notification.title}</span></p></b></p> &#128576;`,
-      
+
       android: {
         channelId,
-        style: { type: AndroidStyle.BIGTEXT, text: remoteMessage.notification.body }, // optional, defaults to 'ic_launcher'.
+        style: {
+          type: AndroidStyle.BIGTEXT,
+          text: remoteMessage.notification.body,
+        }, // optional, defaults to 'ic_launcher'.
         smallIcon: 'ic_launcher',
       },
     });
@@ -150,9 +150,9 @@ export default function TabNavigator({ navigation }: any) {
       method: 'post',
       url: PUSH_NOTIFICATION,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      data: data
+      data: data,
     };
     console.log(data);
     await axios(config)
@@ -171,7 +171,13 @@ export default function TabNavigator({ navigation }: any) {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={open ? initialRoute !== "" ? initialRoute : NameScreen.HOME : NameScreen.ONBOARDING}>
+        initialRouteName={
+          open
+            ? initialRoute !== ''
+              ? initialRoute
+              : NameScreen.HOME
+            : NameScreen.ONBOARDING
+        }>
         <Stack.Screen
           name={NameScreen.ONBOARDING}
           component={OnboardingFirst}
@@ -278,7 +284,7 @@ export default function TabNavigator({ navigation }: any) {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name={"ScreenNotification"}
+          name={'ScreenNotification'}
           component={ScreenNotification}
           options={{ headerShown: false }}
         />
@@ -303,9 +309,7 @@ export default function TabNavigator({ navigation }: any) {
           component={ScreenCheckQuestions}
           options={{ headerShown: false }}
         />
-
       </Stack.Navigator>
-
     </NavigationContainer>
   );
 }

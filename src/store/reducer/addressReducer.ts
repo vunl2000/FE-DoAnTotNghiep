@@ -3,6 +3,7 @@ import {
   GET_PROVINCE,
   SET_DEFAULT_ADDRESS,
   ADD_LIST_ADDRESS,
+  CLEAR_ALL_ADDRESS,
 } from '../actions/types';
 
 const initalState = {
@@ -87,6 +88,12 @@ export default (state = initalState, {payload, type}: any) => {
             ? {..._item, default: true}
             : {..._item, default: false},
         ),
+      };
+
+    case CLEAR_ALL_ADDRESS:
+      return {
+        province: [],
+        listAddress: [],
       };
 
     default:

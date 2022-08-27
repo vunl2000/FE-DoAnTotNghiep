@@ -18,9 +18,11 @@ const space = () => <View style={styles.spaceVertical} />;
 const ProDucts = ({title, data, keyList}: Props | any) => {
   return (
     <>
-      <View style={styles.label}>
-        <Text style={styles.textLabel}>{title}</Text>
-      </View>
+      {title ? (
+        <View style={styles.label}>
+          <Text style={styles.textLabel}>{title}</Text>
+        </View>
+      ) : null}
       <FlatList
         data={data}
         extraData={data}
