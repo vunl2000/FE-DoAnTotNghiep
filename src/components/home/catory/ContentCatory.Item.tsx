@@ -5,6 +5,7 @@ import ArrayColors from '../../../res/colors/ArrayColors';
 import BetterImage from '../../images/BetterImage';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../../container/navigators/TabNavigator';
+import FastImage from 'react-native-fast-image';
 
 type Props = {
   item?: any;
@@ -25,13 +26,13 @@ const ContentCatoryItem = (props: Props) => {
         })
       }>
       <View style={styles.coverImage}>
-        <BetterImage
+        <FastImage
           source={{
             uri: categoryImgProduct,
-            priority: 'normal',
+            priority: FastImage.priority.high,
           }}
           style={styles.image}
-          resizeMode="contain"
+          resizeMode={FastImage.resizeMode.contain}
         />
       </View>
       <Text style={styles.textLabel} numberOfLines={2}>

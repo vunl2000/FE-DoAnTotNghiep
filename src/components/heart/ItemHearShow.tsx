@@ -38,7 +38,7 @@ const ItemHeartShow = ({item, index, onPress}: Props) => {
           sizes={sizes._28sdp}
           color={ArrayColors._color_black_gray12}
           style={styles.iconHear}
-          onPress={() => onPress(item._id)}
+          onPress={() => onPress(item)}
         />
       </View>
       <Text style={styles.textPrice}>{formartMoney(item?.price)}</Text>

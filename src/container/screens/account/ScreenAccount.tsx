@@ -96,7 +96,9 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   }, [accounts.isAuthenticated]);
   useEffect(() => {
     if (accounts.isAuthenticated) {
-      dispatch(loadInvoiceUser(accounts.result[0]._id));
+      dispatch(
+        loadInvoiceUser(accounts.result[0]._id, `Bearer ${accounts.token}`),
+      );
     }
   }, []);
 
@@ -132,7 +134,9 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
       console.log(e);
     }
   }, [isFalse, listInvoice]);
-  console.log(invoiceStatus);
+
+  // console.log(invoiceStatus);
+
   useEffect(() => {
     let heart = products.filter((item: any) => item.heart_active);
     setListHeart(heart);
@@ -383,7 +387,7 @@ const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
     backgroundColor: ArrayColors.darkGrayAccount,
-    paddingBottom: sizes._80sdp,
+    paddingBottom: sizes._62sdp,
   },
   mContinerBody: {
     backgroundColor: ArrayColors.darkGrayAccount,

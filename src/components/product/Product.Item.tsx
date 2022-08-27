@@ -1,14 +1,14 @@
-import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../container/navigators/TabNavigator';
-import image from '../../res/require/Images';
 import FastImage from 'react-native-fast-image';
 import BetterImage from '../images/BetterImage';
 import {TypeProductItem} from '../../store/actions/types';
-import {formartMoney} from '../../utils/Utilities';
+import {formartMoney, makeId} from '../../utils/Utilities';
+import {Image} from 'react-native';
 
 type Props = {
   item?: TypeProductItem;
@@ -28,12 +28,15 @@ const ProductItem = ({item, index}: Props) => {
         },
       ]}
       onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
-      <BetterImage
+      <FastImage
         source={{
           uri: item?.imageProduct[0],
+          priority: FastImage.priority.high,
+          cache: FastImage.cacheControl.web,
         }}
         style={styles.image}
-        resizeMode="contain"
+        resizeMode={FastImage.resizeMode.contain}
+        fallback
       />
       <Text style={styles.textPrice}>{formartMoney(item?.price)}</Text>
     </TouchableOpacity>
@@ -44,7 +47,7 @@ export default ProductItem;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
+    flex: 1,
     justifyContent: 'center',
   },
   image: {

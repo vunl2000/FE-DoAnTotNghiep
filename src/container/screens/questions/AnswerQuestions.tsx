@@ -58,6 +58,7 @@ const AnswerQuestions = ({navigation}: any) => {
           keyExtractor={item => `${item.id}`}
           removeClippedSubviews
           showsVerticalScrollIndicator={false}
+          listKey="answer_question"
         />
       </View>
     </View>

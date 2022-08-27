@@ -30,6 +30,7 @@ import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import TextForgotPassword from '../../../../components/accounts/TextForgotPassword';
 import HeaderShown from '../../../../components/accounts/HeaderShown';
+
 import { checkMail } from '../../../../utils/Utilities';
 import {
     GoogleSignin,
@@ -37,11 +38,15 @@ import {
     statusCodes,
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
+
 import Loading from '../../../../components/modal/Loading';
 import axios from 'axios';
 import { API_URL, GET_HEART } from '@env';
-import { changeHeart } from '../../../../store/actions/productsActions';
+import {
+    getHeartUser
+} from '../../../../store/actions/productsActions';
 type Props = {};
+
 
 GoogleSignin.configure({
     webClientId: '659424688855-g0p0leovj74ivmuvjnmrdb2upcdtu1r2.apps.googleusercontent.com',
@@ -152,10 +157,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
             .catch((e) => {
                 console.log(e);
             })
-
-        setLoadings(false)
     }
-
 
     // const googleSignOut = async () => {
     //   setLoading(true)
@@ -166,35 +168,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     //   }).catch(e => Alert.alert('Error', e.message));
     //   setLoading(false)
     // }
-
-    console.log(error);
-
-    const getAllHeart = async (idUser: any, token: any) => {
-        let data = JSON.stringify({
-            idUser: idUser,
-        });
-        await axios({
-            method: 'POST',
-            url: API_URL + GET_HEART,
-            headers: {
-                token: token,
-                'Content-Type': 'application/json',
-            },
-            data: data,
-        })
-            .then(res => {
-                let data = res.data;
-                let getData: any = data.results;
-                getData.forEach((val: any) => {
-                    let idProduct = val.heart.idProduct;
-                    dispatch(changeHeart(idProduct));
-                    console.log('change ' + idProduct);
-                });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
 
     React.useEffect(() => {
         const { isAuthenticated, token } = accounts;
@@ -207,14 +180,13 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                     ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
                     console.log(accounts);
                     dispatch(clearErrors());
-                    getAllHeart(accounts.result[0]._id, `Bearer ${token}`);
+                    dispatch(getHeartUser(`Bearer ${token}`, accounts.result[0]._id));
                 }
 
                 // setInvisible(false);
             }, 1500);
         }
     }, [accounts]);
-
     React.useEffect(() => {
         try {
             const errorCode = error.code.code;
@@ -284,7 +256,12 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     function eventRegister() {
         dispatch(clearErrors());
         navigation.navigate('ScreenRegister');
+
+        // return(()=>{
+        //   setInvisible(false);
+        // })
     }
+
 
     function onBackPress() {
         dispatch(clearErrors());
@@ -294,9 +271,9 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
 
         setShowCheg(true);
 
-
         //  navigation.navigate('ScreenForgotPassword');
     }
+
     return (
         <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -317,7 +294,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                             Chào mừng bạn đến với ứng dụng mua sắm trực tuyển
                         </Text>
                     </View>
-
                     <View
                         style={{
                             marginHorizontal: sizes._20sdp,

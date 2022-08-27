@@ -1,21 +1,57 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
-import image from '../../res/require/Images';
+import React, {useEffect, useState} from 'react';
 import sizes from '../../res/sizes/sizes';
 import ProductItem from './Product.Item';
-import {useSelector} from 'react-redux';
 import ArrayColors from '../../res/colors/ArrayColors';
+import LottieView from 'lottie-react-native';
 
 type Props = {title?: any; data?: any; keyList?: any};
-const renderProDuct = ({item, index}: any) => {
-  return <ProductItem item={item} index={index} />;
-};
-
-const keyItem = (item: any) => item._id;
-
-const space = () => <View style={styles.spaceVertical} />;
 
 const ProDucts = ({title, data, keyList}: Props | any) => {
+  const [loadItem, setLoadItem] = useState<number>(10);
+  const [isLoad, setIsLoad] = useState<boolean>(false);
+  const [dataItem, setDataItem] = useState<any>(data.slice(0, loadItem));
+
+  const renderProDuct = ({item, index}: any) => {
+    return <ProductItem item={item} index={index} />;
+  };
+
+  const keyItem = (item: any) => item._id;
+
+  const space = () => <View style={styles.spaceVertical} />;
+
+  const loadMore = () => (
+    <>
+      {isLoad ? (
+        <View>
+          <LottieView
+            source={require('../../assets/lottie/fashion_app_loading.json')}
+            autoPlay
+          />
+        </View>
+      ) : null}
+    </>
+  );
+  const addItem = () => {
+    if (loadItem !== data.length) {
+      setIsLoad(true);
+      setTimeout(() => {
+        let addNew = loadItem + 10;
+
+        if (addNew > data.length) {
+          setDataItem(dataItem.concat(data.slice(loadItem, data.length)));
+          setLoadItem(data.length);
+        } else {
+          setDataItem(dataItem.concat(data.slice(loadItem, addNew)));
+          setLoadItem(addNew);
+        }
+        setIsLoad(false);
+
+        console.log('load more ' + addNew);
+      }, 3000);
+    }
+  };
+
   return (
     <>
       {title ? (
@@ -24,19 +60,19 @@ const ProDucts = ({title, data, keyList}: Props | any) => {
         </View>
       ) : null}
       <FlatList
-        data={data}
-        extraData={data}
+        data={dataItem}
+        extraData={dataItem}
         renderItem={renderProDuct}
         numColumns={2}
         listKey={keyList}
         keyExtractor={keyItem}
         showsVerticalScrollIndicator={false}
-        removeClippedSubviews
-        bounces={false}
+        removeClippedSubviews={false}
         ItemSeparatorComponent={space}
-        initialNumToRender={16}
-        maxToRenderPerBatch={16}
-        windowSize={10}
+        initialNumToRender={10}
+        ListFooterComponent={loadMore}
+        onEndReached={addItem}
+        onEndReachedThreshold={0.1}
       />
     </>
   );

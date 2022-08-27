@@ -28,5 +28,8 @@ declare module '@env' {
   export const MINES_HEART: string;
   export const GET_SIZE: string;
   export const GET_COLOR: string;
-  export const PUSH_NOTIFICATION : string;
+  export const PUSH_NOTIFICATION: string;
+  export const RATE_COMENT_PRODUCT: string;
+  export const RATE_PRODUCT: string;
+  export const RATE_START_PRODUCT: string;
 }

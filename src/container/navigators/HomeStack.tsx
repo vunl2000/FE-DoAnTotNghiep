@@ -100,9 +100,7 @@ function MyTabBar({state, descriptors, navigation, position}: any) {
 
 const HomeStack = (props: Props) => {
   return (
-    <Tab.Navigator
-      tabBar={props => <MyTabBar {...props} />}
-      screenOptions={{lazy: true}}>
+    <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
       <Tab.Screen
         name="Home"
         component={HomeIndex}
@@ -115,12 +113,16 @@ const HomeStack = (props: Props) => {
         component={WomenScreen}
         options={{
           tabBarLabel: 'Nữ',
+          lazy: true,
         }}
       />
       <Tab.Screen
         name="Men"
         component={MenScreen}
-        options={{tabBarLabel: 'Nam'}}
+        options={{
+          tabBarLabel: 'Nam',
+          lazy: true,
+        }}
       />
     </Tab.Navigator>
   );

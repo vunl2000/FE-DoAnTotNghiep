@@ -20,16 +20,20 @@ export const userLogins =
 
       const mFormData = JSON.stringify({ email, password });
       console.log(API_URL_LOGIN_USERS);
-
       axios({
         method: 'POST',
-        url: "http://18.141.199.110:3000/account-user/login-user",
+        url: API_URL_LOGIN_USERS,
         data: mFormData,
         headers: {
           'content-type': 'application/json',
         },
       })
         .then(response => {
+          dispatch({ type: CLEAR_ERRORS, payload: null });
+          dispatch({ type: LOGIN_SUCCES, payload: response.data });
+
+        })
+        .then((response: any) => {
           dispatch({ type: CLEAR_ERRORS, payload: null });
           dispatch({ type: LOGIN_SUCCES, payload: response.data });
         })

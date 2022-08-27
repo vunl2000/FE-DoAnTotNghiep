@@ -13,10 +13,12 @@ import {
 import sizes from '../../../res/sizes/sizes';
 import {slides} from '../../../data/DataFirst';
 import {useDispatch, useSelector} from 'react-redux';
-import {openApp} from '../../../store/actions/fristOpenActions';
+import {getBanner, openApp} from '../../../store/actions/fristOpenActions';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../navigators/TabNavigator';
+import {loadCatory} from '../../../store/actions/catoryActions';
+import {loadProducts} from '../../../store/actions/productsActions';
 
 const Slide = ({item}: any) => {
   return (
@@ -29,7 +31,6 @@ const Slide = ({item}: any) => {
 };
 
 const OnboardingFirst = () => {
-
   const {replace}: any = useNavigation();
 
   const dispatch: any = useDispatch();
@@ -136,6 +137,12 @@ const OnboardingFirst = () => {
       </View>
     );
   };
+
+  useEffect(() => {
+    dispatch(getBanner());
+    dispatch(loadCatory());
+    dispatch(loadProducts());
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
