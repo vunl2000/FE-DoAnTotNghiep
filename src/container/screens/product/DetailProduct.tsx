@@ -35,8 +35,10 @@ import {API_URL, BY_VIEW_PRODUCTS} from '@env';
 import {
   addToCart,
   clearProducts,
+  countHeart,
   countView,
   loadProducts,
+  minuesHeart,
 } from '../../../store/actions/productsActions';
 import {showToast} from '../../../components/modal/ToastCustom';
 import TranSport from '../../../components/order/TranSport';
@@ -125,21 +127,33 @@ const TranSportDetail = () => (
 const spaceComment = () => <Divider style={styles.divider} />;
 
 const DetailProduct = (props: DetailProps) => {
-  const {numberCart, products} = useSelector((state: any) => state.product);
-
+  const {numberCart, products, listIDHeart} = useSelector(
+    (state: any) => state.product,
+  );
+  const auth = useSelector((state: any) => state.account);
   const {listAllComment, listAllStart, isStart, small, large, fit} =
     useSelector((state: any) => state.invoice);
 
   const [currentIndex, setCurrentIndex] = useState<number>(1);
+
   const route: any = useRoute();
   const {goBack, navigate}: any = useNavigation();
   const [isShow, setIsShow] = useState(false);
   const dispatch: any = useDispatch();
 
-  const item: TypeProductItem = route.params?.item;
+  const item: any = route.params?.item;
 
-  const {_id, imageProduct, titleProduct, price, size_product, color_product} =
-    item;
+  const [heartItem, setHeartItem] = useState<boolean>(item.heart_active);
+
+  const {
+    _id,
+    imageProduct,
+    titleProduct,
+    price,
+    size_product,
+    color_product,
+    heart,
+  } = item;
 
   const [sizeSelected, setSizeSelected] = useState({
     size: '',
@@ -157,7 +171,7 @@ const DetailProduct = (props: DetailProps) => {
   const onSelectedColor = (color: any, index: any) => {
     setColorSelected({color, index});
   };
-
+  const navigateLogin = () => navigate(NameScreen.LOGIN);
   const clearOptions = () => {
     setColorSelected({
       color: '',
@@ -193,15 +207,58 @@ const DetailProduct = (props: DetailProps) => {
     }
   };
 
+  const changeHeart = () => {
+    if (auth.isAuthenticated) {
+      if (listIDHeart.length > 0) {
+        let check = listIDHeart.find((val: any) =>
+          val.idProduct === _id ? true : false,
+        );
+
+        let heartId: any = listIDHeart.find(
+          (val: any) => val.idProduct === _id,
+        );
+
+        if (check) {
+          if (
+            dispatch(
+              minuesHeart(
+                item,
+                `Bearer ${auth.token}`,
+                auth.result[0]._id,
+                heartId._id,
+              ),
+            )
+          ) {
+            setHeartItem(false);
+          } else {
+            showToast('Đã có lỗi trong quá trình xử lý');
+          }
+        } else {
+          if (
+            dispatch(
+              countHeart(item, `Bearer ${auth.token}`, auth.result[0]._id),
+            )
+          ) {
+            setHeartItem(true);
+          } else {
+            showToast('Đã có lỗi trong quá trình xử lý');
+          }
+        }
+      }
+    } else {
+      navigateLogin();
+    }
+  };
+
   const onBackPress = () => goBack();
 
   const goToCart = () => navigate(NameScreen.HOME, {screen: 'ScreenCart'});
   //Modal
   const BtnShowAddCart = () => (
     <View style={styles.containerAddCart}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={changeHeart}>
         <Icons
-          name="heart-outline"
+          name={heartItem ? 'heart' : 'heart-outline'}
           size={sizes._24sdp}
           color={ArrayColors._color_black}
         />
@@ -396,7 +453,7 @@ const DetailProduct = (props: DetailProps) => {
           </Text>
         </View>
         <View>
-          <Text>Lượt xem {item.view}</Text>
+          <Text style={styles.textNameProduct}>Lượt xem {item.view}</Text>
         </View>
       </View>
 

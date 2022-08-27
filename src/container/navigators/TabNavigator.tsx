@@ -38,6 +38,7 @@ import ScreenCheckQuestions from '../screens/questions/ScreenCheckQuestions';
 import ScreenRulerSize from '../screens/sizeandcolor/ScreenRulerSize';
 import CodeRule from '../screens/coderule/CodeRule';
 import Shipping from '../screens/coderule/Shipping';
+
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
