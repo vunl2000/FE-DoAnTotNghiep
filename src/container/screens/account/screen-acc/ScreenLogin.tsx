@@ -209,7 +209,12 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     }, [error]);
 
     function handleLogin() {
-        if (email === '') {
+        if (email === "" && password === "") {
+            setWarningEmail(true);
+            setLabelEmail('Vui lòng không bỏ trống');
+            setWarningPassword(true);
+            setLabelPassword('Vui lòng không bỏ trống');
+        } else if (email === '') {
             setWarningEmail(true);
             setLabelEmail('Vui lòng không bỏ trống');
             console.log('ovl');
@@ -410,7 +415,8 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                         style={{
                             justifyContent: 'center',
                             alignItems: 'center',
-                            marginVertical: sizes._24sdp,
+                            marginVertical: sizes._12sdp,
+                           
                         }}>
                         <Text
                             style={{

@@ -13,7 +13,7 @@ import ArrayColors from '../../../res/colors/ArrayColors';
 import HeaderShown from '../../../components/accounts/HeaderShown';
 import axios from 'axios';
 import Images from '../../../res/require/Images';
-const ScreenNotification = ({navigation}: any) => {
+const ScreenNotification = ({ navigation }: any) => {
   const [dataNotification, setDataNotification] = React.useState<any>([]);
   const [loadMore, setLoadMore] = React.useState<any>(false);
 
@@ -40,26 +40,27 @@ const ScreenNotification = ({navigation}: any) => {
   function onBackPress() {
     navigation.goBack();
   }
-  function onScroll() {}
+  function onScroll() { }
 
-  function renderItem({item, index}: any) {
+  function renderItem({ item, index }: any) {
     console.log(item.title);
 
     return (
       <View
         style={[
           styles.mContainerData,
-          {marginVertical: index % 2 == 0 ? sizes._10sdp : 0},
+          { marginVertical: index % 2 == 0 ? sizes._10sdp : 0 },
         ]}>
-        <View style={{flexDirection: 'column', padding: sizes._10sdp}}>
-          <Image
+        <View style={{ flexDirection: 'column', padding: sizes._10sdp }}>
+          {item.urlPhoto ? <Image
             resizeMode="contain"
             style={{
               width: sizes._screen_width - sizes._40sdp,
               height: sizes._screen_width / 3,
             }}
-            source={Images.img_notifications}
-          />
+            source={{ uri: item?.urlPhoto }}
+          /> : null}
+
           <Text
             style={{
               fontSize: sizes._20sdp,
@@ -69,7 +70,7 @@ const ScreenNotification = ({navigation}: any) => {
             {item?.title}
           </Text>
 
-          <Text style={{marginVertical: sizes._6sdp}} numberOfLines={2}>
+          <Text style={{ marginVertical: sizes._6sdp }} numberOfLines={2}>
             {item?.body}
           </Text>
           <Text style={{}} numberOfLines={2}>
@@ -90,7 +91,7 @@ const ScreenNotification = ({navigation}: any) => {
       <View
         style={{
           width: sizes._screen_width,
-          height: sizes._1sdp / 3,
+
           backgroundColor: ArrayColors._color_gray,
         }}></View>
       <FlatList
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   },
   mContainerData: {
     width: sizes._screen_width - sizes._20sdp,
-    height: sizes._screen_width / 1.7,
+
     backgroundColor: ArrayColors._color_white,
     marginHorizontal: sizes._10sdp,
   },
