@@ -32,7 +32,6 @@ const ProductItem = ({item, index}: Props) => {
         source={{
           uri: item?.imageProduct[0],
           priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.web,
         }}
         style={styles.image}
         resizeMode={FastImage.resizeMode.contain}

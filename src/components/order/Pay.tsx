@@ -12,14 +12,14 @@ import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {Divider} from 'react-native-paper';
 
-type Props = {};
+type Props = {
+  label?: any;
+};
 
-const Pay = (props: Props) => {
+const Pay = ({label}: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={[styles.textSub, {marginBottom: sizes._8sdp}]}>
-        Thanh toán
-      </Text>
+      <Text style={[styles.textSub, {marginBottom: sizes._8sdp}]}>{label}</Text>
       <View style={styles.rowContent}>
         {/* <View
           style={[
@@ -43,7 +43,7 @@ const Pay = (props: Props) => {
           </Text>
         </View>
       </View>
-      <Divider />
+      {/* <Divider /> */}
 
       {/* <View style={[styles.rowContent, {opacity: 0.4}]}>
         <TouchableWithoutFeedback

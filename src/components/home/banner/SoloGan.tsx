@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
+import FastImage from 'react-native-fast-image';
 
 type Props = {
   uri?: any;
@@ -31,7 +32,7 @@ const SoloGan = ({
           marginBottom: sizes._22sdp,
         },
       ]}>
-      <Image
+      <FastImage
         source={{uri: uri}}
         style={[styleCustom, styles.img]}
         resizeMode={resize}

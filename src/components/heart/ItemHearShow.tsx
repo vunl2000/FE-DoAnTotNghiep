@@ -27,7 +27,8 @@ const ItemHeartShow = ({item, index, onPress}: Props) => {
       onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
       <FastImage
         source={{
-          uri: item?.imageProduct[0].toString(),
+          uri: item?.imageProduct[0],
+          priority: FastImage.priority.high,
         }}
         style={styles.image}
         resizeMode={FastImage.resizeMode.cover}

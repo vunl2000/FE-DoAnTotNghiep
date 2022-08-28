@@ -56,6 +56,10 @@ const ScreenOrder = (props: Props) => {
   const onBackPress = () => goBack();
   console.log(transport);
 
+  const goListAdress = () => {
+    navigate(NameScreen.LIST_ADDRESS);
+  };
+
   const requestCameraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -125,7 +129,7 @@ const ScreenOrder = (props: Props) => {
     }
 
     if (check) {
-      dispatch(createBill(address));
+      dispatch(createBill(address, transport));
     }
   };
 
@@ -197,13 +201,13 @@ const ScreenOrder = (props: Props) => {
 
   const renderContent = () => (
     <View>
-      <Location address={address} />
+      <Location address={address} iconLefts onPress={goListAdress} />
       <View style={styles.spaceMedium} />
       {/*Đơn vị giao hàng*/}
       <TranSport />
       <View style={styles.spaceMedium} />
       {/* Phương thức thanh toán*/}
-      <Pay />
+      <Pay label="Thanh toán" />
 
       <View style={styles.spaceMedium} />
 

@@ -99,7 +99,7 @@ function MyTabBar({state, descriptors, navigation}: any) {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            {tabBarBadge === undefined ? null : (
+            {tabBarBadge !== 0 ? null : (
               <Badge
                 size={sizes._22sdp}
                 style={{position: 'absolute', top: 0, right: sizes._18sdp}}>

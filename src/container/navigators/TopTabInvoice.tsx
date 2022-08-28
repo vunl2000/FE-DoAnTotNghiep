@@ -70,7 +70,7 @@ const TopTabInvoice = (props: Props) => {
       <Tab.Screen
         name={InvoiceName.DONE}
         component={ScreenDone}
-        options={{tabBarLabel: 'Đã mua'}}
+        options={{tabBarLabel: 'Đã hoàn thành'}}
       />
     </Tab.Navigator>
   );

@@ -38,6 +38,7 @@ import ScreenCheckQuestions from '../screens/questions/ScreenCheckQuestions';
 import ScreenRulerSize from '../screens/sizeandcolor/ScreenRulerSize';
 import CodeRule from '../screens/coderule/CodeRule';
 import Shipping from '../screens/coderule/Shipping';
+import DetailInvoice from '../screens/invoice/DetailInvoice';
 
 export enum NameScreen {
   HOME = 'AppContainer',
@@ -60,6 +61,7 @@ export enum NameScreen {
   REGISTER_DETAIL = 'ScreenRegisterDetail',
   USER_SPAPER = 'ScreenUserSpaper',
   INVOICE = 'ScreenInvoice',
+  DETAIL_INVOICE = 'DetailInvoice',
   ANSWERQUESTIONS = 'AnswerQuestions',
   SCREENWALET = 'ScreenWalet',
   SCREENGIF = 'ScreenGiftcard',
@@ -331,6 +333,11 @@ export default function TabNavigator({navigation}: any) {
         <Stack.Screen
           name={NameScreen.SCREEN_SHIPPING}
           component={Shipping}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NameScreen.DETAIL_INVOICE}
+          component={DetailInvoice}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

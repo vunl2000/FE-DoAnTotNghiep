@@ -16,13 +16,15 @@ import {NameScreen} from '../../container/navigators/TabNavigator';
 import {Address} from '../../store/reducer/addressReducer';
 type Props = {
   address?: Address;
+  onPress?: any;
+  iconLefts?: any;
 };
 
-const Location = ({address}: Props) => {
+const Location = ({address, onPress, iconLefts}: Props) => {
   const {navigate}: any = useNavigation();
 
   return (
-    <TouchableWithoutFeedback onPress={() => navigate(NameScreen.LIST_ADDRESS)}>
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
         <Text
           style={[
@@ -89,13 +91,17 @@ const Location = ({address}: Props) => {
               </Text>
             )}
           </View>
-          <View style={styles.space} />
-          <Icon
-            name="chevron-forward"
-            size={sizes._24sdp}
-            color={ArrayColors._color_black}
-            style={styles.icon}
-          />
+          {iconLefts ? (
+            <>
+              <View style={styles.space} />
+              <Icon
+                name="chevron-forward"
+                size={sizes._24sdp}
+                color={ArrayColors._color_black}
+                style={styles.icon}
+              />
+            </>
+          ) : null}
         </View>
         <Image
           source={image.airmail_envelope}

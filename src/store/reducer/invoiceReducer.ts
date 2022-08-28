@@ -19,6 +19,10 @@ const initalState = {
   small: 0 as number,
   large: 0 as number,
   fit: 0 as number,
+  handle: 0 as any,
+  processed: 0 as any,
+  transport: 0 as any,
+  done: 0 as any,
 };
 
 export default (state = initalState, {payload, type}: any) => {
@@ -26,15 +30,22 @@ export default (state = initalState, {payload, type}: any) => {
     case LOADED_INVOICE_USER: {
       return {
         ...state,
-        listInvoice: payload.bill,
+        listInvoice: payload.data,
+        handle: payload.handle,
+        processed: payload.processed,
+        transport: payload.transport,
+        done: payload.done,
+        isFalse: true,
       };
     }
+
     case LOADED_INVOICE_ERR: {
       return {
         ...state,
         isFalse: true,
       };
     }
+
     case INVOICE_CLEAR: {
       return {
         listInvoice: [],
@@ -45,6 +56,10 @@ export default (state = initalState, {payload, type}: any) => {
         small: 0,
         large: 0,
         fit: 0,
+        handle: 0 as any,
+        processed: 0 as any,
+        transport: 0 as any,
+        done: 0 as any,
       };
     }
 

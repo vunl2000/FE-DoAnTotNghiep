@@ -25,7 +25,8 @@ const auth: any = store.getState().account.result[0];
 const token: any = store.getState().account.token;
 const tokenCover: string = `Bearer ${token}`;
 export const createBill =
-  (item: Address | any) => async (dishpatch: AllDispatchProps) => {
+  (item: Address | any, transportFee: any) =>
+  async (dishpatch: AllDispatchProps) => {
     if (auth != null) {
       let data = JSON.stringify({
         numberPhone: item.numberPhone,
@@ -37,6 +38,7 @@ export const createBill =
         commune: item.commune,
         codeZip: item.codeZip,
         payment: 'Ship COD',
+        transportFee: transportFee.toString(),
         idUser: auth._id,
       });
 

@@ -1,75 +1,52 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ColorValue,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import FastImage from 'react-native-fast-image';
-import {TypeBill, TypeBillDetail} from '../../store/actions/types';
 import {formartMoney} from '../../utils/Utilities';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type Props = {
   index?: any;
   item?: any;
-  onPress?: any;
+  render?: any;
 };
 
-const InvoiceItem = ({index, item, onPress}: Props) => {
-  const [price, setPrice] = useState(0);
-  useEffect(() => {
-    let price = 0;
-    item.billDetails.forEach((item: any) => {
-      price += item.quantity * item.price;
-    });
-    setPrice(price);
-  }, []);
-
-  const Active = () => (
+const ColorAndSize = (color: ColorValue, size: string) => (
+  <View style={styles.contentShow}>
+    <Text style={styles.textDefault}>Màu sắc: </Text>
     <View
       style={[
-        styles.container,
+        styles.color,
         {
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingBottom: sizes._10sdp,
+          backgroundColor: color,
         },
-      ]}>
-      <Text style={styles.textDefault}>{item?.billingEncode}</Text>
-      <View style={[styles.container, {alignItems: 'center'}]}>
-        <View
-          style={[
-            styles.color,
-            {
-              backgroundColor:
-                item.status === 0
-                  ? ArrayColors.red
-                  : item.status === 1
-                  ? ArrayColors.green
-                  : item.status === 2
-                  ? ArrayColors.skyBlue
-                  : ArrayColors._color_orange,
-            },
-          ]}
-        />
-        <View style={styles.space} />
-        <Text style={styles.textSub}>
-          {item.status === 0
-            ? 'Chờ xác nhận'
-            : item.status === 1
-            ? 'Đang xử lý'
-            : item.status === 2
-            ? 'Đang vận chuyển'
-            : 'Đã hoàn thành'}
-        </Text>
-      </View>
-    </View>
-  );
+      ]}
+    />
+    <Icon
+      name="slash-forward"
+      size={sizes._18sdp}
+      color={ArrayColors._color_black}
+    />
+    <Text style={styles.textDefault}>Kích thước: </Text>
+    <Text style={styles.textSize}>{size}</Text>
+  </View>
+);
+
+const InvoiceItemDetail = ({index, item, render}: Props) => {
   return (
-    <TouchableOpacity style={styles.mContainer} onPress={() => onPress(item)}>
-      <Active />
+    <View style={styles.mContainer}>
       <View style={styles.container}>
         <FastImage
           source={{
-            uri: item.billDetails[0].imageProduct,
+            uri: item.imageProduct,
             cache: FastImage.cacheControl.cacheOnly,
           }}
           style={styles.img}
@@ -83,33 +60,30 @@ const InvoiceItem = ({index, item, onPress}: Props) => {
                 style={styles.textNameProduct}
                 ellipsizeMode="tail"
                 numberOfLines={1}>
-                {item.billDetails[0].titleProduct}
+                {item.titleProduct}
               </Text>
             </View>
-            <Text style={styles.textSub}>
-              {item.billDetails.length} sản phẩm
-            </Text>
+            <Text style={styles.textSub}>{item.quantity} sản phẩm</Text>
           </View>
-
+          {ColorAndSize(item.colorProduct, item.sizeProduct)}
           <View style={styles.bottomContent}>
             <Text style={styles.textDefault}>
-              Tổng cộng:{' '}
-              <Text style={styles.itemPrice}>{formartMoney(price)}</Text>
+              Đơn giá:{' '}
+              <Text style={styles.itemPrice}>{formartMoney(item.price)}</Text>
             </Text>
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
-export default InvoiceItem;
+export default InvoiceItemDetail;
 
 const styles = StyleSheet.create({
   mContainer: {
     padding: sizes._18sdp,
     backgroundColor: ArrayColors._color_white,
-    marginTop: sizes._10sdp,
   },
   container: {
     flexDirection: 'row',
@@ -168,13 +142,10 @@ const styles = StyleSheet.create({
   },
   contentShow: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ArrayColors.gray_bg_light,
     height: sizes._24sdp,
     borderRadius: sizes._24sdp / 2,
-    marginTop: sizes._12sdp,
-    paddingHorizontal: sizes._8sdp,
+    marginTop: sizes._18sdp,
   },
   spaceLager: {
     flex: 1,

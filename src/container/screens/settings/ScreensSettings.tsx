@@ -45,7 +45,7 @@ const ScreensSettings = ({navigation}: any) => {
         console.log('undefined');
         setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
-        seteventAccount(true);
+        seteventAccount(false);
       } else {
         if (accounts.isAuthenticated === true) {
           setStorageUser(accounts.result[0].name);

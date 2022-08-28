@@ -55,10 +55,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontWeight: '600',
-    fontFamily: 'OpenSans-SemiBold',
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
     color: ArrayColors._color_black,
-    fontSize: sizes._20sdp,
+    fontSize: sizes._22sdp,
   },
   iconHeader: {
     width: sizes._42sdp,

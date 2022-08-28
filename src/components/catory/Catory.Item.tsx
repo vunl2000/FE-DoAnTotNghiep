@@ -22,7 +22,10 @@ const CatoryItem = ({item, index, onPress}: Props) => {
           },
         ]}>
         <FastImage
-          source={{uri: item.imageProduct[0]}}
+          source={{
+            uri: item.imageProduct[0],
+            priority: FastImage.priority.normal,
+          }}
           resizeMode={FastImage.resizeMode.contain}
           style={styles.img}
         />
