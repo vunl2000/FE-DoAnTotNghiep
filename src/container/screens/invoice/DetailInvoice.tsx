@@ -1,9 +1,19 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  ImageURISource,
+  Image,
+  TextInput,
+  TouchableNativeFeedback,
+  FlatList,
+  PermissionsAndroid,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import AppHeader from '../../../components/header/AppHeader';
-import {FlatList} from 'react-native-gesture-handler';
 import IconHeader from '../../../components/icons/IconHeader';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Pay from '../../../components/order/Pay';
@@ -13,9 +23,14 @@ import Location from '../../../components/order/Location';
 import InvoiceItemDetail from '../../../components/invoice/InvoiceItemDetail';
 import SaleProDuct from '../../../components/order/SaleProDuct';
 import {formartMoney} from '../../../utils/Utilities';
-import {Divider} from 'react-native-paper';
+import ImagePicker from 'react-native-image-picker';
+import {Chip, Divider} from 'react-native-paper';
 import moment from 'moment';
 import 'moment/locale/vi';
+import ButtonSub from '../../../components/button/ButtonSub';
+import {Modal, Portal, Text as Textpp, Provider} from 'react-native-paper';
+import image from '../../../res/require/Images';
+import CustomeStar from '../../../components/ratiings/CustomeStar';
 
 type Props = {};
 
@@ -24,18 +39,78 @@ const keyExtractor = (item: any) => item._id;
 const DetailInvoice = (props: Props) => {
   //navigate
   const {goBack, navigate}: any = useNavigation();
+
   const route: any = useRoute();
 
   //State
   const [address, setAddress] = useState<Address>();
   const [price, setPrice] = useState(0);
+  const [start, setStart] = useState(5);
   const [sumQty, setSumQty] = useState(0);
-  const {billDetail} = route?.params;
-  console.log(billDetail);
+  const {billDetail, isComment} = route?.params;
+  const [visible, setVisible] = React.useState(false);
+  const [selectedImage, setSelectedImage] = React.useState<string | any>(null);
+  const [croppedImage, setCroppedImage] = React.useState<string | any>(null);
 
   //Actions
   const onBackPress = () => goBack();
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const changeStart = (val: number) => {
+    setStart(val);
+  };
+  const eventUpLoadFileImager = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'App Camera Permission',
+          message: 'App needs access to your camera ',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        ImagePicker.launchImageLibrary(
+          {
+            maxWidth: 800,
+            maxHeight: 600,
+          },
+          response => {
+            if (response.error) {
+              console.log('image error');
+              console.log(response.error);
+              setSelectedImage(image.ic_camera);
+            } else {
+              console.log('Image: ' + response.uri);
+              setSelectedImage({uri: response.uri});
+              setCroppedImage(response.uri);
+            }
+          },
+        );
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   //Header
+  const HearderModalContent = () => (
+    <View style={styles.containerHeader}>
+      <IconHeader
+        name="chevron-back"
+        sizes={sizes._24sdp}
+        color={ArrayColors._color_black}
+        style={styles.iconHeader}
+        onPress={hideModal}
+      />
+      <View style={styles.contentHeader}>
+        <Text style={styles.textLabel}>Đánh giá sản phẩm</Text>
+      </View>
+      <View style={{width: sizes._42sdp}} />
+    </View>
+  );
 
   const HeaderContent = () => (
     <View style={styles.containerHeader}>
@@ -83,7 +158,7 @@ const DetailInvoice = (props: Props) => {
             ? 'Đang xử lý'
             : billDetail.status === 2
             ? 'Đang vận chuyển'
-            : 'Đã mua'}
+            : 'Đã hoàn thành'}
         </Text>
       </View>
     </View>
@@ -93,7 +168,90 @@ const DetailInvoice = (props: Props) => {
     <InvoiceItemDetail item={item} index={index} />
   );
 
-  const renderContent = () => (
+  const ListProduct = () => (
+    <FlatList
+      data={billDetail.billDetails}
+      extraData={billDetail.billDetails}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
+      bounces={false}
+      removeClippedSubviews
+      scrollEventThrottle={32}
+      listKey="deatil-handle-bill"
+    />
+  );
+  const renderModal = (
+    <>
+      <View style={{width: '100%'}}>{billDetail ? <ListProduct /> : null}</View>
+      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <CustomeStar defaultRating={start} onPress={changeStart} />
+      </View>
+      <View style={styles.spaceMedium} />
+
+      <View style={styles.img}>
+        <TouchableNativeFeedback onPress={eventUpLoadFileImager}>
+          <View style={styles.showImg}>
+            <Image
+              source={selectedImage ? selectedImage : image.ic_camera}
+              style={{
+                width: sizes._120sdp,
+                height: sizes._120sdp,
+              }}
+              resizeMode="cover"
+            />
+          </View>
+        </TouchableNativeFeedback>
+
+        <View style={styles.spaceMediumX} />
+        <TextInput
+          multiline
+          autoCapitalize="none"
+          autoCorrect={false}
+          spellCheck={false}
+          underlineColorAndroid="transparent"
+          placeholder="Nhận xét của bạn"
+          style={styles.textInput}
+        />
+      </View>
+      <View style={styles.spaceMedium} />
+      <View
+        style={[
+          styles.content,
+          {
+            flexDirection: 'row',
+            paddingHorizontal: sizes._18sdp,
+            justifyContent: 'space-around',
+          },
+        ]}>
+        <Chip icon="information" onPress={() => console.log('Pressed')}>
+          Sản phẩm oke
+        </Chip>
+        <Chip icon="information" onPress={() => console.log('Pressed')}>
+          Rất đáng tiền
+        </Chip>
+      </View>
+      <View style={styles.spaceMedium} />
+      <View
+        style={[
+          styles.content,
+          {
+            flexDirection: 'row',
+            paddingHorizontal: sizes._18sdp,
+            justifyContent: 'space-around',
+          },
+        ]}>
+        <Chip icon="information" onPress={() => console.log('Pressed')}>
+          Không hài lòng
+        </Chip>
+        <Chip icon="information" onPress={() => console.log('Pressed')}>
+          Giao hàng chậm
+        </Chip>
+      </View>
+      <View style={styles.spaceMedium} />
+    </>
+  );
+
+  const renderContent = (
     <>
       <View style={styles.spaceMedium} />
       <Pay label="Phương thức thanh toán" />
@@ -101,18 +259,7 @@ const DetailInvoice = (props: Props) => {
 
       <View style={styles.spaceMedium} />
       <Active />
-      {billDetail ? (
-        <FlatList
-          data={billDetail.billDetails}
-          extraData={billDetail.billDetails}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          bounces={false}
-          removeClippedSubviews
-          scrollEventThrottle={32}
-          listKey="deatil-handle-bill"
-        />
-      ) : null}
+      {billDetail ? <ListProduct /> : null}
       <View style={styles.spaceMedium} />
       <SaleProDuct
         sumPrice={price}
@@ -129,7 +276,7 @@ const DetailInvoice = (props: Props) => {
         style={[
           styles.active,
           {
-            marginBottom: sizes._36sdp,
+            marginBottom: sizes._18sdp,
           },
         ]}>
         <View style={styles.spaceMedium} />
@@ -168,19 +315,52 @@ const DetailInvoice = (props: Props) => {
   }, [billDetail]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <AppHeader content customContent={<HeaderContent />} />
-      <View style={styles.content}>
-        <FlatList
-          data={null}
-          renderItem={null}
-          ListFooterComponent={renderContent}
-          listKey="screen_oder"
-          removeClippedSubviews
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-    </SafeAreaView>
+    <Provider>
+      <SafeAreaView style={styles.container}>
+        <AppHeader content customContent={<HeaderContent />} />
+        <View style={styles.content}>
+          <FlatList
+            data={null}
+            renderItem={null}
+            ListFooterComponent={renderContent}
+            listKey="screen_oder"
+            removeClippedSubviews
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+        {isComment ? (
+          <View style={styles.btnCreatBill}>
+            <ButtonSub
+              bgColor="black"
+              value="Đánh giá sản phẩm"
+              onPress={showModal}
+            />
+          </View>
+        ) : null}
+        <Portal>
+          <Modal
+            visible={visible}
+            dismissable={false}
+            contentContainerStyle={styles.contentModal}>
+            <View style={styles.content}>
+              <AppHeader content customContent={<HearderModalContent />} />
+              <FlatList
+                data={null}
+                renderItem={null}
+                ListFooterComponent={renderModal}
+              />
+              <View style={styles.btnCreatBill}>
+                <ButtonSub
+                  bgColor="black"
+                  value="Đánh giá sản phẩm"
+                  onPress={showModal}
+                />
+              </View>
+            </View>
+          </Modal>
+        </Portal>
+      </SafeAreaView>
+    </Provider>
   );
 };
 
@@ -205,6 +385,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  contentModal: {
+    flex: 1,
+    width: sizes._screen_width,
+    height: sizes._screen_height,
+    backgroundColor: ArrayColors._color_white,
+  },
   textLabel: {
     fontWeight: '700',
     fontFamily: 'OpenSans-Bold',
@@ -220,6 +406,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    width: '100%',
   },
   textPlaholder: {
     fontSize: sizes._18sdp,
@@ -244,6 +431,9 @@ const styles = StyleSheet.create({
   },
   spaceMedium: {
     height: sizes._18sdp,
+  },
+  spaceMediumX: {
+    width: sizes._18sdp,
   },
   spaceSmall: {
     height: sizes._10sdp,
@@ -281,5 +471,25 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
+  },
+  img: {
+    flexDirection: 'row',
+    paddingHorizontal: sizes._18sdp,
+  },
+  showImg: {
+    padding: sizes._10sdp,
+    backgroundColor: ArrayColors.light,
+    justifyContent: 'center',
+  },
+  textInput: {
+    borderColor: ArrayColors.gray,
+    borderWidth: sizes._1sdp,
+    flex: 1,
+    paddingHorizontal: sizes._10sdp,
+    textAlignVertical: 'top',
+    fontSize: sizes._18sdp,
+    color: ArrayColors._color_black,
+    fontFamily: 'OpenSans-Regular',
+    fontWeight: '400',
   },
 });

@@ -332,7 +332,7 @@ const ScreenAccount = ({ navigation }: { navigation: any }) => {
         </View>
 
         <View style={styles.mStyleFlashList}>
-          <AnimatedTab
+          {/* <AnimatedTab
             animatedValues={animatedValues}
             marginLeft={marginLeft}
             marginRight={marginRight}
@@ -342,7 +342,10 @@ const ScreenAccount = ({ navigation }: { navigation: any }) => {
             onPressRight={onPressRight}
             textLeft="Danh sách yêu thích"
             textRight="Đã xem gần đây"
-          />
+          /> */}
+          <Text style={[styles.textLabel, {marginLeft: sizes._18sdp}]}>
+            Danh sách yêu thích
+          </Text>
           <View style={styles.space} />
           {accounts.isAuthenticated ? (
             <FlatList
@@ -431,7 +434,13 @@ const styles = StyleSheet.create({
     fontSize: sizes._16sdp,
     fontWeight: '400',
     fontFamily: 'OpenSans-Regular',
-    color: ArrayColors.skyBlue,
+    color: ArrayColors._color_blue_light,
+  },
+  textLabel: {
+    fontSize: sizes._18sdp,
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
+    color: ArrayColors._color_black,
   },
   textDefault: {
     fontSize: sizes._16sdp,
@@ -465,6 +474,7 @@ const styles = StyleSheet.create({
     width: sizes._screen_width,
     flex: 1,
     marginTop: sizes._10sdp,
+    paddingVertical: sizes._10sdp,
   },
   space: {
     height: sizes._18sdp,
@@ -478,7 +488,7 @@ const styles = StyleSheet.create({
   },
   contentFavorite: {
     flex: 1,
-    width: '100%',
+    height: sizes._102sdp,
     justifyContent: 'center',
     alignItems: 'center',
   },

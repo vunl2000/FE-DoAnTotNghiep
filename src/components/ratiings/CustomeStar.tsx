@@ -3,9 +3,9 @@ import React, {useState} from 'react';
 import image from '../../res/require/Images';
 import sizes from '../../res/sizes/sizes';
 
-type Props = {defaultRating?: any};
+type Props = {defaultRating?: any; onPress?: any};
 
-const CustomeStar = ({defaultRating}: Props) => {
+const CustomeStar = ({defaultRating, onPress}: Props) => {
   const [maxRating, setMaxRating] = useState<any>([1, 2, 3, 4, 5]);
   return (
     <View style={styles.customRatingBarStyle}>
@@ -14,7 +14,8 @@ const CustomeStar = ({defaultRating}: Props) => {
           <TouchableOpacity
             activeOpacity={0.7}
             key={item}
-            style={{paddingHorizontal: sizes._10sdp}}>
+            style={{paddingHorizontal: sizes._10sdp}}
+            onPress={() => onPress(item)}>
             <Image
               style={styles.starImageStyle}
               source={
