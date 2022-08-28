@@ -10,8 +10,6 @@ buildscript {
         targetSdkVersion = 31
 
         googlePlayServicesVersion      = "17.0.0"
-        
-
         googlePlayServicesAuthVersion = "19.2.0"
 
         if (System.properties['os.arch'] == "aarch64") {

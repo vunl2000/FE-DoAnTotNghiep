@@ -19,11 +19,13 @@ import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import Button from '../../../../components/accounts/Button';
 import Input from '../../../../components/accounts/Input';
-import {checkMail, isNullEmptyBlank} from '../../../../utils/Utilities';
+import { checkMail, isNullEmptyBlank } from '../../../../utils/Utilities';
+import { useDispatch, useSelector } from 'react-redux';
+import { removerRegister } from '../../../../store/actions/registerActions';
 
 type Props = {};
 
-const ScreenRegister = ({navigation}: {navigation: any}) => {
+const ScreenRegister = ({ navigation }: { navigation: any }) => {
   const [isLoading, setIsLoading] = React.useState<string | any>(false);
   const [email, setEmail] = React.useState<string | any>('');
   const [password, setPassword] = React.useState<string | any>('');
@@ -55,8 +57,11 @@ const ScreenRegister = ({navigation}: {navigation: any}) => {
     string | any
   >('');
 
+  const dispatch: string | any = useDispatch();
+
   function onBackPress() {
     navigation.goBack();
+    dispatch(removerRegister());
   }
   function handleNext() {
     if (email === '' && password === '' && passwordConfirm === '') {
@@ -75,7 +80,7 @@ const ScreenRegister = ({navigation}: {navigation: any}) => {
     } else if (passwordConfirm === ' ') {
       setLabelPasswordConfirm('Không được bỏ trống');
       setWarningPassWordConfirm(true);
-    } else if (password <= 6) {
+    } else if (password.length <= 6) {
       setLabelPassword('Mật khẩu phải lớn hơn 6 ký tự');
       setWarningPassword(true);
     } else if (!checkMail(email)) {
@@ -91,18 +96,26 @@ const ScreenRegister = ({navigation}: {navigation: any}) => {
       setLabelPasswordConfirm('Mật khẩu không khớp');
       setWarningPassWordConfirm(true);
     } else {
+
+      setIsLoading(true);
       // navigation.navigate('ScreenRegisterDetail', {
       //   emailNext: email,
       //   passwordNext: password,
       //   passwordConfirmNext: passwordConfirm,
       // });
-      navigation.navigate('ScreenRegisterDetail', {
-        emailNext: email,
-        passwordNext: password,
-        passwordConfirmNext: passwordConfirm,
-      });
+      setTimeout(() => {
+        navigation.navigate('ScreenRegisterDetail', {
+          emailNext: email,
+          passwordNext: password,
+          passwordConfirmNext: passwordConfirm,
+
+
+        });
+        setIsLoading(false);
+      }, 1500)
+
     }
-   
+
     console.log(isNullEmptyBlank(password));
   }
   function eventLogin() {
@@ -178,7 +191,7 @@ const ScreenRegister = ({navigation}: {navigation: any}) => {
           marginTop: sizes._36sdp,
           marginHorizontal: sizes._20sdp,
         }}>
-        <Text style={{fontSize: sizes._24sdp, textAlign: 'center'}}>
+        <Text style={{ fontSize: sizes._24sdp, textAlign: 'center' }}>
           Chào mừng bạn đến với ứng dụng mua sắm trực tuyển đăng ký nhanh nào!
         </Text>
       </View>

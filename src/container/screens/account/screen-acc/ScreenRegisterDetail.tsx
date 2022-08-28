@@ -25,8 +25,10 @@ import ImagePicker from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../../../../store/actions/registerActions';
 import RNFS from 'react-native-fs';
-import axios from 'axios';
+import { isVietnamesePhoneNumber } from '../../../../utils/Utilities';
 
+import axios from 'axios';
+import { removerRegister } from '../../../../store/actions/registerActions';
 type Props = {};
 
 const ScreenRegisterDetail = ({ navigation, route }: any) => {
@@ -71,6 +73,8 @@ const ScreenRegisterDetail = ({ navigation, route }: any) => {
 
     function onBackPress() {
         navigation.goBack();
+        dispatch(removerRegister());
+
     }
 
     function eventLogin() {
@@ -142,17 +146,15 @@ const ScreenRegisterDetail = ({ navigation, route }: any) => {
     //sussce
     React.useEffect(() => {
         const { isRegistered } = register;
-
         if (isRegistered) {
             setTimeout(() => {
-                setIsLoading(false);
-                // navigation.goBack();
                 if (register.code === 200) {
                     ToastAndroid.show('Đăng ký thành công.', ToastAndroid.SHORT);
                     navigation.navigate('ScreenVeryfiOTP');
+                    setIsLoading(false);
                 }
 
-            }, 3000);
+            }, 1500);
         }
     }, [register]);
 
@@ -207,16 +209,24 @@ const ScreenRegisterDetail = ({ navigation, route }: any) => {
     }, [error]);
 
     async function handleRegister() {
-        setIsLoading(true);
-        console.log('ok');
-        if (name === '') {
+
+        if (name === "" && phone === "") {
+            setWarningUserName(true);
+            setLabelUserName('Không được bỏ trống');
+            setWarningNumberPhone(true);
+            setLabelNumberPhone('Không được bỏ trống');
+        } else if (name === '') {
             setWarningUserName(true);
             setLabelUserName('Không được bỏ trống');
             console.log('okkkkkk');
         } else if (phone === '') {
             setWarningNumberPhone(true);
             setLabelNumberPhone('Không được bỏ trống');
+        } else if (!isVietnamesePhoneNumber(phone)) {
+            setWarningNumberPhone(true);
+            setLabelNumberPhone("Số điện thoại không đúng định dạng");
         } else {
+            setIsLoading(true);
             dispatch(
                 userRegister({
                     name,

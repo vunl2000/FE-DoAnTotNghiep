@@ -289,6 +289,10 @@ dependencies {
 
     // implementation project(':react-native-push-notification')
 
+    implementation project(':react-native-fbsdk-next')
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }

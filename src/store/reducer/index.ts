@@ -10,6 +10,9 @@ import billReducer from './billReducer';
 import invoiceReducer from './invoiceReducer';
 import historyReducer from './historyReducer';
 import deviceFBTokenReducer from './deviceFBTokenReducer';
+// import forgotPasswordReducer from './forgotPasswordReducer';
+// import errCfGmailReducer from './errCfGmailReducer';
+
 
 export default combineReducers({
   product: productReducer,
@@ -23,4 +26,5 @@ export default combineReducers({
   invoice: invoiceReducer,
   itemHistory: historyReducer,
   deviceCall: deviceFBTokenReducer,
+  // confirmGmail: forgotPasswordReducer,
 });

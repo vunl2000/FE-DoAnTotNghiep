@@ -8,6 +8,7 @@ import {
     FlatList,
     TouchableOpacity,
     Platform,
+    ToastAndroid
 } from 'react-native';
 import React from 'react';
 import HeaderShown from '../../../../components/accounts/HeaderShown';
@@ -22,8 +23,9 @@ import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import { useDispatch, useSelector } from 'react-redux';
 import { removerRegister } from '../../../../store/actions/registerActions';
-import { verifyOTP } from '../../../../utils/api/VeryfiOTP';
+// import { verifyOTP } from '../../../../utils/api/VeryfiOTP';
 import { GenerateOTP } from '../../../../utils/api/GenerateOTP';
+import axios from 'axios';
 
 type Props = {};
 
@@ -57,6 +59,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
 
     function onBackPress() {
         navigation.goBack();
+        dispatch(removerRegister());
     }
     function eventLogin() {
         dispatch(removerRegister());
@@ -67,30 +70,79 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
         navigation.navigate('ScreenLogin');
     }
     function handleConfirm() {
-        // console.log('co cai deo gi vauy', userOTP);
-
         if (userOTP === '') {
             setIsWarning(true);
             setLableOTP('Không được bỏ trống');
-            console.log('Ko ok');
         } else {
-            verifyOTP(userEmail, userOTP, userID);
-            console.log('ok');
-            navigation.navigate('ScreenLogin');
-            dispatch(removerRegister());
+            setIsLoading(true);
+            setTimeout(() => {
+                GenerateOTPS(userEmail, userOTP, userID)
+            }, 1500)
         }
+    }
+
+
+    async function GenerateOTPS(userEmail: any, userOTP: any, userID: any) {
+        const mFormData = JSON.stringify({
+            userEmail,
+            userOTP,
+            userID
+        });
+        console.log(mFormData);
+
+        const config = await {
+            method: 'POST',
+            // url: API_URL_GENERATE_OTP,
+            url: "http://52.141.50.48:3000/account-user/verify-otp",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: mFormData,
+        };
+
+        await axios(config)
+            .then(response => {
+                console.log(JSON.stringify(response.data));
+                if (response.data.code === 200) {
+                    ToastAndroid.show(
+                        'Xác thực tài khoản thành công',
+                        ToastAndroid.SHORT,
+                    );
+                    navigation.navigate('ScreenLogin');
+                    dispatch(removerRegister());
+                    setIsLoading(false)
+                }
+            })
+            .catch(error => {
+                console.log(JSON.stringify(error.response.data));
+                if (error.response.data.code === 400) {
+                    ToastAndroid.show(
+                        'Mã xác thực không chính xác',
+                        ToastAndroid.SHORT,
+                    );
+                } else {
+                    ToastAndroid.show(
+                        'Đã có lỗi trong quá trình xử lý',
+                        ToastAndroid.SHORT,
+                    );
+                }
+                setIsLoading(false)
+            });
+        return setIsLoading(false)
     }
 
     function eventEditOTP(text: string | any) {
         if (text !== '') {
             setUserOTP(text);
             setVisibleIconOTP(true);
+            setIsWarning(false);
+            setLableOTP(null);
         }
     }
     function eventReqOTP() {
         console.log('req');
         if (seconds <= 0) {
-            setSeconds(10);
+            setSeconds(90);
             GenerateOTP(userEmail, userID);
             console.log(userEmail, userID);
 
@@ -107,7 +159,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
         setEvent(false);
 
         if (seconds <= 0) {
-            setSeconds(10);
+            setSeconds(90);
             GenerateOTP(userEmail, userID);
         } else {
 

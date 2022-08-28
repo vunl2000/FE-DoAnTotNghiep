@@ -5,13 +5,3 @@ export const deviceToken = () => {
         type: DEVICE_TOKEN,
     };
 };
-
-// export const getBanner = () => async (dishpatch: AllDispatchProps) => {
-//   await axios({
-//     method: 'GET',
-//     url: API_URL + API_GET_ALL_BANNER,
-//     headers: {},
-//   })
-//     .then(res => dishpatch({type: BANNER_APP, payload: res.data}))
-//     .catch(err => console.log(err));
-// };
