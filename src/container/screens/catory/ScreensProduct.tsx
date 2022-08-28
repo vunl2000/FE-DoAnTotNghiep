@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
   },
   contentView: {
     flex: 1,
-    paddingBottom: sizes._62sdp,
   },
   textPlaholder: {
     fontSize: sizes._16sdp,

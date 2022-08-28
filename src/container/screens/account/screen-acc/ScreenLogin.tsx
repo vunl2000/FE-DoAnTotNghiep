@@ -22,14 +22,17 @@ import sizes from '../../../../res/sizes/sizes';
 import Images from '../../../../res/require/Images';
 import Input from '../../../../components/accounts/Input';
 import Button from '../../../../components/accounts/Button';
+
 import { userLogins, userLoginsGoogle, userLoginsFaceBook } from '../../../../store/actions/loginActions';
 import { clearErrors } from '../../../../store/actions/errActions';
 import ModalConfirmPasswordChange from '../../../../components/modal/ModalConfirmPasswordChange'
 import { useDispatch, useSelector } from 'react-redux';
+
 import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import TextForgotPassword from '../../../../components/accounts/TextForgotPassword';
 import HeaderShown from '../../../../components/accounts/HeaderShown';
+
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import { checkMail } from '../../../../utils/Utilities';
 import {
@@ -42,21 +45,20 @@ import auth from '@react-native-firebase/auth';
 import Loading from '../../../../components/modal/Loading';
 import axios from 'axios';
 import { API_URL, GET_HEART } from '@env';
-import {
-    getHeartUser
-} from '../../../../store/actions/productsActions';
+import { getHeartUser } from '../../../../store/actions/productsActions';
 type Props = {};
 
-
 GoogleSignin.configure({
-    webClientId: '659424688855-g0p0leovj74ivmuvjnmrdb2upcdtu1r2.apps.googleusercontent.com',
-    // offlineAccess: true, // if you want to access Google API on behalf 
+    webClientId:
+        '659424688855-g0p0leovj74ivmuvjnmrdb2upcdtu1r2.apps.googleusercontent.com',
+    // offlineAccess: true, // if you want to access Google API on behalf
 });
 
 const ScreenLogin = ({ navigation }: { navigation: any }) => {
     const isAndroid = Platform.OS === 'android';
     const [VSBG, setVSBG] = React.useState<boolean>(false)
     const [isModal, setIsModal] = React.useState<any>(true)
+
 
     const [email, setEmail] = React.useState<string | any>('');
     const [password, setPassword] = React.useState<string | any>('');
@@ -86,7 +88,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     const [isLoading, setIsLoading] = React.useState<string | any>(false);
     const [showCheg, setShowCheg] = React.useState<any | boolean>(false);
 
-    const [loading, setLoadings] = React.useState(false)
+    const [loading, setLoadings] = React.useState(false);
     const [userInfo, setUserInfo] = React.useState();
 
     function eventOnOff() {
@@ -130,7 +132,36 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         setVisibleIconEmail(false);
     }
 
-
+    async function eventLoginGoogle() {
+        setLoadings(true);
+        const { idToken }: any = await GoogleSignin.signIn().catch(e => {
+            Alert.alert(e.message);
+            setLoadings(false);
+        });
+        // Create a Google credential with the token
+        const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
+        // Sign-in the user with the credential
+        await auth()
+            .signInWithCredential(googleCredential)
+            .then((res: any) => {
+                setUserInfo(res);
+            })
+            .catch(e => {
+                Alert.alert(e.message);
+            });
+        auth()
+            .currentUser?.getIdToken(true)
+            .then(idToken => {
+                console.log(idToken);
+                if (idToken) {
+                    dispatch(userLoginsGoogle(idToken));
+                } else {
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
 
     // const googleSignOut = async () => {
     //   setLoading(true)
@@ -157,8 +188,43 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                 }
 
                 // setInvisible(false);
-            }, 1500);
+            }, 1500)
         }
+
+        function clearTextEmail() {
+            setEmail('');
+            setVisibleIconEmail(false);
+        }
+
+
+
+        // const googleSignOut = async () => {
+        //   setLoading(true)
+        //   auth().signOut().then(async () => {
+        //     await GoogleSignin.signOut();
+        //     await GoogleSignin.revokeAccess();
+        //     console.log('User sign-out successfully!');
+        //   }).catch(e => Alert.alert('Error', e.message));
+        //   setLoading(false)
+        // }
+
+        //     React.useEffect(() => {
+        //         const { isAuthenticated, token } = accounts;
+
+        //         if (isAuthenticated) {
+        //             setTimeout(() => {
+        //                 if (accounts.code === 200) {
+        //                     setIsLoading(false);
+        //                     navigation.goBack();
+        //                     ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
+        //                     console.log(accounts);
+        //                     dispatch(clearErrors());
+        //                     dispatch(getHeartUser(`Bearer ${token}`, accounts.result[0]._id));
+        //                 }
+
+        //                 // setInvisible(false);
+        //             }, 1500);
+        // =======
     }, [accounts]);
     React.useEffect(() => {
         try {
@@ -172,6 +238,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                     );
                     // dispatch(clearErrors());
                     break;
+
                 }
                 case 401: {
                     setIsLoading(false);
@@ -187,6 +254,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                     ToastAndroid.show('Người dùng không tồn tại', ToastAndroid.SHORT);
                     // dispatch(clearErrors());
                     break;
+
                 }
                 case 403: {
                     setIsLoading(false);
@@ -208,13 +276,30 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         // })
     }, [error]);
 
+    //   function handleLogin() {
+    //     if (email === "" && password === "") {
+    //         setWarningEmail(true);
+    //         setLabelEmail('Vui lòng không bỏ trống');
+    //         setWarningPassword(true);
+    //         setLabelPassword('Vui lòng không bỏ trống');
+    //     } else if (email === '') {
+    //         setWarningEmail(true);
+    //         setLabelEmail('Vui lòng không bỏ trống');
+    //         console.log('ovl');
+    //     } else if (password === '') {
+    //         setWarningPassword(true);
+    //         setLabelPassword('Vui lòng không bỏ trống');
+    //     } else if (!checkMail(email)) {
+    //         setLabelEmail('Vui lòng nhập đúng định dạng');
+    //         setWarningEmail(true);
+    //     } else {
+    //         setIsLoading(true);
+    //         dispatch(userLogins({ email, password }));
+    //         setIsLoading(true);
+    //         console.log({ email, password });
+
     function handleLogin() {
-        if (email === "" && password === "") {
-            setWarningEmail(true);
-            setLabelEmail('Vui lòng không bỏ trống');
-            setWarningPassword(true);
-            setLabelPassword('Vui lòng không bỏ trống');
-        } else if (email === '') {
+        if (email === '') {
             setWarningEmail(true);
             setLabelEmail('Vui lòng không bỏ trống');
             console.log('ovl');
@@ -245,35 +330,35 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         dispatch(clearErrors());
         navigation.goBack();
     }
-    async function eventLoginGoogle() {
-        setLoadings(true)
-        const { idToken }: any = await GoogleSignin.signIn().catch((e) => {
-            Alert.alert(e.message)
-            setLoadings(false)
-        });
-        // Create a Google credential with the token
-        const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
-        // Sign-in the user with the credential
-        await auth().signInWithCredential(googleCredential)
-            .then((res: any) => {
-                setUserInfo(res);
-            }).catch((e) => {
-                Alert.alert(e.message)
-            });
-        auth().currentUser?.getIdToken(true)
-            .then((idToken) => {
-                console.log(idToken);
-                if (idToken) {
-                    dispatch(userLoginsGoogle(idToken));
-                } else {
+    // async function eventLoginGoogle() {
+    //     setLoadings(true)
+    //     const { idToken }: any = await GoogleSignin.signIn().catch((e) => {
+    //         Alert.alert(e.message)
+    //         setLoadings(false)
+    //     });
+    //     // Create a Google credential with the token
+    //     const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
+    //     // Sign-in the user with the credential
+    //     await auth().signInWithCredential(googleCredential)
+    //         .then((res: any) => {
+    //             setUserInfo(res);
+    //         }).catch((e) => {
+    //             Alert.alert(e.message)
+    //         });
+    //     auth().currentUser?.getIdToken(true)
+    //         .then((idToken) => {
+    //             console.log(idToken);
+    //             if (idToken) {
+    //                 dispatch(userLoginsGoogle(idToken));
+    //             } else {
 
-                }
+    //             }
 
-            })
-            .catch((e) => {
-                console.log(e);
-            })
-    }
+    //         })
+    //         .catch((e) => {
+    //             console.log(e);
+    //         })
+    // }
 
     async function eventLoginFaceBook() {
 
@@ -416,7 +501,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             marginVertical: sizes._12sdp,
-                           
+
                         }}>
                         <Text
                             style={{
@@ -438,7 +523,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
             {/* <Loading visible={invisible} /> */}
         </>
     );
-};
+}
 
 export default ScreenLogin;
 

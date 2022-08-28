@@ -69,6 +69,7 @@ export const CREATE_BILL = 'CREATE_BILL';
 export const SENDING_DETAIL_BILL = 'SENDING_DETAIL_BILL';
 export const RESET_BILL = 'RESET_BILL';
 export const CREATE_FAIL = 'CREATE_FAIL';
+export const GET_SHIP_COD = 'GET_SHIP_COD';
 
 //Invoice type
 export const LOADED_INVOICE_USER = 'LOADED_INVOICE_BY_USER';

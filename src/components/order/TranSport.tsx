@@ -18,7 +18,7 @@ const TranSport = (props: Props) => {
           style={styles.iconDelivery}
           resizeMode="contain"
         />
-        <Text style={styles.textDefault}>Giao hàng tiết kiệm</Text>
+        <Text style={styles.textDefault}>Ship COD</Text>
       </View>
       <Divider />
       <View style={styles.content}>
@@ -28,8 +28,7 @@ const TranSport = (props: Props) => {
           resizeMode="contain"
         />
         <Text style={styles.textDefault}>
-          Dự kiến thời gian nhận hàng là 3 ngày kể từ khi đơn vị vận chuyển tiếp
-          nhận hàng.
+          Dự kiến thời gian nhận hàng là 3 ngày nhận hàng.
         </Text>
       </View>
     </View>

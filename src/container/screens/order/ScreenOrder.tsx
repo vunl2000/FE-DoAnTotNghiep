@@ -1,4 +1,11 @@
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  PermissionsAndroid,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AppHeader from '../../../components/header/AppHeader';
 import ArrayColors from '../../../res/colors/ArrayColors';
@@ -20,11 +27,13 @@ import {TypeCartItem, TypeProductItem} from '../../../store/actions/types';
 import {
   createBill,
   createBillDetail,
+  getTransportFee,
   resetBill,
 } from '../../../store/actions/billActions';
 import {showToast} from '../../../components/modal/ToastCustom';
 import {deleteCart} from '../../../store/actions/productsActions';
 import {NameScreen} from '../../navigators/TabNavigator';
+import Geolocation from 'react-native-geolocation-service';
 
 type Props = {};
 
@@ -34,18 +43,96 @@ const ScreenOrder = (props: Props) => {
 
   const {carts, numberCart} = useSelector((state: any) => state.product);
   const {listAddress} = useSelector((state: any) => state.address);
-  const {bill, isFalse, isStep} = useSelector((state: any) => state.bill);
+  const {bill, isFalse, isStep, transport} = useSelector(
+    (state: any) => state.bill,
+  );
   const [cartSeleted, setCartSeleted] = useState(0);
   const [address, setAddress] = useState<Address>();
   const [sumPrice, setSumPrice] = useState(0);
-  const [priceTranSport, setPriceTranSport] = useState(30000);
   const [salePrice, setSalePrice] = useState(0);
   const [dataCartSeleted, setDataCartSeleted] = useState([]);
+  const [location, setLocation] = useState<any>(null);
+
   const onBackPress = () => goBack();
+  console.log(transport);
+
+  const goListAdress = () => {
+    navigate(NameScreen.LIST_ADDRESS);
+  };
+
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Quyền ứng dụng vị trí',
+          message:
+            'Chúng tôi cần vị trí của bạn để kiểm toán phí dịch vụ vận chuyển!',
+          buttonNeutral: 'Để sau',
+          buttonNegative: 'Thoát',
+          buttonPositive: 'Đồng ý',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        Geolocation.getCurrentPosition(
+          (position: any) => {
+            console.log(position.coords);
+            setLocation(position.coords);
+
+            let getShip = dispatch(
+              getTransportFee(
+                position.coords.latitude,
+                position.coords.longitude,
+              ),
+            );
+
+            if (!getShip) {
+              showToast('Đã có lỗi xảy ra vui lòng thử lại sau!');
+            }
+          },
+          error => {
+            console.log(error);
+            setLocation(null);
+          },
+          {
+            accuracy: {
+              android: 'high',
+              ios: 'best',
+            },
+            timeout: 15000,
+            maximumAge: 10000,
+            distanceFilter: 0,
+          },
+        );
+      } else {
+        //console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
 
   const onPayMent = () => {
-    dispatch(createBill(address));
+    let check: boolean = true;
+
+    if (!address) {
+      showToast('Bạn cần chọn địa chỉ để giao hàng');
+      check = false;
+    }
+
+    if (!location) {
+      showToast(
+        'Chúng tôi cần vị trí chính xác của bạn để kiểm toán phí dịch vụ vận chuyển!',
+      );
+      requestCameraPermission();
+      check = false;
+    }
+
+    if (check) {
+      dispatch(createBill(address, transport));
+    }
   };
+
   useEffect(() => {
     if (isStep == 1 && bill != null && dataCartSeleted.length > 0) {
       dataCartSeleted.forEach((item: TypeCartItem, index: number) => {
@@ -53,7 +140,7 @@ const ScreenOrder = (props: Props) => {
       });
     }
 
-    if (isStep == 2) {
+    if (isStep == 2 && !isFalse) {
       showToast('Đơn hàng đã được tạo thành công!');
       dispatch(resetBill());
       dataCartSeleted.forEach((item: TypeCartItem, index: number) => {
@@ -69,7 +156,7 @@ const ScreenOrder = (props: Props) => {
   }, [isStep, bill, isFalse]);
 
   useEffect(() => {
-    if (listAddress.length > 0) {
+    if (listAddress.length !== 0) {
       listAddress.find((_item: Address) => {
         _item.default && setAddress(_item);
       });
@@ -92,6 +179,10 @@ const ScreenOrder = (props: Props) => {
     setDataCartSeleted(products);
   }, [cartSeleted, carts, sumPrice, numberCart]);
 
+  React.useEffect(() => {
+    requestCameraPermission();
+  }, []);
+
   const HeaderContent = () => (
     <View style={styles.containerHeader}>
       <IconHeader
@@ -110,16 +201,17 @@ const ScreenOrder = (props: Props) => {
 
   const renderContent = () => (
     <View>
-      <Location address={address} />
+      <Location address={address} iconLefts onPress={goListAdress} />
       <View style={styles.spaceMedium} />
       {/*Đơn vị giao hàng*/}
       <TranSport />
       <View style={styles.spaceMedium} />
       {/* Phương thức thanh toán*/}
-      <Pay />
+      <Pay label="Thanh toán" />
 
       <View style={styles.spaceMedium} />
-      <ColumView
+
+      {/* <ColumView
         styleContainer={styles.columeMedium}
         valueLeft="Áp dụng phiếu giảm giá"
         valueRight={formartMoney(0)}
@@ -144,7 +236,8 @@ const ScreenOrder = (props: Props) => {
         styleTextLabel={styles.textDefault}
         iconRight
       />
-      <View style={styles.spaceMedium} />
+      <View style={styles.spaceMedium} /> */}
+
       <ListProductOrder
         dataCartSeleted={dataCartSeleted}
         cartSeleted={cartSeleted}
@@ -154,7 +247,7 @@ const ScreenOrder = (props: Props) => {
       <View style={styles.spaceMedium} />
       <SaleProDuct
         sumPrice={sumPrice}
-        priceTranSport={priceTranSport}
+        priceTranSport={transport ? transport : 0}
         salePrice={salePrice}
       />
       <View style={styles.spaceMedium} />
@@ -165,7 +258,7 @@ const ScreenOrder = (props: Props) => {
       <View style={styles.allContent}>
         <Text style={[styles.textSub, styles.content]}>Tổng cộng:</Text>
         <Text style={styles.textSub}>
-          {formartMoney(sumPrice + salePrice + priceTranSport)}
+          {formartMoney(sumPrice + salePrice + (transport ? transport : 0))}
         </Text>
       </View>
       <ButtonSub

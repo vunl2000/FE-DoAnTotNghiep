@@ -28,6 +28,7 @@ const ItemHeartShow = ({item, index, onPress}: Props) => {
       <FastImage
         source={{
           uri: item?.imageProduct[0],
+          priority: FastImage.priority.high,
         }}
         style={styles.image}
         resizeMode={FastImage.resizeMode.cover}

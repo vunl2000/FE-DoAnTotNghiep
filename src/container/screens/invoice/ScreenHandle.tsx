@@ -8,6 +8,8 @@ import {API_GET_BILL_DETAIL_USER, API_URL, GET_CATORY} from '@env';
 import image from '../../../res/require/Images';
 import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
+import {useNavigation} from '@react-navigation/native';
+import {NameScreen} from '../../navigators/TabNavigator';
 
 type Props = {};
 
@@ -17,6 +19,42 @@ const ScreenHandle = (props: Props) => {
   const [error, setError] = useState<any>(false);
   const {listInvoice} = useSelector((state: any) => state.invoice);
   const accounts = useSelector((state: any) => state.account);
+
+  const {goBack, navigate}: any = useNavigation();
+
+  const gotoDetail = (data: any) => {
+    navigate(NameScreen.DETAIL_INVOICE, {
+      billDetail: data,
+    });
+  };
+
+  const getData = async (token: string, idBill: any) => {
+    let data = JSON.stringify({
+      idBill: idBill.toString(),
+    });
+
+    await axios({
+      method: 'POST',
+      url: API_URL + API_GET_BILL_DETAIL_USER,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data,
+    })
+      .then(res => {
+        let resData = res.data;
+        let itemDetail: any = {};
+        itemDetail = resData.result;
+        itemDetail['billDetails'] = resData.billDetails;
+        setListBillDetail(prev => [...prev, itemDetail]);
+        setError(false);
+      })
+      .catch(err => {
+        setError(true);
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     if (listInvoice.length > 0) {
@@ -32,37 +70,13 @@ const ScreenHandle = (props: Props) => {
       let token = accounts.token;
 
       listBill.forEach((item: TypeBill) => {
-        let data = JSON.stringify({
-          idBill: item._id,
-        });
-        axios({
-          method: 'POST',
-          url: API_URL + API_GET_BILL_DETAIL_USER,
-          headers: {
-            token: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          data,
-        })
-          .then(res => {
-            let resData = res.data;
-            let itemDetail: any = {};
-            itemDetail = resData.result;
-            itemDetail['billDetails'] = resData.billDetails;
-
-            setListBillDetail(prev => [...prev, itemDetail]);
-            setError(false);
-          })
-          .catch(err => {
-            setError(true);
-            console.log(err);
-          });
+        getData(`Bearer ${token}`, item._id);
       });
     }
   }, [listBill]);
 
   const renderItem = ({item, index}: any) => (
-    <InvoiceItem item={item} index={index} />
+    <InvoiceItem item={item} index={index} onPress={gotoDetail} />
   );
 
   const keyExtractor = (item: any) => item._id;

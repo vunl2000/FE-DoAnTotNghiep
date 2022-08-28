@@ -88,7 +88,7 @@ const HomeIndex: React.FC<Props> = props => {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        if (listIDHeart.length !==0) {
+        if (listIDHeart.length !== 0) {
           listIDHeart.forEach((val: any) => {
             dispatch(changeHeart(val.idProduct, true));
           });

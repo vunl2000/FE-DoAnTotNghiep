@@ -5,6 +5,7 @@ import {
   TypeBill,
   TypeBillDetail,
   CREATE_FAIL,
+  GET_SHIP_COD,
 } from './../actions/types';
 
 const initalState = {
@@ -12,6 +13,7 @@ const initalState = {
   sendDetailBill: [] as TypeBillDetail[],
   isFalse: false as boolean,
   isStep: 0 as number,
+  transport: null as any,
 };
 
 export default (state = initalState, {payload, type}: any) => {
@@ -20,7 +22,7 @@ export default (state = initalState, {payload, type}: any) => {
       return {
         ...state,
         bill: payload.bill,
-        isStep: 1
+        isStep: 1,
       };
     }
 
@@ -28,7 +30,7 @@ export default (state = initalState, {payload, type}: any) => {
       return {
         ...state,
         sendDetailBill: [...state.sendDetailBill, payload.mBills],
-        isStep: 2
+        isStep: 2,
       };
     }
 
@@ -38,13 +40,21 @@ export default (state = initalState, {payload, type}: any) => {
         isFalse: true,
       };
     }
-    
+
+    case GET_SHIP_COD: {
+      return {
+        ...state,
+        transport: payload,
+      };
+    }
+
     case RESET_BILL: {
       return {
+        ...state,
         bill: [],
         sendDetailBill: [],
         isFalse: false,
-        isStep: 0
+        isStep: 0,
       };
     }
     default:

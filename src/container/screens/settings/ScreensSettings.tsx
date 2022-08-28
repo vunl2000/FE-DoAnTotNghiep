@@ -24,6 +24,7 @@ import {clearInvoice} from '../../../store/actions/invoiceActions';
 import {HomeName} from '../../navigators/AppContainer';
 import {clearAllCart} from '../../../store/actions/productsActions';
 import {clearAddress} from '../../../store/actions/addressActions';
+import {Divider} from 'react-native-paper';
 
 const ScreensSettings = ({navigation}: any) => {
   const [event, setEvent] = React.useState<string | any>(true);
@@ -40,12 +41,11 @@ const ScreensSettings = ({navigation}: any) => {
 
   React.useLayoutEffect(() => {
     try {
-      console.log('acccccccc', accounts);
       if (accounts.isAuthenticated === null) {
         console.log('undefined');
         setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
-        seteventAccount(true);
+        seteventAccount(false);
       } else {
         if (accounts.isAuthenticated === true) {
           setStorageUser(accounts.result[0].name);
@@ -76,7 +76,6 @@ const ScreensSettings = ({navigation}: any) => {
     }
   }
   function onPressConfirm() {
-    console.log('okkkk');
     dispatch(logOut());
     dispatch(clearErrors());
     dispatch(clearInvoice());
@@ -90,15 +89,27 @@ const ScreensSettings = ({navigation}: any) => {
   function visibleDisabled() {
     setVisible(false);
   }
+
+  function goToSurvey() {
+    navigation.navigate(NameScreen.SCREENCHECKQUESTIONS);
+  }
+
+  function goToQuestion() {
+    navigation.navigate(NameScreen.ANSWERQUESTIONS);
+  }
+
+  function goToShipCod() {
+    navigation.navigate(NameScreen.ANSWERQUESTIONS);
+  }
+  function goToSizeProdut() {
+    navigation.navigate(NameScreen.SCREENRULERSIZE);
+  }
+
   function LoginAndRegister() {
     return (
       <Pressable
         style={({pressed}) => [
-          {
-            backgroundColor: pressed
-              ? ArrayColors.light
-              : ArrayColors._color_white,
-          },
+          styles.colums,
           {
             backgroundColor: ArrayColors._color_white,
             flexDirection: 'row',
@@ -106,16 +117,7 @@ const ScreensSettings = ({navigation}: any) => {
         ]}
         onPress={event ? eventLogInAndRegister : null}>
         <View>
-          <Text
-            style={{
-              fontSize: sizes._20sdp,
-              fontWeight: 'bold',
-              fontFamily: 'OpenSans-SemiBold',
-              lineHeight: sizes._32sdp,
-              color: ArrayColors._color_black,
-            }}>
-            {storageUser}
-          </Text>
+          <Text style={styles.textBold}>{storageUser}</Text>
         </View>
       </Pressable>
     );
@@ -134,7 +136,7 @@ const ScreensSettings = ({navigation}: any) => {
           }}
         />
         <View style={styles.contentHeader}>
-          <Text style={styles.textLabel}>CÀI ĐẶT</Text>
+          <Text style={styles.textLabel}>Cài đặt</Text>
         </View>
         <View style={{width: sizes._42sdp}} />
       </View>
@@ -144,92 +146,114 @@ const ScreensSettings = ({navigation}: any) => {
     return (
       <View>
         {/* Tên user */}
+        <View style={styles.spaceMediumY} key="user_st" />
         <View style={styles.item_container}>
-          <View style={styles.item_conten}>
+          <View style={styles.item_content}>
             <LoginAndRegister />
           </View>
         </View>
 
         {/* Phần 2 */}
-        <View style={styles.item_container}>
-          {/* Vị trí */}
-          <View style={styles.item_conten}>
-            <Text style={styles.title_conten}>{'Vị trí'}</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={styles.title_conten}>VN</Text>
-              <TouchableOpacity>
+        <View style={styles.spaceMediumY} />
+        <View style={styles.item_container} key="location_st">
+          {/* Địa chỉ */}
+          <TouchableOpacity onPress={showAddresses} style={styles.item_content}>
+            <View style={styles.colums}>
+              <Text style={styles.textDefault}>Địa chỉ</Text>
+            </View>
+
+            <View style={styles.colums}>
+              <Icons
+                name="chevron-forward-outline"
+                size={24}
+                color={ArrayColors._color_black}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        {eventAccount ? (
+          <View style={styles.item_container} key="verif_acc_st">
+            {/* Xác thực tài khoản */}
+            <Divider />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(NameScreen.VERY_OTP);
+              }}
+              style={styles.item_content}>
+              <View style={styles.colums}>
+                <Text style={styles.textDefault}>{'Xác thực tài khoản'}</Text>
+              </View>
+              <View style={styles.colums}>
                 <Icons
-                  name="chevron-forward"
+                  name="chevron-forward-outline"
                   size={24}
                   color={ArrayColors._color_black}
                 />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
+            <Divider />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(NameScreen.CHANGEPASS);
+              }}
+              style={styles.item_content}
+              key="change_pass_st">
+              <View style={styles.colums}>
+                <Text style={styles.textDefault}>Đổi mật khẩu</Text>
+              </View>
+
+              <View style={styles.colums}>
+                <Icons
+                  name="chevron-forward-outline"
+                  size={24}
+                  color={ArrayColors._color_black}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
-          <View
-            style={{
-              height: 1,
-              width: sizes._screen_width,
-              backgroundColor: ArrayColors.blue_item_catory,
-            }}></View>
-          {/* Địa chỉ */}
-          <TouchableOpacity onPress={showAddresses} style={styles.item_conten}>
-            <Text style={styles.title_conten}>{'Địa chỉ'}</Text>
-            <View>
-              <Icons
-                name="chevron-forward"
-                size={24}
-                color={ArrayColors._color_black}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-
+        ) : null}
         {/* Phần 3 */}
-
-        <View style={styles.item_container}>
+        <View style={styles.spaceMediumY} />
+        <View style={styles.item_container} key="question_st">
           {/*Đánh giá phản hồi*/}
-          <TouchableOpacity onPress={onStoreApp} style={styles.item_conten}>
-            <Text style={styles.title_conten}>{'Đánh giá và Phản hồi'}</Text>
-            <View>
+          <TouchableOpacity onPress={goToQuestion} style={styles.item_content}>
+            <View style={styles.colums}>
+              <Text style={styles.textDefault}>Câu hỏi</Text>
+            </View>
+            <View style={styles.colums}>
               <Icons
-                name="chevron-forward"
+                name="chevron-forward-outline"
                 size={24}
                 color={ArrayColors._color_black}
               />
             </View>
           </TouchableOpacity>
-          <View
-            style={{
-              height: 1,
-              width: sizes._screen_width,
-              backgroundColor: ArrayColors.blue_item_catory,
-            }}></View>
+          <Divider />
           {/* Ứng dụng của tôi*/}
-          <TouchableOpacity onPress={onStoreApp} style={styles.item_conten}>
-            <Text style={styles.title_conten}>{'Ứng dụng của tôi'}</Text>
-            <View>
+          <TouchableOpacity onPress={goToSurvey} style={styles.item_content}>
+            <View style={styles.colums}>
+              <Text style={styles.textDefault}>Trung tâm khảo sát</Text>
+            </View>
+            <View style={styles.colums}>
               <Icons
-                name="chevron-forward"
+                name="chevron-forward-outline"
                 size={24}
                 color={ArrayColors._color_black}
               />
             </View>
           </TouchableOpacity>
-          <View
-            style={{
-              height: 1,
-              width: sizes._screen_width,
-              backgroundColor: ArrayColors.blue_item_catory,
-            }}></View>
+          <Divider />
           {/* Giới thiệu */}
           <TouchableOpacity
             onPress={() => navigation.navigate(NameScreen.INTRODUCE)}
-            style={styles.item_conten}>
-            <Text style={styles.title_conten}>{'Giới thiệu'}</Text>
-            <View>
+            style={styles.item_content}
+            key="about_st">
+            <View style={styles.colums}>
+              <Text style={styles.textDefault}>{'Giới thiệu'}</Text>
+            </View>
+            <View style={styles.colums}>
               <Icons
-                name="chevron-forward"
+                name="chevron-forward-outline"
                 size={24}
                 color={ArrayColors._color_black}
               />
@@ -237,57 +261,54 @@ const ScreensSettings = ({navigation}: any) => {
           </TouchableOpacity>
         </View>
 
+        {/* Ship cod */}
+        <View style={styles.spaceMediumY} />
+        <TouchableOpacity
+          onPress={goToShipCod}
+          style={styles.item_content}
+          key="shipcod_st">
+          <View style={styles.colums}>
+            <Text style={styles.textDefault}>Ship COD</Text>
+          </View>
+          <View style={styles.colums}>
+            <Icons
+              name="chevron-forward-outline"
+              size={24}
+              color={ArrayColors._color_black}
+            />
+          </View>
+        </TouchableOpacity>
+        <Divider />
+        <TouchableOpacity
+          onPress={goToSizeProdut}
+          style={styles.item_content}
+          key="size_st">
+          <View style={styles.colums}>
+            <Text style={styles.textDefault}>Hướng dẫn kích thước</Text>
+          </View>
+          <View style={styles.colums}>
+            <Icons
+              name="chevron-forward-outline"
+              size={24}
+              color={ArrayColors._color_black}
+            />
+          </View>
+        </TouchableOpacity>
         {/* Đổi mật khẩu */}
-        {eventAccount && (
+        {eventAccount ? (
           <View>
-            <View style={styles.item_container}>
-              {/* Xác thực tài khoản */}
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(NameScreen.VERY_OTP);
-                }}
-                style={styles.item_conten}>
-                <Text style={styles.title_conten}>{'Xác thực tài khoản'}</Text>
-                <View>
-                  <Icons
-                    name="chevron-forward"
-                    size={24}
-                    color={ArrayColors._color_black}
-                  />
-                </View>
-              </TouchableOpacity>
-              <View
-                style={{
-                  height: 1,
-                  width: sizes._screen_width,
-                  backgroundColor: ArrayColors.blue_item_catory,
-                }}></View>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(NameScreen.CHANGEPASS);
-                }}
-                style={styles.item_conten}>
-                <Text style={styles.title_conten}>Đổi mật khẩu</Text>
-                <View>
-                  <Icons
-                    name="chevron-forward"
-                    size={24}
-                    color={ArrayColors._color_black}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
             {/* Đăng xuất */}
             <TouchableOpacity
               onPress={eventLogOut}
               style={{
                 backgroundColor: ArrayColors._color_white,
-                marginVertical: sizes._22sdp,
-              }}>
+                marginVertical: sizes._18sdp,
+              }}
+              key="logout_st">
               <View
                 style={{
                   width: sizes._screen_width,
-                  height: sizes._56sdp,
+                  height: sizes._72sdp,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -295,7 +316,7 @@ const ScreensSettings = ({navigation}: any) => {
               </View>
             </TouchableOpacity>
           </View>
-        )}
+        ) : null}
       </View>
     );
   }
@@ -306,7 +327,7 @@ const ScreensSettings = ({navigation}: any) => {
       <View style={styles.mContainerBody}>
         <FlatList
           renderItem={null}
-          data={[]}
+          data={null}
           ListFooterComponent={Renderview}
           listKey="screen_settings"
           removeClippedSubviews
@@ -314,11 +335,9 @@ const ScreensSettings = ({navigation}: any) => {
         />
         {/* version */}
         <View style={styles.version}>
-          <View style={styles.item_conten}>
-            <Text style={styles.text_version}>
-              {'Phiên bản V\t' + pkg.version}
-            </Text>
-          </View>
+          <Text style={styles.text_version}>
+            {'Phiên bản V\t' + pkg.version}
+          </Text>
         </View>
         <ModalConfirm
           onPressCance={onPressCance}
@@ -353,10 +372,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontWeight: 'bold',
+    fontWeight: '700',
     fontFamily: 'OpenSans-SemiBold',
     color: ArrayColors._color_black,
-    fontSize: sizes._24sdp,
+    fontSize: sizes._22sdp,
+  },
+  textBold: {
+    fontSize: sizes._20sdp,
+    fontWeight: '600',
+    fontFamily: 'OpenSans-SemiBold',
+    color: ArrayColors._color_black,
+  },
+  textDefault: {
+    fontSize: sizes._18sdp,
+    fontWeight: '400',
+    fontFamily: 'OpenSans-Regular',
+    color: ArrayColors._color_black,
+  },
+  colums: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   iconHeader: {
     width: sizes._42sdp,
@@ -367,19 +402,19 @@ const styles = StyleSheet.create({
   },
   item_container: {
     backgroundColor: ArrayColors._color_white,
-    marginTop: sizes._16sdp,
   },
-  item_conten: {
+  item_content: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: sizes._19sdp,
+    paddingHorizontal: sizes._18sdp,
+    height: sizes._72sdp,
+    backgroundColor: ArrayColors._color_white,
   },
-  title_conten: {
-    fontSize: sizes._15sdp,
-    fontWeight: 'bold',
-    fontFamily: 'OpenSans-SemiBold',
-    color: ArrayColors._color_black,
+  spaceMediumY: {
+    height: sizes._18sdp,
+  },
+  spaceSmallY: {
+    height: sizes._10sdp,
   },
   title_user: {
     fontSize: sizes._20sdp,
@@ -400,11 +435,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   version: {
-    marginBottom: sizes._13sdp,
     alignItems: 'center',
+    height: sizes._72sdp,
+    justifyContent: 'center',
   },
   text_version: {
-    fontSize: sizes._15sdp,
+    fontSize: sizes._18sdp,
     fontWeight: '400',
     fontFamily: 'OpenSans-Regular',
     color: ArrayColors._color_black,

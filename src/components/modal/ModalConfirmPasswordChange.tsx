@@ -126,7 +126,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
 
         var config = {
             method: 'post',
-            url: 'http://192.168.184.1:3000/account-user/gmail-authentication-user',
+            url: 'http://52.141.50.48:3000/account-user/gmail-authentication-user',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -175,7 +175,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
         const config = await {
             method: 'POST',
             // url: API_URL_GENERATE_OTP,
-            url: " http://192.168.184.1:3000/account-user/get-gen-otp",
+            url: " http://52.141.50.48:3000/account-user/get-gen-otp",
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -219,7 +219,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
 
         var config = {
             method: 'post',
-            url: 'http://192.168.184.1:3000/account-user/verify-otp-submit',
+            url: 'http://52.141.50.48:3000/account-user/verify-otp-submit',
             headers: {
                 'Content-Type': 'application/json'
             },

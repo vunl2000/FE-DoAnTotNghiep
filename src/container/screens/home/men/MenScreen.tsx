@@ -7,11 +7,17 @@ import Banner from '../../../../components/home/banner/Banner';
 import MenCatory from '../../../../components/home/catory/MenCatory';
 import ProDucts from '../../../../components/product/Products';
 import ArrayColors from '../../../../res/colors/ArrayColors';
+import ProductItem from '../../../../components/product/Product.Item';
+import sizes from '../../../../res/sizes/sizes';
 
 type Props = {};
-
+const renderProDuct = ({item, index}: any) => {
+  return <ProductItem item={item} index={index} />;
+};
+const space = () => <View style={styles.spaceY} />;
+const keyItem = (item: any) => item._id;
 const MenScreen = (props: Props) => {
-  const [listMen, setListMen] = useState<any>([]);
+  const [listMen, setListMen] = useState<any[]>([]);
   const [isLoader, setIsLoader] = useState<any>(true);
   const {typeCatory} = useSelector((state: any) => state.catory);
 
@@ -27,31 +33,39 @@ const MenScreen = (props: Props) => {
       .image_ads;
   };
 
-  useEffect(() => {
-    typeCatory.forEach((item: any) => {
-      if (item.titleTypeProduct === 'Nam') {
-        let data = JSON.stringify({
-          idTypeProduct: item._id,
-        });
-        axios({
-          method: 'POST',
-          url: API_URL + GET_PRODUCT_BY_ID_OBJECT,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          data,
-        })
-          .then(res => {
-            let resData = res.data;
-            setListMen(resData.result);
-            setIsLoader(false);
-          })
-          .catch(err => {
-            setIsLoader(true);
-            console.log(err);
-          });
-      }
+  const getData = async (id: string) => {
+    console.log(id + 'vvvvv');
+    let data = JSON.stringify({
+      idTypeProduct: id.toString(),
     });
+    await axios({
+      method: 'POST',
+      url: API_URL + GET_PRODUCT_BY_ID_OBJECT,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => {
+        let resData: any = res.data;
+        setListMen(resData.result);
+        setIsLoader(false);
+        console.log(resData.result);
+      })
+      .catch(err => {
+        setIsLoader(true);
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (typeCatory.length !== 0) {
+      typeCatory.forEach((item: any) => {
+        if (item.titleTypeProduct === 'Nam') {
+          getData(item._id);
+        }
+      });
+    }
   }, [typeCatory]);
 
   const renderContent = (
@@ -59,11 +73,23 @@ const MenScreen = (props: Props) => {
       <Banner size="medium" uri={searchUrl('Man_1')} mode="cover" />
       <MenCatory />
       <Banner size="medium" uri={searchUrl('Man_2')} mode="cover" />
-      <ProDucts
-        title={'Khí chất dành cho bạn!'}
-        data={listMen}
-        keyList="Men_screen"
-      />
+      <View style={styles.label}>
+        <Text style={styles.textLabel}>Khí chất phái mạnh!</Text>
+      </View>
+      {listMen.length != 0 ? (
+        <FlatList
+          data={listMen.slice(0, 10)}
+          renderItem={renderProDuct}
+          numColumns={2}
+          listKey={'listmen-index'}
+          keyExtractor={keyItem}
+          showsVerticalScrollIndicator={false}
+          removeClippedSubviews={false}
+          ItemSeparatorComponent={space}
+          initialNumToRender={10}
+          bounces={false}
+        />
+      ) : null}
     </>
   );
 
@@ -87,6 +113,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: ArrayColors._color_white,
+  },
+  spaceY: {
+    height: sizes._16sdp,
+  },
+  label: {
+    paddingVertical: sizes._16sdp,
+  },
+  textLabel: {
+    fontSize: sizes._18sdp,
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
+    lineHeight: sizes._26sdp,
+    color: ArrayColors._color_black,
+    marginVertical: sizes._10sdp,
+    textAlign: 'center',
   },
 });
 

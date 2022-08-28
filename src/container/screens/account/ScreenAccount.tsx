@@ -5,8 +5,6 @@ import {
   SafeAreaView,
   Pressable,
   Animated,
-  Image,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   FlatList,
 } from 'react-native';
@@ -20,9 +18,12 @@ import HeaderAccounts from '../../../components/accounts/HeaderAccounts';
 import AnimatedTab from '../../../components/accounts/AnimatedTab';
 import {useDispatch, useSelector} from 'react-redux';
 import {NameScreen} from '../../navigators/TabNavigator';
-import {loadInvoiceUser} from '../../../store/actions/invoiceActions';
+import {
+  clearInvoice,
+  loadInvoiceUser,
+} from '../../../store/actions/invoiceActions';
 import {TypeBill} from '../../../store/actions/types';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {showToast} from '../../../components/modal/ToastCustom';
 import {HomeName} from '../../navigators/AppContainer';
 import ItemHeartShow from '../../../components/heart/ItemHearShow';
@@ -53,7 +54,8 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [event, setEvent] = React.useState<string | any>(true);
 
   const accounts = useSelector((state: any) => state.account);
-  const {listInvoice, isFalse} = useSelector((state: any) => state.invoice);
+  const {listInvoice, isFalse, handle, processed, transport, done} =
+    useSelector((state: any) => state.invoice);
 
   const [isLoading, setIsLoading] = React.useState<string | any>(true);
 
@@ -69,22 +71,39 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     />
   );
 
-  const navigateInvoice = () => {
+  const navigateInvoice = (id: string) => {
     if (accounts.isAuthenticated) {
-      navigate(NameScreen.INVOICE);
+      navigate(NameScreen.INVOICE, {initialRoute: id});
     } else {
       showToast('Bạn cần đăng nhập để xem đơn hàng!');
     }
   };
+
   React.useLayoutEffect(() => {
     try {
       if (accounts.isAuthenticated === null) {
         setStorageUser('Đăng nhập / Đăng Ký >');
         setEvent(true);
+        setInvoiceStatus({
+          handle: null,
+          processed: null,
+          transport: null,
+          done: null,
+        });
       } else {
         if (accounts.isAuthenticated === true) {
           setStorageUser(accounts.result[0].name);
           setEvent(false);
+          dispatch(
+            loadInvoiceUser(accounts.result[0]._id, `Bearer ${accounts.token}`),
+          );
+          setInvoiceStatus({
+            handle,
+            processed,
+            transport,
+            done,
+          });
+          console.log('zzzoooo');
         } else {
           setStorageUser(accounts.result[0].name);
           setEvent(false);
@@ -93,54 +112,14 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     } catch (e) {
       console.log(e);
     }
-  }, [accounts.isAuthenticated]);
-  useEffect(() => {
-    if (accounts.isAuthenticated) {
-      dispatch(
-        loadInvoiceUser(accounts.result[0]._id, `Bearer ${accounts.token}`),
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      let handle: any = null,
-        processed: any = null,
-        transport: any = null,
-        done: any = null;
-      if (!isFalse && listInvoice) {
-        listInvoice.forEach((item: TypeBill) => {
-          if (item.status == 0) {
-            handle += 1;
-          }
-          if (item.status == 1) {
-            processed += 1;
-          }
-          if (item.status == 2) {
-            transport += 1;
-          }
-          if (item.status == 3) {
-            done += 1;
-          }
-        });
-        setInvoiceStatus({
-          handle,
-          processed,
-          transport,
-          done,
-        });
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }, [isFalse, listInvoice]);
-
+  }, [accounts.isAuthenticated, isFalse]);
   // console.log(invoiceStatus);
 
   useEffect(() => {
     let heart = products.filter((item: any) => item.heart_active);
     setListHeart(heart);
   }, [products]);
+
   function eventCart() {
     navigation.navigate(HomeName.CART);
   }
@@ -168,8 +147,6 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
       useNativeDriver: false,
     }).start();
     setMarginLeft(animatedValues);
-    console.log('left', animatedValues);
-    console.log('left---', marginLeft);
   }
 
   function LoginAndRegister() {
@@ -195,7 +172,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     <>
       <View style={styles.mContinerBody}>
         <LoginAndRegister />
-        <View>
+        {/* <View>
           <View style={styles.mStyleMine1}>
             <MyOffers
               onPress={() => {}}
@@ -229,7 +206,8 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
               }}
             />
           </View>
-        </View>
+        </View> */}
+        <View style={styles.space} />
         <View style={styles.mStyleMine2}>
           <Text
             style={{
@@ -250,6 +228,8 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
               styleContent={styles.spaceMax}
               badge={invoiceStatus.handle}
               onPress={navigateInvoice}
+              key="confrim_invoice"
+              status={1}
             />
             <MyOffers
               textOrImg={false}
@@ -258,6 +238,8 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
               styleContent={styles.spaceMax}
               badge={invoiceStatus.processed}
               onPress={navigateInvoice}
+              key="progress_invoice"
+              status={2}
             />
             <MyOffers
               textOrImg={false}
@@ -266,28 +248,33 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
               styleContent={styles.spaceMax}
               badge={invoiceStatus.transport}
               onPress={navigateInvoice}
+              key="transfrom_invoice"
+              status={3}
             />
             <MyOffers
               textOrImg={false}
               mImager={Images.ic_back}
-              mStringTitles="Đã mua"
+              mStringTitles="Đã hoàn thành"
               styleContent={styles.spaceMax}
               badge={invoiceStatus.done}
               onPress={navigateInvoice}
+              key="done_invoice"
+              status={4}
             />
           </View>
         </View>
+        <View style={styles.spaceSmall} />
         <View style={styles.mStyleMine2}>
           <Text
             style={{
-              fontSize: sizes._17sdp,
+              fontSize: sizes._20sdp,
               fontFamily: 'OpenSans-SemiBold',
               color: ArrayColors._color_black,
-              fontWeight: 'bold',
-              marginHorizontal: sizes._10sdp,
+              fontWeight: '600',
+              marginHorizontal: sizes._18sdp,
               marginTop: sizes._6sdp,
             }}>
-            Nhiều dịch vụ hơn
+            Dịch vụ
           </Text>
           <View style={styles.mStyleMine3_1}>
             <MyOffers
@@ -387,7 +374,6 @@ const styles = StyleSheet.create({
   mContainer: {
     flex: 1,
     backgroundColor: ArrayColors.darkGrayAccount,
-    paddingBottom: sizes._62sdp,
   },
   mContinerBody: {
     backgroundColor: ArrayColors.darkGrayAccount,
@@ -403,7 +389,7 @@ const styles = StyleSheet.create({
     borderStartColor: ArrayColors._color_white,
   },
   mStyleTextLoginAndRegister: {
-    fontSize: sizes._20sdp,
+    fontSize: sizes._22sdp,
     fontWeight: '700',
     fontFamily: 'OpenSans-Bold',
     color: ArrayColors._color_black,
@@ -430,7 +416,6 @@ const styles = StyleSheet.create({
   mStyleMine2: {
     backgroundColor: ArrayColors._color_white,
     width: sizes._screen_width,
-    marginTop: sizes._18sdp,
   },
   mStyleMine2_1: {
     flexDirection: 'row',
@@ -450,6 +435,10 @@ const styles = StyleSheet.create({
   },
   space: {
     height: sizes._18sdp,
+    backgroundColor: ArrayColors._color_white,
+  },
+  spaceSmall: {
+    height: sizes._10sdp,
   },
   spaceMax: {
     flex: 1,

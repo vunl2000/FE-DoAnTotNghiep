@@ -11,17 +11,17 @@ import image from '../../res/require/Images';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {Divider} from 'react-native-paper';
-import {showToast} from '../modal/ToastCustom';
-type Props = {};
 
-const Pay = (props: Props) => {
+type Props = {
+  label?: any;
+};
+
+const Pay = ({label}: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={[styles.textSub, {marginBottom: sizes._8sdp}]}>
-        Thanh toán
-      </Text>
+      <Text style={[styles.textSub, {marginBottom: sizes._8sdp}]}>{label}</Text>
       <View style={styles.rowContent}>
-        <View
+        {/* <View
           style={[
             styles.containerCheckbox,
             {backgroundColor: ArrayColors._color_black},
@@ -31,7 +31,7 @@ const Pay = (props: Props) => {
             size={sizes._20sdp}
             color={ArrayColors._color_white}
           />
-        </View>
+        </View> */}
         <View style={[styles.rowContent, {marginLeft: sizes._16sdp}]}>
           <Image
             source={image.ship_cod}
@@ -43,9 +43,9 @@ const Pay = (props: Props) => {
           </Text>
         </View>
       </View>
-      <Divider />
+      {/* <Divider /> */}
 
-      <View style={[styles.rowContent, {opacity: 0.4}]}>
+      {/* <View style={[styles.rowContent, {opacity: 0.4}]}>
         <TouchableWithoutFeedback
           onPress={() => showToast('Chức năng đang được phát triển!')}>
           <View
@@ -70,7 +70,7 @@ const Pay = (props: Props) => {
             Thẻ tín dụng/ghi nợ
           </Text>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };

@@ -67,7 +67,7 @@ const ListProductOrder = ({dataCartSeleted, cartSeleted, sumPrice}: Props) => {
       <ColumView
         styleContainer={styles.colume}
         styleTextLabel={styles.textDefault}
-        valueLeft={'Giá bán'}
+        valueLeft={'Tạm tính'}
         valueRight={formartMoney(sumPrice)}
         styleText={styles.textDefault}
       />

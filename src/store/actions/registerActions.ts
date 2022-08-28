@@ -43,7 +43,7 @@ export const userRegister =
       await axios({
         method: 'POST',
         // url: API_URL_REGISTER_USERS,
-        url: "http://192.168.184.1:3000/account-user/register-user",
+        url: "http://52.141.50.48:3000/account-user/register-user",
         headers: {
           'Content-Type': 'multipart/form-data',
         },

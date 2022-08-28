@@ -6,7 +6,9 @@ import ArrayColors from '../../../res/colors/ArrayColors';
 import image from '../../../res/require/Images';
 import AppHeader from '../../../components/header/AppHeader';
 import {dataCOD, dataNote, dataShip} from '../../../data/fakedata/DataCOD';
+import {makeId} from '../../../utils/Utilities';
 
+const key = (item: any, index: any) => makeId(8);
 const Shipping = ({navigation}: any) => {
   // custom HEADER
   function HeaderContent() {
@@ -53,7 +55,7 @@ const Shipping = ({navigation}: any) => {
         ))}
 
         {dataNote.map(item => (
-          <View style={{padding:sizes._9sdp}}>
+          <View style={{padding: sizes._9sdp}}>
             <Text style={styles.textNote}>{item.titleNote}</Text>
           </View>
         ))}
@@ -143,21 +145,21 @@ const styles = StyleSheet.create({
     borderRightWidth: sizes._1sdp,
     borderTopColor: ArrayColors.gray_custom,
   },
-  textHeader:{
-    padding:sizes._20sdp,
-    fontSize:sizes._font_size_big_big,
-    fontWeight:'bold', 
-    color:ArrayColors._color_black_gray12
+  textHeader: {
+    padding: sizes._20sdp,
+    fontSize: sizes._font_size_big_big,
+    fontWeight: 'bold',
+    color: ArrayColors._color_black_gray12,
   },
-  titleRow:{
-    fontSize:sizes._font_size_large,
-    fontWeight:'bold',
-    fontStyle:'italic' 
+  titleRow: {
+    fontSize: sizes._font_size_large,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
   },
-  textNote:{
-    fontSize:sizes._font_size_large,
-    fontWeight:'normal',
-    fontStyle:'italic',
-    color:ArrayColors._color_black_gray
-  }
+  textNote: {
+    fontSize: sizes._font_size_large,
+    fontWeight: 'normal',
+    fontStyle: 'italic',
+    color: ArrayColors._color_black_gray,
+  },
 });

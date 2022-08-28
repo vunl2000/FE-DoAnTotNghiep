@@ -119,7 +119,7 @@ const ScreenForgotPassword = ({ navigation, route }: any) => {
 
         var config = {
             method: 'post',
-            url: 'http://192.168.184.1:3000/account-user/verify-otp-rs-pass',
+            url: 'http://52.141.50.48:3000/account-user/verify-otp-rs-pass',
             headers: {
                 'Content-Type': 'application/json'
             },

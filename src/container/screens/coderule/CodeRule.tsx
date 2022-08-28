@@ -32,7 +32,7 @@ const CodeRule = ({navigation}: any) => {
   function renderItemCODE({item}: any) {
     return <Text style={styles.text}>{item?.titleBody}</Text>;
   }
-  // custome 
+  // custome
   function RenderView() {
     return (
       <View style={styles.viewConten}>
@@ -53,7 +53,7 @@ const CodeRule = ({navigation}: any) => {
       <View style={styles.mContainer_body}>
         <FlatList
           renderItem={null}
-          data={[]}
+          data={null}
           ListFooterComponent={RenderView}
           removeClippedSubviews
           listKey="screen_code_rule"
@@ -94,10 +94,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontWeight: 'bold',
-    fontFamily: 'OpenSans-SemiBold',
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
     color: ArrayColors._color_black,
-    fontSize: sizes._24sdp,
+    fontSize: sizes._22sdp,
   },
   iconHeader: {
     width: sizes._42sdp,

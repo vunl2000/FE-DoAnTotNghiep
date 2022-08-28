@@ -28,8 +28,13 @@ const ScreenCheckQuestions = ({navigation}: any) => {
   }
   function RendercontentView() {
     return (
-      <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
-        <Image source={image.heart_empty} />
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={image.heart_empty}
+          style={{width: sizes._112sdp, height: sizes._112sdp}}
+          resizeMode="contain"
+        />
+        <Text style={styles.textDefault}>Trống</Text>
       </View>
     );
   }
@@ -45,7 +50,7 @@ const ScreenCheckQuestions = ({navigation}: any) => {
           removeClippedSubviews
           showsVerticalScrollIndicator={false}
           ListFooterComponent={<RendercontentView />}
-          listKey='check_question'
+          listKey="check_question"
         />
       </View>
     </View>
@@ -81,8 +86,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontSize: sizes._24sdp,
-    fontWeight: 'bold',
+    fontSize: sizes._22sdp,
+    fontWeight: '700',
     color: ArrayColors._color_black,
+    fontFamily: 'OpenSans-Bold',
+  },
+  textDefault: {
+    fontSize: sizes._18sdp,
+    fontWeight: '400',
+    color: ArrayColors._color_black,
+    fontFamily: 'OpenSans-Regular',
   },
 });

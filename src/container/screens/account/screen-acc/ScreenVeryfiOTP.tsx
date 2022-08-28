@@ -93,7 +93,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
         const config = await {
             method: 'POST',
             // url: API_URL_GENERATE_OTP,
-            url: "http://192.168.184.1:3000/account-user/verify-otp",
+            url: "http://52.141.50.48:3000/account-user/verify-otp",
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -142,7 +142,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
     function eventReqOTP() {
         console.log('req');
         if (seconds <= 0) {
-            setSeconds(10);
+            setSeconds(90);
             GenerateOTP(userEmail, userID);
             console.log(userEmail, userID);
 
@@ -159,7 +159,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
         setEvent(false);
 
         if (seconds <= 0) {
-            setSeconds(10);
+            setSeconds(90);
             GenerateOTP(userEmail, userID);
         } else {
 

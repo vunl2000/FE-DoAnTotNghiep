@@ -6,6 +6,10 @@ import sizes from '../../../res/sizes/sizes';
 import IconHeader from '../../../components/icons/IconHeader';
 import ItemQuestions from '../../../components/questions/ItemQuestions';
 import {dataAll} from '../../../data/fakedata/DataAnswerQuestion';
+import {makeId} from '../../../utils/Utilities';
+
+const key = (item: any, index: any) => makeId(4);
+
 const AnswerQuestions = ({navigation}: any) => {
   const [expanded, setExpanded] = React.useState<any>(dataAll);
 
@@ -29,7 +33,7 @@ const AnswerQuestions = ({navigation}: any) => {
           }}
         />
         <View style={styles.contentHeader}>
-          <Text style={styles.textLabel}>CÂU HỎI</Text>
+          <Text style={styles.textLabel}>Câu hỏi</Text>
         </View>
         <View style={{width: sizes._42sdp}} />
       </View>
@@ -55,8 +59,9 @@ const AnswerQuestions = ({navigation}: any) => {
           data={expanded}
           extraData={expanded}
           renderItem={RenderItemFlalist}
-          keyExtractor={item => `${item.id}`}
+          keyExtractor={key}
           removeClippedSubviews
+          bounces
           showsVerticalScrollIndicator={false}
           listKey="answer_question"
         />
@@ -94,8 +99,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontSize: sizes._24sdp,
+    fontSize: sizes._22sdp,
     fontWeight: 'bold',
     color: ArrayColors._color_black,
+    fontFamily: 'OpenSans-Bold',
   },
 });

@@ -4,7 +4,7 @@ import {
   RATE_PRODUCT,
   RATE_START_PRODUCT,
 } from '@env';
-import {AllDispatchProps, RATE_CLEAR} from './types';
+import {AllDispatchProps, RATE_CLEAR, TypeBill} from './types';
 import {
   LOADED_INVOICE_USER,
   LOADED_INVOICE_DETAIL_USER,
@@ -32,7 +32,39 @@ export const loadInvoiceUser =
         data: data,
       })
         .then(res => {
-          dishpatch({type: LOADED_INVOICE_USER, payload: res.data});
+          let resData = res.data;
+          if (resData.message === 'Success') {
+            let handle: any = 0,
+              processed: any = 0,
+              transport: any = 0,
+              done: any = 0;
+            resData.bill.forEach((item: TypeBill) => {
+              if (item.status == 0) {
+                handle += 1;
+              }
+              if (item.status == 1) {
+                processed += 1;
+              }
+              if (item.status == 2) {
+                transport += 1;
+              }
+              if (item.status == 3) {
+                done += 1;
+              }
+            });
+            console.log(handle + processed + transport + done);
+
+            dishpatch({
+              type: LOADED_INVOICE_USER,
+              payload: {
+                data: resData.bill,
+                handle,
+                processed,
+                transport,
+                done,
+              },
+            });
+          }
         })
         .catch(err => {
           dishpatch({type: LOADED_INVOICE_ERR, payload: null});

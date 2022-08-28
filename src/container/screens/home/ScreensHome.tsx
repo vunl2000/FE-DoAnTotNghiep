@@ -81,6 +81,5 @@ const styles = StyleSheet.create({
   },
   contentView: {
     flex: 1,
-    paddingBottom: sizes._72sdp,
   },
 });

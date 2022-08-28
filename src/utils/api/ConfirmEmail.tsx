@@ -12,7 +12,7 @@
 
 //         var config = {
 //             method: 'post',
-//             url: 'http://192.168.184.1:3000/account-user/gmail-authentication-user',
+//             url: 'http://52.141.50.48:3000/account-user/gmail-authentication-user',
 //             headers: {
 //                 'Content-Type': 'application/json'
 //             },
