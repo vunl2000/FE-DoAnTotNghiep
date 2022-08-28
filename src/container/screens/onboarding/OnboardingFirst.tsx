@@ -125,7 +125,7 @@ const OnboardingFirst = () => {
               {
                 color:
                   currentIndex === slides.length - 1
-                    ? ArrayColors.skyBlue
+                    ? ArrayColors._color_blue_light
                     : ArrayColors._color_black,
 
                 fontWeight: currentIndex === slides.length - 1 ? '700' : '400',

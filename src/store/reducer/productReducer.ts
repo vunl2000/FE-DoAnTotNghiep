@@ -217,7 +217,6 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         allSelected: false,
         listIDHeart: [],
       };
-
     default:
       return state;
   }

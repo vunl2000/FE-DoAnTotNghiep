@@ -25,6 +25,7 @@ const ScreenDone = (props: Props) => {
   const gotoDetail = (data: any) => {
     navigate(NameScreen.DETAIL_INVOICE, {
       billDetail: data,
+      isComment: true,
     });
   };
 
