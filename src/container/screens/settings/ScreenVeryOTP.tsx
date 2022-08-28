@@ -8,6 +8,7 @@ import {
     FlatList,
     TouchableOpacity,
     Platform,
+    ToastAndroid
 } from 'react-native';
 import React from 'react';
 import Input from '../../../components/accounts/Input';
@@ -18,6 +19,10 @@ import AppHeader from '../../../components/header/AppHeader';
 import HeaderShown from '../../../components/accounts/HeaderShown';
 import Loading from '../../../components/modal/Loading';
 import { NameScreen } from '../../navigators/TabNavigator';
+import { useDispatch, useSelector } from 'react-redux';
+import { GenerateOTP } from '../../../utils/api/GenerateOTP';
+import axios from 'axios';
+
 type Props = {};
 
 const ScreenVeryOTP = ({ navigation }: { navigation: any }) => {
@@ -29,6 +34,31 @@ const ScreenVeryOTP = ({ navigation }: { navigation: any }) => {
     const [warningOTP, setWarningOTP] = React.useState<string | any>(false);
 
     const isAndroid = Platform.OS === 'android';
+    const accounts = useSelector((state: any) => state.account);
+
+    const [userEmail, setUserEmail] = React.useState<string | any>(null)
+    const [userID, setUserID] = React.useState<string | any>(null)
+
+    const [seconds, setSeconds] = React.useState<string | any>(0);
+
+    const [event, setEvent] = React.useState<string | any>(true);
+    const [eventCheck, setEventCheck] = React.useState<string | any>(false);
+
+    const [lableOTPreq, setLableOTPreq] = React.useState<string | any>(
+        'Bạn chưa nhận được mã OTP?',
+    );
+    React.useEffect(() => {
+        if (accounts.isAuthenticated === true) {
+            setUserEmail(accounts.result[0].email)
+            setUserID(accounts.result[0]._id)
+        }
+
+    }, [accounts.isAuthenticated])
+
+    console.log(userEmail);
+    console.log(userID);
+
+
 
     function onBackPress() {
         navigation.goBack();
@@ -37,15 +67,32 @@ const ScreenVeryOTP = ({ navigation }: { navigation: any }) => {
         if (numberOTP == '') {
             setWarningOTP(true);
         } else {
+            setIsLoading(true);
+            setTimeout(() => {
+                GenerateOTPS(userEmail, numberOTP, userID)
+            }, 1500)
+        }
+    }
+    function eventGenerateOTP() {
+        setEvent(false);
+        setEventCheck(true)
+        console.log('req');
+        if (seconds <= 0) {
+            setSeconds(90);
+            GenerateOTP(userEmail, userID);
+            console.log(userEmail, userID);
 
         }
-        // navigation.navigate('ScreenLogin');
-    }
-    function mGenOTP() {
-        console.log('GenOTP');
     }
     function eventReqOTP() {
         console.log('req');
+        console.log('req');
+        if (seconds <= 0) {
+            setSeconds(90);
+            GenerateOTP(userEmail, userID);
+            console.log(userEmail, userID);
+
+        }
     }
     function eventEditOTP(text: string | any) {
         setNumberOTP(text);
@@ -56,6 +103,73 @@ const ScreenVeryOTP = ({ navigation }: { navigation: any }) => {
         setNumberOTP('');
         setVisibleIconOTP(false);
         setWarningOTP(false);
+    }
+
+    React.useLayoutEffect(() => {
+        console.log('ok');
+
+        const timerId = setInterval(() => {
+            if (seconds === 0) {
+                clearInterval(timerId);
+                setLableOTPreq('Bạn chưa nhận được mã OTP?');
+            } else {
+                setSeconds(seconds - 1);
+                setLableOTPreq(`Gửi lại mã OTP sau ${seconds}`);
+            }
+        }, 1000);
+        return () => {
+            clearInterval(timerId);
+        };
+    }, [seconds]);
+
+    console.log(seconds);
+
+
+    async function GenerateOTPS(userEmail: any, userOTP: any, userID: any) {
+        const mFormData = JSON.stringify({
+            userEmail,
+            userOTP,
+            userID
+        });
+        console.log(mFormData);
+
+        const config = await {
+            method: 'POST',
+            // url: API_URL_GENERATE_OTP,
+            url: "http://52.141.50.48:3000/account-user/verify-otp",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: mFormData,
+        };
+        await axios(config)
+            .then(response => {
+                console.log(JSON.stringify(response.data));
+                if (response.data.code === 200) {
+                    ToastAndroid.show(
+                        'Xác thực tài khoản thành công',
+                        ToastAndroid.SHORT,
+                    );
+                    onBackPress()
+                    setIsLoading(false)
+                }
+            })
+            .catch(error => {
+                console.log(JSON.stringify(error.response.data));
+                if (error.response.data.code === 400) {
+                    ToastAndroid.show(
+                        'Mã xác thực không chính xác',
+                        ToastAndroid.SHORT,
+                    );
+                } else {
+                    ToastAndroid.show(
+                        'Đã có lỗi trong quá trình xử lý',
+                        ToastAndroid.SHORT,
+                    );
+                }
+                setIsLoading(false)
+            });
+        return setIsLoading(false)
     }
     const renderContent = (
         <>
@@ -75,7 +189,9 @@ const ScreenVeryOTP = ({ navigation }: { navigation: any }) => {
                     }}>
                     Bằng cách{' '}
                     <Text
-                        onPress={mGenOTP}
+                        onPress={
+                            event ? eventGenerateOTP : () => { }
+                        }
                         style={{
                             fontWeight: 'bold',
                             color: ArrayColors._color_blue_medium,
@@ -114,13 +230,13 @@ const ScreenVeryOTP = ({ navigation }: { navigation: any }) => {
                         marginHorizontal: sizes._6sdp,
                     }}>
                     <Text
-                        onPress={eventReqOTP}
+                        onPress={eventCheck ? eventReqOTP : () => { }}
                         style={{
                             fontSize: sizes._18sdp,
                             color: ArrayColors._color_black,
                             fontWeight: 'bold',
                         }}>
-                        Bạn chưa nhận được mã OTP ?{' '}
+                        {lableOTPreq}
                     </Text>
                 </View>
             </View>

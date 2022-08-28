@@ -35,6 +35,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
     const dispatch: string | any = useDispatch();
     const register = useSelector((state: any) => state.register);
     const [event, setEvent] = React.useState<string | any>(true);
+    const [eventCheck, setEventCheck] = React.useState<string | any>(false);
 
     console.log(event);
 
@@ -54,7 +55,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
     const [seconds, setSeconds] = React.useState<string | any>(0);
 
     const [lableOTPreq, setLableOTPreq] = React.useState<string | any>(
-        'Bạn chưa nhận được mã OTP',
+        'Bạn chưa nhận được mã OTP?',
     );
 
     function onBackPress() {
@@ -145,7 +146,6 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
             setSeconds(90);
             GenerateOTP(userEmail, userID);
             console.log(userEmail, userID);
-
         }
     }
     function clearTextOTP() {
@@ -157,7 +157,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
     function eventGenerateOTP() {
         console.log("rqOTP");
         setEvent(false);
-
+        setEventCheck(true)
         if (seconds <= 0) {
             setSeconds(90);
             GenerateOTP(userEmail, userID);
@@ -257,7 +257,7 @@ const ScreenVeryfiOTP = ({ navigation }: { navigation: any }) => {
                         marginTop: sizes._24sdp,
                     }}>
                     <Text
-                        onPress={eventReqOTP}
+                        onPress={eventCheck ? eventReqOTP : () => { }}
                         style={{
                             fontSize: sizes._16sdp,
                             color: ArrayColors._color_red,

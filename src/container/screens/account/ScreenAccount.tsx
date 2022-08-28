@@ -7,8 +7,9 @@ import {
   Animated,
   TouchableWithoutFeedback,
   FlatList,
+  Image
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import MyOffers from '../../../components/accounts/MyOffers';
 import AppHeader from '../../../components/header/AppHeader';
@@ -16,24 +17,26 @@ import sizes from '../../../res/sizes/sizes';
 import Images from '../../../res/require/Images';
 import HeaderAccounts from '../../../components/accounts/HeaderAccounts';
 import AnimatedTab from '../../../components/accounts/AnimatedTab';
-import {useDispatch, useSelector} from 'react-redux';
-import {NameScreen} from '../../navigators/TabNavigator';
+import { useDispatch, useSelector } from 'react-redux';
+import { NameScreen } from '../../navigators/TabNavigator';
 import {
   clearInvoice,
   loadInvoiceUser,
 } from '../../../store/actions/invoiceActions';
-import {TypeBill} from '../../../store/actions/types';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {showToast} from '../../../components/modal/ToastCustom';
-import {HomeName} from '../../navigators/AppContainer';
+import { TypeBill } from '../../../store/actions/types';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { showToast } from '../../../components/modal/ToastCustom';
+import { HomeName } from '../../navigators/AppContainer';
 import ItemHeartShow from '../../../components/heart/ItemHearShow';
 
-const ScreenAccount = ({navigation}: {navigation: any}) => {
-  const {navigate}: any = useNavigation();
-  const {products} = useSelector((state: any) => state.product);
+const ScreenAccount = ({ navigation }: { navigation: any }) => {
+  const { navigate }: any = useNavigation();
+  const { products } = useSelector((state: any) => state.product);
   const [numberDiscount, setNumberDiscount] = React.useState('0');
   const dispatch: any = useDispatch();
   const [scores, setScores] = React.useState('0');
+  const [isShowImg, setIsShowImg] = React.useState<any>(false)
+  const [dataImg, setDataImg] = React.useState<any>(null)
 
   const [marginLeft, setMarginLeft] = React.useState(0);
   const [listHeart, setListHeart] = React.useState<any>([]);
@@ -54,16 +57,16 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [event, setEvent] = React.useState<string | any>(true);
 
   const accounts = useSelector((state: any) => state.account);
-  const {listInvoice, isFalse, handle, processed, transport, done} =
+  const { listInvoice, isFalse, handle, processed, transport, done } =
     useSelector((state: any) => state.invoice);
 
   const [isLoading, setIsLoading] = React.useState<string | any>(true);
 
   const animatedValues: any = React.useRef(new Animated.Value(0)).current;
   //Heart
-  const renderSpace = () => <View style={{height: sizes._16sdp}} />;
+  const renderSpace = () => <View style={{ height: sizes._16sdp }} />;
   const keySuggestions = (item: any) => item._id;
-  const renderItem = ({item, index}: any) => (
+  const renderItem = ({ item, index }: any) => (
     <ItemHeartShow
       item={item}
       index={index}
@@ -73,16 +76,19 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   const navigateInvoice = (id: string) => {
     if (accounts.isAuthenticated) {
-      navigate(NameScreen.INVOICE, {initialRoute: id});
+      navigate(NameScreen.INVOICE, { initialRoute: id });
     } else {
       showToast('Bạn cần đăng nhập để xem đơn hàng!');
     }
   };
+  // console.log(accounts.result[0].photoUrl);
+
 
   React.useLayoutEffect(() => {
     try {
       if (accounts.isAuthenticated === null) {
         setStorageUser('Đăng nhập / Đăng Ký >');
+        setIsShowImg(false)
         setEvent(true);
         setInvoiceStatus({
           handle: null,
@@ -92,6 +98,8 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
         });
       } else {
         if (accounts.isAuthenticated === true) {
+          setIsShowImg(true);
+          setDataImg(accounts.result[0].photoUrl)
           setStorageUser(accounts.result[0].name);
           setEvent(false);
           dispatch(
@@ -107,6 +115,9 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
         } else {
           setStorageUser(accounts.result[0].name);
           setEvent(false);
+          // setIsShowImg(true);
+          setDataImg(accounts.result[0].photoUrl)
+
         }
       }
     } catch (e) {
@@ -152,7 +163,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   function LoginAndRegister() {
     return (
       <Pressable
-        style={({pressed}) => [
+        style={({ pressed }) => [
           {
             backgroundColor: pressed
               ? ArrayColors.light
@@ -161,7 +172,29 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           styles.mStyleText,
         ]}
         onPress={event ? eventLogInAndRegister : null}>
-        <View>
+        <View style={{
+
+          flexDirection: "row", alignItems: 'center'
+        }}>
+          {isShowImg && (
+            <View style={{
+              width: sizes._screen_width / 6.5,
+              height: sizes._screen_width / 6.5,
+              borderRadius: sizes._screen_width / 2,
+              borderColor :ArrayColors._color_black
+            }}  >
+              <Image
+                resizeMode="contain"
+                style={{
+                  width: sizes._screen_width / 7,
+                  height: sizes._screen_width / 7,
+                  borderRadius: sizes._screen_width / 2,
+                 
+                }}
+                source={{ uri: dataImg }}
+              />
+            </View>
+          )}
           <Text style={styles.mStyleTextLoginAndRegister}>{storageUser}</Text>
         </View>
       </Pressable>
@@ -355,7 +388,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           />
         }
       />
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <FlatList
           data={null}
           renderItem={null}

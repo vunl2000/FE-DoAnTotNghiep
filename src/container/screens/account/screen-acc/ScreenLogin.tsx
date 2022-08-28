@@ -14,6 +14,7 @@ import {
     ActivityIndicator,
     TouchableWithoutFeedback,
     Keyboard,
+    FlatList
 } from 'react-native';
 import React, { useRef } from 'react';
 import ArrayColors from '../../../../res/colors/ArrayColors';
@@ -34,7 +35,7 @@ import TextForgotPassword from '../../../../components/accounts/TextForgotPasswo
 import HeaderShown from '../../../../components/accounts/HeaderShown';
 
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
-import { checkMail } from '../../../../utils/Utilities';
+import { checkMail, isNullEmptyBlank } from '../../../../utils/Utilities';
 import {
     GoogleSignin,
     GoogleSigninButton,
@@ -56,7 +57,7 @@ GoogleSignin.configure({
 
 const ScreenLogin = ({ navigation }: { navigation: any }) => {
     const isAndroid = Platform.OS === 'android';
-    const [VSBG, setVSBG] = React.useState<boolean>(false)
+    const [VSBG, setVSBG] = React.useState<any>("")
     const [isModal, setIsModal] = React.useState<any>(true)
 
 
@@ -133,10 +134,11 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     }
 
     async function eventLoginGoogle() {
-        setLoadings(true);
+        setIsLoading(true);
         const { idToken }: any = await GoogleSignin.signIn().catch(e => {
-            Alert.alert(e.message);
-            setLoadings(false);
+            ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+            setIsLoading(false);
+            console.log(e);
         });
         // Create a Google credential with the token
         const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
@@ -147,7 +149,10 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                 setUserInfo(res);
             })
             .catch(e => {
-                Alert.alert(e.message);
+                // Alert.alert(e.message);
+                ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+                console.log(e);
+
             });
         auth()
             .currentUser?.getIdToken(true)
@@ -156,75 +161,34 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                 if (idToken) {
                     dispatch(userLoginsGoogle(idToken));
                 } else {
+                    ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
                 }
             })
             .catch(e => {
                 console.log(e);
+                ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+
             });
     }
 
-    // const googleSignOut = async () => {
-    //   setLoading(true)
-    //   auth().signOut().then(async () => {
-    //     await GoogleSignin.signOut();
-    //     await GoogleSignin.revokeAccess();
-    //     console.log('User sign-out successfully!');
-    //   }).catch(e => Alert.alert('Error', e.message));
-    //   setLoading(false)
-    // }
+
 
     React.useEffect(() => {
         const { isAuthenticated, token } = accounts;
 
         if (isAuthenticated) {
-            setTimeout(() => {
-                if (accounts.code === 200) {
-                    setIsLoading(false);
-                    navigation.goBack();
-                    ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
-                    console.log(accounts);
-                    dispatch(clearErrors());
-                    dispatch(getHeartUser(`Bearer ${token}`, accounts.result[0]._id));
-                }
+            // setTimeout(() => {
 
-                // setInvisible(false);
-            }, 1500)
+            if (accounts.code === 200) {
+                ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
+                console.log(accounts);
+                dispatch(clearErrors());
+                dispatch(getHeartUser(`Bearer ${token}`, accounts.result[0]._id));
+                setIsLoading(false);
+                navigation.goBack();
+            }
+            // }, 1500)
         }
-
-        function clearTextEmail() {
-            setEmail('');
-            setVisibleIconEmail(false);
-        }
-
-
-
-        // const googleSignOut = async () => {
-        //   setLoading(true)
-        //   auth().signOut().then(async () => {
-        //     await GoogleSignin.signOut();
-        //     await GoogleSignin.revokeAccess();
-        //     console.log('User sign-out successfully!');
-        //   }).catch(e => Alert.alert('Error', e.message));
-        //   setLoading(false)
-        // }
-
-        //     React.useEffect(() => {
-        //         const { isAuthenticated, token } = accounts;
-
-        //         if (isAuthenticated) {
-        //             setTimeout(() => {
-        //                 if (accounts.code === 200) {
-        //                     setIsLoading(false);
-        //                     navigation.goBack();
-        //                     ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
-        //                     console.log(accounts);
-        //                     dispatch(clearErrors());
-        //                     dispatch(getHeartUser(`Bearer ${token}`, accounts.result[0]._id));
-        //                 }
-
-        //                 // setInvisible(false);
-        //             }, 1500);
-        // =======
     }, [accounts]);
     React.useEffect(() => {
         try {
@@ -276,53 +240,44 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         // })
     }, [error]);
 
-    //   function handleLogin() {
-    //     if (email === "" && password === "") {
-    //         setWarningEmail(true);
-    //         setLabelEmail('Vui lòng không bỏ trống');
-    //         setWarningPassword(true);
-    //         setLabelPassword('Vui lòng không bỏ trống');
-    //     } else if (email === '') {
-    //         setWarningEmail(true);
-    //         setLabelEmail('Vui lòng không bỏ trống');
-    //         console.log('ovl');
-    //     } else if (password === '') {
-    //         setWarningPassword(true);
-    //         setLabelPassword('Vui lòng không bỏ trống');
-    //     } else if (!checkMail(email)) {
-    //         setLabelEmail('Vui lòng nhập đúng định dạng');
-    //         setWarningEmail(true);
-    //     } else {
-    //         setIsLoading(true);
-    //         dispatch(userLogins({ email, password }));
-    //         setIsLoading(true);
-    //         console.log({ email, password });
-
     function handleLogin() {
-        if (email === '') {
+        if (email === "" || password === "") {
             setWarningEmail(true);
             setLabelEmail('Vui lòng không bỏ trống');
-            console.log('ovl');
+            setWarningPassword(true);
+            setLabelPassword('Vui lòng không bỏ trống');
+        } else if (email === '') {
+            setWarningEmail(true);
+            setLabelEmail('Vui lòng không bỏ trống');
         } else if (password === '') {
             setWarningPassword(true);
             setLabelPassword('Vui lòng không bỏ trống');
+        } else if (password.length < 6) {
+            setWarningPassword(true);
+            setLabelPassword('Mật khẩu phải lớn hơn 6 ký tự');
         } else if (!checkMail(email)) {
             setLabelEmail('Vui lòng nhập đúng định dạng');
             setWarningEmail(true);
+
+        } else if (isNullEmptyBlank(email)) {
+            setLabelEmail('Email không không được chứa khoảng cách');
+            setWarningEmail(true);
+        } else if (isNullEmptyBlank(password)) {
+            setLabelPassword('Mật khẩu không không được chứa khoảng cách');
+            setWarningPassword(true);
         } else {
             setIsLoading(true);
-            dispatch(userLogins({ email, password }));
-            setIsLoading(true);
-            console.log({ email, password });
+            setTimeout(() => {
+                dispatch(userLogins({ email, password }));
+                // setIsLoading(true);
+                console.log({ email, password });
+            }, 1500)
+
         }
     }
     function eventRegister() {
         dispatch(clearErrors());
         navigation.navigate('ScreenRegister');
-
-        // return(()=>{
-        //   setInvisible(false);
-        // })
     }
 
 
@@ -330,38 +285,8 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         dispatch(clearErrors());
         navigation.goBack();
     }
-    // async function eventLoginGoogle() {
-    //     setLoadings(true)
-    //     const { idToken }: any = await GoogleSignin.signIn().catch((e) => {
-    //         Alert.alert(e.message)
-    //         setLoadings(false)
-    //     });
-    //     // Create a Google credential with the token
-    //     const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
-    //     // Sign-in the user with the credential
-    //     await auth().signInWithCredential(googleCredential)
-    //         .then((res: any) => {
-    //             setUserInfo(res);
-    //         }).catch((e) => {
-    //             Alert.alert(e.message)
-    //         });
-    //     auth().currentUser?.getIdToken(true)
-    //         .then((idToken) => {
-    //             console.log(idToken);
-    //             if (idToken) {
-    //                 dispatch(userLoginsGoogle(idToken));
-    //             } else {
-
-    //             }
-
-    //         })
-    //         .catch((e) => {
-    //             console.log(e);
-    //         })
-    // }
-
     async function eventLoginFaceBook() {
-
+        setIsLoading(true);
         const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
         if (result.isCancelled) {
@@ -371,21 +296,19 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         // Once signed in, get the users AccesToken
         const data = await AccessToken.getCurrentAccessToken();
 
-        if (!data) {
-            throw 'Something went wrong obtaining access token';
-        }
+        // if (!data) {
+        //     throw 'Something went wrong obtaining access token';
+        // }
 
         // Create a Firebase credential with the AccessToken
-        const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
-        console.log(facebookCredential);
+        // const facebookCredential = await auth.FacebookAuthProvider.credential(data.accessToken);
+        // console.log(facebookCredential);
 
         await auth().currentUser?.getIdToken(true)
-
             .then((idToken) => {
                 console.log(idToken);
                 if (idToken) {
-                    console.log(idToken);
-                    Alert.alert(idToken);
+                    // setVSBG(idToken)
                     dispatch(userLoginsFaceBook(idToken));
                 } else {
                     Alert.alert("Đã có lỗi trong quá trình xử lý");
@@ -398,8 +321,9 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
             })
 
         // Sign-in the user with the credential
-        return auth().signInWithCredential(facebookCredential);
+        // return auth().signInWithCredential(facebookCredential);
     }
+
 
     function dismissMoDal() {
         setShowCheg(false);
@@ -416,6 +340,99 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
 
     console.log(showCheg);
 
+    const renderContent = (
+
+        <>
+            <View
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: sizes._36sdp,
+                    marginHorizontal: sizes._20sdp,
+                }}>
+                <Text style={{ fontSize: sizes._24sdp, textAlign: 'center' }}>
+                    Chào mừng bạn đến với ứng dụng mua sắm trực tuyển
+                </Text>
+            </View>
+            <View
+                style={{
+                    marginHorizontal: sizes._20sdp,
+                    marginTop: sizes._20sdp,
+                    width: sizes._screen_width - sizes._40sdp,
+                }}>
+                <Input
+                    value={email}
+                    onPress_1={clearTextEmail}
+                    titleInPut="Email"
+                    placeholder="Địa chỉ email"
+                    nameImg_1={Images.ic_mark_cut}
+                    onChangeText={text => eventEditEmail(text)}
+                    setIconViewEmail={visibleIconEmail}
+                />
+                {warningEmail && (
+                    <Text
+                        style={{
+                            fontSize: sizes._16sdp,
+                            color: ArrayColors._color_red,
+                            fontWeight: 'bold',
+                        }}>
+                        {labelEmail}
+                    </Text>
+                )}
+                <Input
+                    value={password}
+                    onPress_1={clearTextPassword}
+                    onPress_2={eventOnOff}
+                    titleInPut="Mật khẩu"
+                    placeholder="Mật khẩu"
+                    nameImg_1={Images.ic_mark_cut}
+                    nameImg_2={Images.ic_eye_off}
+                    nameImg_3={Images.ic_eys_on}
+                    setIconView={viewEye}
+                    onChangeText={text => eventEditPassword(text)}
+                    secureTextEntry={showPassword}
+                    setIconViewEmail={visibleIconPassword}
+                    setIconViewPassword={visibleIconPassword}
+                />
+                {warningPassWord && (
+                    <Text
+                        style={{
+                            fontSize: sizes._16sdp,
+                            color: ArrayColors._color_red,
+                            fontWeight: 'bold',
+                        }}>
+                        {labelPassWord}
+                    </Text>
+                )}
+                <TextForgotPassword onPress={eventForgotPassword} />
+                <Button onPress={handleLogin} title="Đăng nhập"></Button>
+
+                <GoogleOrFacebook
+                    eventLoginFaceBook={eventLoginFaceBook}
+                    eventLoginGoogle={eventLoginGoogle}
+                />
+                <Policy />
+            </View>
+            <TouchableOpacity
+                onPress={eventRegister}
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginVertical: sizes._12sdp,
+
+                }}>
+                <Text
+                    style={{
+                        color: ArrayColors._color_facebook,
+                        fontWeight: 'bold',
+                        fontSize: sizes._18sdp,
+                    }}>
+                    Bạn chưa có tài khoản ?
+                </Text>
+            </TouchableOpacity>
+        </>
+    )
+
     return (
         <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -425,93 +442,17 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                         customContent={
                             <HeaderShown titleScreen="ĐĂNG NHẬP" onBackPress={onBackPress} />
                         }></AppHeader>
-                    <View
-                        style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginTop: sizes._36sdp,
-                            marginHorizontal: sizes._20sdp,
-                        }}>
-                        <Text style={{ fontSize: sizes._24sdp, textAlign: 'center' }}>
-                            Chào mừng bạn đến với ứng dụng mua sắm trực tuyển
-                        </Text>
-                    </View>
-                    <View
-                        style={{
-                            marginHorizontal: sizes._20sdp,
-                            marginTop: sizes._20sdp,
-                            width: sizes._screen_width - sizes._40sdp,
-                        }}>
-                        <Input
-                            value={email}
-                            onPress_1={clearTextEmail}
-                            titleInPut="Email"
-                            placeholder="Địa chỉ email"
-                            nameImg_1={Images.ic_mark_cut}
-                            onChangeText={text => eventEditEmail(text)}
-                            setIconViewEmail={visibleIconEmail}
-                        />
-                        {warningEmail && (
-                            <Text
-                                style={{
-                                    fontSize: sizes._16sdp,
-                                    color: ArrayColors._color_red,
-                                    fontWeight: 'bold',
-                                }}>
-                                {labelEmail}
-                            </Text>
-                        )}
-                        <Input
-                            value={password}
-                            onPress_1={clearTextPassword}
-                            onPress_2={eventOnOff}
-                            titleInPut="Mật khẩu"
-                            placeholder="Mật khẩu"
-                            nameImg_1={Images.ic_mark_cut}
-                            nameImg_2={Images.ic_eye_off}
-                            nameImg_3={Images.ic_eys_on}
-                            setIconView={viewEye}
-                            onChangeText={text => eventEditPassword(text)}
-                            secureTextEntry={showPassword}
-                            setIconViewEmail={visibleIconPassword}
-                            setIconViewPassword={visibleIconPassword}
-                        />
-                        {warningPassWord && (
-                            <Text
-                                style={{
-                                    fontSize: sizes._16sdp,
-                                    color: ArrayColors._color_red,
-                                    fontWeight: 'bold',
-                                }}>
-                                {labelPassWord}
-                            </Text>
-                        )}
-                        <TextForgotPassword onPress={eventForgotPassword} />
-                        <Button onPress={handleLogin} title="Đăng nhập"></Button>
+                    <FlatList
+                        data={null}
+                        renderItem={null}
+                        ListFooterComponent={renderContent}
+                        listKey="Screen_Login"
+                        showsVerticalScrollIndicator={false}
+                        removeClippedSubviews
+                        keyboardDismissMode="on-drag"
+                        keyboardShouldPersistTaps="always"
+                    />
 
-                        <GoogleOrFacebook
-                            eventLoginFaceBook={eventLoginFaceBook}
-                            eventLoginGoogle={eventLoginGoogle}
-                        />
-                        <Policy />
-                    </View>
-                    <TouchableOpacity
-                        onPress={eventRegister}
-                        style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginVertical: sizes._12sdp,
-
-                        }}>
-                        <Text
-                            style={{
-                                color: ArrayColors._color_facebook,
-                                fontWeight: 'bold',
-                                fontSize: sizes._18sdp,
-                            }}>
-                            Bạn chưa có tài khoản ?
-                        </Text>
-                    </TouchableOpacity>
                     {isLoading ? <Loading /> : null}
                     <ModalConfirmPasswordChange
                         // navigation={navigation}
