@@ -22,7 +22,7 @@ import sizes from '../../../../res/sizes/sizes';
 import Images from '../../../../res/require/Images';
 import Input from '../../../../components/accounts/Input';
 import Button from '../../../../components/accounts/Button';
-import { userLogins, userLoginsGoogle } from '../../../../store/actions/loginActions';
+import { userLogins, userLoginsGoogle, userLoginsFaceBook } from '../../../../store/actions/loginActions';
 import { clearErrors } from '../../../../store/actions/errActions';
 import ModalConfirmPasswordChange from '../../../../components/modal/ModalConfirmPasswordChange'
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import TextForgotPassword from '../../../../components/accounts/TextForgotPassword';
 import HeaderShown from '../../../../components/accounts/HeaderShown';
-
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import { checkMail } from '../../../../utils/Utilities';
 import {
     GoogleSignin,
@@ -55,6 +55,8 @@ GoogleSignin.configure({
 
 const ScreenLogin = ({ navigation }: { navigation: any }) => {
     const isAndroid = Platform.OS === 'android';
+    const [VSBG, setVSBG] = React.useState<boolean>(false)
+    const [isModal, setIsModal] = React.useState<any>(true)
 
     const [email, setEmail] = React.useState<string | any>('');
     const [password, setPassword] = React.useState<string | any>('');
@@ -129,35 +131,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     }
 
 
-    async function eventLoginGoogle() {
-        setLoadings(true)
-        const { idToken }: any = await GoogleSignin.signIn().catch((e) => {
-            Alert.alert(e.message)
-            setLoadings(false)
-        });
-        // Create a Google credential with the token
-        const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
-        // Sign-in the user with the credential
-        await auth().signInWithCredential(googleCredential)
-            .then((res: any) => {
-                setUserInfo(res);
-            }).catch((e) => {
-                Alert.alert(e.message)
-            });
-        auth().currentUser?.getIdToken(true)
-            .then((idToken) => {
-                console.log(idToken);
-                if (idToken) {
-                    dispatch(userLoginsGoogle(idToken));
-                } else {
-
-                }
-
-            })
-            .catch((e) => {
-                console.log(e);
-            })
-    }
 
     // const googleSignOut = async () => {
     //   setLoading(true)
@@ -267,12 +240,91 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         dispatch(clearErrors());
         navigation.goBack();
     }
+    async function eventLoginGoogle() {
+        setLoadings(true)
+        const { idToken }: any = await GoogleSignin.signIn().catch((e) => {
+            Alert.alert(e.message)
+            setLoadings(false)
+        });
+        // Create a Google credential with the token
+        const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
+        // Sign-in the user with the credential
+        await auth().signInWithCredential(googleCredential)
+            .then((res: any) => {
+                setUserInfo(res);
+            }).catch((e) => {
+                Alert.alert(e.message)
+            });
+        auth().currentUser?.getIdToken(true)
+            .then((idToken) => {
+                console.log(idToken);
+                if (idToken) {
+                    dispatch(userLoginsGoogle(idToken));
+                } else {
+
+                }
+
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    }
+
+    async function eventLoginFaceBook() {
+
+        const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+
+        if (result.isCancelled) {
+            throw 'User cancelled the login process';
+        }
+
+        // Once signed in, get the users AccesToken
+        const data = await AccessToken.getCurrentAccessToken();
+
+        if (!data) {
+            throw 'Something went wrong obtaining access token';
+        }
+
+        // Create a Firebase credential with the AccessToken
+        const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+        console.log(facebookCredential);
+
+        await auth().currentUser?.getIdToken(true)
+
+            .then((idToken) => {
+                console.log(idToken);
+                if (idToken) {
+                    console.log(idToken);
+                    Alert.alert(idToken);
+                    dispatch(userLoginsFaceBook(idToken));
+                } else {
+                    Alert.alert("Đã có lỗi trong quá trình xử lý");
+
+                }
+
+            })
+            .catch((e: any) => {
+                console.log(e);
+            })
+
+        // Sign-in the user with the credential
+        return auth().signInWithCredential(facebookCredential);
+    }
+
+    function dismissMoDal() {
+        setShowCheg(false);
+    }
+
     function eventForgotPassword() {
-
         setShowCheg(true);
-
         //  navigation.navigate('ScreenForgotPassword');
     }
+
+    function dismissMoDalls() {
+        setShowCheg(false);
+    }
+
+    console.log(showCheg);
 
     return (
         <>
@@ -348,6 +400,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                         <Button onPress={handleLogin} title="Đăng nhập"></Button>
 
                         <GoogleOrFacebook
+                            eventLoginFaceBook={eventLoginFaceBook}
                             eventLoginGoogle={eventLoginGoogle}
                         />
                         <Policy />
@@ -369,7 +422,11 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                         </Text>
                     </TouchableOpacity>
                     {isLoading ? <Loading /> : null}
-                    <ModalConfirmPasswordChange visible={showCheg} />
+                    <ModalConfirmPasswordChange
+                        // navigation={navigation}
+                        dismissMoDalls={dismissMoDalls}
+                        dismissMoDal={dismissMoDal}
+                        visible={showCheg} />
                 </SafeAreaView>
             </TouchableWithoutFeedback>
             {/* <Loading visible={invisible} /> */}

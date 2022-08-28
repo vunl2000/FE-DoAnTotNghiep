@@ -10,6 +10,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 type Props = {
     eventLoginGoogle?: () => void
+    eventLoginFaceBook?: () => void
 }
 
 const GoogleOrFacebook = (props: Props) => {
@@ -53,34 +54,14 @@ const GoogleOrFacebook = (props: Props) => {
                     justifyContent: 'center',
                     marginVertical: sizes._24sdp,
                 }}>
-
-                {/* <TouchableOpacity
-                    style={{
-                        backgroundColor: '#FFFFFF',
-                        width: sizes._48sdp,
-                        height: sizes._48sdp,
-                        borderWidth: 1,
-                        borderColor: ArrayColors._color_black_light,
-                        borderRadius: sizes._48sdp / 2,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginHorizontal: sizes._12sdp,
-                    }}>
-                    <Image
-                        source={Images.ic_google}
-                        style={{
-                            width: sizes._32sdp,
-                            height: sizes._32sdp,
-                        }}
-                    /> */}
-                {/* </TouchableOpacity> */}
                 <GoogleSigninButton
-                    style={{ width: sizes._screen_width / 2, height: sizes._58sdp }}
+                    style={{ width: sizes._screen_width / 2, height: sizes._58sdp, marginHorizontal: sizes._16sdp }}
                     size={GoogleSigninButton.Size.Wide}
                     color={GoogleSigninButton.Color.Dark}
                     onPress={props.eventLoginGoogle}
                 />
                 <TouchableOpacity
+                    onPress={props.eventLoginFaceBook}
                     style={{
                         backgroundColor: ArrayColors._color_facebook,
                         width: sizes._screen_width / 2 - sizes._10sdp,
@@ -88,17 +69,35 @@ const GoogleOrFacebook = (props: Props) => {
                         borderWidth: 1,
                         borderColor: ArrayColors._color_facebook,
                         borderRadius: sizes._4sdp,
-                        justifyContent: 'center',
                         alignItems: 'center',
                         marginHorizontal: sizes._6sdp,
+                        flexDirection: 'row',
                     }}>
-                    <Image
-                        source={Images.ic_facebook}
+                    <View style={{
+                        width: sizes._46sdp,
+                        height: sizes._46sdp,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: sizes._3sdp,
+                        backgroundColor: ArrayColors._color_white
+                    }}>
+                        <Image
+                            source={Images.ic_facebook}
+                            style={{
+                                width: sizes._32sdp,
+                                height: sizes._32sdp,
+                            }}
+                        />
+                    </View>
+                    <Text
                         style={{
-                            width: sizes._32sdp,
-                            height: sizes._32sdp,
+                            alignItems: 'center',
+                            color: ArrayColors._color_white,
+                            fontWeight: "bold",
+                            marginHorizontal: sizes._3sdp,
+                            width: "100%",
                         }}
-                    />
+                    >Sign in with FaceBook</Text>
                 </TouchableOpacity>
             </View>
         </View>

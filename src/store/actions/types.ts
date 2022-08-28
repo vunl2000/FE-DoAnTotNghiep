@@ -13,6 +13,11 @@ export const REGISTER_SUCCES = 'REGISTER_SUCCES';
 export const REGISTER_FAIL = 'USER_LOADING';
 export const LOG_LOADING = 'USER_LOADING';
 
+export const USER_GMAIL_SUCCES = 'USER_GMAIL_SUCCES';
+export const USER_GMAIL_FAIL = 'USER_GMAIL_FAIL';
+export const USER_GMAIL_CL = 'USER_GMAIL_CL';
+
+
 //Product Types
 export const SENDING_PRODUCT = 'SENDING_PRODUCT';
 export const lOADING_PRODUCT = 'lOADING_PRODUCT';
@@ -41,8 +46,12 @@ export const COUNT_VIEW_PRODUCT = 'COUNT_VIEW_PRODUCT';
 export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
+
+export const GET_ERRORS_GMAIL = 'GET_ERRORS_GMAIL';
+export const CLEAR_ERRORS_GMAIL = 'CLEAR_ERRORS_GMAIL';
+
 //Local Strogae
-export const OPEN_APP = 'CLEAR_ERRORS';
+export const OPEN_APP = 'OPEN_APP';
 // export const CHECK_NOTIFICATION = 'CHECK_NOTIFICATION';
 export const BANNER_APP = 'BANNER_APP';
 
@@ -101,7 +110,7 @@ export type ActionProps = {
 };
 
 //Dispath Props
-export type AllDispatchProps = (arg0: {type: any; payload: any | void}) => void;
+export type AllDispatchProps = (arg0: { type: any; payload: any | void }) => void;
 
 //cart
 export interface TypeCartItem {

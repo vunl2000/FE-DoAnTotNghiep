@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableWithoutFeedback, SafeAreaView, FlatList, Keyboard } from 'react-native'
+import { StyleSheet, Text, View, TouchableWithoutFeedback, SafeAreaView, FlatList, Keyboard, ToastAndroid } from 'react-native'
 import React from 'react'
 import HeaderShown from '../../../../components/accounts/HeaderShown';
 import AppHeader from '../../../../components/header/AppHeader';
@@ -9,10 +9,15 @@ import Loading from '../../../../components/modal/Loading';
 import Button from '../../../../components/accounts/Button';
 import Input from '../../../../components/accounts/Input';
 import image from '../../../../res/require/Images';
+import axios from 'axios';
 
 type Props = {}
 
 const ScreenForgotPassword = ({ navigation, route }: any) => {
+
+    const itemId = route.params;
+
+    console.log(itemId.dataID);
 
     const [password, setPassword] = React.useState<string | any>('');
     const [visibleIconPassword, setVisibleIconPassword] = React.useState(false);
@@ -36,6 +41,7 @@ const ScreenForgotPassword = ({ navigation, route }: any) => {
 
     const [viewEyenew, setViewEyenew] = React.useState(true);
     const [showPasswordnew, setShowPasswordnew] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     function eventEditPassword(text: string | any) {
         setPassword(text);
@@ -92,12 +98,64 @@ const ScreenForgotPassword = ({ navigation, route }: any) => {
         } else if (passwordnew !== password) {
             setLabelPassword('Xác thực mật khẩu không đúng');
             setWarningPassword(true);
-        } else if (passwordnew < 6) {
+        } else if (passwordnew.length < 6) {
             setLabelPasswordNew('Mật khẩu phải lớn hơn 6 ký tự');
             setWarningPasswordNew(true);
+        } else {
+            console.log("ok");
+            setIsLoading(true);
+            setTimeout(() => {
+                mForgotPassword(itemId.dataID, passwordnew, password)
+            }, 1500)
         }
     }
 
+    function mForgotPassword(userId: string | any, passwordRefreshNew: string | any, passwordConfirmRefreshNew: string | any) {
+        var data = JSON.stringify({
+            userID: userId,
+            passwordRefreshNew: passwordRefreshNew,
+            passwordConfirmRefreshNew: passwordConfirmRefreshNew
+        });
+
+        var config = {
+            method: 'post',
+            url: 'http://192.168.184.1:3000/account-user/verify-otp-rs-pass',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data));
+                if (response.data.code === 200) {
+                    ToastAndroid.show(
+                        'Đổi mật khẩu thành công',
+                        ToastAndroid.SHORT,
+                    );
+                    navigation.navigate("ScreenLogin")
+                } else {
+                    ToastAndroid.show(
+                        'Đã có lỗi trong quá trình xử lý',
+                        ToastAndroid.SHORT,
+                    );
+
+                }
+                setIsLoading(false)
+
+            })
+            .catch(function (error) {
+                console.log(error.response.data);
+                ToastAndroid.show(
+                    'Đã có lỗi trong quá trình xử lý',
+                    ToastAndroid.SHORT,
+                );
+                setIsLoading(false)
+            });
+
+        return setIsLoading(false)
+    }
     const RenderView = (
 
         <View
@@ -171,9 +229,6 @@ const ScreenForgotPassword = ({ navigation, route }: any) => {
                         <HeaderShown titleScreen="QUÊN MẬT KHẨU" onBackPress={onBackPress} />
                     }></AppHeader>
 
-
-
-
                 <FlatList
                     data={null}
                     renderItem={null}
@@ -184,7 +239,7 @@ const ScreenForgotPassword = ({ navigation, route }: any) => {
                     keyboardDismissMode="on-drag"
                     keyboardShouldPersistTaps="always"
                 />
-                {/* {isLoading ? <Loading /> : null} */}
+                {isLoading ? <Loading /> : null}
             </SafeAreaView>
         </TouchableWithoutFeedback>
     )

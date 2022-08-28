@@ -33,10 +33,6 @@ export const userLogins =
           dispatch({ type: LOGIN_SUCCES, payload: response.data });
 
         })
-        .then((response: any) => {
-          dispatch({ type: CLEAR_ERRORS, payload: null });
-          dispatch({ type: LOGIN_SUCCES, payload: response.data });
-        })
         .catch(error => {
           dispatch({ type: LOGIN_FAIL, payload: null });
           dispatch(
@@ -62,7 +58,43 @@ export const userLoginsGoogle =
 
       axios({
         method: 'POST',
-        url: "http://192.168.184.1:3000/account-user/login-user-google",
+        url: "http://52.141.50.48:3000/account-user/login-user-google",
+        data: mFormData,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(response => {
+          dispatch({ type: CLEAR_ERRORS, payload: null });
+          dispatch({ type: LOGIN_SUCCES, payload: response.data });
+          console.log(response.data);
+
+        })
+        .catch(error => {
+          dispatch({ type: LOGIN_FAIL, payload: null });
+          dispatch(
+            returnErrors(
+              error.response.data,
+              error.response.status,
+              'LOGIN_FAIL',
+            ),
+          );
+          // console.log('Lỗi', error.response.data);
+        });
+    };
+
+export const userLoginsFaceBook =
+  (mTokenFaceBook: any) =>
+    async (dispatch: AllDispatchProps, getState: any) => {
+      dispatch({ type: LOG_LOADING, payload: null });
+
+      //Load user form url
+
+      const mFormData = JSON.stringify({ mTokenUserFacebook: mTokenFaceBook });
+
+      axios({
+        method: 'POST',
+        url: "http://192.168.184.1:3000/account-user/login-user-facebook",
         data: mFormData,
         headers: {
           'Content-Type': 'application/json'
@@ -95,3 +127,14 @@ export const logOut = () => async (dispatch: AllDispatchProps) => {
     payload: null,
   });
 };
+
+
+
+      
+// keytool -exportcert -alias YOUR_RELEASE_KEY_ALIAS -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64
+
+// keytool -exportcert -alias my-key-alias -keystore myKey.keystore | C:\Users\Admin\Downloads\bin\openssl.exe sha1 -binary | C:\Users\Admin\Downloads\bin\openssl.exe base64
+
+
+// keytool -exportcert -alias my-key-alias -keystore myKey.keystore | C:\Users\Admin\Downloads\bin\openssl.exe sha1 -binary | C:\Users\Admin\Downloads\bin\openssl.exe base64
+
