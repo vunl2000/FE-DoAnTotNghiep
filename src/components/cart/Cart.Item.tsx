@@ -56,11 +56,12 @@ const CartItem = ({item}: Props) => {
       />
       <View style={styles.space} />
       <FastImage
+        style={styles.img}
         source={{
           uri: item?.imageProduct,
-          cache: FastImage.cacheControl.cacheOnly,
+          priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.immutable,
         }}
-        style={styles.img}
         resizeMode={FastImage.resizeMode.contain}
       />
       <View style={styles.space} />

@@ -344,6 +344,7 @@ export default function TabNavigator({navigation}: any) {
         <Stack.Screen
           name={NameScreen.DETAIL_INVOICE}
           component={DetailInvoice}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={NameScreen.SCREEN_RATE}

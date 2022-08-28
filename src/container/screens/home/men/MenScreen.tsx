@@ -34,7 +34,6 @@ const MenScreen = (props: Props) => {
   };
 
   const getData = async (id: string) => {
-    console.log(id + 'vvvvv');
     let data = JSON.stringify({
       idTypeProduct: id.toString(),
     });
@@ -50,7 +49,6 @@ const MenScreen = (props: Props) => {
         let resData: any = res.data;
         setListMen(resData.result);
         setIsLoader(false);
-        console.log(resData.result);
       })
       .catch(err => {
         setIsLoader(true);

@@ -6,14 +6,17 @@ import ArrayColors from '../../res/colors/ArrayColors';
 import FastImage from 'react-native-fast-image';
 import {TypeBill, TypeBillDetail} from '../../store/actions/types';
 import {formartMoney} from '../../utils/Utilities';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 type Props = {
   index?: any;
   item?: any;
   onPress?: any;
+  onpenDialog?: any;
+  type?: boolean;
 };
 
-const InvoiceItem = ({index, item, onPress}: Props) => {
+const InvoiceItem = ({index, item, onPress, type, onpenDialog}: Props) => {
   const [price, setPrice] = useState(0);
   useEffect(() => {
     let price = 0;
@@ -70,10 +73,12 @@ const InvoiceItem = ({index, item, onPress}: Props) => {
         <FastImage
           source={{
             uri: item.billDetails[0].imageProduct,
-            cache: FastImage.cacheControl.cacheOnly,
+            cache: FastImage.cacheControl.web,
+            priority: FastImage.priority.high,
           }}
           style={styles.img}
           resizeMode={FastImage.resizeMode.contain}
+          fallback
         />
         <View style={styles.space} />
         <View style={styles.content}>
@@ -99,6 +104,13 @@ const InvoiceItem = ({index, item, onPress}: Props) => {
           </View>
         </View>
       </View>
+      {type ? (
+        <TouchableOpacity onPress={() => onpenDialog(item._id)}>
+          <View style={styles.deleteContainer}>
+            <Icon name="trash-outline" size={sizes._28sdp} />
+          </View>
+        </TouchableOpacity>
+      ) : null}
     </TouchableOpacity>
   );
 };
@@ -110,6 +122,7 @@ const styles = StyleSheet.create({
     padding: sizes._18sdp,
     backgroundColor: ArrayColors._color_white,
     marginTop: sizes._10sdp,
+    flex: 1,
   },
   container: {
     flexDirection: 'row',
@@ -200,5 +213,14 @@ const styles = StyleSheet.create({
   },
   space: {
     width: sizes._16sdp,
+  },
+  deleteContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+  },
+  iconsDelete: {
+    marginRight: sizes._10sdp,
+    marginBottom: sizes._10sdp,
   },
 });

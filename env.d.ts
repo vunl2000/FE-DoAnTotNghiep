@@ -33,4 +33,5 @@ declare module '@env' {
   export const RATE_COMENT_PRODUCT: string;
   export const RATE_PRODUCT: string;
   export const RATE_START_PRODUCT: string;
+  export const GET_CANCEL_BILL: string;
 }

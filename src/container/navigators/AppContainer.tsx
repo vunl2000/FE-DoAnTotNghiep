@@ -142,16 +142,16 @@ const AppContainer: FC = () => {
   const initScreen = route.params?.screen;
   const dispatch: any = useDispatch();
 
-  useFocusEffect(
-    React.useCallback(() => {
-      // Do something when the screen is focused
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // Do something when the screen is focused
 
-      return () => {
-        dispatch(clearRateComent());
-        console.log('clear comment');
-      };
-    }, []),
-  );
+  //     return () => {
+  //       dispatch(clearRateComent());
+  //       console.log('clear comment');
+  //     };
+  //   }, []),
+  // );
 
   return (
     <bottomTab.Navigator

@@ -47,10 +47,12 @@ const InvoiceItemDetail = ({index, item, render}: Props) => {
         <FastImage
           source={{
             uri: item.imageProduct,
-            cache: FastImage.cacheControl.cacheOnly,
+            cache: FastImage.cacheControl.web,
+            priority: FastImage.priority.high,
           }}
           style={styles.img}
           resizeMode={FastImage.resizeMode.contain}
+          fallback
         />
         <View style={styles.space} />
         <View style={styles.content}>
