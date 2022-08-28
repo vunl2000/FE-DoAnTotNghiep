@@ -40,6 +40,9 @@ import CodeRule from '../screens/coderule/CodeRule';
 import Shipping from '../screens/coderule/Shipping';
 import DetailInvoice from '../screens/invoice/DetailInvoice';
 
+// đánh giá
+import RatingProduct from '../screens/ratetingproduct/RatingProduct';
+import ScreenComment from '../screens/comment/ScreenComment';
 export enum NameScreen {
   HOME = 'AppContainer',
   DETAIL_PRODUCT = 'DetailProduct',
@@ -70,6 +73,8 @@ export enum NameScreen {
   SCREEN_CODE_RULE = 'CodeRule',
   SCREEN_SHIPPING = 'Shipping',
   SCREEN_NOTIFICATION = 'ScreenNotification',
+  SCREEN_RATE = 'RatingProduct',
+  SCREEN_COMMENT = 'ScreenComment',
 }
 const Stack = createNativeStackNavigator();
 
@@ -335,9 +340,19 @@ export default function TabNavigator({navigation}: any) {
           component={Shipping}
           options={{headerShown: false}}
         />
+
         <Stack.Screen
           name={NameScreen.DETAIL_INVOICE}
           component={DetailInvoice}
+        />
+        <Stack.Screen
+          name={NameScreen.SCREEN_RATE}
+          component={RatingProduct}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NameScreen.SCREEN_COMMENT}
+          component={ScreenComment}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
