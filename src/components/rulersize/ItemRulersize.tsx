@@ -3,26 +3,27 @@ import React from 'react';
 import {DataTable} from 'react-native-paper';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
+import {makeId} from '../../utils/Utilities';
 
 const ItemRulersize = ({data, dataCell, title}: any) => {
   return (
-    <DataTable key={'data'}>
+    <DataTable>
       <Text style={styles.header}>{title}</Text>
       <DataTable.Header>
-        {data.map((item: any) => (
-          <DataTable.Title  textStyle={styles.titles}>
+        {data.map((item: any, index: any) => (
+          <DataTable.Title textStyle={styles.titles} key={makeId(14)}>
             {item?.titleHeader}
           </DataTable.Title>
         ))}
       </DataTable.Header>
 
-      {dataCell.map((item: any) => (
-        <DataTable.Row style={styles.rowContainer} >
+      {dataCell.map((item: any, index: any) => (
+        <DataTable.Row style={styles.rowContainer} key={makeId(15)}>
           <DataTable.Cell textStyle={styles.titleRowLef}>
             {item?.nameLeft}
           </DataTable.Cell>
-          {item?.dataRow.map((item: any) => (
-            <DataTable.Cell  textStyle={styles.titleRow}>
+          {item?.dataRow.map((item: any, index: any) => (
+            <DataTable.Cell textStyle={styles.titleRow} key={index.toString()}>
               {item?.titleName}
             </DataTable.Cell>
           ))}

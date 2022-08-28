@@ -19,6 +19,7 @@ import {
 import {SvgXml} from 'react-native-svg';
 import image from '../../../res/require/Images';
 import ItemViewSie from '../../../components/rulersize/ItemViewSie';
+import {makeId} from '../../../utils/Utilities';
 
 const ScreenRulerSize = ({navigation}: any) => {
   function HeaderContent() {
@@ -44,18 +45,30 @@ const ScreenRulerSize = ({navigation}: any) => {
     return (
       <View>
         <View>
-          <ItemRulersize  data={dataRulerheader} dataCell={dataXheader} title={'Kích thước áo'} />
+          <ItemRulersize
+            data={dataRulerheader}
+            dataCell={dataXheader}
+            title={'Kích thước áo'}
+            key={makeId(20)}
+          />
           <ItemViewSie dataClothes={dataDetail} />
         </View>
-         <View>
-          <ItemRulersize data={dataHeaderquan} dataCell={dataXheaderQuan} title={'Kích thước quần'}/>
+        <View>
+          <ItemRulersize
+            data={dataHeaderquan}
+            dataCell={dataXheaderQuan}
+            title={'Kích thước quần'}
+          />
           <ItemViewSie dataClothes={dataDetailQuan} />
         </View>
         <View>
-          <ItemRulersize data={sizeGiay} dataCell={dataCellGiay} title={'Kích thước giày'} />
+          <ItemRulersize
+            data={sizeGiay}
+            dataCell={dataCellGiay}
+            title={'Kích thước giày'}
+          />
           <ItemViewSie dataClothes={dataDetailGiay} />
         </View>
-       
       </View>
     );
   }
@@ -64,7 +77,7 @@ const ScreenRulerSize = ({navigation}: any) => {
       <AppHeader content customContent={<HeaderContent />} />
       <View style={styles.mContainer_body}>
         <FlatList
-          data={[]}
+          data={null}
           renderItem={null}
           removeClippedSubviews={true}
           showsVerticalScrollIndicator={false}
@@ -105,10 +118,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    fontWeight: 'bold',
-    fontFamily: 'OpenSans-SemiBold',
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
     color: ArrayColors._color_black,
-    fontSize: sizes._24sdp,
+    fontSize: sizes._22sdp,
   },
   iconHeader: {
     width: sizes._42sdp,

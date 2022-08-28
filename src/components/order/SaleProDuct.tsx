@@ -17,7 +17,7 @@ const SaleProDuct = ({salePrice, sumPrice, priceTranSport}: Props) => {
       <ColumView
         styleContainer={styles.column}
         styleTextLabel={styles.textDefault}
-        valueLeft={'Giá bán'}
+        valueLeft={'Tiền hàng'}
         valueRight={formartMoney(sumPrice)}
         styleText={[styles.textSub, {textDecorationLine: 'line-through'}]}
       />

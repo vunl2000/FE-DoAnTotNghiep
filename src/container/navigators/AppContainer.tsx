@@ -21,6 +21,7 @@ import ScreenNewspaper from '../screens/spaper/ScreenNewspaper';
 import ScreenAccount from '../screens/account/ScreenAccount';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
 import {clearRateComent} from '../../store/actions/invoiceActions';
+import {Badge} from 'react-native-paper';
 
 // const Tab = createBottomTabNavigator();
 const bottomTab = createBottomTabNavigator();
@@ -57,6 +58,8 @@ function MyTabBar({state, descriptors, navigation}: any) {
             : options.title !== undefined
             ? options.title
             : route.name;
+
+        const tabBarBadge = options.tabBarBadge;
 
         const isFocused = state.index === index;
         const imageAction = imageTabBar[index];
@@ -96,6 +99,13 @@ function MyTabBar({state, descriptors, navigation}: any) {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
+            {tabBarBadge === undefined ? null : (
+              <Badge
+                size={sizes._22sdp}
+                style={{position: 'absolute', top: 0, right: sizes._18sdp}}>
+                {tabBarBadge}
+              </Badge>
+            )}
             <Image
               style={{
                 width: sizes._26sdp,

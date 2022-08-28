@@ -11,6 +11,9 @@ import {List} from 'react-native-paper';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
 import Icons from 'react-native-vector-icons/Ionicons';
+import {makeId} from '../../utils/Utilities';
+
+const keyCustom = (item: any, index: any) => makeId(6);
 const MyComponent = ({
   titleHeader,
   idList,
@@ -57,7 +60,9 @@ const MyComponent = ({
           <List.Accordion
             title={item?.title}
             expanded={item?.checkItem}
-            onPress={()=>{handleCheckItem(item.id, item.checkItem)}}
+            onPress={() => {
+              handleCheckItem(item.id, item.checkItem);
+            }}
             titleStyle={styles.titleItem}
             style={[
               styles.styleItem,

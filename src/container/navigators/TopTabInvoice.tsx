@@ -7,6 +7,7 @@ import ScreenHandle from '../screens/invoice/ScreenHandle';
 import ScreenProcessed from '../screens/invoice/ScreenProcessed';
 import ScreenTransport from '../screens/invoice/ScreenTransport';
 import ScreenDone from '../screens/invoice/ScreenDone';
+import {useRoute} from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,6 +20,9 @@ export enum InvoiceName {
 }
 
 const TopTabInvoice = (props: Props) => {
+  const route: any = useRoute();
+  const initialRoute = route.params?.initialRoute;
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -38,7 +42,16 @@ const TopTabInvoice = (props: Props) => {
         },
         tabBarPressColor: 'transparent',
         tabBarActiveTintColor: ArrayColors._color_black,
-      }}>
+      }}
+      initialRouteName={
+        initialRoute === 2
+          ? InvoiceName.PROCESS
+          : initialRoute === 3
+          ? InvoiceName.TRANSPORT
+          : initialRoute === 4
+          ? InvoiceName.DONE
+          : InvoiceName.HANDLE
+      }>
       <Tab.Screen
         name={InvoiceName.HANDLE}
         component={ScreenHandle}

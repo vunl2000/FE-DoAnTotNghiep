@@ -1,5 +1,10 @@
-import { API_URL, API_CREATE_BILL, API_CREATE_BILL_DETAIL } from '@env';
-import { Address } from './../reducer/addressReducer';
+import {
+  API_URL,
+  API_CREATE_BILL,
+  API_CREATE_BILL_DETAIL,
+  GET_TRANSPORT_FEE,
+} from '@env';
+import {Address} from './../reducer/addressReducer';
 import {
   AllDispatchProps,
   TypeBill,
@@ -11,6 +16,7 @@ import {
   SENDING_DETAIL_BILL,
   RESET_BILL,
   CREATE_FAIL,
+  GET_SHIP_COD,
 } from './../actions/types';
 import store from '..';
 import axios from 'axios';
@@ -38,50 +44,88 @@ export const createBill =
         method: 'POST',
         url: API_URL + API_CREATE_BILL,
         headers: {
-          'token': tokenCover,
-          'Content-Type': 'application/json'
+          token: tokenCover,
+          'Content-Type': 'application/json',
         },
         data: data,
       })
-        .then(res => dishpatch({ type: CREATE_BILL, payload: res.data }))
-        .catch(() => dishpatch({ type: CREATE_FAIL, payload: null }));
+        .then(res => dishpatch({type: CREATE_BILL, payload: res.data}))
+        .catch(() => dishpatch({type: CREATE_FAIL, payload: null}));
     } else {
-      dishpatch({ type: CREATE_FAIL, payload: null });
+      dishpatch({type: CREATE_FAIL, payload: null});
     }
   };
+
 export const createBillDetail =
   (bill: TypeBill, product: TypeCartItem) =>
-    async (dishpatch: AllDispatchProps) => {
-      if (auth != null) {
-        let data = JSON.stringify({
-          titleProduct: product.titleProduct.toString(),
-          trademark: product.trademark.toString(),
-          imageProduct: product.imageProduct.toString(),
-          sizeProduct: product.size.toString(),
-          colorProduct: product.color.toString(),
-          code: product.code.toString(),
-          price: product.price.toString(),
-          quantity: product.qty.toString(),
-          idBill: bill._id,
-          idProduct: product._id.toString(),
-        });
-        console.log(data);
+  async (dishpatch: AllDispatchProps) => {
+    if (auth != null) {
+      let data = JSON.stringify({
+        titleProduct: product.titleProduct.toString(),
+        trademark: product.trademark.toString(),
+        imageProduct: product.imageProduct.toString(),
+        sizeProduct: product.size.toString(),
+        colorProduct: product.color.toString(),
+        code: product.code.toString(),
+        price: product.price.toString(),
+        quantity: product.qty.toString(),
+        idBill: bill._id,
+        idProduct: product._id.toString(),
+      });
+      console.log(data);
 
-        await axios({
-          method: 'POST',
-          url: API_URL + API_CREATE_BILL_DETAIL,
-          headers: {
-            'token': tokenCover,
-            'Content-Type': 'application/json'
-          },
-          data: data,
+      await axios({
+        method: 'POST',
+        url: API_URL + API_CREATE_BILL_DETAIL,
+        headers: {
+          token: tokenCover,
+          'Content-Type': 'application/json',
+        },
+        data: data,
+      })
+        .then(res => dishpatch({type: SENDING_DETAIL_BILL, payload: res.data}))
+        .catch(() => dishpatch({type: CREATE_FAIL, payload: null}));
+    } else {
+      dishpatch({type: CREATE_FAIL, payload: null});
+    }
+  };
+
+export const getTransportFee =
+  (latitude: any, longitude: any) => async (dishpatch: AllDispatchProps) => {
+    if (auth != null) {
+      let data = JSON.stringify({
+        latitude: latitude.toString(),
+        longitude: longitude.toString(),
+      });
+
+      await axios({
+        method: 'POST',
+        url: API_URL + GET_TRANSPORT_FEE,
+        headers: {
+          token: tokenCover,
+          'Content-Type': 'application/json',
+        },
+        data: data,
+      })
+        .then(res => {
+          let datas: any = res.data;
+          console.log(res.data);
+          if (datas.code === 200) {
+            dishpatch({type: GET_SHIP_COD, payload: datas.prices});
+            return true;
+          } else {
+            return false;
+          }
         })
-          .then(res => dishpatch({ type: SENDING_DETAIL_BILL, payload: res.data }))
-          .catch(() => dishpatch({ type: CREATE_FAIL, payload: null }));
-      } else {
-        dishpatch({ type: CREATE_FAIL, payload: null });
-      }
-    };
+        .catch(err => {
+          console.log(err);
+          return false;
+        });
+    } else {
+      console.log('err Token');
+    }
+  };
+
 export const resetBill = () => {
   return {
     type: RESET_BILL,
