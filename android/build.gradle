@@ -9,7 +9,6 @@ buildscript {
         compileSdkVersion = 31
         targetSdkVersion = 31
 
-
         googlePlayServicesVersion      = "17.0.0"
         
 
@@ -62,7 +61,7 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
     }
 }
-//Removing MyAppGlideModule
+// Removing MyAppGlideModule
 // project.ext {
 //     excludeAppGlideModule = true
 // }

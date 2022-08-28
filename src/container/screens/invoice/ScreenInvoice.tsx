@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   textLabel: {
     fontWeight: '700',
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'OpenSans-SemiBold',
     color: ArrayColors._color_black,
     fontSize: sizes._22sdp,
   },

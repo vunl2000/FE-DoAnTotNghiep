@@ -76,7 +76,13 @@ const ScreenDone = (props: Props) => {
   }, [listBill]);
 
   const renderItem = ({item, index}: any) => (
-    <InvoiceItem item={item} index={index} onPress={gotoDetail} />
+    <InvoiceItem
+      item={item}
+      index={index}
+      onPress={gotoDetail}
+      onpenDialog={() => {}}
+      type={false}
+    />
   );
 
   const keyExtractor = (item: any) => item._id;

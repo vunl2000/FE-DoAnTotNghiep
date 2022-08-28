@@ -358,6 +358,7 @@ const DetailProduct = (props: DetailProps) => {
     <FastImage
       source={{
         uri: item,
+        cache: FastImage.cacheControl.web,
         priority: FastImage.priority.high,
       }}
       style={styles.img}

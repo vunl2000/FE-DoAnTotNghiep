@@ -1,24 +1,80 @@
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import InvoiceItem from '../../../components/invoice/InvoiceItem';
 import {TypeBill} from '../../../store/actions/types';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
-import {API_GET_BILL_DETAIL_USER, API_URL, GET_CATORY} from '@env';
+import {
+  API_GET_BILL_DETAIL_USER,
+  API_URL,
+  GET_CANCEL_BILL,
+  GET_CATORY,
+} from '@env';
 import image from '../../../res/require/Images';
 import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../navigators/TabNavigator';
+import {
+  Button,
+  Paragraph,
+  Dialog,
+  Portal,
+  Provider,
+  Chip,
+} from 'react-native-paper';
+import {showToast} from '../../../components/modal/ToastCustom';
 
 type Props = {};
 
 const ScreenHandle = (props: Props) => {
   const [listBill, setListBill] = useState<TypeBill[]>([]);
   const [listBillDetail, setListBillDetail] = useState<any[]>([]);
+  const [visible, setVisible] = React.useState(false);
+  const [reson, setReson] = React.useState<any>(null);
+  const [idBill, setIdBill] = React.useState<any>(null);
   const [error, setError] = useState<any>(false);
   const {listInvoice} = useSelector((state: any) => state.invoice);
   const accounts = useSelector((state: any) => state.account);
+
+  const showDialog = (idBill: any) => {
+    setVisible(true);
+    setIdBill(idBill);
+  };
+
+  const hideDialog = (type: number) => {
+    switch (type) {
+      case 0:
+        setVisible(false);
+        setIdBill(null);
+        setReson(null);
+        break;
+
+      default:
+        let check: boolean = true;
+
+        if (!idBill) {
+          showToast('Đã có lỗi trong quá trình xử lý!');
+          check = false;
+        }
+        if (!reson) {
+          showToast(
+            'Chúng tôi cần lý do của bạn để cải thiện dịch vụ! Vui lòng không bỏ trống trường này!',
+          );
+          check = false;
+        }
+
+        if (check) {
+          clearBill(
+            `Bearer ${accounts.token}`,
+            accounts.result[0]._id,
+            idBill,
+            reson,
+          );
+        }
+        break;
+    }
+  };
 
   const {goBack, navigate}: any = useNavigation();
 
@@ -26,6 +82,50 @@ const ScreenHandle = (props: Props) => {
     navigate(NameScreen.DETAIL_INVOICE, {
       billDetail: data,
     });
+  };
+
+  const clearBill = async (
+    token: string,
+    idUser: any,
+    idBill: any,
+    reson: any,
+  ) => {
+    let data = JSON.stringify({
+      idUser: idUser.toString(),
+      idBill: idBill.toString(),
+      reason: reson.toString(),
+    });
+    console.log(data);
+
+    await axios({
+      method: 'POST',
+      url: API_URL + GET_CANCEL_BILL,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data,
+    })
+      .then(res => {
+        let resData = res.data;
+        if (resData.message.toString() === 'Success') {
+          setVisible(false);
+          setIdBill(null);
+          setReson(null);
+          showToast('Hủy đơn hàng thành công!');
+        } else {
+          setVisible(false);
+          setIdBill(null);
+          setReson(null);
+          showToast('Đã có lỗi xảy ra vui lòng thử lại sau!');
+        }
+      })
+      .catch(err => {
+        setVisible(false);
+        setIdBill(null);
+        setReson(null);
+        showToast('Đã có lỗi xảy ra vui lòng thử lại sau!');
+      });
   };
 
   const getData = async (token: string, idBill: any) => {
@@ -68,7 +168,6 @@ const ScreenHandle = (props: Props) => {
   useEffect(() => {
     if (listBill.length > 0 && accounts.token.length > 0) {
       let token = accounts.token;
-
       listBill.forEach((item: TypeBill) => {
         getData(`Bearer ${token}`, item._id);
       });
@@ -76,7 +175,13 @@ const ScreenHandle = (props: Props) => {
   }, [listBill]);
 
   const renderItem = ({item, index}: any) => (
-    <InvoiceItem item={item} index={index} onPress={gotoDetail} />
+    <InvoiceItem
+      item={item}
+      index={index}
+      onPress={gotoDetail}
+      type={true}
+      onpenDialog={showDialog}
+    />
   );
 
   const keyExtractor = (item: any) => item._id;
@@ -95,22 +200,79 @@ const ScreenHandle = (props: Props) => {
     </View>
   );
   return (
-    <View style={styles.container}>
-      {listBillDetail.length > 0 ? (
-        <FlatList
-          data={listBillDetail}
-          extraData={listBillDetail}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          bounces={false}
-          removeClippedSubviews
-          scrollEventThrottle={32}
-          listKey="handle-bill"
-        />
-      ) : (
-        <Exception />
-      )}
-    </View>
+    <Provider>
+      <View style={styles.container}>
+        {listBillDetail.length > 0 ? (
+          <>
+            <FlatList
+              data={listBillDetail}
+              extraData={listBillDetail}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
+              bounces={false}
+              removeClippedSubviews
+              scrollEventThrottle={32}
+              listKey="handle-bill"
+            />
+            <Portal>
+              <Dialog visible={visible} dismissable={false}>
+                <Dialog.Title style={styles.textLabel}>Thông báo</Dialog.Title>
+                <Dialog.Content>
+                  <Text style={styles.textSub}>
+                    Bạn có chắc chắn muốn hủy đơn này không?
+                  </Text>
+                  <View style={styles.spaceY} />
+                  <View style={styles.border}>
+                    <TextInput
+                      placeholder="Lý do bạn muốn hủy đơn"
+                      style={styles.textInput}
+                      value={reson}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      spellCheck={false}
+                      multiline
+                      placeholderTextColor={ArrayColors._color_un_active}
+                      underlineColorAndroid="transparent"
+                      onChangeText={(val: any) => setReson(val)}
+                    />
+                  </View>
+                  <View style={styles.spaceY} />
+                  <Chip
+                    icon="information"
+                    onPress={() => setReson('Tôi muốn đặt lại hàng.')}>
+                    Tôi muốn đặt lại hàng.
+                  </Chip>
+                  <View style={styles.spaceY} />
+                  <Chip
+                    icon="information"
+                    onPress={() =>
+                      setReson('Tôi không thích màu của sản phẩm này nữa.')
+                    }>
+                    Tôi không thích màu của sản phẩm này nữa.
+                  </Chip>
+                  <View style={styles.spaceY} />
+                  <Chip
+                    icon="information"
+                    onPress={() =>
+                      setReson(
+                        'Tôi rất bận! Có lẽ lần tới tôi sẽ mua nhiều hơn.',
+                      )
+                    }>
+                    Tôi rất bận! Có lẽ lần tới tôi sẽ mua nhiều hơn.
+                  </Chip>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={() => hideDialog(0)}>Hủy bỏ</Button>
+                  <Button onPress={() => hideDialog(1)}>Đồng ý</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
+          </>
+        ) : (
+          <Exception />
+        )}
+      </View>
+    </Provider>
   );
 };
 
@@ -141,6 +303,17 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Bold',
     fontWeight: '700',
   },
+  border: {
+    borderWidth: sizes._1sdp,
+    borderColor: ArrayColors._color_un_active,
+    borderRadius: sizes._5sdp,
+  },
+  textLabel: {
+    fontSize: sizes._22sdp,
+    color: ArrayColors._color_black,
+    fontFamily: 'OpenSans-Bold',
+    fontWeight: '700',
+  },
   textDefault: {
     fontSize: sizes._18sdp,
     color: ArrayColors._color_black,
@@ -149,5 +322,12 @@ const styles = StyleSheet.create({
   },
   spaceY: {
     height: sizes._18sdp,
+  },
+  textInput: {
+    paddingHorizontal: sizes._10sdp,
+    fontFamily: 'OpenSans-Regular',
+    fontWeight: '400',
+    fontSize: sizes._18sdp,
+    textAlignVertical: 'top',
   },
 });

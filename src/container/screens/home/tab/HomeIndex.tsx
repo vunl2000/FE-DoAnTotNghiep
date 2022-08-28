@@ -53,12 +53,8 @@ const HomeIndex: React.FC<Props> = props => {
   const dispatch: any = useDispatch();
   const {banner} = useSelector((state: any) => state.firstOpen);
 
-  const Item = React.memo(({item, index}: any) => (
-    <ProductItem item={item} index={index} />
-  ));
-
   const renderProDuct = ({item, index}: any) => {
-    return <Item item={item} index={index} />;
+    return <ProductItem item={item} index={index} />;
   };
 
   const handleOnEndReached = () => {
@@ -73,32 +69,19 @@ const HomeIndex: React.FC<Props> = props => {
   // let uri3 =
   //   'https://img.ltwebstatic.com/images3_ach/2022/07/22/1658480623d145a14402391cfb8b3dad2e8d1316cd.webp';
 
-  useEffect(() => {
-    let timer = setTimeout(() => {
-      if (currentItem < products.length) {
-        setData([...data, products.slice(data.length, currentItem)]);
-      } else {
-        setData([...data, products.slice(data.length, products.length)]);
-      }
-      setIsLoad(false);
-    }, 2 * 1000);
-    return () => {};
-  }, [currentItem]);
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     return () => {
+  //       if (listIDHeart.length !== 0) {
+  //         listIDHeart.forEach((val: any) => {
+  //           dispatch(changeHeart(val.idProduct, true));
+  //         });
+  //       }
+  //     };
+  //   }, []),
+  // );
 
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        if (listIDHeart.length !== 0) {
-          listIDHeart.forEach((val: any) => {
-            dispatch(changeHeart(val.idProduct, true));
-          });
-          console.log('load heart item');
-        }
-      };
-    }, [listIDHeart]),
-  );
-
-  const renderView = (
+  const renderView = () => (
     <View style={styles.container}>
       <Banner
         size="small"
@@ -126,23 +109,17 @@ const HomeIndex: React.FC<Props> = props => {
       </View>
 
       <FlatList
-        data={products}
-        extraData={products}
-        renderItem={({item, index}: any) => <Item item={item} index={index} />}
+        data={products.slice(0, 10)}
+        extraData={products.slice(0, 10)}
+        renderItem={renderProDuct}
         numColumns={2}
         listKey={'home-index'}
         keyExtractor={keyItem}
         showsVerticalScrollIndicator={false}
-        // removeClippedSubviews
-        // ListFooterComponent={loadMore(isLoad)}
+        removeClippedSubviews
+        ListFooterComponent={loadMore(isLoad)}
         ItemSeparatorComponent={space}
-        // onEndReached={handleOnEndReached}
-        // onEndReachedThreshold={0.1}
-        // initialNumToRender={10}
-        // inverted
-        // maxToRenderPerBatch={20}
-        // windowSize={data.length > 50 ? data.length / 4 : 21}
-        // bounces={false}
+        bounces={false}
       />
     </View>
   );
@@ -153,9 +130,7 @@ const HomeIndex: React.FC<Props> = props => {
         renderItem={renderContent}
         ListFooterComponent={renderView}
         listKey="home_index"
-        removeClippedSubviews={false}
         showsVerticalScrollIndicator={false}
-        bounces={false}
       />
     </View>
   );
