@@ -214,7 +214,6 @@ const ScreenChangePass = ({ navigation }: any) => {
     }
   }
   function mChangePass(idUser: any, password: any, passwordNew: any, passwordNewConfirm: any) {
-
     var data = JSON.stringify({
       idUser,
       password,
