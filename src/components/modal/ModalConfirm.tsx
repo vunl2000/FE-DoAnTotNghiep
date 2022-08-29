@@ -10,18 +10,21 @@ import {
 import React from 'react';
 import ArrayColors from '../../res/colors/ArrayColors';
 import sizes from '../../res/sizes/sizes';
-
+import LottieView from 'lottie-react-native';
 interface Props {
   onPressConfirm?: () => void;
   onPressCance?: () => void;
   visible?: boolean;
   visibleDisabled?: () => void;
+  visibleDisableds?: boolean;
+
 }
 
 const ModalConfirm = (props: Props) => {
   function ViewLinearLayout() {
     return (
       <>
+
         <View
           style={{
             justifyContent: 'center',
@@ -30,7 +33,7 @@ const ModalConfirm = (props: Props) => {
             borderBottomColor: ArrayColors.blue_item_catory,
             borderBottomWidth: sizes._1sdp,
           }}>
-          <Text style={{textAlign: 'center', marginVertical: sizes._12sdp}}>
+          <Text style={{ textAlign: 'center', marginVertical: sizes._12sdp }}>
             Bạn có chắc chắn muốn đăng xuất?
           </Text>
         </View>
@@ -80,6 +83,27 @@ const ModalConfirm = (props: Props) => {
       animationType="slide"
       transparent={true}
       visible={props.visible}>
+      {props.visibleDisableds ? <View style={{
+        width: sizes._68sdp,
+        height: sizes._68sdp,
+        backgroundColor: '#ffffff',
+        borderRadius: sizes._10sdp,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 10000,
+        position: 'absolute',
+        left: sizes._screen_width / 2.5,
+        right: sizes._screen_width / 2.5,
+        top: sizes._screen_height / 3
+      }}>
+        <LottieView
+          source={require('../../assets/lottie/fashion_app_loading.json')}
+          autoPlay
+          loop
+        />
+      </View> : null}
+
+
       <TouchableWithoutFeedback onPress={props.visibleDisabled}>
         <View
           style={{

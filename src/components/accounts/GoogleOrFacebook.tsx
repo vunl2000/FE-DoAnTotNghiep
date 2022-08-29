@@ -55,7 +55,7 @@ const GoogleOrFacebook = (props: Props) => {
                     marginVertical: sizes._24sdp,
                 }}>
                 <GoogleSigninButton
-                    style={{ width: sizes._screen_width / 2, height: sizes._58sdp, marginHorizontal: sizes._16sdp }}
+                    style={{ width: sizes._screen_width - sizes._40sdp, height: sizes._58sdp, marginHorizontal: sizes._16sdp }}
                     size={GoogleSigninButton.Size.Wide}
                     color={GoogleSigninButton.Color.Dark}
                     onPress={props.eventLoginGoogle}
@@ -64,7 +64,7 @@ const GoogleOrFacebook = (props: Props) => {
                     onPress={props.eventLoginFaceBook}
                     style={{
                         backgroundColor: ArrayColors._color_facebook,
-                        width: sizes._screen_width / 2 - sizes._10sdp,
+                        width: sizes._screen_width - sizes._46sdp,
                         height: sizes._48sdp,
                         borderWidth: 1,
                         borderColor: ArrayColors._color_facebook,
@@ -72,6 +72,7 @@ const GoogleOrFacebook = (props: Props) => {
                         alignItems: 'center',
                         marginHorizontal: sizes._6sdp,
                         flexDirection: 'row',
+                        marginVertical: sizes._12sdp,
                     }}>
                     <View style={{
                         width: sizes._46sdp,
@@ -92,6 +93,8 @@ const GoogleOrFacebook = (props: Props) => {
                     <Text
                         style={{
                             alignItems: 'center',
+                            textAlign: "center",
+                            paddingRight: sizes._52sdp,
                             color: ArrayColors._color_white,
                             fontWeight: "bold",
                             marginHorizontal: sizes._3sdp,
@@ -100,7 +103,7 @@ const GoogleOrFacebook = (props: Props) => {
                     >Sign in with FaceBook</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     )
 }
 
