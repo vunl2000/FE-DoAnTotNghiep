@@ -135,40 +135,45 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
 
     async function eventLoginGoogle() {
         setIsLoading(true);
-        const { idToken }: any = await GoogleSignin.signIn().catch(e => {
-            ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
-            setIsLoading(false);
-            console.log(e);
-        });
-        // Create a Google credential with the token
-        const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
-        // Sign-in the user with the credential
-        await auth()
-            .signInWithCredential(googleCredential)
-            .then((res: any) => {
-                setUserInfo(res);
-            })
-            .catch(e => {
-                // Alert.alert(e.message);
+        try {
+            const { idToken }: any = await GoogleSignin.signIn().catch(e => {
                 ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+                setIsLoading(false);
                 console.log(e);
-
             });
-        auth()
-            .currentUser?.getIdToken(true)
-            .then(idToken => {
-                console.log(idToken);
-                if (idToken) {
-                    dispatch(userLoginsGoogle(idToken));
-                } else {
+            // Create a Google credential with the token
+            const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
+            // Sign-in the user with the credential
+            await auth()
+                .signInWithCredential(googleCredential)
+                .then((res: any) => {
+                    setUserInfo(res);
+                })
+                .catch(e => {
+                    // Alert.alert(e.message);
                     ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
-                }
-            })
-            .catch(e => {
-                console.log(e);
-                ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+                    console.log(e);
 
-            });
+                });
+            auth()
+                .currentUser?.getIdToken(true)
+                .then(idToken => {
+                    console.log(idToken);
+                    if (idToken) {
+                        dispatch(userLoginsGoogle(idToken));
+                    } else {
+                        ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+                    }
+                })
+                .catch(e => {
+                    console.log(e);
+                    ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+
+                });
+        } catch (e) {
+            setIsLoading(false);
+            ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+        }
     }
 
 
@@ -258,7 +263,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         } else if (!checkMail(email)) {
             setLabelEmail('Vui lòng nhập đúng định dạng');
             setWarningEmail(true);
-
         } else if (isNullEmptyBlank(email)) {
             setLabelEmail('Email không không được chứa khoảng cách');
             setWarningEmail(true);
@@ -296,32 +300,30 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         // Once signed in, get the users AccesToken
         const data = await AccessToken.getCurrentAccessToken();
 
-        // if (!data) {
-        //     throw 'Something went wrong obtaining access token';
-        // }
+        if (!data) {
+            throw 'Something went wrong obtaining access token';
+        }
 
-        // Create a Firebase credential with the AccessToken
-        // const facebookCredential = await auth.FacebookAuthProvider.credential(data.accessToken);
-        // console.log(facebookCredential);
+        //Create a Firebase credential with the AccessToken
+        const facebookCredential = await auth.FacebookAuthProvider.credential(data.accessToken);
+        console.log(facebookCredential);
 
         await auth().currentUser?.getIdToken(true)
             .then((idToken) => {
                 console.log(idToken);
                 if (idToken) {
-                    // setVSBG(idToken)
                     dispatch(userLoginsFaceBook(idToken));
+                    // setIsLoading(false);
                 } else {
                     Alert.alert("Đã có lỗi trong quá trình xử lý");
-
                 }
-
             })
             .catch((e: any) => {
                 console.log(e);
             })
 
         // Sign-in the user with the credential
-        // return auth().signInWithCredential(facebookCredential);
+        return auth().signInWithCredential(facebookCredential);
     }
 
 

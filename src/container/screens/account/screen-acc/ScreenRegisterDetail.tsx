@@ -25,7 +25,7 @@ import ImagePicker from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../../../../store/actions/registerActions';
 import RNFS from 'react-native-fs';
-import { isVietnamesePhoneNumber } from '../../../../utils/Utilities';
+import { isNullEmptyBlank, isVietnamesePhoneNumber } from '../../../../utils/Utilities';
 
 import axios from 'axios';
 import { removerRegister } from '../../../../store/actions/registerActions';
@@ -225,6 +225,9 @@ const ScreenRegisterDetail = ({ navigation, route }: any) => {
         } else if (!isVietnamesePhoneNumber(phone)) {
             setWarningNumberPhone(true);
             setLabelNumberPhone("Số điện thoại không đúng định dạng");
+        } else if (isNullEmptyBlank(phone)) {
+            setWarningNumberPhone(true);
+            setLabelNumberPhone('Số điện thoại không được chứa khoảng cách');
         } else {
             setIsLoading(true);
             dispatch(
