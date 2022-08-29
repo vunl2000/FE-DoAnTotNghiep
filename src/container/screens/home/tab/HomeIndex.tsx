@@ -89,7 +89,7 @@ const HomeIndex: React.FC<Props> = props => {
         mode="cover"
         key="top_banner"
       />
-      <TopCatory />
+      {/* <TopCatory /> */}
       <Banner
         size="medium"
         uri={searchUrl('Home_2', banner)}

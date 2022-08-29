@@ -8,7 +8,7 @@ import ItemQuestions from '../../../components/questions/ItemQuestions';
 import {dataAll} from '../../../data/fakedata/DataAnswerQuestion';
 import {makeId} from '../../../utils/Utilities';
 
-const key = (item: any, index: any) => makeId(4);
+const key = (item: any, index: any) => index.toString();
 
 const AnswerQuestions = ({navigation}: any) => {
   const [expanded, setExpanded] = React.useState<any>(dataAll);

@@ -16,7 +16,7 @@ interface ColumView {
   customRight?: any;
   valueRight?: any;
   iconRight?: boolean;
-  onPressIconRight?: () => void;
+  onPressIconRight?: any;
   styleContainer?: any;
   styleText?: any;
   styleTextLabel?: any;
@@ -34,7 +34,7 @@ const ColumView = ({
   customRight,
 }: ColumView) => {
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={onPressIconRight}>
       <View style={[styleContainer, styles.container]}>
         {customLeft ? (
           customLeft
