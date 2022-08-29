@@ -2,54 +2,56 @@ import {FlatList, StyleSheet} from 'react-native';
 import React from 'react';
 import TopCatoryItem from './TopCatory.Item';
 import image from '../../../res/require/Images';
+import {NameScreen} from '../../../container/navigators/TabNavigator';
+import {useNavigation} from '@react-navigation/native';
 
 type Props = {};
-
-const renderItem = ({index, item}: any) => (
-  <TopCatoryItem index={index} item={item} />
-);
 
 const data = [
   {
     id: 'menu_1',
-    icon: image.ic_ticket_catory,
-    label: 'Giảm 10%',
-    subLabel: 'Đơn hàng đầu tiên',
+    icon: image.ic_headsetphone,
+    label: 'Câu hỏi',
+    screen: 0,
   },
   {
     id: 'menu_2',
-    icon: image.ic_ticket_catory,
-    label: 'Flash sale',
-    subLabel: '',
+    icon: image.cod_icon,
+    label: 'Vận chuyển',
+    screen: 1,
   },
   {
     id: 'menu_3',
-    icon: image.ic_ticket_catory,
-    label: 'Giảm 10%',
-    subLabel: 'Đơn hàng đầu tiên',
+    icon: image.ic_info,
+    label: 'Giới thiệu',
+    screen: 2,
   },
   {
     id: 'menu_4',
-    icon: image.ic_ticket_catory,
-    label: 'Giảm 10%',
-    subLabel: 'Đơn hàng đầu tiên',
-  },
-  {
-    id: 'menu_5',
-    icon: image.ic_ticket_catory,
-    label: 'Giảm 10%',
-    subLabel: 'Đơn hàng đầu tiên',
-  },
-  {
-    id: 'menu_6',
-    icon: image.ic_ticket_catory,
-    label: 'Giảm 10%',
-    subLabel: 'Đơn hàng đầu tiên',
+    icon: image.ic_survey_center,
+    label: 'Kích thước',
+    screen: 3,
   },
 ];
 const key = (item: any) => item.id;
 
 const TopCatory = (props: Props) => {
+  const {navigate}: any = useNavigation();
+  const goToScreens = (index: any) => {
+    navigate(
+      index == 1
+        ? NameScreen.ANSWERQUESTIONS
+        : index == 2
+        ? NameScreen.ANSWERQUESTIONS
+        : index == 3
+        ? NameScreen.ANSWERQUESTIONS
+        : NameScreen.INTRODUCE,
+    );
+  };
+  const renderItem = ({index, item}: any) => {
+    return <TopCatoryItem index={index} item={item} onPress={goToScreens} />;
+  };
+
   return (
     <>
       <FlatList

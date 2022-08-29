@@ -84,37 +84,6 @@ const viewLeft = (img: ImageURISource, text: string) => (
   </View>
 );
 
-const TranSportDetail = () => (
-  <View style={styles.tranSport}>
-    <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
-      Vận chuyển
-    </Text>
-    <View style={styles.sapceMediumX} />
-    <ColumView
-      customLeft={viewLeft(
-        image.ic_car_green,
-        'Miễn phí vận chuyển cho các đơn hàng trên 500.000đ',
-      )}
-      styleContainer={styles.columeMedium}
-      iconRight
-    />
-    <Divider />
-    <ColumView
-      customLeft={viewLeft(image.ic_private_green, 'Chính sách bảo vệ')}
-      styleContainer={styles.columeMedium}
-      iconRight
-    />
-    <Divider />
-    <ColumView
-      styleContainer={styles.columeMedium}
-      styleText={styles.textDefault}
-      styleTextLabel={styles.textDefault}
-      valueLeft="Hướng dẫn kích thước"
-      iconRight
-    />
-  </View>
-);
-
 // const ListSuggestions = () => (
 //   <View style={styles.listSuggestions}>
 //     <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
@@ -253,6 +222,37 @@ const DetailProduct = (props: DetailProps) => {
   const onBackPress = () => goBack();
 
   const goToCart = () => navigate(NameScreen.HOME, {screen: 'ScreenCart'});
+
+  const TranSportDetail = () => (
+    <View style={styles.tranSport}>
+      <Text style={[styles.textPriceProduct, {marginLeft: sizes._18sdp}]}>
+        Vận chuyển
+      </Text>
+      <View style={styles.sapceMediumX} />
+      <ColumView
+        customLeft={viewLeft(image.ic_car_green, 'Vận chuyển nhanh chóng')}
+        styleContainer={styles.columeMedium}
+        iconRight
+        onPressIconRight={() => navigate(NameScreen.SCREEN_SHIPPING)}
+      />
+      <Divider />
+      <ColumView
+        customLeft={viewLeft(image.ic_private_green, 'Chính sách bảo vệ')}
+        styleContainer={styles.columeMedium}
+        iconRight
+        onPressIconRight={() => navigate(NameScreen.ANSWERQUESTIONS)}
+      />
+      <Divider />
+      <ColumView
+        styleContainer={styles.columeMedium}
+        styleText={styles.textDefault}
+        styleTextLabel={styles.textDefault}
+        valueLeft="Hướng dẫn kích thước"
+        iconRight
+        onPressIconRight={() => navigate(NameScreen.SCREENRULERSIZE)}
+      />
+    </View>
+  );
   //Modal
   const BtnShowAddCart = () => (
     <View style={styles.containerAddCart}>
@@ -439,11 +439,11 @@ const DetailProduct = (props: DetailProps) => {
           showsHorizontalScrollIndicator={false}
           pagingEnabled
         />
-        <View style={styles.currentImg}>
+        {/* <View style={styles.currentImg}>
           <Text style={styles.textBtnAdd}>
             {currentIndex}/{imageProduct.length}
           </Text>
-        </View>
+        </View> */}
       </View>
 
       <View style={styles.rowContent}>

@@ -100,6 +100,8 @@ const image = {
   img_jean: require('../../assets/images/img_quan.png'),
 
   img_notifications: require('../../assets/images/img_notification.jpg'),
+  ic_info: require('../../assets/images/ic_info.png'),
+  cod_icon: require('../../assets/images/cod_icon.png'),
 
   // ////////////////////////////////
   // like_png: require('../../assets/gif/like_png.png'),

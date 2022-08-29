@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {Divider} from 'react-native-paper';
@@ -15,7 +15,7 @@ import {API_URL, GET_PRODUCT_BY_ID} from '@env';
 import axios from 'axios';
 import CatoryItem from './Catory.Item';
 import image from '../../res/require/Images';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../container/navigators/TabNavigator';
 
 type Props = {
@@ -25,10 +25,14 @@ type Props = {
 };
 
 const Catory = ({data, keyListLeft, keyListRight}: Props) => {
+  const isFocused = useIsFocused();
+
+  const flatListRef: any = useRef(null);
+
   const [selectMenu, setSelectMenu] = useState({
-    index: 0,
-    _id: data[0]._id,
-    titleCategoryProduct: data[0].titleCategoryProduct,
+    index: -1,
+    _id: null,
+    titleCategoryProduct: null,
   });
 
   const {navigate}: any = useNavigation();
@@ -66,9 +70,22 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
   };
 
   useEffect(() => {
+    if (isFocused && data) {
+      setSelectMenu({
+        index: 0,
+        _id: data[0]._id,
+        titleCategoryProduct: data[0].titleCategoryProduct,
+      });
+      flatListRef.current.scrollToOffset({animated: false, offset: 0});
+    }
+  }, [isFocused, data]);
+
+  useEffect(() => {
     try {
-      setIsloading(false);
-      getData(selectMenu._id);
+      if (selectMenu._id) {
+        setIsloading(false);
+        getData(selectMenu._id);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -136,6 +153,7 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <FlatList
+            ref={flatListRef}
             data={data}
             extraData={data}
             renderItem={renderItem}
