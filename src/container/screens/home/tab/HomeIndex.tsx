@@ -46,7 +46,7 @@ const loadMore = (isLoad: boolean) => {
 
 const HomeIndex: React.FC<Props> = props => {
   const {listIDHeart, products} = useSelector((state: any) => state.product);
-
+  const ITEM_HEIGHT = sizes._282sdp;
   const [isLoad, setIsLoad] = useState(false);
   const [data, setData] = useState<any>([]);
   const [currentItem, setCurrentItem] = useState(20);
@@ -58,8 +58,16 @@ const HomeIndex: React.FC<Props> = props => {
   };
 
   const handleOnEndReached = () => {
-    setCurrentItem(currentItem + 20);
-    setIsLoad(true);
+    setCurrentItem(currentItem + 10);
+    if (currentItem > products.length) {
+      setIsLoad(false);
+    } else {
+      setIsLoad(true);
+      setTimeout(() => {
+        setData(data.concat(products.slice(data.length, currentItem)));
+        setIsLoad(false);
+      }, 2000);
+    }
   };
 
   // let uri1 =
@@ -69,17 +77,9 @@ const HomeIndex: React.FC<Props> = props => {
   // let uri3 =
   //   'https://img.ltwebstatic.com/images3_ach/2022/07/22/1658480623d145a14402391cfb8b3dad2e8d1316cd.webp';
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     return () => {
-  //       if (listIDHeart.length !== 0) {
-  //         listIDHeart.forEach((val: any) => {
-  //           dispatch(changeHeart(val.idProduct, true));
-  //         });
-  //       }
-  //     };
-  //   }, []),
-  // );
+  useEffect(() => {
+    setData(products.slice(0, 10));
+  }, []);
 
   const renderView = () => (
     <View style={styles.container}>
@@ -109,8 +109,8 @@ const HomeIndex: React.FC<Props> = props => {
       </View>
 
       <FlatList
-        data={products.slice(0, 10)}
-        extraData={products.slice(0, 10)}
+        data={data}
+        extraData={data}
         renderItem={renderProDuct}
         numColumns={2}
         listKey={'home-index'}
@@ -119,7 +119,13 @@ const HomeIndex: React.FC<Props> = props => {
         removeClippedSubviews
         ListFooterComponent={loadMore(isLoad)}
         ItemSeparatorComponent={space}
+        onEndReached={handleOnEndReached}
         bounces={false}
+        getItemLayout={(data, index) => ({
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        })}
       />
     </View>
   );
