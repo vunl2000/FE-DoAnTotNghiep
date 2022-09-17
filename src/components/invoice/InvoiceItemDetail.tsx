@@ -47,8 +47,8 @@ const InvoiceItemDetail = ({index, item, render}: Props) => {
         <FastImage
           source={{
             uri: item.imageProduct,
-            cache: FastImage.cacheControl.web,
-            priority: FastImage.priority.high,
+            // cache: FastImage.cacheControl.web,
+            // priority: FastImage.priority.high,
           }}
           style={styles.img}
           resizeMode={FastImage.resizeMode.contain}

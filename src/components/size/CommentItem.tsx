@@ -46,8 +46,8 @@ const renderImage = ({item, index}: any) => (
   <FastImage
     source={{
       uri: item,
-      cache: FastImage.cacheControl.web,
-      priority: FastImage.priority.high,
+      // cache: FastImage.cacheControl.web,
+      // priority: FastImage.priority.high,
     }}
     style={styles.img}
     resizeMode={FastImage.resizeMode.cover}

@@ -11,6 +11,7 @@ import ArrayColors from '../../../../res/colors/ArrayColors';
 import {changeHeart} from '../../../../store/actions/productsActions';
 import {useFocusEffect} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
+import {FlashList} from '@shopify/flash-list';
 
 interface Props {}
 
@@ -48,7 +49,7 @@ const HomeIndex: React.FC<Props> = props => {
   const {listIDHeart, products} = useSelector((state: any) => state.product);
   const ITEM_HEIGHT = sizes._282sdp;
   const [isLoad, setIsLoad] = useState(false);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<any>(products.slice(0, 10));
   const [currentItem, setCurrentItem] = useState(20);
   const dispatch: any = useDispatch();
   const {banner} = useSelector((state: any) => state.firstOpen);
@@ -77,11 +78,11 @@ const HomeIndex: React.FC<Props> = props => {
   // let uri3 =
   //   'https://img.ltwebstatic.com/images3_ach/2022/07/22/1658480623d145a14402391cfb8b3dad2e8d1316cd.webp';
 
-  useEffect(() => {
-    setData(products.slice(0, 10));
-  }, []);
+  // useEffect(() => {
+  //   setData(products.slice(0, 10));
+  // }, []);
 
-  const renderView = () => (
+  const renderView = (
     <View style={styles.container}>
       <Banner
         size="small"
@@ -108,24 +109,20 @@ const HomeIndex: React.FC<Props> = props => {
         <Text style={styles.textLabel}>Đề xuất</Text>
       </View>
 
-      <FlatList
+      <FlashList
         data={data}
         extraData={data}
         renderItem={renderProDuct}
         numColumns={2}
-        listKey={'home-index'}
-        keyExtractor={keyItem}
+        // listKey={'home-index'}
+        //keyExtractor={keyItem}
         showsVerticalScrollIndicator={false}
-        removeClippedSubviews
-        ListFooterComponent={loadMore(isLoad)}
-        ItemSeparatorComponent={space}
-        onEndReached={handleOnEndReached}
+        // removeClippedSubviews
+        //ListFooterComponent={loadMore(isLoad)}
+        //ItemSeparatorComponent={space}
+        //onEndReached={handleOnEndReached}
         bounces={false}
-        getItemLayout={(data, index) => ({
-          length: ITEM_HEIGHT,
-          offset: ITEM_HEIGHT * index,
-          index,
-        })}
+        estimatedItemSize={ITEM_HEIGHT}
       />
     </View>
   );

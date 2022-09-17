@@ -73,8 +73,8 @@ const InvoiceItem = ({index, item, onPress, type, onpenDialog}: Props) => {
         <FastImage
           source={{
             uri: item.billDetails[0].imageProduct,
-            cache: FastImage.cacheControl.web,
-            priority: FastImage.priority.high,
+            // cache: FastImage.cacheControl.web,
+            // priority: FastImage.priority.high,
           }}
           style={styles.img}
           resizeMode={FastImage.resizeMode.contain}

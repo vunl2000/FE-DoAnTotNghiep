@@ -6,6 +6,7 @@ import sizes from '../../../res/sizes/sizes';
 import HomeStack from '../../navigators/HomeStack';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+
   loadAccessory,
   loadColors,
   loadMen,

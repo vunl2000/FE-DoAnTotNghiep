@@ -26,7 +26,7 @@ const CatoryWomen = (props: Props) => {
     } catch (error) {}
   }, [isFocused, accessory]);
 
-  if (data.length === 0) {
+  if (women.length === 0) {
     return (
       <View>
         <SkeletonPlaceholder>
@@ -42,7 +42,7 @@ const CatoryWomen = (props: Props) => {
   return (
     <View>
       <Catory
-        data={data}
+        data={women}
         keyListLeft="menu_men_left"
         keyListRight="view_product_men_right"
       />

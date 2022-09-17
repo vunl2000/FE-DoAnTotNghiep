@@ -29,8 +29,8 @@ const ContentCatoryItem = (props: Props) => {
         <FastImage
           source={{
             uri: categoryImgProduct,
-            cache: FastImage.cacheControl.web,
-            priority: FastImage.priority.high,
+            // cache: FastImage.cacheControl.web,
+            // priority: FastImage.priority.high,
           }}
           style={styles.image}
           resizeMode={FastImage.resizeMode.contain}

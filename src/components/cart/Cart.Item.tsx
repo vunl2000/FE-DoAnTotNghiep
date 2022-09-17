@@ -59,8 +59,8 @@ const CartItem = ({item}: Props) => {
         style={styles.img}
         source={{
           uri: item?.imageProduct,
-          priority: FastImage.priority.normal,
-          cache: FastImage.cacheControl.immutable,
+          // priority: FastImage.priority.normal,
+          // cache: FastImage.cacheControl.immutable,
         }}
         resizeMode={FastImage.resizeMode.contain}
       />
