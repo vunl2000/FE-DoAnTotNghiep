@@ -56,6 +56,7 @@ import {
   getAllRateStart,
 } from '../../../store/actions/invoiceActions';
 import CommentItem from '../../../components/size/CommentItem';
+import {HomeName} from '../../navigators/AppContainer';
 
 type DetailProps = {};
 
@@ -221,7 +222,7 @@ const DetailProduct = (props: DetailProps) => {
 
   const onBackPress = () => goBack();
 
-  const goToCart = () => navigate(NameScreen.HOME, {screen: 'ScreenCart'});
+  const goToCart = () => navigate(NameScreen.HOME, {screen: HomeName.CART});
 
   const TranSportDetail = () => (
     <View style={styles.tranSport}>

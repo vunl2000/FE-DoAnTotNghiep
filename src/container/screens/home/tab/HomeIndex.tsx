@@ -8,7 +8,10 @@ import HomeCatory from '../../../../components/home/catory/HomeCatory';
 import ProductItem from '../../../../components/product/Product.Item';
 import {Text} from 'react-native';
 import ArrayColors from '../../../../res/colors/ArrayColors';
-import {changeHeart} from '../../../../store/actions/productsActions';
+import {
+  changeHeart,
+  getHeartUser,
+} from '../../../../store/actions/productsActions';
 import {useFocusEffect} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import {FlashList} from '@shopify/flash-list';
@@ -53,7 +56,7 @@ const HomeIndex: React.FC<Props> = props => {
   const [currentItem, setCurrentItem] = useState(20);
   const dispatch: any = useDispatch();
   const {banner} = useSelector((state: any) => state.firstOpen);
-
+  const accounts = useSelector((state: any) => state.account);
   const renderProDuct = ({item, index}: any) => {
     return <ProductItem item={item} index={index} />;
   };
@@ -81,6 +84,14 @@ const HomeIndex: React.FC<Props> = props => {
   // useEffect(() => {
   //   setData(products.slice(0, 10));
   // }, []);
+
+  useEffect(() => {
+    const {isAuthenticated, token} = accounts;
+
+    if (isAuthenticated) {
+      dispatch(getHeartUser(`Bearer ${token}`, accounts.result[0]._id));
+    }
+  }, [accounts]);
 
   const renderView = (
     <View style={styles.container}>

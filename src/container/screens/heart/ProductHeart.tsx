@@ -248,14 +248,10 @@ const ProductHeart = (props: Props) => {
       <View style={styles.spaceHeightMedium} />
       <FlatList
         data={listNote}
-        extraData={listNote}
         keyExtractor={keySuggestions}
         renderItem={renderItemSuggestions}
         listKey="list-suggestions-heart"
-        removeClippedSubviews
-        bounces={false}
         numColumns={3}
-        maxToRenderPerBatch={12}
         ItemSeparatorComponent={renderSpace}
         columnWrapperStyle={{
           flex: 1,
@@ -281,11 +277,9 @@ const ProductHeart = (props: Props) => {
         <View style={{width: '100%'}}>
           <FlatList
             data={listHeart}
-            extraData={listHeart}
             keyExtractor={keySuggestions}
             renderItem={renderItem}
             listKey="list-heart"
-            removeClippedSubviews
             numColumns={2}
             ItemSeparatorComponent={renderSpace}
             columnWrapperStyle={{

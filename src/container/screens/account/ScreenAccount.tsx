@@ -73,7 +73,6 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
       onPress={(val: any) => navigate(NameScreen.HEART_PRODUCT)}
     />
   );
-  console.log(listInvoice);
 
   const navigateInvoice = (id: string) => {
     if (accounts.isAuthenticated) {

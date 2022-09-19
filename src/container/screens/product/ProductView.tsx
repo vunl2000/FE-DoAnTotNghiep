@@ -34,6 +34,8 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import MenuFilter from '../../../components/filter/MenuFilter';
 import FilterItem from '../../../components/filter/FilterItem';
 import ButtonSub from '../../../components/button/ButtonSub';
+import {NameScreen} from '../../navigators/TabNavigator';
+import {HomeName} from '../../navigators/AppContainer';
 
 type Props = {};
 
@@ -75,7 +77,7 @@ const ProductView = (props: Props) => {
     index: -1,
   });
 
-  const {goBack}: any = useNavigation();
+  const {goBack, navigate}: any = useNavigation();
   const {params}: any = useRoute();
 
   const searchKey = params?.searchKey;
@@ -83,6 +85,8 @@ const ProductView = (props: Props) => {
   const title = params?.title;
 
   const backPress = () => goBack();
+
+  const goCart = () => navigate(NameScreen.HOME, {screen: HomeName.CART});
 
   const renderSpaceItem = () => <View style={styles.spaceMediumY} />;
 
@@ -353,7 +357,7 @@ const ProductView = (props: Props) => {
           </Text>
         ) : null}
       </View>
-      <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={() => {}} />
+      <BadgesIcon icon={image.ic_cart} count={numberCart} onPress={goCart} />
     </View>
   );
   //Filter san pham
