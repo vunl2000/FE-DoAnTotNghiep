@@ -25,6 +25,7 @@ import {
   API_URL,
   GET_PRODUCT_BY_ID,
   GET_PRODUCT_SREACH_TITLE_PRODUCTS,
+  GET_PRODUCT_SREACH_TITLE_PRODUCTS_CATORY,
   GET_PRODUCT_SREACH_TITLE_PRODUCTS_DATE_HIGH,
   GET_PRODUCT_SREACH_TITLE_PRODUCTS_DATE_LOW,
 } from '@env';
@@ -50,7 +51,9 @@ const ProductView = (props: Props) => {
   const {listSizes, listColors} = useSelector((state: any) => state.catory);
 
   const [listSearch, setListSearch] = useState<any>([]);
+  const [listFilter, setListFilter] = useState<any>([]);
 
+  const [isFilter, setIsFilter] = useState<boolean>(false);
   const [classify, setClassify] = useState<boolean>(false);
   const [classifyValue, setClassifyValue] = useState<any>({
     text: 'Đề xuất',
@@ -86,15 +89,78 @@ const ProductView = (props: Props) => {
   const changeClassify = (text: any, index: any) => {
     setClassifyValue({text, index});
     setClassify(false);
+    resetFilter();
   };
+
   const changeCatory = (text: any, index: any) => {
     setFilterValue({text, index});
   };
+
   const changeSize = (size: any, index: any) => {
     setSizeValue({size, index});
+
+    if (index === -1) {
+      setIsFilter(false);
+    }
+
+    if (index !== -1 && colorValue.index !== -1) {
+      let newFilter = listSearch.filter(
+        (val: any) =>
+          val.size_product.indexOf(size) >= 0 &&
+          val.color_product.indexOf(colorValue.color) >= 0,
+      );
+      console.log('size ' + newFilter.length);
+      console.log(size + ' ' + colorValue.color);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+
+    if (index !== -1) {
+      let newFilter = listSearch.filter(
+        (val: any) => val.size_product.indexOf(size) >= 0,
+      );
+      console.log('size1 ' + newFilter.length);
+      console.log(size);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
   };
   const changeColor = (color: any, index: any) => {
     setColorValue({color, index});
+
+    if (index === -1) {
+      setIsFilter(false);
+    }
+
+    if (index !== -1 && sizeValue.index !== -1) {
+      let newFilter = listSearch.filter(
+        (val: any) =>
+          val.size_product.indexOf(sizeValue.size) >= 0 &&
+          val.color_product.indexOf(color) >= 0,
+      );
+      setListFilter(newFilter);
+      console.log('color ' + newFilter.length);
+      console.log(color + ' ' + sizeValue.size);
+      setIsFilter(true);
+      return;
+    }
+
+    if (index !== -1) {
+      let newFilter = listSearch.filter(
+        (val: any) => val.color_product.indexOf(color) >= 0,
+      );
+      console.log('color1 ' + newFilter.length);
+      console.log(color);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+  };
+
+  const doneFilter = () => {
+    setFilter(false);
   };
 
   const resetFilter = () => {
@@ -110,6 +176,8 @@ const ProductView = (props: Props) => {
       color: '',
       index: -1,
     });
+    setFilter(false);
+    setIsFilter(false);
   };
 
   const getData = async (params: any, url: string) => {
@@ -128,20 +196,28 @@ const ProductView = (props: Props) => {
       .then(res => {
         let data = res.data;
         setListSearch(data.result);
+        console.log(data);
       })
       .catch(err => {
         console.log(err);
       });
   };
 
-  const getDataByTitleId = async (params: any) => {
-    let data = JSON.stringify({
-      titleCategoryProduct: params.toString(),
-    });
+  const getDataByTitleId = async (params: any, url: string, types: any) => {
+    let data =
+      types !== 0
+        ? JSON.stringify({
+            titleCategoryProduct: params.toString(),
+            status: types,
+          })
+        : JSON.stringify({
+            titleCategoryProduct: params.toString(),
+          });
+    console.log(data);
 
     await axios({
       method: 'POST',
-      url: API_URL + GET_PRODUCT_BY_ID,
+      url: url,
       data: data,
       headers: {
         'Content-Type': 'application/json',
@@ -177,13 +253,30 @@ const ProductView = (props: Props) => {
       getData(searchKey, url);
     }
 
-    if (searchKey && classifyValue.index === 3) {
+    if (searchKey && classifyValue.index === 4) {
       let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS;
       getData(searchKey, url);
     }
 
-    if (titleCategoryProduct) {
-      getDataByTitleId(titleCategoryProduct);
+    if (titleCategoryProduct && classifyValue.index === 0) {
+      let url: string = API_URL + GET_PRODUCT_BY_ID;
+      getDataByTitleId(titleCategoryProduct, url, 0);
+    }
+    if (titleCategoryProduct && classifyValue.index === 1) {
+      let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS_CATORY;
+      getDataByTitleId(titleCategoryProduct, url, 1);
+    }
+    if (titleCategoryProduct && classifyValue.index === 2) {
+      let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS_CATORY;
+      getDataByTitleId(titleCategoryProduct, url, 2);
+    }
+    if (titleCategoryProduct && classifyValue.index === 3) {
+      let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS_CATORY;
+      getDataByTitleId(titleCategoryProduct, url, 4);
+    }
+    if (titleCategoryProduct && classifyValue.index === 4) {
+      let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS_CATORY;
+      getDataByTitleId(titleCategoryProduct, url, 3);
     }
   }, [classifyValue.index]);
 
@@ -315,11 +408,6 @@ const ProductView = (props: Props) => {
         numColumns={3}
         showsHorizontalScrollIndicator={false}
         columnWrapperStyle={{justifyContent: 'space-evenly'}}
-        removeClippedSubviews={true}
-        bounces={false}
-        initialNumToRender={3}
-        maxToRenderPerBatch={3}
-        windowSize={1}
       />
     </View>
   );
@@ -339,11 +427,6 @@ const ProductView = (props: Props) => {
         showsHorizontalScrollIndicator={false}
         columnWrapperStyle={{justifyContent: 'space-evenly'}}
         ItemSeparatorComponent={space}
-        removeClippedSubviews={true}
-        bounces={false}
-        initialNumToRender={4}
-        maxToRenderPerBatch={4}
-        windowSize={2}
       />
     </View>
   );
@@ -351,7 +434,7 @@ const ProductView = (props: Props) => {
   const FilterColor = () => (
     <View style={[styles.showClassify]}>
       <Text style={[styles.textLabel, {marginLeft: sizes._18sdp}]}>
-        Kích thước
+        Màu săc
       </Text>
       <View style={styles.spaceSmallY} />
       <FlatList
@@ -367,11 +450,6 @@ const ProductView = (props: Props) => {
           paddingHorizontal: sizes._18sdp,
         }}
         ItemSeparatorComponent={space}
-        removeClippedSubviews={true}
-        bounces={false}
-        initialNumToRender={8}
-        maxToRenderPerBatch={8}
-        windowSize={8}
       />
     </View>
   );
@@ -394,7 +472,9 @@ const ProductView = (props: Props) => {
             flex: 0.3,
           },
         ]}>
-        <Text style={styles.textLabel}>{listSearch.length}</Text>
+        <Text style={styles.textLabel}>
+          {isFilter ? listFilter.length : listSearch.length}
+        </Text>
         <Text style={styles.textDefault}>Sản phẩm</Text>
       </View>
       <View
@@ -417,7 +497,12 @@ const ProductView = (props: Props) => {
 
         <View style={styles.spaceSmallX} />
 
-        <ButtonSub bgColor="black" value="Sắp xếp" size="small" />
+        <ButtonSub
+          bgColor="black"
+          value="Sắp xếp"
+          size="small"
+          onPress={doneFilter}
+        />
         <View style={styles.spaceMediumX} />
       </View>
     </View>
@@ -447,19 +532,13 @@ const ProductView = (props: Props) => {
     <View style={styles.modeContent}>
       {listSearch.length > 0 ? (
         <FlatList
-          data={listSearch}
-          extraData={listSearch}
+          data={isFilter ? listFilter : listSearch}
           renderItem={renderItem}
           numColumns={2}
           keyExtractor={keyExtractor}
           ItemSeparatorComponent={renderSpaceItem}
           listKey="result-search"
-          bounces={false}
           showsVerticalScrollIndicator={false}
-          removeClippedSubviews={true}
-          initialNumToRender={4}
-          maxToRenderPerBatch={4}
-          windowSize={2}
         />
       ) : (
         <Exception />
@@ -481,9 +560,6 @@ const ProductView = (props: Props) => {
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={true}
           bounces={false}
-          initialNumToRender={4}
-          maxToRenderPerBatch={4}
-          windowSize={2}
         />
         {classify ? (
           <View style={styles.overlay}>
@@ -498,9 +574,6 @@ const ProductView = (props: Props) => {
                 bounces={false}
                 ItemSeparatorComponent={line}
                 listKey="classify"
-                initialNumToRender={4}
-                maxToRenderPerBatch={4}
-                windowSize={1}
               />
             </View>
             <TouchableWithoutFeedback onPress={() => setClassify(false)}>
@@ -516,13 +589,17 @@ const ProductView = (props: Props) => {
                 {backgroundColor: ArrayColors._color_white},
               ]}
             />
-            <FilterCatory />
-            <View
-              style={[
-                styles.spaceSmallY,
-                {backgroundColor: ArrayColors._color_white},
-              ]}
-            />
+            {searchKey ? (
+              <>
+                <FilterCatory />
+                <View
+                  style={[
+                    styles.spaceSmallY,
+                    {backgroundColor: ArrayColors._color_white},
+                  ]}
+                />
+              </>
+            ) : null}
             <FilterSize />
             <View
               style={[
@@ -530,6 +607,7 @@ const ProductView = (props: Props) => {
                 {backgroundColor: ArrayColors._color_white},
               ]}
             />
+
             <FilterColor />
             <View
               style={[
@@ -537,6 +615,7 @@ const ProductView = (props: Props) => {
                 {backgroundColor: ArrayColors._color_white},
               ]}
             />
+
             <SumProduct />
             <View
               style={[

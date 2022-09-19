@@ -19,6 +19,7 @@ declare module '@env' {
   export const GET_PRODUCT_BY_ID_OBJECT: string;
   export const GET_PRODUCT_BY_ID: string;
   export const GET_PRODUCT_SREACH_TITLE_PRODUCTS: string;
+  export const GET_PRODUCT_SREACH_TITLE_PRODUCTS_CATORY: string;
   export const GET_PRODUCT_SREACH_TITLE_PRODUCTS_DATE_HIGH: string;
   export const GET_PRODUCT_SREACH_TITLE_PRODUCTS_DATE_LOW: string;
   export const GET_PRODUCT_SREACH_TITLE_PRODUCTS_HIGH: string;

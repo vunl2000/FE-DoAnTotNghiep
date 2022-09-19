@@ -70,7 +70,7 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
   };
 
   useEffect(() => {
-    if (isFocused && data) {
+    if (isFocused && data.length > 0) {
       setSelectMenu({
         index: 0,
         _id: data[0]._id,

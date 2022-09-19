@@ -105,11 +105,8 @@ const ScreenProcessed = (props: Props) => {
       {listBillDetail.length > 0 ? (
         <FlatList
           data={listBillDetail}
-          extraData={listBillDetail}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
-          bounces={false}
-          removeClippedSubviews
           scrollEventThrottle={32}
           listKey="handle-bill"
         />

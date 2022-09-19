@@ -1,7 +1,15 @@
 import axios from 'axios';
-import { API_URL_GENERATE_OTP } from '@env';
-import { StyleSheet, Text, View, Modal, TouchableOpacity, Image, ToastAndroid } from 'react-native'
-import React from 'react'
+import {API_URL_GENERATE_OTP} from '@env';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  TouchableOpacity,
+  Image,
+  ToastAndroid,
+} from 'react-native';
+import React from 'react';
 
 export async function GenerateOTP(userEmail: any, userID: any) {
   const mFormData = JSON.stringify({
@@ -11,7 +19,7 @@ export async function GenerateOTP(userEmail: any, userID: any) {
   const config = await {
     method: 'POST',
     // url: API_URL_GENERATE_OTP,
-    url :"http://52.141.50.48:3000/account-user/get-gen-otp",
+    url: 'http://18.141.199.110:3000/account-user/get-gen-otp',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -19,7 +27,6 @@ export async function GenerateOTP(userEmail: any, userID: any) {
   };
 
   console.log(mFormData);
-
 
   await axios(config)
     .then(response => {

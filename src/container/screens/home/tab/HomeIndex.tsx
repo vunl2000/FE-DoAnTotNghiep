@@ -49,7 +49,7 @@ const HomeIndex: React.FC<Props> = props => {
   const {listIDHeart, products} = useSelector((state: any) => state.product);
   const ITEM_HEIGHT = sizes._282sdp;
   const [isLoad, setIsLoad] = useState(false);
-  const [data, setData] = useState<any>(products.slice(0, 10));
+  const [data, setData] = useState<any>();
   const [currentItem, setCurrentItem] = useState(20);
   const dispatch: any = useDispatch();
   const {banner} = useSelector((state: any) => state.firstOpen);
@@ -110,18 +110,17 @@ const HomeIndex: React.FC<Props> = props => {
       </View>
 
       <FlashList
-        data={data}
-        extraData={data}
+        data={products.slice(0, 10)}
         renderItem={renderProDuct}
         numColumns={2}
         // listKey={'home-index'}
-        //keyExtractor={keyItem}
+        keyExtractor={keyItem}
         showsVerticalScrollIndicator={false}
         // removeClippedSubviews
         //ListFooterComponent={loadMore(isLoad)}
         //ItemSeparatorComponent={space}
         //onEndReached={handleOnEndReached}
-        bounces={false}
+        // bounces={false}
         estimatedItemSize={ITEM_HEIGHT}
       />
     </View>

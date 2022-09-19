@@ -6,7 +6,6 @@ import sizes from '../../../res/sizes/sizes';
 import HomeStack from '../../navigators/HomeStack';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-
   loadAccessory,
   loadColors,
   loadMen,
@@ -24,14 +23,17 @@ const ScreensHome = ({navigation}: {navigation: any}) => {
 
   useEffect(() => {
     typeCatory.forEach((item: any) => {
-      if (item.titleTypeProduct === 'Phụ kiện') {
+      if (item.titleTypeProduct.toString().toLowerCase() === 'phụ kiện') {
         dispatch(loadAccessory(item._id));
+        console.log(item.titleTypeProduct.toString().toLowerCase());
       }
-      if (item.titleTypeProduct === 'Nam') {
+      if (item.titleTypeProduct.toString().toLowerCase() === 'nam') {
         dispatch(loadMen(item._id));
+        console.log(item.titleTypeProduct.toString().toLowerCase());
       }
-      if (item.titleTypeProduct === 'Nữ') {
+      if (item.titleTypeProduct.toString().toLowerCase() === 'nữ') {
         dispatch(loadWomen(item._id));
+        console.log(item.titleTypeProduct.toString().toLowerCase());
       }
     });
   }, [typeCatory]);

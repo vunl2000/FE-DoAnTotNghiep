@@ -7,7 +7,7 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
 import React from 'react';
 import Input from '../../../components/accounts/Input';
@@ -18,19 +18,18 @@ import sizes from '../../../res/sizes/sizes';
 import IconHeader from '../../../components/icons/IconHeader';
 import Button from '../../../components/accounts/Button';
 import Loading from '../../../components/modal/Loading';
-import { checkMail, isNullEmptyBlank } from '../../../utils/Utilities';
+import {checkMail, isNullEmptyBlank} from '../../../utils/Utilities';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { logOut } from '../../../store/actions/loginActions';
-import { clearInvoice } from '../../../store/actions/invoiceActions';
-import { clearAllCart } from '../../../store/actions/productsActions';
-import { clearAddress } from '../../../store/actions/addressActions';
-import { clearErrors } from '../../../store/actions/errActions';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {logOut} from '../../../store/actions/loginActions';
+import {clearInvoice} from '../../../store/actions/invoiceActions';
+import {clearAllCart} from '../../../store/actions/productsActions';
+import {clearAddress} from '../../../store/actions/addressActions';
+import {clearErrors} from '../../../store/actions/errActions';
 
 type Props = {};
 
-const ScreenChangePass = ({ navigation }: any) => {
+const ScreenChangePass = ({navigation}: any) => {
   const [password, setPassword] = React.useState<string | any>('');
   const [visibleIconPassword, setVisibleIconPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState<string | any>(false);
@@ -87,10 +86,9 @@ const ScreenChangePass = ({ navigation }: any) => {
 
   React.useEffect(() => {
     if (accounts.isAuthenticated === true) {
-      setUserID(accounts.result[0]._id)
+      setUserID(accounts.result[0]._id);
     }
-  }, [accounts.isAuthenticated])
-
+  }, [accounts.isAuthenticated]);
 
   function eventEditPasswordold(text: string | any) {
     setPasswordold(text);
@@ -170,12 +168,12 @@ const ScreenChangePass = ({ navigation }: any) => {
         <View style={styles.contentHeader}>
           <Text style={styles.textLabel}>Đổi mật khẩu</Text>
         </View>
-        <View style={{ width: sizes._42sdp }} />
+        <View style={{width: sizes._42sdp}} />
       </View>
     );
   }
   function eventConfirm() {
-    if (passwordold === "" || passwordnew === "" || password === "") {
+    if (passwordold === '' || passwordnew === '' || password === '') {
       setLabelPasswordold('Không được bỏ trống');
       setWarningPasswordold(true);
       setLabelPasswordNew('Không được bỏ trống');
@@ -209,32 +207,37 @@ const ScreenChangePass = ({ navigation }: any) => {
     } else {
       setIsLoading(true);
       setTimeout(() => {
-        mChangePass(userID, passwordold, passwordnew, password)
-      }, 1500)
+        mChangePass(userID, passwordold, passwordnew, password);
+      }, 1500);
     }
   }
-  function mChangePass(idUser: any, password: any, passwordNew: any, passwordNewConfirm: any) {
+  function mChangePass(
+    idUser: any,
+    password: any,
+    passwordNew: any,
+    passwordNewConfirm: any,
+  ) {
     var data = JSON.stringify({
       idUser,
       password,
       passwordNew,
-      passwordNewConfirm
+      passwordNewConfirm,
     });
 
     var config = {
       method: 'post',
-      url: 'http://52.141.50.48:3000/account-user/refresh-password-user',
+      url: 'http://18.141.199.110:3000/account-user/refresh-password-user',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      data: data
+      data: data,
     };
 
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         if (response.data.code === 200) {
-          setIsLoading(false)
+          setIsLoading(false);
           ToastAndroid.show('Thay đổi mật khẩu thành công', ToastAndroid.SHORT);
           setTimeout(() => {
             dispatch(logOut());
@@ -242,35 +245,37 @@ const ScreenChangePass = ({ navigation }: any) => {
             dispatch(clearInvoice());
             dispatch(clearAllCart());
             dispatch(clearAddress());
-            navigation.navigate("ScreenLogin");
+            navigation.navigate('ScreenLogin');
             ToastAndroid.show('Đăng nhập để tiếp tục', ToastAndroid.SHORT);
-          }, 3000)
-
+          }, 3000);
         } else {
-          setIsLoading(false)
-          ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+          setIsLoading(false);
+          ToastAndroid.show(
+            'Đã có lỗi trong quá trình xử lý',
+            ToastAndroid.SHORT,
+          );
         }
       })
       .catch(function (error) {
         console.log(error.response.data);
         if (error.response.data.code === 413) {
-          setIsLoading(false)
+          setIsLoading(false);
           ToastAndroid.show('Mật khẩu cũ không hợp lệ', ToastAndroid.SHORT);
         } else if (error.response.data.code === 414) {
-          setIsLoading(false)
+          setIsLoading(false);
           ToastAndroid.show('Mật khẩu không khớp', ToastAndroid.SHORT);
         } else {
-          setIsLoading(false)
-          ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+          setIsLoading(false);
+          ToastAndroid.show(
+            'Đã có lỗi trong quá trình xử lý',
+            ToastAndroid.SHORT,
+          );
         }
-
       });
-    return setIsLoading(false)
-
+    return setIsLoading(false);
   }
 
   const RenderView = (
-
     <View
       style={{
         marginHorizontal: sizes._20sdp,
@@ -358,7 +363,6 @@ const ScreenChangePass = ({ navigation }: any) => {
       <Button title="Xác nhận" onPress={eventConfirm} />
     </View>
   );
-
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

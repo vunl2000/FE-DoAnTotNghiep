@@ -42,7 +42,7 @@ const CatoryWomen = (props: Props) => {
   return (
     <View>
       <Catory
-        data={women}
+        data={data}
         keyListLeft="menu_men_left"
         keyListRight="view_product_men_right"
       />
