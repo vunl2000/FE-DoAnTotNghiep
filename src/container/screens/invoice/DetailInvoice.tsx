@@ -49,40 +49,36 @@ const sendToComment = async (
 ) => {
   const data = new FormData();
 
-  data.append('userName', JSON.stringify(userName));
+  data.append('userName', userName);
   croppedImage !== null &&
     data.append('croppedImage', {
       name: makeId(6) + '_image.jpg',
       uri: croppedImage,
       type: 'image/jpg',
     });
-  data.append('photoUrl', JSON.stringify(photoUrl));
-  data.append('content', JSON.stringify(content));
-  data.append('idUser', JSON.stringify(idUser));
-  data.append('idProduct', JSON.stringify(idProduct));
+  data.append('photoUrl', photoUrl);
+  data.append('content', content);
+  data.append('idUser', idUser);
+  data.append('idProduct', idProduct);
 
   isStars === 1
-    ? data.append('oneStars', 1)
+    ? data.append('oneStars', '1')
     : isStars === 2
-    ? data.append('twoStars', 2)
+    ? data.append('twoStars', '2')
     : isStars === 3
-    ? data.append('threeStars', 3)
+    ? data.append('threeStars', '3')
     : isStars === 4
-    ? data.append('fourStars', 4)
-    : data.append('fiveStars', 5);
+    ? data.append('fourStars', '4')
+    : data.append('fiveStars', '5');
 
   console.log(data);
-  console.log(API_URL + RATE_COMENT_PRODUCT);
+  console.log(token);
   await axios({
     method: 'POST',
     url: API_URL + RATE_COMENT_PRODUCT,
     headers: {
       token: token,
       'Content-Type': 'multipart/form-data',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST',
-      'Access-Control-Allow-Headers': 'Content-Type, token',
-      'Access-Control-Allow-Credentials': 'true',
     },
     data: data,
   })
@@ -91,7 +87,7 @@ const sendToComment = async (
       showToast('Đánh giá sản phẩm thành công!');
     })
     .catch(error => {
-      console.log(error);
+      console.log(error.response.data);
       showToast('Đánh giá sản phẩm thất bại!');
     });
 };
