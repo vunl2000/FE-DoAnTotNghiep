@@ -28,8 +28,8 @@ const ItemHeart = ({item, index, onPress}: Props) => {
       <FastImage
         source={{
           uri: item?.imageProduct[0],
-          cache: FastImage.cacheControl.web,
-          priority: FastImage.priority.high,
+          // cache: FastImage.cacheControl.web,
+          // priority: FastImage.priority.high,
         }}
         style={styles.image}
         resizeMode={FastImage.resizeMode.cover}

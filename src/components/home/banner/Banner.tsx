@@ -16,8 +16,8 @@ const Banner = ({uri, size, mode}: Props) => {
       <FastImage
         source={{
           uri: uri,
-          cache: FastImage.cacheControl.web,
-          priority: FastImage.priority.high,
+          // cache: FastImage.cacheControl.web,
+          // priority: FastImage.priority.high,
         }}
         style={size === 'small' ? styles.imageSmall : styles.imageMedium}
         resizeMode={

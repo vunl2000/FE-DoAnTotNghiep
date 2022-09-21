@@ -34,6 +34,8 @@ import {showToast} from '../../../components/modal/ToastCustom';
 import {deleteCart} from '../../../store/actions/productsActions';
 import {NameScreen} from '../../navigators/TabNavigator';
 import Geolocation from 'react-native-geolocation-service';
+import Loading from '../../../components/modal/Loading';
+import {HomeName} from '../../navigators/AppContainer';
 
 type Props = {};
 
@@ -46,6 +48,7 @@ const ScreenOrder = (props: Props) => {
   const {bill, isFalse, isStep, transport} = useSelector(
     (state: any) => state.bill,
   );
+  const [isLoading, setIsLoading] = useState(false);
   const [cartSeleted, setCartSeleted] = useState(0);
   const [address, setAddress] = useState<Address>();
   const [sumPrice, setSumPrice] = useState(0);
@@ -129,6 +132,7 @@ const ScreenOrder = (props: Props) => {
     }
 
     if (check) {
+      setIsLoading(true);
       dispatch(createBill(address, transport));
     }
   };
@@ -146,12 +150,14 @@ const ScreenOrder = (props: Props) => {
       dataCartSeleted.forEach((item: TypeCartItem, index: number) => {
         dispatch(deleteCart(item.id));
       });
-      navigate('ScreenAccount');
+      setIsLoading(false);
+      navigate(NameScreen.HOME, {screen: HomeName.ACCOUNT});
     }
 
     if (isFalse) {
       showToast('Đã có lỗi xảy ra.Vui lòng thử lại sau!');
       dispatch(resetBill());
+      setIsLoading(false);
     }
   }, [isStep, bill, isFalse]);
 
@@ -283,6 +289,7 @@ const ScreenOrder = (props: Props) => {
         />
         <Button />
       </View>
+      {isLoading ? <Loading /> : null}
     </SafeAreaView>
   );
 };

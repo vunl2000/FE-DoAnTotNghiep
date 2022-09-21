@@ -14,7 +14,7 @@ import {
     ActivityIndicator,
     TouchableWithoutFeedback,
     Keyboard,
-    FlatList
+    FlatList,
 } from 'react-native';
 import React, { useRef } from 'react';
 import ArrayColors from '../../../../res/colors/ArrayColors';
@@ -24,9 +24,13 @@ import Images from '../../../../res/require/Images';
 import Input from '../../../../components/accounts/Input';
 import Button from '../../../../components/accounts/Button';
 
-import { userLogins, userLoginsGoogle, userLoginsFaceBook } from '../../../../store/actions/loginActions';
+import {
+    userLogins,
+    userLoginsGoogle,
+    userLoginsFaceBook,
+} from '../../../../store/actions/loginActions';
 import { clearErrors } from '../../../../store/actions/errActions';
-import ModalConfirmPasswordChange from '../../../../components/modal/ModalConfirmPasswordChange'
+import ModalConfirmPasswordChange from '../../../../components/modal/ModalConfirmPasswordChange';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Policy from '../../../../components/accounts/Policy';
@@ -57,9 +61,8 @@ GoogleSignin.configure({
 
 const ScreenLogin = ({ navigation }: { navigation: any }) => {
     const isAndroid = Platform.OS === 'android';
-    const [VSBG, setVSBG] = React.useState<any>("")
-    const [isModal, setIsModal] = React.useState<any>(true)
-
+    const [VSBG, setVSBG] = React.useState<any>('');
+    const [isModal, setIsModal] = React.useState<any>(true);
 
     const [email, setEmail] = React.useState<string | any>('');
     const [password, setPassword] = React.useState<string | any>('');
@@ -135,48 +138,48 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
 
     async function eventLoginGoogle() {
         setIsLoading(true);
-        try {
-            const { idToken }: any = await GoogleSignin.signIn().catch(e => {
-                ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
-                setIsLoading(false);
+        const { idToken }: any = await GoogleSignin.signIn().catch(e => {
+            ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
+            setIsLoading(false);
+            console.log(e);
+        });
+        // Create a Google credential with the token
+        const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
+        // Sign-in the user with the credential
+        await auth()
+            .signInWithCredential(googleCredential)
+            .then((res: any) => {
+                setUserInfo(res);
+            })
+            .catch(e => {
+                // Alert.alert(e.message);
+                ToastAndroid.show(
+                    'Đã có lỗi trong quá trình xử lý',
+                    ToastAndroid.SHORT,
+                );
                 console.log(e);
             });
-            // Create a Google credential with the token
-            const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
-            // Sign-in the user with the credential
-            await auth()
-                .signInWithCredential(googleCredential)
-                .then((res: any) => {
-                    setUserInfo(res);
-                })
-                .catch(e => {
-                    // Alert.alert(e.message);
-                    ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
-                    console.log(e);
-
-                });
-            auth()
-                .currentUser?.getIdToken(true)
-                .then(idToken => {
-                    console.log(idToken);
-                    if (idToken) {
-                        dispatch(userLoginsGoogle(idToken));
-                    } else {
-                        ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
-                    }
-                })
-                .catch(e => {
-                    console.log(e);
-                    ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
-
-                });
-        } catch (e) {
-            setIsLoading(false);
-            ToastAndroid.show('Đã có lỗi trong quá trình xử lý', ToastAndroid.SHORT);
-        }
+        auth()
+            .currentUser?.getIdToken(true)
+            .then(idToken => {
+                console.log(idToken);
+                if (idToken) {
+                    dispatch(userLoginsGoogle(idToken));
+                } else {
+                    ToastAndroid.show(
+                        'Đã có lỗi trong quá trình xử lý',
+                        ToastAndroid.SHORT,
+                    );
+                }
+            })
+            .catch(e => {
+                console.log(e);
+                ToastAndroid.show(
+                    'Đã có lỗi trong quá trình xử lý',
+                    ToastAndroid.SHORT,
+                );
+            });
     }
-
-
 
     React.useEffect(() => {
         const { isAuthenticated, token } = accounts;
@@ -192,7 +195,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                 setIsLoading(false);
                 navigation.goBack();
             }
-            // }, 1500)
         }
     }, [accounts]);
     React.useEffect(() => {
@@ -207,7 +209,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                     );
                     // dispatch(clearErrors());
                     break;
-
                 }
                 case 401: {
                     setIsLoading(false);
@@ -223,7 +224,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                     ToastAndroid.show('Người dùng không tồn tại', ToastAndroid.SHORT);
                     // dispatch(clearErrors());
                     break;
-
                 }
                 case 403: {
                     setIsLoading(false);
@@ -246,7 +246,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     }, [error]);
 
     function handleLogin() {
-        if (email === "" || password === "") {
+        if (email === '' || password === '') {
             setWarningEmail(true);
             setLabelEmail('Vui lòng không bỏ trống');
             setWarningPassword(true);
@@ -275,8 +275,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                 dispatch(userLogins({ email, password }));
                 // setIsLoading(true);
                 console.log({ email, password });
-            }, 1500)
-
+            }, 1500);
         }
     }
     function eventRegister() {
@@ -284,14 +283,16 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         navigation.navigate('ScreenRegister');
     }
 
-
     function onBackPress() {
         dispatch(clearErrors());
         navigation.goBack();
     }
     async function eventLoginFaceBook() {
         setIsLoading(true);
-        const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+        const result = await LoginManager.logInWithPermissions([
+            'public_profile',
+            'email',
+        ]);
 
         if (result.isCancelled) {
             throw 'User cancelled the login process';
@@ -300,32 +301,32 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
         // Once signed in, get the users AccesToken
         const data = await AccessToken.getCurrentAccessToken();
 
-        if (!data) {
-            throw 'Something went wrong obtaining access token';
-        }
+        // if (!data) {
+        //     throw 'Something went wrong obtaining access token';
+        // }
 
-        //Create a Firebase credential with the AccessToken
-        const facebookCredential = await auth.FacebookAuthProvider.credential(data.accessToken);
-        console.log(facebookCredential);
+        // Create a Firebase credential with the AccessToken
+        // const facebookCredential = await auth.FacebookAuthProvider.credential(data.accessToken);
+        // console.log(facebookCredential);
 
-        await auth().currentUser?.getIdToken(true)
-            .then((idToken) => {
+        await auth()
+            .currentUser?.getIdToken(true)
+            .then(idToken => {
                 console.log(idToken);
                 if (idToken) {
+                    // setVSBG(idToken)
                     dispatch(userLoginsFaceBook(idToken));
-                    // setIsLoading(false);
                 } else {
-                    Alert.alert("Đã có lỗi trong quá trình xử lý");
+                    Alert.alert('Đã có lỗi trong quá trình xử lý');
                 }
             })
             .catch((e: any) => {
                 console.log(e);
-            })
+            });
 
         // Sign-in the user with the credential
-        return auth().signInWithCredential(facebookCredential);
+        // return auth().signInWithCredential(facebookCredential);
     }
-
 
     function dismissMoDal() {
         setShowCheg(false);
@@ -343,7 +344,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     console.log(showCheg);
 
     const renderContent = (
-
         <>
             <View
                 style={{
@@ -421,7 +421,6 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginVertical: sizes._12sdp,
-
                 }}>
                 <Text
                     style={{
@@ -433,7 +432,7 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                 </Text>
             </TouchableOpacity>
         </>
-    )
+    );
 
     return (
         <>
@@ -460,13 +459,14 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
                         // navigation={navigation}
                         dismissMoDalls={dismissMoDalls}
                         dismissMoDal={dismissMoDal}
-                        visible={showCheg} />
+                        visible={showCheg}
+                    />
                 </SafeAreaView>
             </TouchableWithoutFeedback>
             {/* <Loading visible={invisible} /> */}
         </>
     );
-}
+};
 
 export default ScreenLogin;
 

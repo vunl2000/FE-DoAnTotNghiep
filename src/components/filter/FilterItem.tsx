@@ -14,7 +14,9 @@ type Props = {
 const FilterItem = ({item, color, index, isSelected, onPress}: Props) => {
   return (
     <TouchableWithoutFeedback
-      onPress={() => onPress(isSelected ? '' : item, isSelected ? -1 : index)}>
+      onPress={() =>
+        onPress(isSelected ? '' : color ? color : item, isSelected ? -1 : index)
+      }>
       <View
         style={[
           styles.container,
@@ -24,7 +26,7 @@ const FilterItem = ({item, color, index, isSelected, onPress}: Props) => {
               ? ArrayColors._color_black
               : ArrayColors._color_white_black,
             width: color
-              ? undefined
+              ? (sizes._screen_width - 4 * sizes._18sdp) / 3
               : (sizes._screen_width - 5 * sizes._18sdp) / 4,
           },
         ]}>
@@ -47,7 +49,9 @@ const FilterItem = ({item, color, index, isSelected, onPress}: Props) => {
             <Text style={styles.textCancel}>x</Text>
           </>
         ) : null}
-        <Text style={styles.textSub}>{item}</Text>
+        <Text style={styles.textSub} numberOfLines={1} ellipsizeMode="tail">
+          {item}
+        </Text>
       </View>
     </TouchableWithoutFeedback>
   );

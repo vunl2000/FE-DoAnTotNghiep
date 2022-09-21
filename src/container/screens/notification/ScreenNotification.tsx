@@ -12,9 +12,8 @@ import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import HeaderShown from '../../../components/accounts/HeaderShown';
 import axios from 'axios';
-import Images from '../../../res/require/Images';
 import moment from 'moment';
-
+import Images from '../../../res/require/Images';
 const ScreenNotification = ({ navigation }: any) => {
   const [dataNotification, setDataNotification] = React.useState<any>([]);
   const [loadMore, setLoadMore] = React.useState<any>(false);
@@ -26,7 +25,7 @@ const ScreenNotification = ({ navigation }: any) => {
   function mCallDataNotification() {
     var config = {
       method: 'GET',
-      url: 'http://52.141.50.48:3000/api/user-data-notification/get-data-notification',
+      url: 'http://18.141.199.110:3000/api/user-data-notification/get-data-notification',
       headers: {},
     };
     axios(config)
@@ -51,21 +50,19 @@ const ScreenNotification = ({ navigation }: any) => {
       <View
         style={[
           styles.mContainerData,
-          {
-            marginVertical: index % 2 == 0 ? sizes._10sdp : 0,
-            marginBottom: index % 2 == 0 ? sizes._10sdp : 0
-
-          },
+          { marginVertical: index % 2 == 0 ? sizes._10sdp : 0 },
         ]}>
         <View style={{ flexDirection: 'column', padding: sizes._10sdp }}>
-          {item.urlPhoto ? <Image
-            resizeMode="contain"
-            style={{
-              width: sizes._screen_width - sizes._40sdp,
-              height: sizes._screen_width / 3,
-            }}
-            source={{ uri: item?.urlPhoto }}
-          /> : null}
+          {item.urlPhoto ? (
+            <Image
+              resizeMode="contain"
+              style={{
+                width: sizes._screen_width - sizes._40sdp,
+                height: sizes._screen_width / 3,
+              }}
+              source={{ uri: item?.urlPhoto }}
+            />
+          ) : null}
 
           <Text
             style={{
@@ -80,8 +77,6 @@ const ScreenNotification = ({ navigation }: any) => {
             {item?.body}
           </Text>
           <Text style={{}} numberOfLines={2}>
-           
-
             {moment(item?.createdAt).format('MMMM Do YYYY, HH:mm:ss')}
           </Text>
         </View>

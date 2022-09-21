@@ -24,7 +24,7 @@ const CatoryMen = (props: Props) => {
     } catch (error) {}
   }, [isFocused, accessory]);
 
-  if (data.length === 0) {
+  if (men.length === 0) {
     return (
       <View>
         <SkeletonPlaceholder>

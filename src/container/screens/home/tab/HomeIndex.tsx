@@ -8,9 +8,13 @@ import HomeCatory from '../../../../components/home/catory/HomeCatory';
 import ProductItem from '../../../../components/product/Product.Item';
 import {Text} from 'react-native';
 import ArrayColors from '../../../../res/colors/ArrayColors';
-import {changeHeart} from '../../../../store/actions/productsActions';
+import {
+  changeHeart,
+  getHeartUser,
+} from '../../../../store/actions/productsActions';
 import {useFocusEffect} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
+import {FlashList} from '@shopify/flash-list';
 
 interface Props {}
 
@@ -48,11 +52,11 @@ const HomeIndex: React.FC<Props> = props => {
   const {listIDHeart, products} = useSelector((state: any) => state.product);
   const ITEM_HEIGHT = sizes._282sdp;
   const [isLoad, setIsLoad] = useState(false);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<any>();
   const [currentItem, setCurrentItem] = useState(20);
   const dispatch: any = useDispatch();
   const {banner} = useSelector((state: any) => state.firstOpen);
-
+  const accounts = useSelector((state: any) => state.account);
   const renderProDuct = ({item, index}: any) => {
     return <ProductItem item={item} index={index} />;
   };
@@ -77,11 +81,19 @@ const HomeIndex: React.FC<Props> = props => {
   // let uri3 =
   //   'https://img.ltwebstatic.com/images3_ach/2022/07/22/1658480623d145a14402391cfb8b3dad2e8d1316cd.webp';
 
-  useEffect(() => {
-    setData(products.slice(0, 10));
-  }, []);
+  // useEffect(() => {
+  //   setData(products.slice(0, 10));
+  // }, []);
 
-  const renderView = () => (
+  useEffect(() => {
+    const {isAuthenticated, token} = accounts;
+
+    if (isAuthenticated) {
+      dispatch(getHeartUser(`Bearer ${token}`, accounts.result[0]._id));
+    }
+  }, [accounts]);
+
+  const renderView = (
     <View style={styles.container}>
       <Banner
         size="small"
@@ -108,24 +120,19 @@ const HomeIndex: React.FC<Props> = props => {
         <Text style={styles.textLabel}>Đề xuất</Text>
       </View>
 
-      <FlatList
-        data={data}
-        extraData={data}
+      <FlashList
+        data={products.slice(0, 10)}
         renderItem={renderProDuct}
         numColumns={2}
-        listKey={'home-index'}
+        // listKey={'home-index'}
         keyExtractor={keyItem}
         showsVerticalScrollIndicator={false}
-        removeClippedSubviews
-        ListFooterComponent={loadMore(isLoad)}
-        ItemSeparatorComponent={space}
-        onEndReached={handleOnEndReached}
-        bounces={false}
-        getItemLayout={(data, index) => ({
-          length: ITEM_HEIGHT,
-          offset: ITEM_HEIGHT * index,
-          index,
-        })}
+        // removeClippedSubviews
+        //ListFooterComponent={loadMore(isLoad)}
+        //ItemSeparatorComponent={space}
+        //onEndReached={handleOnEndReached}
+        // bounces={false}
+        estimatedItemSize={ITEM_HEIGHT}
       />
     </View>
   );

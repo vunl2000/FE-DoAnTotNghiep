@@ -22,7 +22,7 @@ import {useSelector} from 'react-redux';
 import Location from '../../../components/order/Location';
 import InvoiceItemDetail from '../../../components/invoice/InvoiceItemDetail';
 import SaleProDuct from '../../../components/order/SaleProDuct';
-import {formartMoney} from '../../../utils/Utilities';
+import {formartMoney, makeId} from '../../../utils/Utilities';
 import ImagePicker from 'react-native-image-picker';
 import {Chip, Divider} from 'react-native-paper';
 import moment from 'moment';
@@ -31,8 +31,70 @@ import ButtonSub from '../../../components/button/ButtonSub';
 import {Modal, Portal, Text as Textpp, Provider} from 'react-native-paper';
 import image from '../../../res/require/Images';
 import CustomeStar from '../../../components/ratiings/CustomeStar';
+import axios from 'axios';
+import {showToast} from '../../../components/modal/ToastCustom';
+import {API_URL, RATE_COMENT_PRODUCT} from '@env';
 
 type Props = {};
+
+const sendToComment = async (
+  userName: any,
+  photoUrl: any,
+  content: any,
+  croppedImage: any,
+  idUser: any,
+  idProduct: any,
+  isStars: any,
+  token: any,
+) => {
+  const data = new FormData();
+
+  data.append('userName', JSON.stringify(userName));
+  croppedImage !== null &&
+    data.append('croppedImage', {
+      name: makeId(6) + '_image.jpg',
+      uri: croppedImage,
+      type: 'image/jpg',
+    });
+  data.append('photoUrl', JSON.stringify(photoUrl));
+  data.append('content', JSON.stringify(content));
+  data.append('idUser', JSON.stringify(idUser));
+  data.append('idProduct', JSON.stringify(idProduct));
+
+  isStars === 1
+    ? data.append('oneStars', 1)
+    : isStars === 2
+    ? data.append('twoStars', 2)
+    : isStars === 3
+    ? data.append('threeStars', 3)
+    : isStars === 4
+    ? data.append('fourStars', 4)
+    : data.append('fiveStars', 5);
+
+  console.log(data);
+  console.log(API_URL + RATE_COMENT_PRODUCT);
+  await axios({
+    method: 'POST',
+    url: API_URL + RATE_COMENT_PRODUCT,
+    headers: {
+      token: token,
+      'Content-Type': 'multipart/form-data',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': 'Content-Type, token',
+      'Access-Control-Allow-Credentials': 'true',
+    },
+    data: data,
+  })
+    .then(response => {
+      console.log('Cac', response.data);
+      showToast('Đánh giá sản phẩm thành công!');
+    })
+    .catch(error => {
+      console.log(error);
+      showToast('Đánh giá sản phẩm thất bại!');
+    });
+};
 
 const keyExtractor = (item: any) => item._id;
 
@@ -44,21 +106,46 @@ const DetailInvoice = (props: Props) => {
 
   //State
   const [address, setAddress] = useState<Address>();
+  const [content, setContent] = useState<any>(null);
   const [price, setPrice] = useState(0);
   const [start, setStart] = useState(5);
   const [sumQty, setSumQty] = useState(0);
-  const {billDetail, isComment} = route?.params;
+  const {billDetail, isComment}: any = route?.params;
   const [visible, setVisible] = React.useState(false);
   const [selectedImage, setSelectedImage] = React.useState<string | any>(null);
   const [croppedImage, setCroppedImage] = React.useState<string | any>(null);
-
+  const accounts = useSelector((state: any) => state.account);
   //Actions
+  console.log(croppedImage);
   const onBackPress = () => goBack();
+
   const showModal = () => setVisible(true);
+
   const hideModal = () => setVisible(false);
+
   const changeStart = (val: number) => {
     setStart(val);
   };
+
+  const submitComment = () => {
+    if (content != null) {
+      billDetail.billDetails.forEach((item: any) => {
+        sendToComment(
+          accounts.result[0].name,
+          accounts.result[0].photoUrl,
+          content,
+          croppedImage,
+          accounts.result[0]._id,
+          item._id,
+          start,
+          `Bearer ${accounts.token}`,
+        );
+      });
+    } else {
+      showToast('Vui lòng cho chúng tôi biết nhận xét của bạn!');
+    }
+  };
+
   const eventUpLoadFileImager = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -127,6 +214,7 @@ const DetailInvoice = (props: Props) => {
       <View style={{width: sizes._42sdp}} />
     </View>
   );
+
   //Color
   const Active = () => (
     <View style={styles.active}>
@@ -163,6 +251,7 @@ const DetailInvoice = (props: Props) => {
       </View>
     </View>
   );
+  console.log(start);
 
   const renderItem = ({item, index}: any) => (
     <InvoiceItemDetail item={item} index={index} />
@@ -211,6 +300,8 @@ const DetailInvoice = (props: Props) => {
           underlineColorAndroid="transparent"
           placeholder="Nhận xét của bạn"
           style={styles.textInput}
+          value={content}
+          onChangeText={(val: any) => setContent(val)}
         />
       </View>
       <View style={styles.spaceMedium} />
@@ -223,10 +314,10 @@ const DetailInvoice = (props: Props) => {
             justifyContent: 'space-around',
           },
         ]}>
-        <Chip icon="information" onPress={() => console.log('Pressed')}>
+        <Chip icon="information" onPress={() => setContent('Sản phẩm oke')}>
           Sản phẩm oke
         </Chip>
-        <Chip icon="information" onPress={() => console.log('Pressed')}>
+        <Chip icon="information" onPress={() => setContent('Rất đáng tiền')}>
           Rất đáng tiền
         </Chip>
       </View>
@@ -240,10 +331,10 @@ const DetailInvoice = (props: Props) => {
             justifyContent: 'space-around',
           },
         ]}>
-        <Chip icon="information" onPress={() => console.log('Pressed')}>
+        <Chip icon="information" onPress={() => setContent('Không hài lòng')}>
           Không hài lòng
         </Chip>
-        <Chip icon="information" onPress={() => console.log('Pressed')}>
+        <Chip icon="information" onPress={() => setContent('Giao hàng chậm')}>
           Giao hàng chậm
         </Chip>
       </View>
@@ -353,7 +444,7 @@ const DetailInvoice = (props: Props) => {
                 <ButtonSub
                   bgColor="black"
                   value="Đánh giá sản phẩm"
-                  onPress={showModal}
+                  onPress={submitComment}
                 />
               </View>
             </View>
@@ -477,7 +568,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: sizes._18sdp,
   },
   showImg: {
-    padding: sizes._10sdp,
     backgroundColor: ArrayColors.light,
     justifyContent: 'center',
   },
