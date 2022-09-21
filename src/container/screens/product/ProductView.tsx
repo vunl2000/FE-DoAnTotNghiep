@@ -51,7 +51,7 @@ const dataCatory = ['Nam', 'Nữ', 'Phụ kiện'];
 
 const ProductView = (props: Props) => {
   const {listSizes, listColors} = useSelector((state: any) => state.catory);
-
+  const {women, accessory, men} = useSelector((state: any) => state.catory);
   const [listSearch, setListSearch] = useState<any>([]);
   const [listFilter, setListFilter] = useState<any>([]);
 
@@ -98,13 +98,216 @@ const ProductView = (props: Props) => {
 
   const changeCatory = (text: any, index: any) => {
     setFilterValue({text, index});
+    const data =
+      text === 'Nam'
+        ? men.map((val: any) => val._id)
+        : text === 'Nữ'
+        ? women.map((val: any) => val._id)
+        : accessory.map((val: any) => val._id);
+    //Tat het
+    if (index === -1 && sizeValue.index === -1 && colorValue.index === -1) {
+      setIsFilter(false);
+      return;
+    }
+    //Tat minh catory
+    if (index === -1 && sizeValue.index !== -1 && colorValue.index !== -1) {
+      let newFilter = listSearch.filter(
+        (val: any) =>
+          val.size_product.indexOf(sizeValue.size) >= 0 &&
+          val.color_product.indexOf(colorValue.color) >= 0,
+      );
+      setListFilter(newFilter);
+      console.log('TH2 ' + newFilter.length);
+      setIsFilter(true);
+      return;
+    }
+    //Tat minh catory va color
+    if (index === -1 && sizeValue.index !== -1 && colorValue.index === -1) {
+      let newFilter = listSearch.filter(
+        (val: any) => val.size_product.indexOf(sizeValue.size) >= 0,
+      );
+      setListFilter(newFilter);
+      console.log('TH3 ' + newFilter.length);
+      setIsFilter(true);
+      return;
+    }
+    //Tat minh catory va size
+    if (index === -1 && sizeValue.index === -1 && colorValue.index !== -1) {
+      let newFilter = listSearch.filter(
+        (val: any) => val.color_product.indexOf(colorValue.color) >= 0,
+      );
+      setListFilter(newFilter);
+      console.log('TH4 ' + newFilter.length);
+      setIsFilter(true);
+      return;
+    }
+    //Minh catory
+    if (index === -1) {
+      setIsFilter(false);
+      return;
+    }
+
+    if (index !== -1 && sizeValue.index !== -1 && colorValue.index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.color_product.indexOf(colorValue.color) >= 0 &&
+          val.size_product.indexOf(sizeValue.size) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Category1 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+
+    if (index !== -1 && sizeValue.index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.size_product.indexOf(sizeValue.size) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Category2 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+    if (index !== -1 && colorValue.index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.color_product.indexOf(colorValue.color) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Category3 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+
+    if (index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (data.indexOf(val.idCategoryProduct) >= 0) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Category4 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
   };
 
   const changeSize = (size: any, index: any) => {
     setSizeValue({size, index});
 
+    const data =
+      filterValue.text === 'Nam'
+        ? men.map((val: any) => val._id)
+        : filterValue.text === 'Nữ'
+        ? women.map((val: any) => val._id)
+        : accessory.map((val: any) => val._id);
+
+    //Tat het
+    if (index === -1 && filterValue.index === -1 && colorValue.index === -1) {
+      setIsFilter(false);
+      return;
+    }
+    //Tat minh catory
+    if (index === -1 && filterValue.index !== -1 && colorValue.index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.color_product.indexOf(colorValue.color) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Size TH2 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+    //Tat minh catory va color
+    if (index === -1 && filterValue.index === -1 && colorValue.index !== -1) {
+      let newFilter = listSearch.filter(
+        (val: any) => val.color_product.indexOf(colorValue.color) >= 0,
+      );
+      setListFilter(newFilter);
+      console.log('Size TH2 ' + newFilter.length);
+      setIsFilter(true);
+      return;
+    }
+    //Tat minh catory va size
+    if (index === -1 && filterValue.index !== -1 && colorValue.index === -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (data.indexOf(val.idCategoryProduct) >= 0) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Size TH3 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+    //Minh catory
     if (index === -1) {
       setIsFilter(false);
+      return;
+    }
+
+    if (filterValue.index !== -1 && index !== -1 && colorValue.index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.size_product.indexOf(size) >= 0 &&
+          val.color_product.indexOf(colorValue.color) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Category ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+
+    if (filterValue.index !== -1 && index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.size_product.indexOf(size) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Category2 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
     }
 
     if (index !== -1 && colorValue.index !== -1) {
@@ -134,8 +337,96 @@ const ProductView = (props: Props) => {
   const changeColor = (color: any, index: any) => {
     setColorValue({color, index});
 
+    const data =
+      filterValue.text === 'Nam'
+        ? men.map((val: any) => val._id)
+        : filterValue.text === 'Nữ'
+        ? women.map((val: any) => val._id)
+        : accessory.map((val: any) => val._id);
+
+    //Tat het
+    if (index === -1 && filterValue.index === -1 && sizeValue.index === -1) {
+      setIsFilter(false);
+      return;
+    }
+    //Tat minh catory
+    if (index === -1 && filterValue.index !== -1 && sizeValue.index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.size_product.indexOf(sizeValue.size) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Color TH1 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+    //Tat minh catory va color
+    if (index === -1 && filterValue.index === -1 && sizeValue.index !== -1) {
+      let newFilter = listSearch.filter(
+        (val: any) => val.size_product.indexOf(sizeValue.size) >= 0,
+      );
+      setListFilter(newFilter);
+      console.log('Color TH2 ' + newFilter.length);
+      setIsFilter(true);
+      return;
+    }
+    //Tat minh catory va size
+    if (index === -1 && filterValue.index !== -1 && sizeValue.index === -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (data.indexOf(val.idCategoryProduct) >= 0) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Color TH3 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
     if (index === -1) {
       setIsFilter(false);
+      return;
+    }
+
+    if (filterValue.index !== -1 && index !== -1 && sizeValue.index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.size_product.indexOf(sizeValue.size) >= 0 &&
+          val.color_product.indexOf(color) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Color1 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
+    }
+    if (filterValue.index !== -1 && index !== -1) {
+      let newFilter: any = [];
+      listSearch.map((val: any) => {
+        if (
+          data.indexOf(val.idCategoryProduct) >= 0 &&
+          val.color_product.indexOf(color) >= 0
+        ) {
+          newFilter.push(val);
+        }
+      });
+
+      console.log('Color2 ' + newFilter.length);
+      setListFilter(newFilter);
+      setIsFilter(true);
+      return;
     }
 
     if (index !== -1 && sizeValue.index !== -1) {
@@ -145,7 +436,7 @@ const ProductView = (props: Props) => {
           val.color_product.indexOf(color) >= 0,
       );
       setListFilter(newFilter);
-      console.log('color ' + newFilter.length);
+      console.log('Color3 ' + newFilter.length);
       console.log(color + ' ' + sizeValue.size);
       setIsFilter(true);
       return;
@@ -155,7 +446,7 @@ const ProductView = (props: Props) => {
       let newFilter = listSearch.filter(
         (val: any) => val.color_product.indexOf(color) >= 0,
       );
-      console.log('color1 ' + newFilter.length);
+      console.log('Color4 ' + newFilter.length);
       console.log(color);
       setListFilter(newFilter);
       setIsFilter(true);
@@ -200,7 +491,6 @@ const ProductView = (props: Props) => {
       .then(res => {
         let data = res.data;
         setListSearch(data.result);
-        console.log(data);
       })
       .catch(err => {
         console.log(err);
@@ -217,7 +507,6 @@ const ProductView = (props: Props) => {
         : JSON.stringify({
             titleCategoryProduct: params.toString(),
           });
-    console.log(data);
 
     await axios({
       method: 'POST',
