@@ -17,7 +17,6 @@ export const USER_GMAIL_SUCCES = 'USER_GMAIL_SUCCES';
 export const USER_GMAIL_FAIL = 'USER_GMAIL_FAIL';
 export const USER_GMAIL_CL = 'USER_GMAIL_CL';
 
-
 //Product Types
 export const SENDING_PRODUCT = 'SENDING_PRODUCT';
 export const lOADING_PRODUCT = 'lOADING_PRODUCT';
@@ -45,7 +44,6 @@ export const COUNT_VIEW_PRODUCT = 'COUNT_VIEW_PRODUCT';
 //Error Types
 export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
-
 
 export const GET_ERRORS_GMAIL = 'GET_ERRORS_GMAIL';
 export const CLEAR_ERRORS_GMAIL = 'CLEAR_ERRORS_GMAIL';
@@ -111,7 +109,7 @@ export type ActionProps = {
 };
 
 //Dispath Props
-export type AllDispatchProps = (arg0: { type: any; payload: any | void }) => void;
+export type AllDispatchProps = (arg0: {type: any; payload: any | void}) => void;
 
 //cart
 export interface TypeCartItem {

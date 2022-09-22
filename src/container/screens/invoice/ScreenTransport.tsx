@@ -10,6 +10,7 @@ import ArrayColors from '../../../res/colors/ArrayColors';
 import image from '../../../res/require/Images';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../navigators/TabNavigator';
+import Loading from '../../../components/modal/Loading';
 
 type Props = {};
 
@@ -20,13 +21,14 @@ const ScreenTransport = (props: Props) => {
   const {listInvoice} = useSelector((state: any) => state.invoice);
   const accounts = useSelector((state: any) => state.account);
   const {goBack, navigate}: any = useNavigation();
-
+  const [isLoad, setIsLoad] = useState<any>(false);
   const gotoDetail = (data: any) => {
     navigate(NameScreen.DETAIL_INVOICE, {
       billDetail: data,
     });
   };
   const getData = async (token: string, idBill: any) => {
+    setIsLoad(true);
     let data = JSON.stringify({
       idBill: idBill.toString(),
     });
@@ -47,9 +49,11 @@ const ScreenTransport = (props: Props) => {
         itemDetail['billDetails'] = resData.billDetails;
         setListBillDetail(prev => [...prev, itemDetail]);
         setError(false);
+        setIsLoad(false);
       })
       .catch(err => {
         setError(true);
+        setIsLoad(false);
         console.log(err);
       });
   };
@@ -110,6 +114,7 @@ const ScreenTransport = (props: Props) => {
       ) : (
         <Exception />
       )}
+      {isLoad ? <Loading /> : null}
     </View>
   );
 };

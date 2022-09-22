@@ -1,4 +1,4 @@
-import { GET_ERRORS, CLEAR_ERRORS } from './types';
+import {GET_ERRORS, CLEAR_ERRORS} from './types';
 
 // Return Errors
 export const returnErrors = (
@@ -8,7 +8,7 @@ export const returnErrors = (
 ) => {
   return {
     type: GET_ERRORS,
-    payload: { code, msg, id },
+    payload: {code, msg, id},
   };
 };
 
@@ -18,5 +18,3 @@ export const clearErrors = () => {
     type: CLEAR_ERRORS,
   };
 };
-
-

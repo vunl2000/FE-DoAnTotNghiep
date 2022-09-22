@@ -9,7 +9,7 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import MyOffers from '../../../components/accounts/MyOffers';
 import AppHeader from '../../../components/header/AppHeader';
@@ -24,12 +24,20 @@ import {
   loadInvoiceUser,
 } from '../../../store/actions/invoiceActions';
 import {TypeBill} from '../../../store/actions/types';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {showToast} from '../../../components/modal/ToastCustom';
 import {HomeName} from '../../navigators/AppContainer';
 import ItemHeartShow from '../../../components/heart/ItemHearShow';
+import image from '../../../res/require/Images';
 
 const ScreenAccount = ({navigation}: {navigation: any}) => {
+  const isFocused = useIsFocused();
+  const route: any = useRoute();
   const {navigate}: any = useNavigation();
   const {products} = useSelector((state: any) => state.product);
   const [numberDiscount, setNumberDiscount] = React.useState('0');
@@ -53,7 +61,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
   const [storageUser, setStorageUser] = React.useState<string | any>(
     'Đăng nhập / Đăng Ký >',
   );
-
+  const check = route.params?.loadBill;
   const [event, setEvent] = React.useState<string | any>(true);
 
   const accounts = useSelector((state: any) => state.account);
@@ -82,62 +90,84 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
     }
   };
   // console.log(accounts.result[0].photoUrl);
+  const gotoQuestions = () => {
+    navigate(NameScreen.SCREENCHECKQUESTIONS);
+  };
+
+  const gotoSupports = () => {
+    navigate(NameScreen.ANSWERQUESTIONS);
+  };
 
   React.useLayoutEffect(() => {
     try {
-      if (accounts.isAuthenticated === null) {
-        setStorageUser('Đăng nhập / Đăng Ký >');
-        setIsShowImg(false);
-        setEvent(true);
-        setInvoiceStatus({
-          handle: null,
-          processed: null,
-          transport: null,
-          done: null,
-        });
-      } else {
-        if (accounts.isAuthenticated === true) {
-          setIsShowImg(true);
-          setDataImg(accounts.result[0].photoUrl);
-          setStorageUser(accounts.result[0].name);
-          setEvent(false);
-          dispatch(
-            loadInvoiceUser(accounts.result[0]._id, `Bearer ${accounts.token}`),
-          );
+      if (isFocused) {
+        if (accounts.isAuthenticated === null) {
+          setStorageUser('Đăng nhập / Đăng Ký >');
+          setIsShowImg(false);
+          setEvent(true);
           setInvoiceStatus({
-            handle,
-            processed,
-            transport,
-            done,
+            handle: null,
+            processed: null,
+            transport: null,
+            done: null,
           });
-          console.log('zzzoooo');
         } else {
-          setStorageUser(accounts.result[0].name);
-          setEvent(false);
-          // setIsShowImg(true);
-          setDataImg(accounts.result[0].photoUrl);
+          if (accounts.isAuthenticated === true) {
+            setIsShowImg(true);
+            setDataImg(accounts.result[0].photoUrl);
+            setStorageUser(accounts.result[0].name);
+            setEvent(false);
+            dispatch(
+              loadInvoiceUser(
+                accounts.result[0]._id,
+                `Bearer ${accounts.token}`,
+              ),
+            );
+          } else {
+            setStorageUser(accounts.result[0].name);
+            setEvent(false);
+            // setIsShowImg(true);
+            setDataImg(accounts.result[0].photoUrl);
+          }
         }
       }
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     }
-  }, [accounts.isAuthenticated, isFalse]);
+  }, [accounts.isAuthenticated]);
   // console.log(invoiceStatus);
 
   useEffect(() => {
-    let heart = products.filter((item: any) => item.heart_active);
-    setListHeart(heart);
+    try {
+      let heart = products.filter((item: any) => item.heart_active);
+      setListHeart(heart);
+    } catch (err) {
+      console.log(err);
+    }
   }, [products]);
 
+  useEffect(() => {
+    try {
+      setInvoiceStatus({
+        handle,
+        processed,
+        transport,
+        done,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [handle]);
+
   function eventCart() {
-    navigation.navigate(HomeName.CART);
+    navigate(HomeName.CART);
   }
   async function eventSettings() {
-    navigation.navigate(NameScreen.SETTINGS);
+    navigate(NameScreen.SETTINGS);
   }
 
   function eventLogInAndRegister() {
-    navigation.navigate(NameScreen.LOGIN);
+    navigate(NameScreen.LOGIN);
   }
 
   function onPressLeft() {
@@ -310,18 +340,14 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           </Text>
           <View style={styles.mStyleMine3_1}>
             <MyOffers
-              onPress={() => {
-                navigation.navigate(NameScreen.ANSWERQUESTIONS);
-              }}
+              onPress={gotoQuestions}
               textOrImg={false}
               mImager={Images.ic_headsetphone}
               mStringTitles="Câu hỏi"
               styleContent={styles.spaceMax}
             />
             <MyOffers
-              onPress={() => {
-                navigation.navigate(NameScreen.SCREENCHECKQUESTIONS);
-              }}
+              onPress={gotoSupports}
               textOrImg={false}
               mImager={Images.ic_survey_center}
               mStringTitles="Trung tâm khảo sát"
@@ -347,21 +373,39 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           </Text>
           <View style={styles.space} />
           {accounts.isAuthenticated ? (
-            <FlatList
-              data={listHeart}
-              extraData={listHeart}
-              keyExtractor={keySuggestions}
-              renderItem={renderItem}
-              listKey="list-heart"
-              removeClippedSubviews
-              numColumns={2}
-              ItemSeparatorComponent={renderSpace}
-              columnWrapperStyle={{
-                flex: 1,
-                paddingHorizontal: sizes._18sdp,
-                justifyContent: 'flex-start',
-              }}
-            />
+            <>
+              {listHeart.length != 0 ? (
+                <FlatList
+                  data={listHeart}
+                  extraData={listHeart}
+                  keyExtractor={keySuggestions}
+                  renderItem={renderItem}
+                  listKey="list-heart"
+                  removeClippedSubviews
+                  numColumns={2}
+                  ItemSeparatorComponent={renderSpace}
+                  columnWrapperStyle={{
+                    flex: 1,
+                    paddingHorizontal: sizes._18sdp,
+                    justifyContent: 'flex-start',
+                  }}
+                />
+              ) : (
+                <View style={styles.boxEmpty}>
+                  <Image
+                    source={image.heart_empty}
+                    resizeMode="contain"
+                    style={styles.imgEmpty}
+                  />
+                  <View style={styles.spaceHeightSmall} />
+                  <Text style={styles.textEmptyHeart}>
+                    Bạn chưa thích sản phẩm nào
+                  </Text>
+                  <View style={styles.spaceHeightMedium} />
+                  <View></View>
+                </View>
+              )}
+            </>
           ) : (
             <View style={styles.contentFavorite}>
               <Text>
@@ -490,5 +534,28 @@ const styles = StyleSheet.create({
     height: sizes._102sdp,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  boxEmpty: {
+    height: sizes._250sdp,
+    width: '100%',
+    backgroundColor: ArrayColors._color_white,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imgEmpty: {
+    width: sizes._50sdp,
+    height: sizes._50sdp,
+  },
+  spaceHeightSmall: {
+    height: sizes._10sdp,
+  },
+  textEmptyHeart: {
+    fontSize: sizes._18sdp,
+    fontWeight: '700',
+    fontFamily: 'OpenSans-Bold',
+    color: ArrayColors._color_black,
+  },
+  spaceHeightMedium: {
+    height: sizes._18sdp,
   },
 });

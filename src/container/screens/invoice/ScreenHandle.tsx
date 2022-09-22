@@ -24,6 +24,7 @@ import {
   Chip,
 } from 'react-native-paper';
 import {showToast} from '../../../components/modal/ToastCustom';
+import Loading from '../../../components/modal/Loading';
 
 type Props = {};
 
@@ -31,6 +32,7 @@ const ScreenHandle = (props: Props) => {
   const [listBill, setListBill] = useState<TypeBill[]>([]);
   const [listBillDetail, setListBillDetail] = useState<any[]>([]);
   const [visible, setVisible] = React.useState(false);
+  const [isLoad, setIsLoad] = useState<any>(false);
   const [reson, setReson] = React.useState<any>(null);
   const [idBill, setIdBill] = React.useState<any>(null);
   const [error, setError] = useState<any>(false);
@@ -90,12 +92,12 @@ const ScreenHandle = (props: Props) => {
     idBill: any,
     reson: any,
   ) => {
+    setIsLoad(true);
     let data = JSON.stringify({
       idUser: idUser.toString(),
       idBill: idBill.toString(),
       reason: reson.toString(),
     });
-    console.log(data);
 
     await axios({
       method: 'POST',
@@ -108,27 +110,33 @@ const ScreenHandle = (props: Props) => {
     })
       .then(res => {
         let resData = res.data;
-        if (resData.message.toString() === 'Success') {
+        if (resData.code === 200) {
           setVisible(false);
           setIdBill(null);
           setReson(null);
           showToast('Hủy đơn hàng thành công!');
+          setListBillDetail(
+            listBillDetail.filter((val: any) => val._id !== idBill),
+          );
         } else {
           setVisible(false);
           setIdBill(null);
           setReson(null);
           showToast('Đã có lỗi xảy ra vui lòng thử lại sau!');
         }
+        setIsLoad(false);
       })
       .catch(err => {
         setVisible(false);
         setIdBill(null);
         setReson(null);
         showToast('Đã có lỗi xảy ra vui lòng thử lại sau!');
+        setIsLoad(true);
       });
   };
 
   const getData = async (token: string, idBill: any) => {
+    setIsLoad(true);
     let data = JSON.stringify({
       idBill: idBill.toString(),
     });
@@ -149,9 +157,11 @@ const ScreenHandle = (props: Props) => {
         itemDetail['billDetails'] = resData.billDetails;
         setListBillDetail(prev => [...prev, itemDetail]);
         setError(false);
+        setIsLoad(false);
       })
       .catch(err => {
         setError(true);
+        setIsLoad(false);
         console.log(err);
       });
   };
@@ -268,6 +278,7 @@ const ScreenHandle = (props: Props) => {
         ) : (
           <Exception />
         )}
+        {isLoad ? <Loading /> : null}
       </View>
     </Provider>
   );

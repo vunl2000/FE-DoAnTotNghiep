@@ -11,11 +11,12 @@ import {
   ViewStyle,
   ImageURISource,
 } from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
 import {
   useRoute,
   useNavigation,
   useFocusEffect,
+  useIsFocused,
 } from '@react-navigation/native';
 import AppHeader from '../../../components/header/AppHeader';
 import sizes from '../../../res/sizes/sizes';
@@ -31,14 +32,13 @@ import image from '../../../res/require/Images';
 import {NameScreen} from '../../navigators/TabNavigator';
 import {TypeProductItem} from '../../../store/actions/types';
 import axios from 'axios';
-import {API_URL, BY_VIEW_PRODUCTS} from '@env';
+import {API_URL, BY_VIEW_PRODUCTS, COUNT_HEART, MINES_HEART} from '@env';
 import {
+  addHeart,
   addToCart,
-  clearProducts,
-  countHeart,
+  changeHeart,
   countView,
-  loadProducts,
-  minuesHeart,
+  removeHeart,
 } from '../../../store/actions/productsActions';
 import {showToast} from '../../../components/modal/ToastCustom';
 import TranSport from '../../../components/order/TranSport';
@@ -57,6 +57,7 @@ import {
 } from '../../../store/actions/invoiceActions';
 import CommentItem from '../../../components/size/CommentItem';
 import {HomeName} from '../../navigators/AppContainer';
+import Loading from '../../../components/modal/Loading';
 
 type DetailProps = {};
 
@@ -94,6 +95,7 @@ const viewLeft = (img: ImageURISource, text: string) => (
 //     <ProDucts data={products} keyList="list_suggestions" />
 //   </View>
 // );
+
 const spaceComment = () => <Divider style={styles.divider} />;
 
 const DetailProduct = (props: DetailProps) => {
@@ -103,17 +105,18 @@ const DetailProduct = (props: DetailProps) => {
   const auth = useSelector((state: any) => state.account);
   const {listAllComment, listAllStart, isStart, small, large, fit} =
     useSelector((state: any) => state.invoice);
-
   const [currentIndex, setCurrentIndex] = useState<number>(1);
-
+  const isFocused = useIsFocused();
   const route: any = useRoute();
   const {goBack, navigate}: any = useNavigation();
   const [isShow, setIsShow] = useState(false);
   const dispatch: any = useDispatch();
 
-  const item: any = route.params?.item;
+  const item: any = products.find(
+    (item: any) => item._id === route.params?.item._id,
+  );
 
-  const [heartItem, setHeartItem] = useState<boolean>(item.heart_active);
+  const [heartItem, setHeartItem] = useState<boolean>(false);
 
   const {
     _id,
@@ -123,7 +126,9 @@ const DetailProduct = (props: DetailProps) => {
     size_product,
     color_product,
     heart,
+    heart_active,
   } = item;
+  const [isLoad, setIsLoad] = useState<any>(false);
 
   const [sizeSelected, setSizeSelected] = useState({
     size: '',
@@ -138,10 +143,13 @@ const DetailProduct = (props: DetailProps) => {
   const onSelectedSize = (size: any, index: any) => {
     setSizeSelected({size, index});
   };
+
   const onSelectedColor = (color: any, index: any) => {
     setColorSelected({color, index});
   };
+
   const navigateLogin = () => navigate(NameScreen.LOGIN);
+
   const clearOptions = () => {
     setColorSelected({
       color: '',
@@ -153,9 +161,76 @@ const DetailProduct = (props: DetailProps) => {
     });
   };
 
+  const minuesHeart = async (item: any, token: any, id: any, idHeart: any) => {
+    setIsLoad(true);
+    let data = JSON.stringify({
+      idUser: id,
+      idHeart: idHeart,
+      idProduct: item._id,
+    });
+    await axios({
+      method: 'POST',
+      url: API_URL + MINES_HEART,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => {
+        let data = res.data;
+        if (data.code === 200) {
+          console.log('min heart');
+          dispatch(changeHeart(item._id, false));
+          dispatch(removeHeart(idHeart));
+          setHeartItem(false);
+        } else {
+          showToast('Đã có lỗi trong quá trình xử lý');
+        }
+        setIsLoad(false);
+      })
+      .catch((err: any) => {
+        setIsLoad(false);
+        console.log(err);
+      });
+  };
+
+  const countHeart = async (item: any, token: any, id: any) => {
+    setIsLoad(true);
+
+    let data = JSON.stringify({
+      idUser: id,
+      idProduct: item._id,
+    });
+    await axios({
+      method: 'POST',
+      url: API_URL + COUNT_HEART,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => {
+        let data: any = res.data;
+        if (data.message === 'Success') {
+          dispatch(changeHeart(item._id, true));
+          dispatch(addHeart(data.result));
+          console.log('add heart');
+          setHeartItem(true);
+        } else {
+          showToast('Đã có lỗi trong quá trình xử lý');
+        }
+        setIsLoad(false);
+      })
+      .catch((err: any) => {
+        setIsLoad(false);
+        console.log(err);
+      });
+  };
+
   const vieableItemChanged: any = useRef(({viewableItems}: any) => {
     setCurrentIndex(viewableItems[0].index);
-    console.log(viewableItems[0]);
   }).current;
 
   const viewConfig = useRef({
@@ -177,43 +252,22 @@ const DetailProduct = (props: DetailProps) => {
     }
   };
 
-  const changeHeart = () => {
+  const goHeart = () => {
     if (auth.isAuthenticated) {
-      if (listIDHeart.length > 0) {
-        let check = listIDHeart.find((val: any) =>
-          val.idProduct === _id ? true : false,
-        );
+      let check = listIDHeart.find((val: any) =>
+        val.idProduct === _id ? true : false,
+      );
+      let heartId: any = listIDHeart.find((val: any) => val.idProduct === _id);
 
-        let heartId: any = listIDHeart.find(
-          (val: any) => val.idProduct === _id,
+      if (check) {
+        minuesHeart(
+          item,
+          `Bearer ${auth.token}`,
+          auth.result[0]._id,
+          heartId._id,
         );
-
-        if (check) {
-          if (
-            dispatch(
-              minuesHeart(
-                item,
-                `Bearer ${auth.token}`,
-                auth.result[0]._id,
-                heartId._id,
-              ),
-            )
-          ) {
-            setHeartItem(false);
-          } else {
-            showToast('Đã có lỗi trong quá trình xử lý');
-          }
-        } else {
-          if (
-            dispatch(
-              countHeart(item, `Bearer ${auth.token}`, auth.result[0]._id),
-            )
-          ) {
-            setHeartItem(true);
-          } else {
-            showToast('Đã có lỗi trong quá trình xử lý');
-          }
-        }
+      } else {
+        countHeart(item, `Bearer ${auth.token}`, auth.result[0]._id);
       }
     } else {
       navigateLogin();
@@ -257,7 +311,7 @@ const DetailProduct = (props: DetailProps) => {
   //Modal
   const BtnShowAddCart = () => (
     <View style={styles.containerAddCart}>
-      <TouchableOpacity onPress={changeHeart}>
+      <TouchableOpacity onPress={goHeart}>
         <Icons
           name={heartItem ? 'heart' : 'heart-outline'}
           size={sizes._24sdp}
@@ -310,7 +364,6 @@ const DetailProduct = (props: DetailProps) => {
               renderItem={renderColor}
               listKey="select_colors"
               numColumns={5}
-              bounces={false}
               showsVerticalScrollIndicator={false}
             />
           </View>
@@ -346,7 +399,6 @@ const DetailProduct = (props: DetailProps) => {
               renderItem={renderSize}
               listKey="size_products"
               numColumns={5}
-              bounces={false}
               showsVerticalScrollIndicator={false}
             />
           </View>
@@ -432,11 +484,7 @@ const DetailProduct = (props: DetailProps) => {
           keyExtractor={keyItem}
           renderItem={renderItem}
           horizontal
-          bounces={false}
-          removeClippedSubviews
           scrollEventThrottle={32}
-          onViewableItemsChanged={vieableItemChanged}
-          viewabilityConfig={viewConfig}
           showsHorizontalScrollIndicator={false}
           pagingEnabled
         />
@@ -479,21 +527,20 @@ const DetailProduct = (props: DetailProps) => {
     </View>
   );
 
-  useEffect(() => {
-    dispatch(countView(_id));
+  useLayoutEffect(() => {
+    try {
+      if (isFocused) {
+        if (item) {
+          dispatch(countView(_id));
+          dispatch(getAllRate(_id));
+          dispatch(getAllRateStart(_id));
+          setHeartItem(heart_active);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      // Do something when the screen is focused
-      dispatch(getAllRate(_id));
-      dispatch(getAllRateStart(_id));
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, []),
-  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -506,7 +553,6 @@ const DetailProduct = (props: DetailProps) => {
           listKey="detail-product"
           ListFooterComponent={renderView}
           showsVerticalScrollIndicator={false}
-          bounces={false}
         />
         <BtnShowAddCart />
       </View>
@@ -515,6 +561,7 @@ const DetailProduct = (props: DetailProps) => {
         onChangeShow={onChangeShow}
         item={route.params?.item}
       />
+      {isLoad ? <Loading /> : null}
     </SafeAreaView>
   );
 };

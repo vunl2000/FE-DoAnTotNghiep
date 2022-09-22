@@ -1,4 +1,4 @@
-import {CLEAR_ERRORS, GET_ERRORS,CHECK_NOTIFICATION} from './../actions/types';
+import {CLEAR_ERRORS, GET_ERRORS, CHECK_NOTIFICATION} from './../actions/types';
 
 const initalState = {
   code: null,

@@ -12,9 +12,10 @@ type Props = {
   item: any;
   index: any;
   onPress: any;
+  itemSelected?: any;
 };
 
-const ItemHeart = ({item, index, onPress}: Props) => {
+const ItemHeart = ({item, index, onPress, itemSelected}: Props) => {
   const {navigate}: any = useNavigation();
   return (
     <TouchableOpacity
@@ -36,11 +37,11 @@ const ItemHeart = ({item, index, onPress}: Props) => {
       />
       <View style={styles.mockIcon}>
         <IconHeader
-          name={'heart-outline'}
+          name={itemSelected.index === index ? 'heart' : 'heart-outline'}
           sizes={sizes._26sdp}
           color={ArrayColors._color_black_gray12}
           style={styles.iconHear}
-          onPress={() => onPress(item)}
+          onPress={() => onPress(item, index)}
         />
       </View>
       <Text style={styles.textPrice}>{formartMoney(item?.price)}</Text>

@@ -40,7 +40,7 @@ import {HomeName} from '../../navigators/AppContainer';
 type Props = {};
 
 const ScreenOrder = (props: Props) => {
-  const {goBack, navigate}: any = useNavigation();
+  const {goBack, navigate, replace}: any = useNavigation();
   const dispatch: any = useDispatch();
 
   const {carts, numberCart} = useSelector((state: any) => state.product);
@@ -65,6 +65,7 @@ const ScreenOrder = (props: Props) => {
 
   const requestCameraPermission = async () => {
     try {
+      setIsLoading(true);
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
@@ -81,7 +82,7 @@ const ScreenOrder = (props: Props) => {
           (position: any) => {
             console.log(position.coords);
             setLocation(position.coords);
-
+            setIsLoading(false);
             let getShip = dispatch(
               getTransportFee(
                 position.coords.latitude,
@@ -151,7 +152,10 @@ const ScreenOrder = (props: Props) => {
         dispatch(deleteCart(item.id));
       });
       setIsLoading(false);
-      navigate(NameScreen.HOME, {screen: HomeName.ACCOUNT});
+      replace(NameScreen.HOME, {
+        screen: HomeName.ACCOUNT,
+        params: {loadBill: 'newBill'},
+      });
     }
 
     if (isFalse) {

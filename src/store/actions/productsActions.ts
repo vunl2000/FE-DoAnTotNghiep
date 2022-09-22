@@ -137,73 +137,12 @@ export const getHeartUser =
     }
   };
 
-export const minuesHeart =
-  (item: any, token: any, id: any, idHeart: any) =>
-  async (dispatch: AllDispatchProps) => {
-    let data = JSON.stringify({
-      idUser: id,
-      idHeart: idHeart,
-      idProduct: item._id,
-    });
-
-    await axios({
-      method: 'POST',
-      url: API_URL + MINES_HEART,
-      headers: {
-        token: token,
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    })
-      .then(res => {
-        let data = res.data;
-        if (data.message === 'Success') {
-          console.log('min heart');
-          dispatch(changeHeart(item._id, false));
-          dispatch({type: RM_ITEM_ID_HEART, payload: idHeart});
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-        return false;
-      });
-  };
-
-export const countHeart =
-  (item: any, token: any, id: any) => async (dispatch: AllDispatchProps) => {
-    let data = JSON.stringify({
-      idUser: id,
-      idProduct: item._id,
-    });
-
-    await axios({
-      method: 'POST',
-      url: API_URL + COUNT_HEART,
-      headers: {
-        token: token,
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    })
-      .then(res => {
-        let data: any = res.data;
-        if (data.message === 'Success') {
-          dispatch(changeHeart(item._id, true));
-          dispatch({type: AD_ITEM_ID_HEART, payload: data.result});
-          console.log('add heart');
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-        return false;
-      });
-  };
+export const removeHeart = (idHeart: any) => {
+  return {type: RM_ITEM_ID_HEART, payload: idHeart};
+};
+export const addHeart = (data: any) => {
+  return {type: AD_ITEM_ID_HEART, payload: data};
+};
 
 export function changeHeart(id: any, val: boolean) {
   return {

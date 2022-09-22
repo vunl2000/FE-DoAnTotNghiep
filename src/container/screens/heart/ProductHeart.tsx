@@ -23,17 +23,17 @@ import axios from 'axios';
 import ItemHeart from '../../../components/heart/ItemHeart';
 import {API_URL, COUNT_HEART, GET_HEART, MINES_HEART} from '@env';
 import {
+  addHeart,
   changeHeart,
-  countHeart,
-  minuesHeart,
+  removeHeart,
 } from '../../../store/actions/productsActions';
 import ItemHeartShow from '../../../components/heart/ItemHearShow';
 import {getRandomQuestionsArray} from '../../../utils/Utilities';
 import LottieView from 'lottie-react-native';
 import {showToast} from '../../../components/modal/ToastCustom';
+import Loading from '../../../components/modal/Loading';
 
 type Props = {};
-
 const renderContent = null;
 const isEmty = null;
 
@@ -44,6 +44,7 @@ const ProductHeart = (props: Props) => {
 
   const [listHeart, setListHeart] = useState<any>([]);
   const [checked, setChecked] = useState<any>(null);
+  const [isLoad, setIsLoad] = useState<any>(false);
   const [listNote, setListNote] = useState<any>(
     getRandomQuestionsArray(12, products),
   );
@@ -51,6 +52,7 @@ const ProductHeart = (props: Props) => {
   const [heart, setHeart] = useState<any>({
     isHeart: false,
     item: null,
+    index: -1,
   });
 
   const [minHeart, setMinHeart] = useState<any>({
@@ -72,9 +74,98 @@ const ProductHeart = (props: Props) => {
 
   const keySuggestions = (item: any) => item._id;
 
-  const changeHearts = (item: any) => {
+  const minuesHeart = async (item: any, token: any, id: any, idHeart: any) => {
+    setIsLoad(true);
+    let data = JSON.stringify({
+      idUser: id,
+      idHeart: idHeart,
+      idProduct: item._id,
+    });
+    await axios({
+      method: 'POST',
+      url: API_URL + MINES_HEART,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => {
+        let data = res.data;
+        if (data.code === 200) {
+          console.log('min heart');
+          dispatch(changeHeart(item._id, false));
+          dispatch(removeHeart(idHeart));
+          setListHeart(listHeart.filter((val: any) => val._id !== item._id));
+
+          if (heart.item != null) {
+            setHeart({
+              isHeart: false,
+              item: null,
+              index: -1,
+            });
+          }
+
+          if (minHeart.item != null) {
+            setMinHeart({
+              isStatus: false,
+              item: null,
+            });
+          }
+          setIsLoad(false);
+        } else {
+          showToast('Đã có lỗi trong quá trình xử lý');
+          setIsLoad(false);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setIsLoad(false);
+      });
+  };
+
+  const countHeart = async (item: any, token: any, id: any) => {
+    setIsLoad(true);
+    let data = JSON.stringify({
+      idUser: id,
+      idProduct: item._id,
+    });
+    await axios({
+      method: 'POST',
+      url: API_URL + COUNT_HEART,
+      headers: {
+        token: token,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    })
+      .then(res => {
+        let data: any = res.data;
+        if (data.message === 'Success') {
+          dispatch(changeHeart(item._id, true));
+          dispatch(addHeart(data.result));
+          console.log('add heart');
+          setListHeart([...listHeart, heart.item]);
+          setHeart({
+            ...heart,
+            isHeart: false,
+            item: null,
+          });
+          setIsLoad(false);
+        } else {
+          showToast('Đã có lỗi trong quá trình xử lý');
+          setIsLoad(false);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setIsLoad(false);
+      });
+  };
+
+  const changeHearts = (item: any, index: any) => {
     if (auth.isAuthenticated) {
-      setHeart({isHeart: true, item});
+      setHeart({isHeart: true, item, index});
     } else {
       navigateLogin();
     }
@@ -83,14 +174,18 @@ const ProductHeart = (props: Props) => {
   const changeMinHeart = (item: any) => {
     if (auth.isAuthenticated) {
       setMinHeart({isStatus: true, item});
-      console.log(item);
     } else {
       navigateLogin();
     }
   };
 
   const renderItemSuggestions = ({item, index}: any) => (
-    <ItemHeart item={item} index={index} onPress={changeHearts} />
+    <ItemHeart
+      item={item}
+      index={index}
+      onPress={changeHearts}
+      itemSelected={heart}
+    />
   );
 
   const renderItem = ({item, index}: any) => (
@@ -100,101 +195,75 @@ const ProductHeart = (props: Props) => {
   const renderSpace = () => <View style={styles.spaceHeightMedium} />;
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
-      let heart = products.filter((item: any) => item.heart_active);
-      setListHeart(heart);
-      products.find((item: any) =>
-        item.heart_active ? setChecked(true) : setChecked(false),
-      );
-      if (listIDHeart.length > 0 && !checked) {
-        listIDHeart.forEach((val: any) => {
-          dispatch(changeHeart(val.idProduct, true));
-        });
+    try {
+      if (auth.isAuthenticated) {
+        setIsLoad(true);
+        let heart = products.filter((item: any) => item.heart_active);
+        setListHeart(heart);
+        products.find((item: any) =>
+          item.heart_active ? setChecked(true) : setChecked(false),
+        );
+
+        if (listIDHeart.length > 0 && !checked) {
+          listIDHeart.forEach((val: any) => {
+            dispatch(changeHeart(val.idProduct, true));
+          });
+        } else {
+          setIsLoad(false);
+        }
+        setIsLoad(false);
       }
+    } catch (error) {
+      console.log(error);
     }
   }, [auth.isAuthenticated, checked]);
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
-      if (heart.item != null && listIDHeart.length > 0) {
-        let check = listHeart.find((val: any) =>
-          val._id === heart.item._id ? true : false,
-        );
+    try {
+      if (auth.isAuthenticated) {
+        if (heart.item != null) {
+          let check = listHeart.find((val: any) =>
+            val._id === heart.item._id ? true : false,
+          );
 
-        let heartId: any = listIDHeart.find(
-          (val: any) => val.idProduct === heart.item._id,
-        );
+          let heartId: any = listIDHeart.find(
+            (val: any) => val.idProduct === heart.item._id,
+          );
 
-        if (check) {
-          if (
-            dispatch(
-              minuesHeart(
-                heart.item,
-                `Bearer ${auth.token}`,
-                auth.result[0]._id,
-                heartId._id,
-              ),
-            )
-          ) {
-            setListHeart(
-              listHeart.filter((val: any) => val._id !== heart.item._id),
+          if (check) {
+            minuesHeart(
+              heart.item,
+              `Bearer ${auth.token}`,
+              auth.result[0]._id,
+              heartId._id,
             );
-            setMinHeart({
-              isStatus: false,
-              item: null,
-            });
           } else {
-            showToast('Đã có lỗi trong quá trình xử lý');
-          }
-        } else {
-          if (
-            dispatch(
-              countHeart(
-                heart.item,
-                `Bearer ${auth.token}`,
-                auth.result[0]._id,
-              ),
-            )
-          ) {
-            setListHeart([...listHeart, heart.item]);
-            setHeart({
-              isHeart: false,
-              item: null,
-            });
-          } else {
-            showToast('Đã có lỗi trong quá trình xử lý');
+            countHeart(heart.item, `Bearer ${auth.token}`, auth.result[0]._id);
           }
         }
       }
+    } catch (error) {
+      console.log(error);
     }
   }, [heart.isHeart]);
 
   useEffect(() => {
-    if (minHeart.item != null && listIDHeart.length > 0) {
-      let heartId: any = listIDHeart.find(
-        (val: any) => val.idProduct === minHeart.item._id,
-      );
-
-      if (
-        dispatch(
+    try {
+      if (auth.isAuthenticated) {
+        if (minHeart.item != null && listIDHeart.length > 0) {
+          let heartId: any = listIDHeart.find(
+            (val: any) => val.idProduct === minHeart.item._id,
+          );
           minuesHeart(
             minHeart.item,
             `Bearer ${auth.token}`,
             auth.result[0]._id,
             heartId._id,
-          ),
-        )
-      ) {
-        setListHeart(
-          listHeart.filter((val: any) => val._id !== minHeart.item._id),
-        );
-        setMinHeart({
-          isStatus: false,
-          item: null,
-        });
-      } else {
-        showToast('Đã có lỗi trong quá trình xử lý');
+          );
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
   }, [minHeart.isStatus]);
 
@@ -250,13 +319,13 @@ const ProductHeart = (props: Props) => {
         data={listNote}
         keyExtractor={keySuggestions}
         renderItem={renderItemSuggestions}
-        listKey="list-suggestions-heart"
         numColumns={3}
         ItemSeparatorComponent={renderSpace}
+        listKey="heart-suggest"
         columnWrapperStyle={{
           flex: 1,
+          justifyContent: 'space-between',
           paddingHorizontal: sizes._18sdp,
-          justifyContent: 'flex-start',
         }}
       />
     </View>
@@ -277,15 +346,16 @@ const ProductHeart = (props: Props) => {
         <View style={{width: '100%'}}>
           <FlatList
             data={listHeart}
+            extraData={listHeart}
             keyExtractor={keySuggestions}
             renderItem={renderItem}
-            listKey="list-heart"
             numColumns={2}
+            listKey="heart-all"
             ItemSeparatorComponent={renderSpace}
             columnWrapperStyle={{
               flex: 1,
+              justifyContent: 'space-between',
               paddingHorizontal: sizes._18sdp,
-              justifyContent: 'flex-start',
             }}
           />
         </View>
@@ -340,6 +410,7 @@ const ProductHeart = (props: Props) => {
           showsVerticalScrollIndicator={false}
         />
       </View>
+      {isLoad ? <Loading /> : null}
     </SafeAreaView>
   );
 };

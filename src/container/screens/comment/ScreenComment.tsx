@@ -220,7 +220,6 @@ const ScreenComment = (props: DetailProps) => {
           listKey="detail-product"
           ListFooterComponent={renderView}
           showsVerticalScrollIndicator={false}
-          bounces={false}
         />
       </View>
     </SafeAreaView>
