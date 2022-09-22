@@ -122,7 +122,6 @@ const ShipCOD = (props: Props) => {
           ListFooterComponent={renderContent}
           showsVerticalScrollIndicator={false}
           removeClippedSubviews
-          bounces={false}
         />
       </View>
     </SafeAreaView>

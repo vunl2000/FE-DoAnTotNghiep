@@ -10,10 +10,12 @@ import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../navigators/TabNavigator';
+import Loading from '../../../components/modal/Loading';
 
 type Props = {};
 
 const ScreenDone = (props: Props) => {
+  const [isLoad, setIsLoad] = useState<any>(false);
   const [listBill, setListBill] = useState<TypeBill[]>([]);
   const [listBillDetail, setListBillDetail] = useState<any[]>([]);
   const [error, setError] = useState<any>(false);
@@ -30,6 +32,7 @@ const ScreenDone = (props: Props) => {
   };
 
   const getData = async (token: string, idBill: any) => {
+    setIsLoad(true);
     let data = JSON.stringify({
       idBill: idBill.toString(),
     });
@@ -50,9 +53,11 @@ const ScreenDone = (props: Props) => {
         itemDetail['billDetails'] = resData.billDetails;
         setListBillDetail(prev => [...prev, itemDetail]);
         setError(false);
+        setIsLoad(false);
       })
       .catch(err => {
         setError(true);
+        setIsLoad(false);
         console.log(err);
       });
   };
@@ -114,6 +119,7 @@ const ScreenDone = (props: Props) => {
       ) : (
         <Exception />
       )}
+      {isLoad ? <Loading /> : null}
     </View>
   );
 };

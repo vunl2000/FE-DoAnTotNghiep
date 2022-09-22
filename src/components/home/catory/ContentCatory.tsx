@@ -56,8 +56,6 @@ const ContentCatory = ({data, keyList}: Props) => {
         ListHeaderComponent={space}
         ListFooterComponent={space}
         decelerationRate={'fast'}
-        bounces={false}
-        removeClippedSubviews
         snapToInterval={sizes._screen_width}
         pagingEnabled
         scrollEventThrottle={32}

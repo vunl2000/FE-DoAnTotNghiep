@@ -34,63 +34,9 @@ import CustomeStar from '../../../components/ratiings/CustomeStar';
 import axios from 'axios';
 import {showToast} from '../../../components/modal/ToastCustom';
 import {API_URL, RATE_COMENT_PRODUCT} from '@env';
+import Loading from '../../../components/modal/Loading';
 
 type Props = {};
-
-const sendToComment = async (
-  userName: any,
-  photoUrl: any,
-  content: any,
-  croppedImage: any,
-  idUser: any,
-  idProduct: any,
-  isStars: any,
-  token: any,
-) => {
-  const data = new FormData();
-
-  data.append('userName', userName);
-  croppedImage !== null &&
-    data.append('croppedImage', {
-      name: makeId(6) + '_image.jpg',
-      uri: croppedImage,
-      type: 'image/jpg',
-    });
-  data.append('photoUrl', photoUrl);
-  data.append('content', content);
-  data.append('idUser', idUser);
-  data.append('idProduct', idProduct);
-
-  isStars === 1
-    ? data.append('oneStars', '1')
-    : isStars === 2
-    ? data.append('twoStars', '2')
-    : isStars === 3
-    ? data.append('threeStars', '3')
-    : isStars === 4
-    ? data.append('fourStars', '4')
-    : data.append('fiveStars', '5');
-
-  console.log(data);
-  console.log(token);
-  await axios({
-    method: 'POST',
-    url: API_URL + RATE_COMENT_PRODUCT,
-    headers: {
-      token: token,
-      'Content-Type': 'multipart/form-data',
-    },
-    data: data,
-  })
-    .then(response => {
-      console.log('Cac', response.data);
-      showToast('Đánh giá sản phẩm thành công!');
-    })
-    .catch(error => {
-      console.log(error.response.data);
-      showToast('Đánh giá sản phẩm thất bại!');
-    });
-};
 
 const keyExtractor = (item: any) => item._id;
 
@@ -103,6 +49,7 @@ const DetailInvoice = (props: Props) => {
   //State
   const [address, setAddress] = useState<Address>();
   const [content, setContent] = useState<any>(null);
+  const [isLoad, setIsLoad] = useState<any>(false);
   const [price, setPrice] = useState(0);
   const [start, setStart] = useState(5);
   const [sumQty, setSumQty] = useState(0);
@@ -121,6 +68,65 @@ const DetailInvoice = (props: Props) => {
 
   const changeStart = (val: number) => {
     setStart(val);
+  };
+  const sendToComment = async (
+    userName: any,
+    photoUrl: any,
+    content: any,
+    croppedImage: any,
+    idUser: any,
+    idProduct: any,
+    isStars: any,
+    token: any,
+  ) => {
+    setIsLoad(true);
+    const data = new FormData();
+
+    data.append('userName', userName);
+    croppedImage !== null &&
+      data.append('croppedImage', {
+        name: makeId(6) + '_image.jpg',
+        uri: croppedImage,
+        type: 'image/jpg',
+      });
+    data.append('photoUrl', photoUrl);
+    data.append('content', content);
+    data.append('idUser', idUser);
+    data.append('idProduct', idProduct);
+
+    isStars === 1
+      ? data.append('oneStars', '1')
+      : isStars === 2
+      ? data.append('twoStars', '2')
+      : isStars === 3
+      ? data.append('threeStars', '3')
+      : isStars === 4
+      ? data.append('fourStars', '4')
+      : data.append('fiveStars', '5');
+
+    console.log(data);
+    console.log(token);
+    await axios({
+      method: 'POST',
+      url: API_URL + RATE_COMENT_PRODUCT,
+      headers: {
+        token: token,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: data,
+    })
+      .then(response => {
+        console.log('Cac', response.data);
+        showToast('Đánh giá sản phẩm thành công!');
+        setIsLoad(false);
+        setVisible(false);
+      })
+      .catch(error => {
+        console.log(error.response.data);
+        setIsLoad(false);
+        setVisible(false);
+        showToast('Đánh giá sản phẩm thất bại!');
+      });
   };
 
   const submitComment = () => {
@@ -175,7 +181,7 @@ const DetailInvoice = (props: Props) => {
         console.log('Camera permission denied');
       }
     } catch (err) {
-      console.warn(err);
+      console.log(err);
     }
   };
   //Header
@@ -259,8 +265,6 @@ const DetailInvoice = (props: Props) => {
       extraData={billDetail.billDetails}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
-      bounces={false}
-      removeClippedSubviews
       scrollEventThrottle={32}
       listKey="deatil-handle-bill"
     />
@@ -383,6 +387,8 @@ const DetailInvoice = (props: Props) => {
         <View style={styles.spaceSmall} />
         <Text style={styles.textDefault}>Ship COD</Text>
         <View style={styles.spaceMedium} />
+
+        {isLoad ? <Loading /> : null}
       </View>
     </>
   );

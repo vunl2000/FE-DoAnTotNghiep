@@ -49,7 +49,7 @@ const ButtonSub = ({size, onPress, value, bgColor}: Props) => {
   );
 };
 
-export default ButtonSub;
+export default React.memo(ButtonSub);
 
 const styles = StyleSheet.create({
   container: {

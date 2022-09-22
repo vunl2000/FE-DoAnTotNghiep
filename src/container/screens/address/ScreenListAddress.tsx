@@ -76,7 +76,6 @@ const ScreenListAddress = (props: Props) => {
           listKey="my_list_address"
           removeClippedSubviews
           showsVerticalScrollIndicator={false}
-          bounces={false}
         />
       </View>
       <View style={styles.btnAddress}>

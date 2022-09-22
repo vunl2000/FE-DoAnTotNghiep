@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useLayoutEffect} from 'react';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import sizes from '../../../res/sizes/sizes';
 import AppHeader from '../../../components/header/AppHeader';
@@ -36,6 +36,7 @@ import FilterItem from '../../../components/filter/FilterItem';
 import ButtonSub from '../../../components/button/ButtonSub';
 import {NameScreen} from '../../navigators/TabNavigator';
 import {HomeName} from '../../navigators/AppContainer';
+import Loading from '../../../components/modal/Loading';
 
 type Props = {};
 
@@ -54,7 +55,8 @@ const ProductView = (props: Props) => {
   const {women, accessory, men} = useSelector((state: any) => state.catory);
   const [listSearch, setListSearch] = useState<any>([]);
   const [listFilter, setListFilter] = useState<any>([]);
-
+  const [listHeart, setListHeart] = useState<any>([]);
+  const [isLoad, setIsLoad] = useState<any>(false);
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [classify, setClassify] = useState<boolean>(false);
   const [classifyValue, setClassifyValue] = useState<any>({
@@ -476,6 +478,7 @@ const ProductView = (props: Props) => {
   };
 
   const getData = async (params: any, url: string) => {
+    setIsLoad(true);
     let data = JSON.stringify({
       titleProduct: params.toString(),
     });
@@ -491,13 +494,16 @@ const ProductView = (props: Props) => {
       .then(res => {
         let data = res.data;
         setListSearch(data.result);
+        setIsLoad(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoad(false);
       });
   };
 
   const getDataByTitleId = async (params: any, url: string, types: any) => {
+    setIsLoad(true);
     let data =
       types !== 0
         ? JSON.stringify({
@@ -519,13 +525,15 @@ const ProductView = (props: Props) => {
       .then(res => {
         let data = res.data;
         setListSearch(data.result);
+        setIsLoad(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoad(false);
       });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (searchKey && classifyValue.index === 0) {
       let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS;
       getData(searchKey, url);
@@ -637,7 +645,7 @@ const ProductView = (props: Props) => {
               <Text style={[styles.textPlaholder, {flex: 1}]}>{searchKey}</Text>
             </TouchableWithoutFeedback>
 
-            <Icon size={sizes._22sdp} name="close-circle" />
+            <Icon size={sizes._22sdp} name="close-circle" onPress={backPress} />
           </>
         ) : null}
         {titleCategoryProduct ? (
@@ -852,7 +860,6 @@ const ProductView = (props: Props) => {
           ListFooterComponent={renderContent}
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={true}
-          bounces={false}
         />
         {classify ? (
           <View style={styles.overlay}>
@@ -864,7 +871,6 @@ const ProductView = (props: Props) => {
                 renderItem={renderClassify}
                 showsVerticalScrollIndicator={false}
                 removeClippedSubviews
-                bounces={false}
                 ItemSeparatorComponent={line}
                 listKey="classify"
               />
@@ -922,6 +928,7 @@ const ProductView = (props: Props) => {
           </View>
         ) : null}
       </View>
+      {isLoad ? <Loading /> : null}
     </SafeAreaView>
   );
 };

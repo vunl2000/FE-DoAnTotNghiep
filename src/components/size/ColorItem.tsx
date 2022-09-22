@@ -31,6 +31,10 @@ const ColorItem = ({onPress, isSelected, item, index}: Props) => {
             height: isSelected ? sizes._30sdp : sizes._26sdp,
             borderRadius: isSelected ? sizes._32sdp / 2 : sizes._28sdp / 2,
             backgroundColor: item,
+            borderWidth: sizes._2sdp,
+            borderColor: isSelected
+              ? ArrayColors._color_black
+              : ArrayColors._color_white_black,
           }}
         />
       </Animatable.View>

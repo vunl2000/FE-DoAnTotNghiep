@@ -16,6 +16,8 @@ type Props = {
 
 const ItemHeartShow = ({item, index, onPress}: Props) => {
   const {navigate}: any = useNavigation();
+
+  const goToDetail = () => navigate(NameScreen.DETAIL_PRODUCT, {item: item});
   return (
     <TouchableOpacity
       style={[
@@ -24,7 +26,7 @@ const ItemHeartShow = ({item, index, onPress}: Props) => {
           marginLeft: index % 2 === 0 ? 0 : sizes._18sdp,
         },
       ]}
-      onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
+      onPress={goToDetail}>
       <FastImage
         source={{
           uri: item?.imageProduct[0],

@@ -87,7 +87,6 @@ const CommentItem = ({index, item, size, color}: Props) => {
             ItemSeparatorComponent={space}
             keyExtractor={keyDefault}
             showsHorizontalScrollIndicator={false}
-            bounces={false}
           />
         </>
       ) : null}

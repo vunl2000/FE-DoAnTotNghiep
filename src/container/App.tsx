@@ -1,53 +1,49 @@
-import { StyleSheet, StatusBar, View, TouchableOpacity, Text } from 'react-native';
+import {
+  StyleSheet,
+  StatusBar,
+  View,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import React from 'react';
 import TabNavigator from '../container/navigators/TabNavigator';
-import NetInfo from '@react-native-community/netinfo';
+import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
 import LottieView from 'lottie-react-native';
 import RNExitApp from 'react-native-exit-app';
 import sizes from '../res/sizes/sizes';
+import ArrayColors from '../res/colors/ArrayColors';
+import ButtonSub from '../components/button/ButtonSub';
 
 export default function App() {
-  const { mContainer }: any = styles;
-  const [checkNetwork, setCheckNetwork] = React.useState<any>("offline");
-
+  const {mContainer}: any = styles;
+  const netInfo = useNetInfo();
+  const [checkNetwork, setCheckNetwork] = React.useState<any>(true);
 
   React.useEffect(() => {
+    if (netInfo && netInfo.isConnected === false) {
+      setCheckNetwork(false);
+    } else {
+      setCheckNetwork(true);
+    }
+  }, [netInfo]);
 
-    InternetCheck_kar()
+  const finishApp = () => {
+    RNExitApp.exitApp();
+  };
 
-  }, [checkNetwork])
-  function InternetCheck_kar() {
-    NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
-      if (state.isConnected === true) {
-        setCheckNetwork("online")
-
-      } else {
-        setCheckNetwork("offline")
-      }
-    });
-  }
-  if (checkNetwork === "online") {
+  const NoInterNet = () => {
     return (
-      <View style={mContainer}>
-        <StatusBar
-          translucent
-          backgroundColor="transparent"
-          barStyle={'dark-content'}
-        />
-        <TabNavigator />
-        {/* <ServicersNotification /> */}
-      </View>
-    );
-  } else if (checkNetwork === "offline") {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <View
           style={{
             alignItems: 'center',
           }}>
-          <View style={{ width: sizes._screen_width / 3, height: sizes._screen_width / 3, marginTop: sizes._10sdp }}>
+          <View
+            style={{
+              width: sizes._screen_width / 3,
+              height: sizes._screen_width / 3,
+              marginTop: sizes._10sdp,
+            }}>
             <LottieView
               autoPlay
               loop
@@ -57,38 +53,46 @@ export default function App() {
           <View>
             <Text
               style={{
-                color: '#000',
+                color: ArrayColors._color_black,
                 fontSize: sizes._24sdp,
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
+                fontFamily: 'OpenSans-Bold',
                 marginHorizontal: sizes._20sdp,
                 marginVertical: sizes._10sdp,
                 fontWeight: 'bold',
               }}>
-              Không có kết nối internet vui lòng kiểm tra lại kết nối
+              Có vẻ như thiết bị của bạn không được kết nối với Internet.
             </Text>
           </View>
-
-          <TouchableOpacity
-            onPress={() => {
-              RNExitApp.exitApp();
-            }}
+          <View
             style={{
-              width: sizes._screen_width - sizes._40sdp,
-              marginHorizontal: 20,
-              marginVertical: 10,
-              height: 48,
-              backgroundColor: '#fff',
-              justifyContent: 'center',
-              alignItems: 'center',
+              width: sizes._screen_width,
+              paddingHorizontal: sizes._18sdp,
             }}>
-            <Text>Thoát </Text>
-          </TouchableOpacity>
+            <ButtonSub
+              size="lager"
+              bgColor="black"
+              value="Thoát"
+              onPress={finishApp}
+            />
+          </View>
         </View>
       </View>
     );
-  }
+  };
+  return (
+    <View style={mContainer}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle={'dark-content'}
+      />
+      {checkNetwork ? <TabNavigator /> : <NoInterNet />}
+      {/* <ServicersNotification /> */}
+    </View>
+  );
 }
 const styles = StyleSheet.create({
   mContainer: {

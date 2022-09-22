@@ -10,6 +10,7 @@ import sizes from '../../../res/sizes/sizes';
 import ArrayColors from '../../../res/colors/ArrayColors';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../navigators/TabNavigator';
+import Loading from '../../../components/modal/Loading';
 
 type Props = {};
 
@@ -19,7 +20,7 @@ const ScreenProcessed = (props: Props) => {
   const [error, setError] = useState<any>(false);
   const {listInvoice} = useSelector((state: any) => state.invoice);
   const accounts = useSelector((state: any) => state.account);
-
+  const [isLoad, setIsLoad] = useState<any>(false);
   const {goBack, navigate}: any = useNavigation();
 
   const gotoDetail = (data: any) => {
@@ -29,6 +30,7 @@ const ScreenProcessed = (props: Props) => {
   };
 
   const getData = async (token: string, idBill: any) => {
+    setIsLoad(true);
     let data = JSON.stringify({
       idBill: idBill.toString(),
     });
@@ -49,9 +51,11 @@ const ScreenProcessed = (props: Props) => {
         itemDetail['billDetails'] = resData.billDetails;
         setListBillDetail(prev => [...prev, itemDetail]);
         setError(false);
+        setIsLoad(false);
       })
       .catch(err => {
         setError(true);
+        setIsLoad(false);
         console.log(err);
       });
   };
@@ -113,6 +117,7 @@ const ScreenProcessed = (props: Props) => {
       ) : (
         <Exception />
       )}
+      {isLoad ? <Loading /> : null}
     </View>
   );
 };

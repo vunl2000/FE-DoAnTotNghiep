@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {Divider} from 'react-native-paper';
@@ -17,12 +17,33 @@ import CatoryItem from './Catory.Item';
 import image from '../../res/require/Images';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {NameScreen} from '../../container/navigators/TabNavigator';
+import LottieView from 'lottie-react-native';
 
 type Props = {
   data?: any;
   keyListLeft?: any;
   keyListRight?: any;
 };
+
+const Loading = () => (
+  <View style={styles.loading}>
+    <Text style={styles.textDefault}>Đang tải...</Text>
+    <View
+      style={{
+        width: sizes._68sdp,
+        height: sizes._68sdp,
+        backgroundColor: '#ffffff',
+        borderRadius: sizes._10sdp,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <LottieView
+        source={require('../../assets/lottie/fashion_app_loading.json')}
+        autoPlay
+      />
+    </View>
+  </View>
+);
 
 const Catory = ({data, keyListLeft, keyListRight}: Props) => {
   const isFocused = useIsFocused();
@@ -80,7 +101,7 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
     }
   }, [isFocused, data]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     try {
       if (selectMenu._id) {
         setIsloading(false);
@@ -134,7 +155,9 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
                   ? 'OpenSans-Bold'
                   : 'OpenSans-Regular',
             },
-          ]}>
+          ]}
+          numberOfLines={2}
+          ellipsizeMode="tail">
           {item.titleCategoryProduct}
         </Text>
       </View>
@@ -160,10 +183,6 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
             listKey={keyListLeft}
             keyExtractor={key}
             showsVerticalScrollIndicator={false}
-            bounces={false}
-            initialNumToRender={10}
-            maxToRenderPerBatch={10}
-            windowSize={10}
           />
         </View>
         <View style={styles.contentRight}>
@@ -177,17 +196,12 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
                 keyExtractor={key}
                 numColumns={2}
                 showsVerticalScrollIndicator={false}
-                removeClippedSubviews
-                bounces={false}
-                initialNumToRender={6}
-                maxToRenderPerBatch={6}
-                windowSize={6}
               />
             ) : (
               <Exception />
             )
           ) : (
-            <ActivityIndicator size={'large'} />
+            <Loading />
           )}
         </View>
       </View>
@@ -211,7 +225,6 @@ const styles = StyleSheet.create({
   },
   textMenu: {
     fontSize: sizes._18sdp,
-    flexWrap: 'wrap',
     textAlign: 'center',
     fontWeight: '700',
     fontFamily: 'OpenSans-Bold',
@@ -318,5 +331,11 @@ const styles = StyleSheet.create({
   imgEmpty: {
     width: sizes._80sdp,
     height: sizes._80sdp,
+  },
+  loading: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

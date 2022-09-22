@@ -84,8 +84,6 @@ const MenScreen = (props: Props) => {
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={false}
           ItemSeparatorComponent={space}
-          initialNumToRender={10}
-          bounces={false}
         />
       ) : null}
     </>
@@ -100,7 +98,6 @@ const MenScreen = (props: Props) => {
         listKey="home_Mmen"
         removeClippedSubviews
         showsVerticalScrollIndicator={false}
-        bounces={false}
       />
     </View>
   );

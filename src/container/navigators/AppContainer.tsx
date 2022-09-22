@@ -99,13 +99,13 @@ function MyTabBar({state, descriptors, navigation}: any) {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            {tabBarBadge !== 0 ? null : (
+            {tabBarBadge === undefined ? null : tabBarBadge !== 0 ? (
               <Badge
                 size={sizes._22sdp}
                 style={{position: 'absolute', top: 0, right: sizes._18sdp}}>
                 {tabBarBadge}
               </Badge>
-            )}
+            ) : null}
             <Image
               style={{
                 width: sizes._26sdp,
@@ -181,7 +181,7 @@ const AppContainer: FC = () => {
         component={ScreenCart}
         options={{
           tabBarLabel: 'Giỏ hàng',
-          tabBarBadge: numberCart == 0 ? null : numberCart,
+          tabBarBadge: numberCart,
         }}
       />
       <bottomTab.Screen
