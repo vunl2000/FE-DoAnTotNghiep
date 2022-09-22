@@ -376,7 +376,7 @@ const DetailInvoice = (props: Props) => {
         <Text style={styles.textPlaholder}>Thời gian đặt hàng</Text>
         <View style={styles.spaceSmall} />
         <Text style={styles.textDefault}>
-          {moment(billDetail.createdAt).format('MMMM Do YYYY, h:mm:ss')}
+          {moment(billDetail.createdAt).format('MMMM Do YYYY, HH:mm:ss')}
         </Text>
         <View style={styles.spaceSmall} />
         <Text style={styles.textPlaholder}>Phương pháp vận chuyển</Text>

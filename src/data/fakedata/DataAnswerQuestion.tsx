@@ -38,7 +38,7 @@ export const dataAll = [
         title:
           'Tại sao tôi không nhận được email về đơn hàng của mình được chuyển đi?',
         titlebody:
-          'Thông thường, một email với số theo dõi sẽ được gửi đến địa chỉ email tài khoản của bạn sau khi đơn hàng được vận chuyển trong 24 giờ.\n Nếu bạn không nhận được email:\n 1.Vui lòng truy cập "Đơn hàng của tôi" để kiểm tra trạng thái đơn hàng, nó có thể vẫn đang được xử lý.\n2.Vui lòng kiểm tra xem bạn đã đăng nhập đúng tài khoản SHEIN chưa, email được gửi đến địa chỉ email đã đăng ký chưa.\n 3. Vui lòng kiểm tra các email rác của bạn và địa chỉ email của bạn có che chắn email của chúng tôi không .',
+          'Thông thường, một email với số theo dõi sẽ được gửi đến địa chỉ email tài khoản của bạn sau khi đơn hàng được vận chuyển trong 24 giờ.\n Nếu bạn không nhận được email:\n 1.Vui lòng truy cập "Đơn hàng của tôi" để kiểm tra trạng thái đơn hàng, nó có thể vẫn đang được xử lý.\n2.Vui lòng kiểm tra xem bạn đã đăng nhập đúng tài khoản Fashion chưa, email được gửi đến địa chỉ email đã đăng ký chưa.\n 3. Vui lòng kiểm tra các email rác của bạn và địa chỉ email của bạn có che chắn email của chúng tôi không .',
         checkItem: false,
       },
       {
@@ -102,45 +102,11 @@ export const dataAll = [
         checkItem: false,
       },
       {
-        id: 5,
-        title:
-          'Nếu tôi không có nhà khi gói hàng của tôi đến thì phải làm sao?',
-        titlebody:
-          'Xin chào, nếu bạn không có nhà khi công ty vận chuyển giao hàng cho bạn, bạn có thể nhờ bạn bè hoặc người gia đình đến nhận hàng giúp. Hoặc bạn có thể làm việc với công ty vận chuyển địa phương để sắp xếp việc giao hàng khi bạn có nhà. Nếu không thành công, hãy liên hệ với chúng tôi, chúng tôi sẽ giúp bạn.',
-        checkItem: false,
-      },
-      {
-        id: 6,
-        title: 'Bạn có giảm bớt phí vận chuyển hay không?',
-        titlebody:
-          'Chúng tôi xin lỗi, hiện tại chúng tôi chưa có chương trình giảm phí vận chuyển. Chúng tôi đề nghị bạn mua tại trang web  bán buôn của chúng tôi. Trang web này của chúng tôi cung cấp các dịch vụ như sau: \n' +
-          'http://m.emmacloth.com\nNgoài ra để biết thêm chi tiết và giảm giá cho người bán buôn, xin vui lòng liên hệ email: Wholesale@emmacloth.com.',
-        checkItem: false,
-      },
-      {
         id: 7,
         title:
           'Tôi nhận thấy rằng gói của tôi đã bị hải quan từ chối. Tôi có thể làm gì?',
         titlebody:
           'Xin chào. Chúng tôi rất xin lỗi về điều này. Họ đã cung cấp cho bạn những thông tin nào? Vui lòng liên hệ với dịch vụ khách hàng của chúng tôi và cung cấp cho chúng tôi thông tin đó. Vì vậy, chúng tôi có thể giúp bạn với một cách tốt hơn.',
-        checkItem: false,
-      },
-      {
-        id: 8,
-        title:
-          'Dịch vụ theo dõi cho thấy việc giao hàng của tôi đã thất bại. Tôi có thể làm gì?',
-        titlebody:
-          'Vui lòng liên hệ với bưu điện địa phương hoặc công ty vận chuyển sớm nhất có thể với số theo dõi của bạn để kiểm tra. Nếu bạn vẫn không thể tìm thấy gói hàng của mình, xin vui lòng nhấp vào nút ở góc trên bên phải liên hệ với chúng tôi qua Câu hỏi của tôi.',
-        checkItem: false,
-      },
-      {
-        id: 9,
-        title:
-          'Tại sao dịch vụ theo dõi cho thấy gói hàng đã được giao, nhưng tôi không nhận được gì?',
-        titlebody:
-          'Gói có lẽ được gửi đến hộp thư của bạn hoặc được ký bởi người nhà hoặc hàng xóm của bạn. Chúng tôi đề nghị bạn nên kiểm tra hộp thư của mình và với hàng xóm trước.\n' +
-          'Nếu bạn không thể tìm thấy, vui lòng liên hệ với bên vận chuyển với số theo dõi của bạn để kiểm tra .\n' +
-          'Nếu bạn vẫn không thể tìm thấy , xin vui lòng liên hệ với chúng tôi để được giúp đỡ. Chúng tôi sẽ giúp bạn kiểm tra nó.',
         checkItem: false,
       },
       {
@@ -173,110 +139,40 @@ export const dataAll = [
     data: [
       {
         id: 1,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Số tiền hoàn trả của tôi không chính xác?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Xin chào, việc hoàn tiền sẽ chỉ dành cho các mặt hàng, những phí khác như bảo hiểm vận chuyển và phí vận chuyển sẽ không được hoàn trả.',
         checkItem: false,
       },
       {
         id: 2,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Nếu tôi nhận được một mục sai thì sao?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Xin chào,Cảm ơn bạn đã đặt hàng từ trang web của chúng tôi. Chúng tôi xin lỗi rằng các mặt hàng của chúng tôi không đáp ứng được sự mong đợi của bạn.Bạn có thể vui lòng liên hệ với chúng tôi để kết nối với chúng tôi bằng hình ảnh của hàng đã nhận mà gặp vấn đề này không? Sau đó, chúng tôi có thể cung cấp cho bạn giải pháp tốt nhất để đáp ứng sự hài lòng của bạn.Hy vọng điều này sẽ giúp bạn.',
         checkItem: false,
       },
       {
         id: 3,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Tôi có thể được hoàn tiền đầy đủ cho việc trả lại không?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Xin chào, Chúng tôi sẽ hoàn lại tiền đầy đủ cho tất cả các mặt hàng bạn đã trả lại, không bao gồm phí vận chuyển trả lại và các mặt hàng không thể hoàn trả. Mã giảm giá và điểm Fashion sẽ không được hoàn trả. Hy vọng điều này sẽ giúp được bạn.',
         checkItem: false,
       },
       {
         id: 4,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Tôi có thể trả lại hàng của mình qua bưu điện nào?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Xin chào, chúng tôi không có giới hạn cho việc này. Bạn có thể chọn các công ty vận chuyển sử dụng nhiều nhất, chẳng hạn như bưu điện địa phương để trả lại hàng cho chúng tôi. Và phí vận chuyển của bưu điện thấp hơn các công ty vận chuyển khác.',
         checkItem: false,
       },
       {
         id: 5,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Chính sách hoàn trả của bạn là gì?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Chúng tôi có thể chấp nhận trả lại hầu hết các mặt hàng trong vòng 15 ngày kể từ khi nhận được trong tình trạng mới. Cũng xin lưu ý rằng các mặt hàng sau không được phép trả lại hoặc trao đổi: áo liền quần, nội y, đồ bơi,vật tư sự kiện &amp; tiệc, đồ DIY, đồ dùng thú cưng, đồ trang sức, đồ làm đẹp và phụ kiện (trừ khăn quàng cổ, túi xách,và chăn nàng tiên cá).',
         checkItem: false,
       },
-      {
-        id: 6,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 7,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-    ],
-    check: false,
-  },
-  {
-    id: '4',
-    headerTitle: 'Thanh toán và Khuyến mãi',
-    nameIcon: 'card',
-    data: [
-      {
-        id: 1,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 2,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 3,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 4,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 5,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 6,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 7,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
+      
     ],
     check: false,
   },
@@ -287,53 +183,19 @@ export const dataAll = [
     data: [
       {
         id: 1,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Làm thế nào để tôi chọn kích thước của tôi?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Hãy lấy số đo của bạn và so sánh với Biểu đồ kích thước chi tiết của từng sản phẩm.Bạn có thể tìm thấy một tham chiếu kích thước ở bên phải của ảnh sản phẩm trên trang sản phẩm.Điều này sẽ giúp bạn chọn kích thước nào là phù hợp nhất với cơ thể của bạn. Một kích thước không nhất thiết phải phù hợp với tất cả các kích cỡ nhưng có nghĩa là chỉ có một kích thước cho sản phẩm này.Ngoài ra, rất vui khi giới thiệu chức năng lọc kích thước Fashion cho bạn, nó được gọi là " Kiểm tra kích thước của tôi ". Điền vào kích thước của riêng bạn ở đó để có được một kích thước cụ thể được đề nghị cho bạn.',
         checkItem: false,
       },
       {
         id: 2,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Bạn sẽ bổ sung các mặt hàng đã bán hết không?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Xin chào. Chúng tôi xin lỗi vì sự bất tiện này. Nếu một mục được đánh dấu là "Đã bán hết" hoặc không có kích thước bạn muốn, chúng tôi đề nghị bạn nên kiểm tra trang web thường xuyên trong vòng hai tuần tới trong trường hợp mục đó được khôi phục. Tuy nhiên, nếu nó không được khôi phục trong vòng vài tuần tới, nó có thể sẽ bị xóa khỏi cửa hàng trực tuyến của chúng tôi.Bạn có thể chọn mua các sản phẩm tương tự khác.',
         checkItem: false,
       },
-      {
-        id: 3,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 4,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 5,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 6,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 7,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
+      
     ],
     check: false,
   },
@@ -344,224 +206,40 @@ export const dataAll = [
     data: [
       {
         id: 1,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Tại sao chúng tôi đăng ký cho bạn một tài khoản trực tuyến?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Xin chào, nếu bạn muốn bắt đầu mua hàng, trước tiên bạn cần đăng ký tài khoản Fashion.Sau khi bạn đăng ký tài khoản Fashion, bạn có thể tận hưởng dịch vụ tốt hơn từ chúng tôi, ngoài ra chúng tôi sẽ cập nhật mọi thứ về giao dịch mua của bạn trong tài khoản Fashion của bạn. Sau đó, bạn có thể theo dõi đơn đặt hàng, kiểm tra tiền hoàn lại và số điểm, v.v. trong tài khoản Fashion của mình.Ngoài ra, xin đừng lo lắng, chúng tôi sẽ không tính phí bạn bất cứ điều gì về tài khoản này.',
         checkItem: false,
       },
       {
         id: 2,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Tại sao tôi không thể đăng nhập vào tài khoản của mình?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Xin chào, cho vấn đề này:Hãy đảm bảo rằng bạn đang sử dụng đúng địa chỉ email và mật khẩu mà bạn đã đăng ký. Nếu bạn quên mật khẩu, bạn có thể nhấp vào nút “Quên mật khẩu” khi đăng nhập, sau đó bạn có thể đặt lại mật khẩu mới.Vui lòng lưu ý rằng bạn có thể có 2-3 tài khoản Fashion có cùng địa chỉ email, chẳng hạn như tài khoản thông thường bạn đăng ký bằng địa chỉ email, tài khoản Facebook và tài khoản Google của bạn. Hãy chắc chắn rằng bạn đã sử dụng để đăng nhập.Ngoài ra nếu địa chỉ email bị sai, bạn có thể liên hệ với chúng tôi để được trợ giúp.',
         checkItem: false,
       },
       {
         id: 3,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Làm cách nào để đặt lại mật khẩu?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Bạn vui lòng làm theo các bước dưới đây:1. Nhấp vào "Đăng nhập" ở góc trên cùng bên phải của trang chủ của chúng tôi.2. Chọn "Quên mật khẩu"3. Nhập địa chỉ email đã đăng ký của bạn vào ô được cung cấp.4. Bạn sẽ nhận được email đặt lại và bạn có thể tạo một mật khẩu mới qua liên kết. Cũng vui lòng kiểm tra thư rác của bạn nếu bạn không thể tìm thấy Email của chúng tôi.',
         checkItem: false,
       },
       {
         id: 4,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Làm cách nào để thay đổi chi tiết tài khoản của tôi?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Xin chào, bạn có thể thông qua cài đặt tài khoản của tôi "để thay đổi chi tiết tài khoản " . Nhưng chúng tôi rất tiếc phải thông báo cho bạn rằng: Khách hàng không thể cập nhật địa chỉ email. Vui lòng sử dụng địa chỉ email đã đăng ký ban đầu để đăng nhập vào trang web của chúng tôi. Nếu bạn Không có bất kỳ đơn đặt hàng nào đang chờ xử lý trong tài khoản này, đề nghị bạn có thể liên hệ với dịch vụ khách hàng của chúng tôi bằng cách nhấp vào nút ở góc trên bên phải liên hệ với chúng tôi  để xóa nó, sau đó bạn có thể đăng ký lại với email chính xác.',
         checkItem: false,
       },
       {
         id: 5,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
+        title: 'Làm thế nào để đăng ký?',
         titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
+          'Cảm ơn bạn đã quan tâm đến trang web của chúng tôi, đây là các bước: 1. Cuộn xuống cuối trang chủ của chúng tôi 2. Điền địa chỉ email của bạn 3. Nhấp vào đăng ký để gửi.',
         checkItem: false,
       },
-      {
-        id: 6,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 7,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-    ],
-    check: false,
-  },
-  {
-    id: '7',
-    headerTitle: 'Pháp luật/ Bảo mật và Quyền riêng tư',
-    nameIcon: 'shield-checkmark',
-    data: [
-      {
-        id: 1,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 2,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 3,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 4,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 5,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 6,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 7,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-    ],
-    check: false,
-  },
-  {
-    id: '8',
-    headerTitle: 'Phương tiện truyền thông/CSR',
-    nameIcon: 'logo-youtube',
-    data: [
-      {
-        id: 1,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 2,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 3,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 4,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 5,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 6,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 7,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-    ],
-    check: false,
-  },
-  {
-    id: '9',
-    headerTitle: 'Đề xuất tranh chấp',
-    nameIcon: 'open',
-    data: [
-      {
-        id: 1,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 2,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 3,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 4,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 5,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 6,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
-      {
-        id: 7,
-        title: 'Tôi có thể thay đổi hoặc sửa đổi đơn đặt hàng của mình không?',
-        titlebody:
-          'Xin chào, chúng tôi có thể giúp bạn sửa đổi đơn đặt hàng trước khi vận chuyển, ví dụ như thực hiện hủy, trao đổi các mặt hàng hoặc địa chỉ giao hàng và hoàn lại tiền, nhưng không bao gồm thêm các mặt hàng. Bạn có thể liên hệ với chúng tôi để được trợ giúp thêm.',
-        checkItem: false,
-      },
+     
     ],
     check: false,
   },
