@@ -2,7 +2,7 @@ import {FlatList, Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import InvoiceItem from '../../../components/invoice/InvoiceItem';
 import {TypeBill} from '../../../store/actions/types';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import {
   API_GET_BILL_DETAIL_USER,
@@ -25,6 +25,10 @@ import {
 } from 'react-native-paper';
 import {showToast} from '../../../components/modal/ToastCustom';
 import Loading from '../../../components/modal/Loading';
+import {
+  clearInvoice,
+  loadInvoiceUser,
+} from '../../../store/actions/invoiceActions';
 
 type Props = {};
 
@@ -38,7 +42,7 @@ const ScreenHandle = (props: Props) => {
   const [error, setError] = useState<any>(false);
   const {listInvoice} = useSelector((state: any) => state.invoice);
   const accounts = useSelector((state: any) => state.account);
-
+  const dispatch: any = useDispatch();
   const showDialog = (idBill: any) => {
     setVisible(true);
     setIdBill(idBill);
@@ -117,6 +121,10 @@ const ScreenHandle = (props: Props) => {
           showToast('Hủy đơn hàng thành công!');
           setListBillDetail(
             listBillDetail.filter((val: any) => val._id !== idBill),
+          );
+
+          dispatch(
+            loadInvoiceUser(accounts.result[0]._id, `Bearer ${accounts.token}`),
           );
         } else {
           setVisible(false);

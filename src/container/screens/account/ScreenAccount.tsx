@@ -101,7 +101,6 @@ const ScreenAccount = ({ navigation }: { navigation: any }) => {
 
   React.useLayoutEffect(() => {
     try {
-
       if (accounts.isAuthenticated === null) {
         setStorageUser('Đăng nhập / Đăng Ký >');
         setIsShowImg(false);
@@ -114,17 +113,12 @@ const ScreenAccount = ({ navigation }: { navigation: any }) => {
         });
       } else {
         if (accounts.isAuthenticated === true) {
-          console.log("-0----------------------------");
-
           setIsShowImg(true);
           setDataImg(accounts.result[0].photoUrl);
           setStorageUser(accounts.result[0].name);
           setEvent(false);
           dispatch(
-            loadInvoiceUser(
-              accounts.result[0]._id,
-              `Bearer ${accounts.token}`,
-            ),
+            loadInvoiceUser(accounts.result[0]._id, `Bearer ${accounts.token}`),
           );
         } else {
           setStorageUser(accounts.result[0].name);

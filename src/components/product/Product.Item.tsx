@@ -17,17 +17,17 @@ type Props = {
 
 const ProductItem = ({item, index}: Props) => {
   const {navigate}: any = useNavigation();
-
+  const goDetail = () => navigate(NameScreen.DETAIL_PRODUCT, {item: item});
   return (
     <TouchableOpacity
       style={[
         styles.container,
-        {
-          marginLeft: index % 2 == 0 ? sizes._18sdp : 0,
-          marginRight: sizes._18sdp,
-        },
+        // {
+        //   // marginLeft: index % 2 == 0 ? sizes._18sdp : 0,
+        //   paddingHorizontal: sizes._18sdp,
+        // },
       ]}
-      onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
+      onPress={goDetail}>
       <FastImage
         source={{
           uri: item?.imageProduct[0],
@@ -47,8 +47,8 @@ export default ProductItem;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
+    paddingHorizontal: sizes._15sdp,
   },
   image: {
     width: (sizes._screen_width - sizes._54sdp) / 2,
