@@ -10,6 +10,11 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {API_URL, GET_PRODUCT_BY_ID_OBJECT} from '@env';
 import ProductItem from '../../../../components/product/Product.Item';
+import {FlashList} from '@shopify/flash-list';
+import {useNavigation} from '@react-navigation/native';
+import {HomeName} from '../../../navigators/AppContainer';
+import ButtonSub from '../../../../components/button/ButtonSub';
+import AnimatedLottieView from 'lottie-react-native';
 
 type Props = {};
 const renderEmty = null;
@@ -20,6 +25,16 @@ const WomenScreen = (props: Props) => {
   const {typeCatory} = useSelector((state: any) => state.catory);
   const {banner} = useSelector((state: any) => state.firstOpen);
 
+  const [isLoad, setIsLoad] = useState(false);
+  const [isMore, setIsMore] = useState(false);
+  const [data, setData] = useState<any>([]);
+  const [currentItem, setCurrentItem] = useState(10);
+  const {jumpTo}: any = useNavigation();
+
+  const goCatory = () => {
+    jumpTo(HomeName.CATORY);
+  };
+  const ITEM_HEIGHT = sizes._282sdp;
   // let srcTop =
   //   'https://img.ltwebstatic.com/images3_ach/2022/06/27/1656331239bb13f9f9e24d58c9e7866049e9380e96_thumbnail_840x.webp';
   // let srcHeader =
@@ -35,6 +50,37 @@ const WomenScreen = (props: Props) => {
   };
   const keyItem = (item: any) => item._id;
   const space = () => <View style={styles.spaceY} />;
+
+  const handleOnEndReached = () => {
+    setCurrentItem(currentItem + 10);
+    if (currentItem > listWomen.length) {
+      setIsLoad(false);
+      setIsMore(true);
+    } else {
+      setIsMore(false);
+      setIsLoad(true);
+
+      setTimeout(() => {
+        let newData = data.concat(listWomen.slice(data.length, currentItem));
+        setData(newData);
+        setIsLoad(false);
+      }, 3000);
+    }
+  };
+  const loadMore = () => {
+    if (!isLoad) {
+      return null;
+    }
+    return (
+      <View style={styles.contentLoadMore}>
+        <AnimatedLottieView
+          source={require('../../../../assets/lottie/fashion_app_loading.json')}
+          autoPlay
+          style={styles.imgLoadMore}
+        />
+      </View>
+    );
+  };
   useEffect(() => {
     typeCatory.forEach((item: any) => {
       if (item.titleTypeProduct === 'Nữ') {
@@ -61,6 +107,7 @@ const WomenScreen = (props: Props) => {
       }
     });
   }, [typeCatory]);
+
   const HotDays = () => (
     <View style={styles.hotDays}>
       <Text style={styles.labelHotDay}>
@@ -87,7 +134,7 @@ const WomenScreen = (props: Props) => {
     </View>
   );
 
-  const renderContent = () => (
+  const renderContent = (
     <>
       <Banner
         size="medium"
@@ -104,18 +151,32 @@ const WomenScreen = (props: Props) => {
       <View style={styles.label}>
         <Text style={styles.textLabel}>Tại sao không thử!</Text>
       </View>
-      {isLoader ? null : (
-        <FlatList
-          data={listWomen.slice(0, 10)}
+      {listWomen.length != 0 ? (
+        <FlashList
+          data={data}
           renderItem={renderProDuct}
           numColumns={2}
-          listKey={'women-index'}
+          //listKey={'women-index'}
           keyExtractor={keyItem}
           showsVerticalScrollIndicator={false}
-          removeClippedSubviews={false}
+          // removeClippedSubviews={false}
           ItemSeparatorComponent={space}
+          ListFooterComponent={loadMore}
+          onEndReachedThreshold={0.1}
+          onEndReached={handleOnEndReached}
+          estimatedItemSize={ITEM_HEIGHT}
         />
-      )}
+      ) : null}
+      {isMore ? (
+        <View style={styles.btnMore}>
+          <ButtonSub
+            size="large"
+            bgColor="black"
+            value="Xem thêm"
+            onPress={goCatory}
+          />
+        </View>
+      ) : null}
     </>
   );
 
@@ -170,5 +231,18 @@ const styles = StyleSheet.create({
     color: ArrayColors._color_black,
     marginVertical: sizes._10sdp,
     textAlign: 'center',
+  },
+  btnMore: {
+    width: sizes._screen_width,
+    padding: sizes._18sdp,
+  },
+  imgLoadMore: {
+    width: sizes._60sdp,
+    height: sizes._60sdp,
+  },
+  contentLoadMore: {
+    paddingVertical: sizes._10sdp,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -12,9 +12,11 @@ import {
   changeHeart,
   getHeartUser,
 } from '../../../../store/actions/productsActions';
-import {useFocusEffect} from '@react-navigation/native';
+import {Link, useFocusEffect, useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import {FlashList} from '@shopify/flash-list';
+import {HomeName} from '../../../navigators/AppContainer';
+import ButtonSub from '../../../../components/button/ButtonSub';
 
 interface Props {}
 
@@ -33,44 +35,35 @@ const searchUrl = (keySearch: any, list: any) => {
   return list.filter((item: any) => item.title_ads === keySearch)[0].image_ads;
 };
 
-const loadMore = (isLoad: boolean) => {
-  if (!isLoad) {
-    return null;
-  }
-  return (
-    <View style={styles.contentLoadMore}>
-      <LottieView
-        source={require('../../../../assets/lottie/fashion_app_loading.json')}
-        autoPlay
-        style={styles.imgLoadMore}
-      />
-    </View>
-  );
-};
-
 const HomeIndex: React.FC<Props> = props => {
   const {listIDHeart, products} = useSelector((state: any) => state.product);
   const ITEM_HEIGHT = sizes._282sdp;
   const [isLoad, setIsLoad] = useState(false);
-  const [data, setData] = useState<any>();
-  const [currentItem, setCurrentItem] = useState(20);
+  const [isMore, setIsMore] = useState(false);
+  const [data, setData] = useState<any>([]);
+  const [currentItem, setCurrentItem] = useState(10);
   const dispatch: any = useDispatch();
   const {banner} = useSelector((state: any) => state.firstOpen);
   const accounts = useSelector((state: any) => state.account);
-  const renderProDuct = ({item, index}: any) => {
-    return <ProductItem item={item} index={index} />;
-  };
+  const {jumpTo}: any = useNavigation();
 
+  const goCatory = () => {
+    jumpTo(HomeName.CATORY);
+  };
   const handleOnEndReached = () => {
     setCurrentItem(currentItem + 10);
-    if (currentItem > products.length) {
+    if (currentItem > 100) {
       setIsLoad(false);
+      setIsMore(true);
     } else {
+      setIsMore(false);
       setIsLoad(true);
+
       setTimeout(() => {
-        setData(data.concat(products.slice(data.length, currentItem)));
+        let newData = data.concat(products.slice(data.length, currentItem));
+        setData(newData);
         setIsLoad(false);
-      }, 2000);
+      }, 3000);
     }
   };
 
@@ -93,6 +86,20 @@ const HomeIndex: React.FC<Props> = props => {
     }
   }, [accounts]);
 
+  const loadMore = () => {
+    if (!isLoad) {
+      return null;
+    }
+    return (
+      <View style={styles.contentLoadMore}>
+        <LottieView
+          source={require('../../../../assets/lottie/fashion_app_loading.json')}
+          autoPlay
+          style={styles.imgLoadMore}
+        />
+      </View>
+    );
+  };
   const renderView = (
     <View style={styles.container}>
       <Banner
@@ -119,21 +126,33 @@ const HomeIndex: React.FC<Props> = props => {
       <View style={styles.label}>
         <Text style={styles.textLabel}>Đề xuất</Text>
       </View>
-
-      <FlashList
-        data={products.slice(0, 10)}
-        renderItem={renderProDuct}
-        numColumns={2}
-        // listKey={'home-index'}
-        keyExtractor={keyItem}
-        showsVerticalScrollIndicator={false}
-        // removeClippedSubviews
-        //ListFooterComponent={loadMore(isLoad)}
-        //ItemSeparatorComponent={space}
-        //onEndReached={handleOnEndReached}
-        // bounces={false}
-        estimatedItemSize={ITEM_HEIGHT}
-      />
+      {products.length != 0 ? (
+        <FlashList
+          data={data}
+          renderItem={renderProDuct}
+          numColumns={2}
+          // listKey={'home-index'}
+          keyExtractor={keyItem}
+          showsVerticalScrollIndicator={false}
+          // removeClippedSubviews
+          ListFooterComponent={loadMore}
+          ItemSeparatorComponent={space}
+          onEndReached={handleOnEndReached}
+          onEndReachedThreshold={0.1}
+          // bounces={false}
+          estimatedItemSize={ITEM_HEIGHT}
+        />
+      ) : null}
+      {isMore ? (
+        <View style={styles.btnMore}>
+          <ButtonSub
+            size="large"
+            bgColor="black"
+            value="Xem thêm"
+            onPress={goCatory}
+          />
+        </View>
+      ) : null}
     </View>
   );
   return (
@@ -144,6 +163,7 @@ const HomeIndex: React.FC<Props> = props => {
         ListFooterComponent={renderView}
         listKey="home_index"
         showsVerticalScrollIndicator={false}
+        removeClippedSubviews
       />
     </View>
   );
@@ -183,5 +203,9 @@ const styles = StyleSheet.create({
     paddingVertical: sizes._10sdp,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  btnMore: {
+    width: sizes._screen_width,
+    padding: sizes._18sdp,
   },
 });

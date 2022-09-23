@@ -100,35 +100,30 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
 
   React.useLayoutEffect(() => {
     try {
-      if (isFocused) {
-        if (accounts.isAuthenticated === null) {
-          setStorageUser('Đăng nhập / Đăng Ký >');
-          setIsShowImg(false);
-          setEvent(true);
-          setInvoiceStatus({
-            handle: null,
-            processed: null,
-            transport: null,
-            done: null,
-          });
+      if (accounts.isAuthenticated === null) {
+        setStorageUser('Đăng nhập / Đăng Ký >');
+        setIsShowImg(false);
+        setEvent(true);
+        setInvoiceStatus({
+          handle: null,
+          processed: null,
+          transport: null,
+          done: null,
+        });
+      } else {
+        if (accounts.isAuthenticated === true) {
+          setIsShowImg(true);
+          setDataImg(accounts.result[0].photoUrl);
+          setStorageUser(accounts.result[0].name);
+          setEvent(false);
+          dispatch(
+            loadInvoiceUser(accounts.result[0]._id, `Bearer ${accounts.token}`),
+          );
         } else {
-          if (accounts.isAuthenticated === true) {
-            setIsShowImg(true);
-            setDataImg(accounts.result[0].photoUrl);
-            setStorageUser(accounts.result[0].name);
-            setEvent(false);
-            dispatch(
-              loadInvoiceUser(
-                accounts.result[0]._id,
-                `Bearer ${accounts.token}`,
-              ),
-            );
-          } else {
-            setStorageUser(accounts.result[0].name);
-            setEvent(false);
-            // setIsShowImg(true);
-            setDataImg(accounts.result[0].photoUrl);
-          }
+          setStorageUser(accounts.result[0].name);
+          setEvent(false);
+          // setIsShowImg(true);
+          setDataImg(accounts.result[0].photoUrl);
         }
       }
     } catch (err) {
