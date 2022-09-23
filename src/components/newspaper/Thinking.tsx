@@ -21,27 +21,25 @@ const Thinking = (props: Props) => {
   React.useLayoutEffect(() => {
     try {
       if (accounts === undefined) {
-        console.log('undefined');
-        console.log(accounts);
-
+        //console.log('undefined');
+        //console.log(accounts);
         // setUrlAvatar(urlPick);
-
         //setStorageUser('Đăng nhập / Đăng Ký >');
       } else {
         // const jsonValue = JSON.parse(value);
         setUserName(accounts.result[0].name);
         setUrlAvatar(accounts.result[0].photoUrl);
-        // console.log(jsonValue.photoUrlSet);
+        // //console.log(jsonValue.photoUrlSet);
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
     // setTimeout(() => {
     //   getDataUser('@user_token')
     //     .then(data => data)
     //     .then((value: any) => {
     //     })
-    //     .catch(err => console.log(err));
+    //     .catch(err => //console.log(err));
     // }, 100);
   }, [accounts]);
 

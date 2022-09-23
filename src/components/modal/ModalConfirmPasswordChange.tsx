@@ -116,7 +116,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
         setWarningOTP(true);
         setLabelOTP('Vui lòng không bỏ trống');
       } else {
-        console.log('oaaaaaaaaak');
+        //console.log('oaaaaaaaaak');
         VerifyOTP(emailRqOTP, otp);
       }
     }
@@ -125,7 +125,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
     var data = JSON.stringify({
       email: email,
     });
-    console.log(data);
+    //console.log(data);
 
     var config = {
       method: 'post',
@@ -138,7 +138,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         if (response.data.code === 200) {
           if (
             response.data.user._id != null &&
@@ -157,7 +157,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
         }
       })
       .catch(function (error) {
-        console.log(error.response.data);
+        //console.log(error.response.data);
         if (error.response.data.code === 400) {
           ToastAndroid.show(
             'Email không có trong hệ thống',
@@ -187,10 +187,10 @@ const ModalConfirmPasswordChange = (props: Props) => {
       data: mFormData,
     };
 
-    console.log(mFormData);
+    //console.log(mFormData);
     await axios(config)
       .then(response => {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
         if (response.data.code === 200) {
           ToastAndroid.show(
             'Mã OTP đã được gửi đến Gmail của bạn',
@@ -245,7 +245,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
           );
           props.dismissMoDalls = undefined;
         }
-        console.log('xác thực tc ', JSON.stringify(response.data));
+        //console.log('xác thực tc ', JSON.stringify(response.data));
       })
       .catch(function (error) {
         if (error.response.data.code === 400) {
@@ -261,7 +261,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
   }
 
   function eventReqOTP() {
-    console.log('req');
+    //console.log('req');
     setEvent(false);
 
     if (seconds <= 0) {
@@ -270,7 +270,7 @@ const ModalConfirmPasswordChange = (props: Props) => {
     }
   }
   React.useLayoutEffect(() => {
-    console.log('ok');
+    //console.log('ok');
 
     const timerId = setInterval(() => {
       if (seconds === 0) {

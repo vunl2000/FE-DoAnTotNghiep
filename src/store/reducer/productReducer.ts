@@ -33,7 +33,7 @@ const initalState = {
 };
 
 export default (state = initalState, {payload, type}: ActionProps) => {
-  //AsyncStorage.getItem('persist:root').then(data => console.log(data));
+  //AsyncStorage.getItem('persist:root').then(data => //console.log(data));
   switch (type) {
     case lOADING_PRODUCT:
       return {
@@ -179,7 +179,7 @@ export default (state = initalState, {payload, type}: ActionProps) => {
         listIDHeart: payload,
       };
     case AD_ITEM_ID_HEART:
-      console.log(payload);
+      //console.log(payload);
       return {
         ...state,
         listIDHeart: [...state.listIDHeart, payload],

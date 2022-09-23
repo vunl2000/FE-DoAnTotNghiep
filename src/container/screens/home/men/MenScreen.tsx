@@ -99,7 +99,7 @@ const MenScreen = (props: Props) => {
       })
       .catch(err => {
         setIsLoader(true);
-        console.log(err);
+        //console.log(err);
       });
   };
 

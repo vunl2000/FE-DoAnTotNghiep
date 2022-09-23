@@ -61,9 +61,9 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
   const register = useSelector((state: any) => state.register);
   const error = useSelector((state: any) => state.err);
 
-  console.log(emailNext);
-  console.log(passwordNext);
-  console.log(passwordConfirm);
+  //console.log(emailNext);
+  //console.log(passwordNext);
+  //console.log(passwordConfirm);
 
   React.useEffect(() => {
     setPassword(passwordNext);
@@ -83,7 +83,7 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
   function eventEditUserName(text: string | any) {
     setUserName(text);
     if (text != null) {
-      console.log(name);
+      //console.log(name);
       setVisibleIconUserName(true);
       setWarningUserName(false);
       // setLabelUserName('');
@@ -94,7 +94,7 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
     if (text != null) {
       setVisibleIconNumberPhone(true);
       setWarningNumberPhone(false);
-      console.log(phone);
+      //console.log(phone);
       setLabelNumberPhone('');
     }
   }
@@ -116,11 +116,11 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
       },
       response => {
         if (response.error) {
-          console.log('image error');
-          console.log(response.error);
+          //console.log('image error');
+          //console.log(response.error);
           setSelectedImage(Images.user_no_bgr);
         } else {
-          console.log('Image: ' + response.uri);
+          //console.log('Image: ' + response.uri);
           setSelectedImage({uri: response.uri});
           setCroppedImage(response.uri);
         }
@@ -131,14 +131,14 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
   React.useEffect(() => {
     try {
       if (selectedImage.uri !== undefined) {
-        // console.log(selectedImage.uri);
+        // //console.log(selectedImage.uri);
         setSelectedImage(selectedImage);
-        console.log('useEffect: ' + selectedImage);
+        //console.log('useEffect: ' + selectedImage);
       } else {
         setSelectedImage(Images.user_no_bgr);
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   }, [selectedImage]);
 
@@ -194,11 +194,11 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
           }
           default:
             setIsLoading(false);
-            console.log('Error');
+          //console.log('Error');
         }
       } catch {
         setIsLoading(false);
-        console.log('Đã có lỗi xảy ra');
+        //console.log('Đã có lỗi xảy ra');
       }
     }, 3000);
   }, [error]);
@@ -212,7 +212,7 @@ const ScreenRegisterDetail = ({navigation, route}: any) => {
     } else if (name === '') {
       setWarningUserName(true);
       setLabelUserName('Không được bỏ trống');
-      console.log('okkkkkk');
+      //console.log('okkkkkk');
     } else if (phone === '') {
       setWarningNumberPhone(true);
       setLabelNumberPhone('Không được bỏ trống');

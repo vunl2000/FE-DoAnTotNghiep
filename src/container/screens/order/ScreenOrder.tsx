@@ -57,7 +57,7 @@ const ScreenOrder = (props: Props) => {
   const [location, setLocation] = useState<any>(null);
 
   const onBackPress = () => goBack();
-  console.log(transport);
+  //console.log(transport);
 
   const goListAdress = () => {
     navigate(NameScreen.LIST_ADDRESS);
@@ -80,7 +80,7 @@ const ScreenOrder = (props: Props) => {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           (position: any) => {
-            console.log(position.coords);
+            //console.log(position.coords);
             setLocation(position.coords);
             setIsLoading(false);
             let getShip = dispatch(
@@ -95,7 +95,7 @@ const ScreenOrder = (props: Props) => {
             }
           },
           error => {
-            console.log(error);
+            //console.log(error);
             setLocation(null);
           },
           {
@@ -109,7 +109,7 @@ const ScreenOrder = (props: Props) => {
           },
         );
       } else {
-        //console.log('Camera permission denied');
+        ////console.log('Camera permission denied');
       }
     } catch (err) {
       console.warn(err);

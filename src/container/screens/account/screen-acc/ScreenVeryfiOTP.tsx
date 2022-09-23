@@ -37,7 +37,7 @@ const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
   const [event, setEvent] = React.useState<string | any>(true);
   const [eventCheck, setEventCheck] = React.useState<string | any>(false);
 
-  console.log(event);
+  //console.log(event);
 
   const [userEmail, setUserEmail] = React.useState<string | any>(
     register.result.email,
@@ -87,7 +87,7 @@ const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
       userOTP,
       userID,
     });
-    console.log(mFormData);
+    //console.log(mFormData);
 
     const config = await {
       method: 'POST',
@@ -101,7 +101,7 @@ const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
 
     await axios(config)
       .then(response => {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
         if (response.data.code === 200) {
           ToastAndroid.show(
             'Xác thực tài khoản thành công',
@@ -113,7 +113,7 @@ const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
         }
       })
       .catch(error => {
-        console.log(JSON.stringify(error.response.data));
+        //console.log(JSON.stringify(error.response.data));
         if (error.response.data.code === 400) {
           ToastAndroid.show('Mã xác thực không chính xác', ToastAndroid.SHORT);
         } else {
@@ -136,11 +136,11 @@ const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
     }
   }
   function eventReqOTP() {
-    console.log('req');
+    //console.log('req');
     if (seconds <= 0) {
       setSeconds(90);
       GenerateOTP(userEmail, userID);
-      console.log(userEmail, userID);
+      //console.log(userEmail, userID);
     }
   }
   function clearTextOTP() {
@@ -150,7 +150,7 @@ const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
     }
   }
   function eventGenerateOTP() {
-    console.log('rqOTP');
+    //console.log('rqOTP');
     setEvent(false);
     setEventCheck(true);
     if (seconds <= 0) {
@@ -161,7 +161,7 @@ const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
   }
 
   React.useLayoutEffect(() => {
-    console.log('ok');
+    //console.log('ok');
 
     const timerId = setInterval(() => {
       if (seconds === 0) {
@@ -177,7 +177,7 @@ const ScreenVeryfiOTP = ({navigation}: {navigation: any}) => {
     };
   }, [seconds]);
 
-  console.log(seconds);
+  //console.log(seconds);
 
   const renderContent = (
     <>

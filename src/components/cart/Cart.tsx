@@ -5,6 +5,7 @@ import CartItem from './Cart.Item';
 import sizes from '../../res/sizes/sizes';
 import ArrayColors from '../../res/colors/ArrayColors';
 import {TypeCartItem} from '../../store/actions/types';
+import {FlashList} from '@shopify/flash-list';
 
 type Props = {};
 
@@ -17,16 +18,17 @@ const Cart = (props: Props) => {
 
   return (
     <>
-      <FlatList
+      <FlashList
         data={carts}
         extraData={carts}
         keyExtractor={keyExtractor}
         renderItem={rederItem}
         removeClippedSubviews
         numColumns={1}
-        listKey="cart-product"
+        // listKey="cart-product"
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={lineHorizontal}
+        estimatedItemSize={250}
       />
     </>
   );

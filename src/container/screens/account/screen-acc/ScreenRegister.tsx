@@ -19,13 +19,13 @@ import Policy from '../../../../components/accounts/Policy';
 import GoogleOrFacebook from '../../../../components/accounts/GoogleOrFacebook';
 import Button from '../../../../components/accounts/Button';
 import Input from '../../../../components/accounts/Input';
-import { checkMail, isNullEmptyBlank } from '../../../../utils/Utilities';
-import { useDispatch, useSelector } from 'react-redux';
-import { removerRegister } from '../../../../store/actions/registerActions';
+import {checkMail, isNullEmptyBlank} from '../../../../utils/Utilities';
+import {useDispatch, useSelector} from 'react-redux';
+import {removerRegister} from '../../../../store/actions/registerActions';
 
 type Props = {};
 
-const ScreenRegister = ({ navigation }: { navigation: any }) => {
+const ScreenRegister = ({navigation}: {navigation: any}) => {
   const [isLoading, setIsLoading] = React.useState<string | any>(false);
   const [email, setEmail] = React.useState<string | any>('');
   const [password, setPassword] = React.useState<string | any>('');
@@ -96,7 +96,6 @@ const ScreenRegister = ({ navigation }: { navigation: any }) => {
       setLabelPasswordConfirm('Mật khẩu không khớp');
       setWarningPassWordConfirm(true);
     } else {
-
       setIsLoading(true);
       // navigation.navigate('ScreenRegisterDetail', {
       //   emailNext: email,
@@ -108,15 +107,12 @@ const ScreenRegister = ({ navigation }: { navigation: any }) => {
           emailNext: email,
           passwordNext: password,
           passwordConfirmNext: passwordConfirm,
-
-
         });
         setIsLoading(false);
-      }, 1500)
-
+      }, 1500);
     }
 
-    console.log(isNullEmptyBlank(password));
+    //console.log(isNullEmptyBlank(password));
   }
   function eventLogin() {
     navigation.navigate('ScreenLogin');
@@ -147,12 +143,12 @@ const ScreenRegister = ({ navigation }: { navigation: any }) => {
     setWarningEmail(false);
     setVisibleIconEmail(true);
     if (text != null) {
-      console.log('text != null');
+      //console.log('text != null');
       setVisibleIconEmail(true);
       setWarningEmail(false);
       setLabelEmail(null);
     } else {
-      console.log('text == null');
+      //console.log('text == null');
       setVisibleIconEmail(false);
     }
   }
@@ -160,24 +156,24 @@ const ScreenRegister = ({ navigation }: { navigation: any }) => {
   function eventEditPassword(text: string | any) {
     setPassword(text);
     if (text != null) {
-      console.log('text != null');
+      //console.log('text != null');
       setVisibleIconPassword(true);
       setWarningPassword(false);
       setLabelPassword(null);
     } else {
-      console.log('text == null');
+      //console.log('text == null');
       setVisibleIconPassword(false);
     }
   }
   function eventEditPasswordConfirm(text: string | any) {
     setPasswordConfirm(text);
     if (text != null) {
-      console.log('text != null');
+      //console.log('text != null');
       setWarningPassWordConfirm(false);
       setVisibleIconPasswordConfirm(true);
       setLabelPasswordConfirm(null);
     } else {
-      console.log('text == null');
+      //console.log('text == null');
       setVisibleIconPasswordConfirm(false);
     }
   }
@@ -191,7 +187,7 @@ const ScreenRegister = ({ navigation }: { navigation: any }) => {
           marginTop: sizes._36sdp,
           marginHorizontal: sizes._20sdp,
         }}>
-        <Text style={{ fontSize: sizes._24sdp, textAlign: 'center' }}>
+        <Text style={{fontSize: sizes._24sdp, textAlign: 'center'}}>
           Chào mừng bạn đến với ứng dụng mua sắm trực tuyển đăng ký nhanh nào!
         </Text>
       </View>

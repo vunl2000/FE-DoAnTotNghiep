@@ -52,7 +52,7 @@ export const loadInvoiceUser =
                 done += 1;
               }
             });
-            console.log(handle + processed + transport + done);
+            //console.log(handle + processed + transport + done);
 
             dishpatch({
               type: LOADED_INVOICE_USER,
@@ -167,15 +167,9 @@ export const getAllRateStart =
               fit: fit,
             },
           });
-
-          return true;
-        } else {
-          return false;
         }
       })
-      .catch(err => {
-        return false;
-      });
+      .catch(err => {});
   };
 
 export const clearRateComent = () => {

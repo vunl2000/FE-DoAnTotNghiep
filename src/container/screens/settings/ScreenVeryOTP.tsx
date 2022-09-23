@@ -54,8 +54,8 @@ const ScreenVeryOTP = ({navigation}: {navigation: any}) => {
     }
   }, [accounts.isAuthenticated]);
 
-  console.log(userEmail);
-  console.log(userID);
+  //console.log(userEmail);
+  //console.log(userID);
 
   function onBackPress() {
     navigation.goBack();
@@ -73,20 +73,20 @@ const ScreenVeryOTP = ({navigation}: {navigation: any}) => {
   function eventGenerateOTP() {
     setEvent(false);
     setEventCheck(true);
-    console.log('req');
+    //console.log('req');
     if (seconds <= 0) {
       setSeconds(90);
       GenerateOTP(userEmail, userID);
-      console.log(userEmail, userID);
+      //console.log(userEmail, userID);
     }
   }
   function eventReqOTP() {
-    console.log('req');
-    console.log('req');
+    //console.log('req');
+    //console.log('req');
     if (seconds <= 0) {
       setSeconds(90);
       GenerateOTP(userEmail, userID);
-      console.log(userEmail, userID);
+      //console.log(userEmail, userID);
     }
   }
   function eventEditOTP(text: string | any) {
@@ -101,7 +101,7 @@ const ScreenVeryOTP = ({navigation}: {navigation: any}) => {
   }
 
   React.useLayoutEffect(() => {
-    console.log('ok');
+    //console.log('ok');
 
     const timerId = setInterval(() => {
       if (seconds === 0) {
@@ -117,7 +117,7 @@ const ScreenVeryOTP = ({navigation}: {navigation: any}) => {
     };
   }, [seconds]);
 
-  console.log(seconds);
+  //console.log(seconds);
 
   async function GenerateOTPS(userEmail: any, userOTP: any, userID: any) {
     const mFormData = JSON.stringify({
@@ -125,7 +125,7 @@ const ScreenVeryOTP = ({navigation}: {navigation: any}) => {
       userOTP,
       userID,
     });
-    console.log(mFormData);
+    //console.log(mFormData);
 
     const config = await {
       method: 'POST',
@@ -138,7 +138,7 @@ const ScreenVeryOTP = ({navigation}: {navigation: any}) => {
     };
     await axios(config)
       .then(response => {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
         if (response.data.code === 200) {
           ToastAndroid.show(
             'Xác thực tài khoản thành công',
@@ -149,7 +149,7 @@ const ScreenVeryOTP = ({navigation}: {navigation: any}) => {
         }
       })
       .catch(error => {
-        console.log(JSON.stringify(error.response.data));
+        //console.log(JSON.stringify(error.response.data));
         if (error.response.data.code === 400) {
           ToastAndroid.show('Mã xác thực không chính xác', ToastAndroid.SHORT);
         } else {

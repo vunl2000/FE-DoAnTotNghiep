@@ -22,9 +22,9 @@ const ItemHeartShow = ({item, index, onPress}: Props) => {
     <TouchableOpacity
       style={[
         styles.container,
-        {
-          marginLeft: index % 2 === 0 ? 0 : sizes._18sdp,
-        },
+        // {
+        //   marginLeft: index % 2 === 0 ? 0 : sizes._18sdp,
+        // },
       ]}
       onPress={goToDetail}>
       <FastImage
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   container: {
     width: (sizes._screen_width - sizes._18sdp * 3) / 2,
     justifyContent: 'center',
+    paddingHorizontal: sizes._15sdp,
   },
   image: {
     width: (sizes._screen_width - sizes._18sdp * 3) / 2,

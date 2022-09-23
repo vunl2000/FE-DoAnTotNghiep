@@ -47,7 +47,7 @@ const ProDucts = ({title, data, keyList}: Props | any) => {
         }
         setIsLoad(false);
 
-        console.log('load more ' + addNew);
+        //console.log('load more ' + addNew);
       }, 3000);
     }
   };

@@ -12,7 +12,7 @@ const ItemSuggestions = (props: Props) => {
   const {replace}: any = useNavigation();
 
   function eventClickItem(item: string | any) {
-    console.log(item.slice(2, item.length));
+    //console.log(item.slice(2, item.length));
     //điều hướng tới màn hình sản phẩm
     replace(NameScreen.PRODUCT_VIEW, {searchKey: item.slice(2, item.length)});
   }

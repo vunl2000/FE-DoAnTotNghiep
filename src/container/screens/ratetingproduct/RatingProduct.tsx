@@ -32,11 +32,11 @@ const RatingProduct = ({navigation}: any) => {
       },
       response => {
         if (response.error) {
-          console.log('image error');
-          console.log(response.error);
+          //console.log('image error');
+          //console.log(response.error);
           setSelectedImage(Images.user_no_bgr);
         } else {
-          console.log('Image: ' + response.uri);
+          //console.log('Image: ' + response.uri);
           setSelectedImage({uri: response.uri});
           setCroppedImage(response.uri);
         }
@@ -130,9 +130,7 @@ const RatingProduct = ({navigation}: any) => {
         />
       </View>
       <View style={[styles.mBody, {alignItems: 'flex-end'}]}>
-        <TouchableOpacity
-          style={styles.mbutton}
-          onPress={() => console.log('lưu')}>
+        <TouchableOpacity style={styles.mbutton} onPress={() => {}}>
           <Text style={styles.mtitle_button}>Lưu</Text>
         </TouchableOpacity>
       </View>

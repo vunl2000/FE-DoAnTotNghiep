@@ -74,7 +74,7 @@ export const createBillDetail =
         idBill: bill._id,
         idProduct: product._id.toString(),
       });
-      console.log(data);
+      //console.log(data);
 
       await axios({
         method: 'POST',
@@ -111,20 +111,16 @@ export const getTransportFee =
       })
         .then(res => {
           let datas: any = res.data;
-          console.log(res.data);
+          //console.log(res.data);
           if (datas.code === 200) {
             dishpatch({type: GET_SHIP_COD, payload: datas.prices});
-            return true;
-          } else {
-            return false;
           }
         })
         .catch(err => {
-          console.log(err);
-          return false;
+          //console.log(err);
         });
     } else {
-      console.log('err Token');
+      //console.log('err Token');
     }
   };
 

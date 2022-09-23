@@ -12,6 +12,6 @@ export const getDataUser = async (key: any) => {
       return data;
     }
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };

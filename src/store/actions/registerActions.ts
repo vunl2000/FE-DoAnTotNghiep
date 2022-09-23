@@ -29,7 +29,7 @@ export const userRegister =
       mFormData.append('password', password);
       mFormData.append('passwordConfirm', passwordConfirm);
 
-      console.log('form data', mFormData);
+      //console.log('form data', mFormData);
     } else {
       mFormData.append('name', name);
       mFormData.append('phone', phone);
@@ -37,7 +37,7 @@ export const userRegister =
       mFormData.append('password', password);
       mFormData.append('passwordConfirm', passwordConfirm);
 
-      console.log('form data', mFormData);
+      //console.log('form data', mFormData);
     }
 
     await axios({
@@ -52,9 +52,9 @@ export const userRegister =
       .then(response => {
         dispatch({type: CLEAR_ERRORS, payload: null});
         dispatch({type: REGISTER_SUCCES, payload: response.data});
-        console.log('Cac', response.data);
+        //console.log('Cac', response.data);
 
-        console.log('', 'Register Succes');
+        //console.log('', 'Register Succes');
       })
       .catch(error => {
         dispatch({type: REGISTER_FAIL, payload: null});

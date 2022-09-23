@@ -13,17 +13,16 @@ type Props = {
 };
 
 const ScreenNewspaper = ({navigation}: {navigation: any}) => {
-
   function eventNewSpaper_1() {
-    console.log('Đăng tin');
+    //console.log('Đăng tin');
   }
 
   function eventNewSpaper_2() {
-    console.log('Đăng tin');
+    //console.log('Đăng tin');
   }
 
   function eventQA() {
-    console.log('Đăng tin');
+    //console.log('Đăng tin');
   }
 
   function onPressHome() {
@@ -42,11 +41,11 @@ const ScreenNewspaper = ({navigation}: {navigation: any}) => {
       <View style={styles.mLineStyle}></View>
       <ScrollView style={{flex: 1}}>
         <View style={{flex: 2}}>
-          <Thinking 
-          
-          onPress={eventNewSpaper_2}
-          onPressQA={eventQA}
-          viewImportThinking={eventNewSpaper_1} />
+          <Thinking
+            onPress={eventNewSpaper_2}
+            onPressQA={eventQA}
+            viewImportThinking={eventNewSpaper_1}
+          />
         </View>
 
         <View style={{flex: 10, marginTop: sizes._10sdp}}>
@@ -56,8 +55,6 @@ const ScreenNewspaper = ({navigation}: {navigation: any}) => {
           <NewsData /> */}
         </View>
       </ScrollView>
-
-      
     </SafeAreaView>
   );
 };

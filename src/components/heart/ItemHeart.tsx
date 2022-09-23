@@ -21,9 +21,9 @@ const ItemHeart = ({item, index, onPress, itemSelected}: Props) => {
     <TouchableOpacity
       style={[
         styles.container,
-        {
-          marginLeft: index % 3 === 0 ? 0 : sizes._18sdp,
-        },
+        // {
+        //   marginLeft: index % 3 === 0 ? 0 : sizes._18sdp,
+        // },
       ]}
       onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
       <FastImage
@@ -37,7 +37,7 @@ const ItemHeart = ({item, index, onPress, itemSelected}: Props) => {
       />
       <View style={styles.mockIcon}>
         <IconHeader
-          name={itemSelected.index === index ? 'heart' : 'heart-outline'}
+          name={item.heart_active ? 'heart' : 'heart-outline'}
           sizes={sizes._26sdp}
           color={ArrayColors._color_black_gray12}
           style={styles.iconHear}
@@ -54,6 +54,7 @@ export default ItemHeart;
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
+    paddingHorizontal: sizes._14sdp,
   },
   image: {
     width: (sizes._screen_width - sizes._18sdp * 4) / 3,
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
   },
   mockIcon: {
     position: 'absolute',
-    right: sizes._10sdp,
+    right: sizes._12sdp,
     bottom: '24%',
   },
 });

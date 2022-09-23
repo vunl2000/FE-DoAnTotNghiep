@@ -58,7 +58,7 @@ const ScreenDone = (props: Props) => {
       .catch(err => {
         setError(true);
         setIsLoad(false);
-        console.log(err);
+        //console.log(err);
       });
   };
 

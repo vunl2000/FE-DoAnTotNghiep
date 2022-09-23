@@ -25,7 +25,7 @@ type Props = {};
 const ScreenForgotPassword = ({navigation, route}: any) => {
   const itemId = route.params;
 
-  console.log(itemId.dataID);
+  //console.log(itemId.dataID);
 
   const [password, setPassword] = React.useState<string | any>('');
   const [visibleIconPassword, setVisibleIconPassword] = React.useState(false);
@@ -53,12 +53,12 @@ const ScreenForgotPassword = ({navigation, route}: any) => {
   function eventEditPassword(text: string | any) {
     setPassword(text);
     if (text != null) {
-      console.log('text != null');
+      //console.log('text != null');
       setVisibleIconPassword(true);
       setWarningPassword(false);
       setLabelPassword(null);
     } else {
-      console.log('text == null');
+      //console.log('text == null');
       setVisibleIconPassword(false);
     }
   }
@@ -70,12 +70,12 @@ const ScreenForgotPassword = ({navigation, route}: any) => {
   function eventEditPasswordnew(text: string | any) {
     setPasswordnew(text);
     if (text != null) {
-      console.log('text != null');
+      //console.log('text != null');
       setVisibleIconPasswordnew(true);
       setWarningPasswordNew(false);
       setLabelPasswordNew(null);
     } else {
-      console.log('text == null');
+      //console.log('text == null');
       setVisibleIconPasswordnew(false);
     }
   }
@@ -108,7 +108,7 @@ const ScreenForgotPassword = ({navigation, route}: any) => {
       setLabelPasswordNew('Mật khẩu phải lớn hơn 6 ký tự');
       setWarningPasswordNew(true);
     } else {
-      console.log('ok');
+      //console.log('ok');
       setIsLoading(true);
       setTimeout(() => {
         mForgotPassword(itemId.dataID, passwordnew, password);
@@ -138,7 +138,7 @@ const ScreenForgotPassword = ({navigation, route}: any) => {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
         if (response.data.code === 200) {
           ToastAndroid.show('Đổi mật khẩu thành công', ToastAndroid.SHORT);
           navigation.navigate('ScreenLogin');
@@ -151,7 +151,7 @@ const ScreenForgotPassword = ({navigation, route}: any) => {
         setIsLoading(false);
       })
       .catch(function (error) {
-        console.log(error.response.data);
+        //console.log(error.response.data);
         ToastAndroid.show(
           'Đã có lỗi trong quá trình xử lý',
           ToastAndroid.SHORT,

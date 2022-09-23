@@ -28,6 +28,8 @@ import {
   GET_PRODUCT_SREACH_TITLE_PRODUCTS_CATORY,
   GET_PRODUCT_SREACH_TITLE_PRODUCTS_DATE_HIGH,
   GET_PRODUCT_SREACH_TITLE_PRODUCTS_DATE_LOW,
+  GET_PRODUCT_SREACH_TITLE_PRODUCTS_HIGH,
+  GET_PRODUCT_SREACH_TITLE_PRODUCTS_LOW,
 } from '@env';
 import ProductItemHeart from '../../../components/product/Product.ItemHeart';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -37,6 +39,7 @@ import ButtonSub from '../../../components/button/ButtonSub';
 import {NameScreen} from '../../navigators/TabNavigator';
 import {HomeName} from '../../navigators/AppContainer';
 import Loading from '../../../components/modal/Loading';
+import {FlashList} from '@shopify/flash-list';
 
 type Props = {};
 
@@ -119,7 +122,7 @@ const ProductView = (props: Props) => {
           val.color_product.indexOf(colorValue.color) >= 0,
       );
       setListFilter(newFilter);
-      console.log('TH2 ' + newFilter.length);
+      //console.log('TH2 ' + newFilter.length);
       setIsFilter(true);
       return;
     }
@@ -129,7 +132,7 @@ const ProductView = (props: Props) => {
         (val: any) => val.size_product.indexOf(sizeValue.size) >= 0,
       );
       setListFilter(newFilter);
-      console.log('TH3 ' + newFilter.length);
+      //console.log('TH3 ' + newFilter.length);
       setIsFilter(true);
       return;
     }
@@ -139,7 +142,7 @@ const ProductView = (props: Props) => {
         (val: any) => val.color_product.indexOf(colorValue.color) >= 0,
       );
       setListFilter(newFilter);
-      console.log('TH4 ' + newFilter.length);
+      //console.log('TH4 ' + newFilter.length);
       setIsFilter(true);
       return;
     }
@@ -161,7 +164,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Category1 ' + newFilter.length);
+      //console.log('Category1 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -178,7 +181,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Category2 ' + newFilter.length);
+      //console.log('Category2 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -194,7 +197,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Category3 ' + newFilter.length);
+      //console.log('Category3 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -208,7 +211,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Category4 ' + newFilter.length);
+      //console.log('Category4 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -242,7 +245,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Size TH2 ' + newFilter.length);
+      //console.log('Size TH2 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -253,7 +256,7 @@ const ProductView = (props: Props) => {
         (val: any) => val.color_product.indexOf(colorValue.color) >= 0,
       );
       setListFilter(newFilter);
-      console.log('Size TH2 ' + newFilter.length);
+      //console.log('Size TH2 ' + newFilter.length);
       setIsFilter(true);
       return;
     }
@@ -266,7 +269,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Size TH3 ' + newFilter.length);
+      //console.log('Size TH3 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -289,7 +292,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Category ' + newFilter.length);
+      //console.log('Category ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -306,7 +309,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Category2 ' + newFilter.length);
+      //console.log('Category2 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -318,8 +321,8 @@ const ProductView = (props: Props) => {
           val.size_product.indexOf(size) >= 0 &&
           val.color_product.indexOf(colorValue.color) >= 0,
       );
-      console.log('size ' + newFilter.length);
-      console.log(size + ' ' + colorValue.color);
+      //console.log('size ' + newFilter.length);
+      //console.log(size + ' ' + colorValue.color);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -329,8 +332,8 @@ const ProductView = (props: Props) => {
       let newFilter = listSearch.filter(
         (val: any) => val.size_product.indexOf(size) >= 0,
       );
-      console.log('size1 ' + newFilter.length);
-      console.log(size);
+      //console.log('size1 ' + newFilter.length);
+      //console.log(size);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -363,7 +366,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Color TH1 ' + newFilter.length);
+      //console.log('Color TH1 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -374,7 +377,7 @@ const ProductView = (props: Props) => {
         (val: any) => val.size_product.indexOf(sizeValue.size) >= 0,
       );
       setListFilter(newFilter);
-      console.log('Color TH2 ' + newFilter.length);
+      //console.log('Color TH2 ' + newFilter.length);
       setIsFilter(true);
       return;
     }
@@ -387,7 +390,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Color TH3 ' + newFilter.length);
+      //console.log('Color TH3 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -409,7 +412,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Color1 ' + newFilter.length);
+      //console.log('Color1 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -425,7 +428,7 @@ const ProductView = (props: Props) => {
         }
       });
 
-      console.log('Color2 ' + newFilter.length);
+      //console.log('Color2 ' + newFilter.length);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -438,8 +441,8 @@ const ProductView = (props: Props) => {
           val.color_product.indexOf(color) >= 0,
       );
       setListFilter(newFilter);
-      console.log('Color3 ' + newFilter.length);
-      console.log(color + ' ' + sizeValue.size);
+      //console.log('Color3 ' + newFilter.length);
+      //console.log(color + ' ' + sizeValue.size);
       setIsFilter(true);
       return;
     }
@@ -448,8 +451,8 @@ const ProductView = (props: Props) => {
       let newFilter = listSearch.filter(
         (val: any) => val.color_product.indexOf(color) >= 0,
       );
-      console.log('Color4 ' + newFilter.length);
-      console.log(color);
+      //console.log('Color4 ' + newFilter.length);
+      //console.log(color);
       setListFilter(newFilter);
       setIsFilter(true);
       return;
@@ -497,7 +500,7 @@ const ProductView = (props: Props) => {
         setIsLoad(false);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
         setIsLoad(false);
       });
   };
@@ -528,12 +531,12 @@ const ProductView = (props: Props) => {
         setIsLoad(false);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
         setIsLoad(false);
       });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (searchKey && classifyValue.index === 0) {
       let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS;
       getData(searchKey, url);
@@ -550,12 +553,12 @@ const ProductView = (props: Props) => {
     }
 
     if (searchKey && classifyValue.index === 3) {
-      let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS;
+      let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS_LOW;
       getData(searchKey, url);
     }
 
     if (searchKey && classifyValue.index === 4) {
-      let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS;
+      let url: string = API_URL + GET_PRODUCT_SREACH_TITLE_PRODUCTS_HIGH;
       getData(searchKey, url);
     }
 
@@ -832,14 +835,15 @@ const ProductView = (props: Props) => {
   const renderContent = (
     <View style={styles.modeContent}>
       {listSearch.length > 0 ? (
-        <FlatList
+        <FlashList
           data={isFilter ? listFilter : listSearch}
           renderItem={renderItem}
           numColumns={2}
           keyExtractor={keyExtractor}
           ItemSeparatorComponent={renderSpaceItem}
-          listKey="result-search"
+          //listKey="result-search"
           showsVerticalScrollIndicator={false}
+          estimatedItemSize={280}
         />
       ) : (
         <Exception />

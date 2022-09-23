@@ -54,7 +54,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
 
   const onSpeechError = (err: any) => {
     // Được gọi khi xảy ra lỗi.
-    console.log('onSpeechError: ', err);
+    //console.log('onSpeechError: ', err);
 
     setError(JSON.stringify(err.error));
     setShowDiaLog(false);
@@ -63,10 +63,10 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
 
   const onSpeechResults = (err: any) => {
     // Được gọi khi SpeechRecognizer nhận dạng xong
-    console.log('onSpeechResults: ', err);
+    //console.log('onSpeechResults: ', err);
 
     setTextInput(err.value.join(' '));
-    console.log(err.value.join(' '));
+    //console.log(err.value.join(' '));
 
     setShowDiaLog(false);
   };
@@ -101,7 +101,7 @@ const SearchScreen = ({navigation}: {navigation: any}) => {
         replace(NameScreen.PRODUCT_VIEW, {searchKey: textInput});
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   }
   //clear bộ nhớ

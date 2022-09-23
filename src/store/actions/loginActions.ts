@@ -19,7 +19,7 @@ export const userLogins =
     //Load user form url
 
     const mFormData = JSON.stringify({email, password});
-    console.log(API_URL_LOGIN_USERS);
+    //console.log(API_URL_LOGIN_USERS);
     axios({
       method: 'POST',
       url: API_URL_LOGIN_USERS,
@@ -31,7 +31,7 @@ export const userLogins =
       .then(response => {
         dispatch({type: CLEAR_ERRORS, payload: null});
         dispatch({type: LOGIN_SUCCES, payload: response.data});
-        console.log(response.data + 'okii');
+        //console.log(response.data + 'okii');
       })
       .catch(error => {
         dispatch({type: LOGIN_FAIL, payload: null});
@@ -42,7 +42,7 @@ export const userLogins =
             'LOGIN_FAIL',
           ),
         );
-        // console.log('Lỗi', error.response.data);
+        // //console.log('Lỗi', error.response.data);
       });
   };
 
@@ -65,7 +65,7 @@ export const userLoginsGoogle =
       .then(response => {
         dispatch({type: CLEAR_ERRORS, payload: null});
         dispatch({type: LOGIN_SUCCES, payload: response.data});
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(error => {
         dispatch({type: LOGIN_FAIL, payload: null});
@@ -76,7 +76,7 @@ export const userLoginsGoogle =
             'LOGIN_FAIL',
           ),
         );
-        // console.log('Lỗi', error.response.data);
+        // //console.log('Lỗi', error.response.data);
       });
   };
 export const userLoginsFaceBook =
@@ -98,7 +98,7 @@ export const userLoginsFaceBook =
       .then(response => {
         dispatch({type: CLEAR_ERRORS, payload: null});
         dispatch({type: LOGIN_SUCCES, payload: response.data});
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(error => {
         dispatch({type: LOGIN_FAIL, payload: null});
@@ -109,12 +109,12 @@ export const userLoginsFaceBook =
             'LOGIN_FAIL',
           ),
         );
-        // console.log('Lỗi', error.response.data);
+        // //console.log('Lỗi', error.response.data);
       });
   };
 
 export const logOut = () => async (dispatch: AllDispatchProps) => {
-  console.log('goi den chua');
+  //console.log('goi den chua');
 
   return dispatch({
     type: LOGOUT_SUCCES,

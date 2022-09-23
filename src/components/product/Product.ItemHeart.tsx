@@ -23,10 +23,10 @@ const ProductItemHeart = ({item, index}: Props) => {
     <TouchableOpacity
       style={[
         styles.container,
-        {
-          marginLeft: index % 2 == 0 ? sizes._18sdp : 0,
-          marginRight: sizes._18sdp,
-        },
+        // {
+        //   marginLeft: index % 2 == 0 ? sizes._18sdp : 0,
+        //   marginRight: sizes._18sdp,
+        // },
       ]}
       onPress={() => navigate(NameScreen.DETAIL_PRODUCT, {item: item})}>
       <Image
@@ -36,7 +36,7 @@ const ProductItemHeart = ({item, index}: Props) => {
         style={styles.image}
         resizeMode="contain"
       />
-      <View style={styles.mockIcon}>
+      {/* <View style={styles.mockIcon}>
         <IconHeader
           name={'heart-outline'}
           sizes={sizes._24sdp}
@@ -44,7 +44,7 @@ const ProductItemHeart = ({item, index}: Props) => {
           style={styles.iconHear}
           onPress={() => {}}
         />
-      </View>
+      </View> */}
       <Text style={styles.textPrice}>{formartMoney(item?.price)}</Text>
       <View style={{flex: 1, paddingRight: sizes._10sdp}}>
         <Text style={styles.textLabel} ellipsizeMode="tail" numberOfLines={1}>
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   container: {
     width: (sizes._screen_width - sizes._18sdp * 3) / 2,
     justifyContent: 'center',
+    paddingHorizontal: sizes._15sdp,
   },
   image: {
     width: (sizes._screen_width - sizes._18sdp * 3) / 2,

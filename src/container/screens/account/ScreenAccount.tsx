@@ -34,6 +34,7 @@ import {showToast} from '../../../components/modal/ToastCustom';
 import {HomeName} from '../../navigators/AppContainer';
 import ItemHeartShow from '../../../components/heart/ItemHearShow';
 import image from '../../../res/require/Images';
+import {FlashList} from '@shopify/flash-list';
 
 const ScreenAccount = ({navigation}: {navigation: any}) => {
   const isFocused = useIsFocused();
@@ -89,7 +90,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
       showToast('Bạn cần đăng nhập để xem đơn hàng!');
     }
   };
-  // console.log(accounts.result[0].photoUrl);
+  // //console.log(accounts.result[0].photoUrl);
   const gotoQuestions = () => {
     navigate(NameScreen.SCREENCHECKQUESTIONS);
   };
@@ -119,6 +120,12 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           dispatch(
             loadInvoiceUser(accounts.result[0]._id, `Bearer ${accounts.token}`),
           );
+          setInvoiceStatus({
+            handle,
+            processed,
+            transport,
+            done,
+          });
         } else {
           setStorageUser(accounts.result[0].name);
           setEvent(false);
@@ -127,17 +134,17 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
         }
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }, [accounts.isAuthenticated]);
-  // console.log(invoiceStatus);
+  // //console.log(invoiceStatus);
 
   useEffect(() => {
     try {
       let heart = products.filter((item: any) => item.heart_active);
       setListHeart(heart);
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }, [products]);
 
@@ -150,7 +157,7 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
         done,
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }, [handle]);
 
@@ -370,20 +377,21 @@ const ScreenAccount = ({navigation}: {navigation: any}) => {
           {accounts.isAuthenticated ? (
             <>
               {listHeart.length != 0 ? (
-                <FlatList
+                <FlashList
                   data={listHeart}
                   extraData={listHeart}
                   keyExtractor={keySuggestions}
                   renderItem={renderItem}
-                  listKey="list-heart"
-                  removeClippedSubviews
+                  //listKey="list-heart"
+                  //removeClippedSubviews
                   numColumns={2}
                   ItemSeparatorComponent={renderSpace}
-                  columnWrapperStyle={{
-                    flex: 1,
-                    paddingHorizontal: sizes._18sdp,
-                    justifyContent: 'flex-start',
-                  }}
+                  // columnWrapperStyle={{
+                  //   flex: 1,
+                  //   paddingHorizontal: sizes._18sdp,
+                  //   justifyContent: 'flex-start',
+                  // }}
+                  estimatedItemSize={280}
                 />
               ) : (
                 <View style={styles.boxEmpty}>

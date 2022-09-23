@@ -86,7 +86,7 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
         setIsloading(true);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -108,7 +108,7 @@ const Catory = ({data, keyListLeft, keyListRight}: Props) => {
         getData(selectMenu._id);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }, [selectMenu._id]);
 

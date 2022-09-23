@@ -59,7 +59,7 @@ const ScreenCart = (props: Props) => {
     setCartSeleted(count);
     setSumPrice(price);
   }, [cartSeleted, carts, sumPrice, numberCart]);
-  console.log(auth);
+  //console.log(auth);
 
   const addToBill = () => {
     if (auth.isAuthenticated) {

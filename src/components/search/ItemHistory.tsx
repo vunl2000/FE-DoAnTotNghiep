@@ -15,12 +15,11 @@ const ItemHistory = (props: Props) => {
 
   const {replace}: any = useNavigation();
 
-
-  console.log(item);
-  console.log(productData);
+  //console.log(item);
+  //console.log(productData);
 
   function eventClickItem(item: string | any) {
-    console.log(item);
+    //console.log(item);
     ///điều hướng tới màn hình sản phẩm
     replace(NameScreen.PRODUCT_VIEW, {searchKey: item.textInput});
   }

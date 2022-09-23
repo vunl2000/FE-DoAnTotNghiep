@@ -1,5 +1,3 @@
-
-
 // import {
 //     AllDispatchProps,
 //     REG_LOADING,
@@ -20,7 +18,7 @@
 //             var data = JSON.stringify({
 //                 email: email
 //             });
-//             console.log(data);
+//             //console.log(data);
 
 //             var config = {
 //                 method: 'post',
@@ -35,16 +33,16 @@
 //                 .then(function (response) {
 //                     let result: any = response.data;
 //                     if (result.code === 200) {
-//                         console.log('okee111111e');
+//                         //console.log('okee111111e');
 //                         dispatch({ type: USER_GMAIL_SUCCES, payload: result.user });
 //                         return 1;
-//                     } 
+//                     }
 //                         dispatch({ type: USER_GMAIL_CL, payload: null });
 //                     return -1;
 //                 })
 //                 .catch(function (error) {
 //                     dispatch({ type: USER_GMAIL_CL, payload: null });
-//                     console.log("99999999999999999", error.response.data);
+//                     //console.log("99999999999999999", error.response.data);
 //                     dispatch(
 //                         returnErrorss(
 //                             error.response.data,
@@ -55,7 +53,6 @@
 //                     return -1;
 //                 });
 //         };
-
 
 // export const genOtp =
 //     (userEmail: any, userID: any) =>
@@ -73,8 +70,7 @@
 //                 data: mFormData,
 //             };
 
-//             console.log(mFormData);
-
+//             //console.log(mFormData);
 
 //             await axios(config)
 //                 .then(response => {

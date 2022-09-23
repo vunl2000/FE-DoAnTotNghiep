@@ -15,5 +15,5 @@ export const getBanner = () => async (dishpatch: AllDispatchProps) => {
     headers: {},
   })
     .then(res => dishpatch({type: BANNER_APP, payload: res.data}))
-    .catch(err => console.log(err));
+    .catch(err => {});
 };

@@ -25,15 +25,15 @@ const ScreensHome = ({navigation}: {navigation: any}) => {
     typeCatory.forEach((item: any) => {
       if (item.titleTypeProduct.toString().toLowerCase() === 'phụ kiện') {
         dispatch(loadAccessory(item._id));
-        console.log(item.titleTypeProduct.toString().toLowerCase());
+        //console.log(item.titleTypeProduct.toString().toLowerCase());
       }
       if (item.titleTypeProduct.toString().toLowerCase() === 'nam') {
         dispatch(loadMen(item._id));
-        console.log(item.titleTypeProduct.toString().toLowerCase());
+        //console.log(item.titleTypeProduct.toString().toLowerCase());
       }
       if (item.titleTypeProduct.toString().toLowerCase() === 'nữ') {
         dispatch(loadWomen(item._id));
-        console.log(item.titleTypeProduct.toString().toLowerCase());
+        //console.log(item.titleTypeProduct.toString().toLowerCase());
       }
     });
   }, [typeCatory]);
@@ -56,7 +56,7 @@ const ScreensHome = ({navigation}: {navigation: any}) => {
   }
   function eventEmail() {
     navigation.navigate('ScreenNotification');
-    console.log('Tin nhắn');
+    //console.log('Tin nhắn');
   }
 
   return (

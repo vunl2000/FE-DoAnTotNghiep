@@ -102,7 +102,7 @@ const WomenScreen = (props: Props) => {
           })
           .catch(err => {
             setIsLoader(false);
-            console.log(err);
+            //console.log(err);
           });
       }
     });

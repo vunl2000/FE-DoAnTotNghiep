@@ -32,6 +32,7 @@ import {getRandomQuestionsArray} from '../../../utils/Utilities';
 import LottieView from 'lottie-react-native';
 import {showToast} from '../../../components/modal/ToastCustom';
 import Loading from '../../../components/modal/Loading';
+import {FlashList} from '@shopify/flash-list';
 
 type Props = {};
 const renderContent = null;
@@ -46,7 +47,7 @@ const ProductHeart = (props: Props) => {
   const [checked, setChecked] = useState<any>(null);
   const [isLoad, setIsLoad] = useState<any>(false);
   const [listNote, setListNote] = useState<any>(
-    getRandomQuestionsArray(12, products),
+    getRandomQuestionsArray(30, products),
   );
 
   const [heart, setHeart] = useState<any>({
@@ -144,8 +145,9 @@ const ProductHeart = (props: Props) => {
         if (data.message === 'Success') {
           dispatch(changeHeart(item._id, true));
           dispatch(addHeart(data.result));
-          console.log('add heart');
+          //console.log('add heart');
           setListHeart([...listHeart, heart.item]);
+          setListNote(listNote.filter((val: any) => val._id !== item._id));
           setHeart({
             ...heart,
             isHeart: false,
@@ -158,7 +160,7 @@ const ProductHeart = (props: Props) => {
         }
       })
       .catch((err: any) => {
-        console.log(err);
+        //console.log(err);
         setIsLoad(false);
       });
   };
@@ -315,18 +317,19 @@ const ProductHeart = (props: Props) => {
         Có lẽ bạn sẽ thích
       </Text>
       <View style={styles.spaceHeightMedium} />
-      <FlatList
+      <FlashList
         data={listNote}
         keyExtractor={keySuggestions}
         renderItem={renderItemSuggestions}
         numColumns={3}
         ItemSeparatorComponent={renderSpace}
-        listKey="heart-suggest"
-        columnWrapperStyle={{
-          flex: 1,
-          justifyContent: 'space-between',
-          paddingHorizontal: sizes._18sdp,
-        }}
+        // listKey="heart-suggest"
+        // columnWrapperStyle={{
+        //   flex: 1,
+        //   justifyContent: 'space-between',
+        //   paddingHorizontal: sizes._18sdp,
+        // }}
+        estimatedItemSize={150}
       />
     </View>
   );
@@ -344,19 +347,20 @@ const ProductHeart = (props: Props) => {
       ]}>
       {listHeart.length > 0 ? (
         <View style={{width: '100%'}}>
-          <FlatList
+          <FlashList
             data={listHeart}
             extraData={listHeart}
             keyExtractor={keySuggestions}
             renderItem={renderItem}
             numColumns={2}
-            listKey="heart-all"
+            //listKey="heart-all"
             ItemSeparatorComponent={renderSpace}
-            columnWrapperStyle={{
-              flex: 1,
-              justifyContent: 'space-between',
-              paddingHorizontal: sizes._18sdp,
-            }}
+            // columnWrapperStyle={{
+            //   flex: 1,
+            //   justifyContent: 'space-between',
+            //   paddingHorizontal: sizes._18sdp,
+            // }}
+            estimatedItemSize={280}
           />
         </View>
       ) : (

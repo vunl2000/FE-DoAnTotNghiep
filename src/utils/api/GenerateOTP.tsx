@@ -26,11 +26,11 @@ export async function GenerateOTP(userEmail: any, userID: any) {
     data: mFormData,
   };
 
-  console.log(mFormData);
+  //console.log(mFormData);
 
   await axios(config)
     .then(response => {
-      console.log(JSON.stringify(response.data));
+      //console.log(JSON.stringify(response.data));
       if (response.data.code === 200) {
         ToastAndroid.show(
           'Mã OTP đã được gửi đến Gmail của bạn',

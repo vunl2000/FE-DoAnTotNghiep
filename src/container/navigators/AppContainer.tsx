@@ -148,7 +148,7 @@ const AppContainer: FC = () => {
 
   //     return () => {
   //       dispatch(clearRateComent());
-  //       console.log('clear comment');
+  //       //console.log('clear comment');
   //     };
   //   }, []),
   // );

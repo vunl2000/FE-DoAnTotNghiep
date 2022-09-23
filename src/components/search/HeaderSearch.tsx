@@ -15,7 +15,7 @@ type Props = {
 
 const HeaderSearch = (props: Props) => {
   const isAndroid = Platform.OS === 'android';
-  
+
   const textInputRef: any = React.useRef<string | any>();
 
   return (
@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
   mStyleBodyText: {
     backgroundColor: ArrayColors.darkGrayAccount,
     flex: 1,
-    height: sizes._42sdp,
+    height: sizes._48sdp,
   },
 });

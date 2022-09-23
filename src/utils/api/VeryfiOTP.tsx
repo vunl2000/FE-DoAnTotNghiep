@@ -18,9 +18,9 @@ export function verifyOTP(userEmail: any, userOTP: any, userID: any) {
 
   axios(config)
     .then(response => {
-      console.log(JSON.stringify(response.data));
+      //console.log(JSON.stringify(response.data));
     })
     .catch(error => {
-      console.log(error);
+      //console.log(error);
     });
 }

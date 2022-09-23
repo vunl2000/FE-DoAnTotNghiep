@@ -105,7 +105,7 @@ const ScreenAddress = (props: Props) => {
         setListDistrict(res.data.results);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
   };
   const loadCommune = async (district: number | any) => {
@@ -118,7 +118,7 @@ const ScreenAddress = (props: Props) => {
       .then(res => {
         setListCommune(res.data.results);
       })
-      .catch(err => console.log(err));
+      .catch(err => {});
   };
 
   const [isOpen, setIsOpen] = useState(false);

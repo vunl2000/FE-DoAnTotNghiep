@@ -154,7 +154,7 @@ export const loadSizes = () => async (dispatch: AllDispatchProps) => {
       dispatch({type: LOAD_SIZES, payload: data.result});
     })
     .catch(err => {
-      console.log(err);
+      //console.log(err);
     });
 };
 export const loadColors = () => async (dispatch: AllDispatchProps) => {
@@ -167,6 +167,6 @@ export const loadColors = () => async (dispatch: AllDispatchProps) => {
       dispatch({type: LOAD_COLORS, payload: data.result});
     })
     .catch(err => {
-      console.log(err);
+      //console.log(err);
     });
 };

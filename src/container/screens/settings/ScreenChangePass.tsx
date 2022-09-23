@@ -93,12 +93,12 @@ const ScreenChangePass = ({navigation}: any) => {
   function eventEditPasswordold(text: string | any) {
     setPasswordold(text);
     if (text != null) {
-      console.log('text != null');
+      //console.log('text != null');
       setVisibleIconPasswordold(true);
       setWarningPasswordold(false);
       setLabelPasswordold(null);
     } else {
-      console.log('text == null');
+      //console.log('text == null');
       setVisibleIconPasswordold(false);
     }
   }
@@ -114,12 +114,12 @@ const ScreenChangePass = ({navigation}: any) => {
   function eventEditPassword(text: string | any) {
     setPassword(text);
     if (text != null) {
-      console.log('text != null');
+      //console.log('text != null');
       setVisibleIconPassword(true);
       setWarningPassword(false);
       setLabelPassword(null);
     } else {
-      console.log('text == null');
+      //console.log('text == null');
       setVisibleIconPassword(false);
     }
   }
@@ -135,12 +135,12 @@ const ScreenChangePass = ({navigation}: any) => {
   function eventEditPasswordnew(text: string | any) {
     setPasswordnew(text);
     if (text != null) {
-      console.log('text != null');
+      //console.log('text != null');
       setVisibleIconPasswordnew(true);
       setWarningPasswordNew(false);
       setLabelPasswordNew(null);
     } else {
-      console.log('text == null');
+      //console.log('text == null');
       setVisibleIconPasswordnew(false);
     }
   }
@@ -235,7 +235,7 @@ const ScreenChangePass = ({navigation}: any) => {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
         if (response.data.code === 200) {
           setIsLoading(false);
           ToastAndroid.show('Thay đổi mật khẩu thành công', ToastAndroid.SHORT);
@@ -257,7 +257,7 @@ const ScreenChangePass = ({navigation}: any) => {
         }
       })
       .catch(function (error) {
-        console.log(error.response.data);
+        //console.log(error.response.data);
         if (error.response.data.code === 413) {
           setIsLoading(false);
           ToastAndroid.show('Mật khẩu cũ không hợp lệ', ToastAndroid.SHORT);

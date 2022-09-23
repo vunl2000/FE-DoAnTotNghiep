@@ -89,7 +89,7 @@ export default function TabNavigator({navigation}: any) {
 
   const [initialRoute, setInitialRoute] = React.useState('');
 
-  // console.log(initialRoute);
+  // //console.log(initialRoute);
 
   React.useEffect(() => {
     dispatch(clearProducts());
@@ -115,7 +115,7 @@ export default function TabNavigator({navigation}: any) {
     messaging()
       .getToken()
       .then(token => {
-        console.log('fireBaseToken', token);
+        //console.log('fireBaseToken', token);
         if (!isCheckDevice) {
           pushFirebaseToen(token);
         }
@@ -125,7 +125,7 @@ export default function TabNavigator({navigation}: any) {
     messaging().onNotificationOpenedApp((remoteMessage: any) => {
       navigation.navigate(remoteMessage.data.type);
 
-      console.log(remoteMessage);
+      //console.log(remoteMessage);
     });
   };
   const onGetInitialNotification = () => {
@@ -133,10 +133,10 @@ export default function TabNavigator({navigation}: any) {
       .getInitialNotification()
       .then((remoteMessage: any) => {
         if (remoteMessage) {
-          console.log(
-            'Notification caused app to open from quit state:',
-            remoteMessage.notification,
-          );
+          //console.log(
+          // 'Notification caused app to open from quit state:',
+          //   remoteMessage.notification,
+          // );
           setInitialRoute(remoteMessage.data.type);
         }
         setLoading(false);
@@ -172,14 +172,14 @@ export default function TabNavigator({navigation}: any) {
       },
       data: data,
     };
-    console.log(data);
+    //console.log(data);
     await axios(config)
       .then(function (response: any) {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
         dispatch(deviceToken());
       })
       .catch(function (error: any) {
-        console.log(error);
+        //console.log(error);
       });
   }
   if (loading) {

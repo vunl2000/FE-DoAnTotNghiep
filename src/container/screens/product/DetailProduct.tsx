@@ -58,6 +58,7 @@ import {
 import CommentItem from '../../../components/size/CommentItem';
 import {HomeName} from '../../navigators/AppContainer';
 import Loading from '../../../components/modal/Loading';
+import {FlashList} from '@shopify/flash-list';
 
 type DetailProps = {};
 
@@ -180,7 +181,7 @@ const DetailProduct = (props: DetailProps) => {
       .then(res => {
         let data = res.data;
         if (data.code === 200) {
-          console.log('min heart');
+          //console.log('min heart');
           dispatch(changeHeart(item._id, false));
           dispatch(removeHeart(idHeart));
           setHeartItem(false);
@@ -191,7 +192,7 @@ const DetailProduct = (props: DetailProps) => {
       })
       .catch((err: any) => {
         setIsLoad(false);
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -216,7 +217,7 @@ const DetailProduct = (props: DetailProps) => {
         if (data.message === 'Success') {
           dispatch(changeHeart(item._id, true));
           dispatch(addHeart(data.result));
-          console.log('add heart');
+          //console.log('add heart');
           setHeartItem(true);
         } else {
           showToast('Đã có lỗi trong quá trình xử lý');
@@ -225,7 +226,7 @@ const DetailProduct = (props: DetailProps) => {
       })
       .catch((err: any) => {
         setIsLoad(false);
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -459,18 +460,18 @@ const DetailProduct = (props: DetailProps) => {
 
       <View style={styles.sapceSmallX} />
 
-      <FlatList
-        data={listAllComment.slice(0, 3)}
-        extraData={listAllComment.slice(0, 3)}
-        listKey="comments-list"
+      <FlashList
+        data={listAllComment}
+        //listKey="comments-list"
         keyExtractor={keyExtractor}
         renderItem={renderComment}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={spaceComment}
+        estimatedItemSize={100}
       />
       <View style={styles.sapceSmallX} />
       <Divider />
-      <MoreOther />
+      {/* <MoreOther /> */}
     </View>
   );
 
@@ -527,7 +528,7 @@ const DetailProduct = (props: DetailProps) => {
     </View>
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     try {
       if (isFocused) {
         if (item) {
@@ -538,7 +539,7 @@ const DetailProduct = (props: DetailProps) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }, []);
 
@@ -556,11 +557,11 @@ const DetailProduct = (props: DetailProps) => {
         />
         <BtnShowAddCart />
       </View>
-      {/* <AddToCart
+      <AddToCart
         isShow={isShow}
         onChangeShow={onChangeShow}
         item={route.params?.item}
-      /> */}
+      />
       {isLoad ? <Loading /> : null}
     </SafeAreaView>
   );

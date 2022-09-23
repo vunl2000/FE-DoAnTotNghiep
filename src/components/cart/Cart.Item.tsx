@@ -40,11 +40,11 @@ const CartItem = ({item}: Props) => {
         color={ArrayColors._color_black}
       />
       <Text style={styles.textSize}>{item?.size}</Text>
-      <Icon
+      {/* <Icon
         name="chevron-down"
         size={sizes._18sdp}
         color={ArrayColors._color_black}
-      />
+      /> */}
     </View>
   );
 
@@ -79,13 +79,13 @@ const CartItem = ({item}: Props) => {
               <View style={styles.spaceLager} />
             </View>
           </View>
-          <TouchableOpacity style={styles.icon}>
+          {/* <TouchableOpacity style={styles.icon}>
             <Icon
               name="heart-plus-outline"
               size={sizes._24sdp}
               color={ArrayColors._color_black}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.bottomContent}>

@@ -12,12 +12,11 @@
 //     const dispatch: any = useDispatch();
 //     const [initialRoute, setInitialRoute] = React.useState<any | string>('AppContainer');
 
-
 //     // React.useEffect(() => {
 //     //     onNotificationOpenedApp();
 //     //     getFCMToken();
 //     //     const unsubscribe = messaging().onMessage(async remoteMessage => {
-//     //         // console.log('remoteMessage', JSON.stringify(remoteMessage));
+//     //         // //console.log('remoteMessage', JSON.stringify(remoteMessage));
 //     //         DisplayNotification(remoteMessage);
 //     //         // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
 //     //     });
@@ -26,14 +25,14 @@
 //     //         .getInitialNotification()
 //     //         .then((remoteMessage: any) => {
 //     //             if (remoteMessage) {
-//     //                 console.log(
+//     //                 //console.log(
 //     //                     'Notification caused app to open from quit state:',
 //     //                     remoteMessage.notification,
 //     //                 );
 //     //                 // setInitialRoute()
 //     //                 //dispatch(checkNotifications(remoteMessage.data.type));
 //     //             }
-//     //             console.log(
+//     //             //console.log(
 //     //                 'Notification caused app to open from quit state:',
 //     //                 remoteMessage.data,
 //     //             );
@@ -46,27 +45,24 @@
 //     //     messaging()
 //     //         .getToken()
 //     //         .then(token => {
-//     //             console.log('fireBaseToken', token);
+//     //             //console.log('fireBaseToken', token);
 //     //             // setFirebaseToken(token)
 //     //             if (!isCheckDevice) {
 //     //                 pushFirebaseToen(token);
 
 //     //             }
 
-
 //     //         });
 //     // };
 //     // const onNotificationOpenedApp = () => {
 
-//     //     console.log("onNotificationOpenedApp");
+//     //     //console.log("onNotificationOpenedApp");
 
 //     //     messaging().onNotificationOpenedApp(remoteMessage => {
 
 //     //         // navigation.navigate("ScreenNotification")
 
-//     //         console.log(remoteMessage);
-
-
+//     //         //console.log(remoteMessage);
 
 //     //     })
 //     // }
@@ -90,9 +86,9 @@
 //     //     });
 //     //     if (remoteMessage.data.type != "") {
 //     //         //dispatch(checkNotifications(remoteMessage.data.type));
-//     //     } 
+//     //     }
 
-//     //     // console.log(
+//     //     // //console.log(
 //     //     //     'Notification caused app to open from quit state:',
 //     //     //     remoteMessage.data,
 //     //     // );
@@ -108,17 +104,16 @@
 //     //         },
 //     //         data: data
 //     //     };
-//     //     console.log(data);
+//     //     //console.log(data);
 //     //     await axios(config)
 //     //         .then(function (response: any) {
-//     //             console.log(JSON.stringify(response.data));
+//     //             //console.log(JSON.stringify(response.data));
 //     //             dispatch(deviceToken());
 //     //         })
 //     //         .catch(function (error: any) {
-//     //             console.log(error);
+//     //             //console.log(error);
 //     //         });
 //     // }
 //     return null
 // }
 // export default ServicersNotification
-

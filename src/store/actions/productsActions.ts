@@ -129,10 +129,10 @@ export const getHeartUser =
             let idProduct = val.idProduct;
             dispatch(changeHeart(idProduct, true));
           });
-          console.log('load heart succes');
+          //console.log('load heart succes');
         })
         .catch((err: any) => {
-          console.log(err);
+          //console.log(err);
         });
     }
   };
@@ -174,7 +174,7 @@ export const countView = (id: any) => async (dispatch: AllDispatchProps) => {
         return;
       }
     })
-    .catch(err => console.log(err));
+    .catch(err => {});
 };
 export function clearProducts() {
   return {

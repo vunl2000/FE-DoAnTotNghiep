@@ -59,7 +59,7 @@ const DetailInvoice = (props: Props) => {
   const [croppedImage, setCroppedImage] = React.useState<string | any>(null);
   const accounts = useSelector((state: any) => state.account);
   //Actions
-  console.log(croppedImage);
+  //console.log(croppedImage);
   const onBackPress = () => goBack();
 
   const showModal = () => setVisible(true);
@@ -104,8 +104,8 @@ const DetailInvoice = (props: Props) => {
       ? data.append('fourStars', '4')
       : data.append('fiveStars', '5');
 
-    console.log(data);
-    console.log(token);
+    //console.log(data);
+    //console.log(token);
     await axios({
       method: 'POST',
       url: API_URL + RATE_COMENT_PRODUCT,
@@ -116,13 +116,13 @@ const DetailInvoice = (props: Props) => {
       data: data,
     })
       .then(response => {
-        console.log('Cac', response.data);
+        //console.log('Cac', response.data);
         showToast('Đánh giá sản phẩm thành công!');
         setIsLoad(false);
         setVisible(false);
       })
       .catch(error => {
-        console.log(error.response.data);
+        //console.log(error.response.data);
         setIsLoad(false);
         setVisible(false);
         showToast('Đánh giá sản phẩm thất bại!');
@@ -167,21 +167,21 @@ const DetailInvoice = (props: Props) => {
           },
           response => {
             if (response.error) {
-              console.log('image error');
-              console.log(response.error);
+              //console.log('image error');
+              //console.log(response.error);
               setSelectedImage(image.ic_camera);
             } else {
-              console.log('Image: ' + response.uri);
+              //console.log('Image: ' + response.uri);
               setSelectedImage({uri: response.uri});
               setCroppedImage(response.uri);
             }
           },
         );
       } else {
-        console.log('Camera permission denied');
+        //console.log('Camera permission denied');
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
   //Header
@@ -253,7 +253,7 @@ const DetailInvoice = (props: Props) => {
       </View>
     </View>
   );
-  console.log(start);
+  //console.log(start);
 
   const renderItem = ({item, index}: any) => (
     <InvoiceItemDetail item={item} index={index} />

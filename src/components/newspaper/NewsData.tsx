@@ -64,7 +64,7 @@ const NewsData = (props: Props) => {
 
     setSelectedEmojiIndex(index);
 
-    console.log('----------', selectedEmojiIndex);
+    //console.log('----------', selectedEmojiIndex);
 
     switch (selectedEmojiIndex) {
       case 0:
@@ -256,8 +256,8 @@ const NewsData = (props: Props) => {
             <Animated.View style={[styles.emojisBar, emojisBarAnimationStyle]}>
               {/* render emojis */}
               {emojisDataGif.map((emojiSource, index) => {
-                console.log(emojiSource);
-                // console.log(index);
+                //console.log(emojiSource);
+                // //console.log(index);
 
                 return (
                   <Emoji

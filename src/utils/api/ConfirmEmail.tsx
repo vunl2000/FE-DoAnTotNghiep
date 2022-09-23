@@ -8,7 +8,7 @@
 //         var data = JSON.stringify({
 //             email: email
 //         });
-//         console.log(data);
+//         //console.log(data);
 
 //         var config = {
 //             method: 'post',
@@ -21,7 +21,7 @@
 
 //         axios(config)
 //             .then(function (response) {
-//                 console.log(response.data);
+//                 //console.log(response.data);
 //                 if (response.data.code === 200) {
 //                     if (response.data.user._id != null && response.data.user.email != null) {
 
@@ -39,7 +39,7 @@
 
 //             })
 //             .catch(function (error) {
-//                 console.log(error.response.data);
+//                 //console.log(error.response.data);
 //                 if (error.response.data.code === 400) {
 //                     ToastAndroid.show(
 //                         'Email không có trong hệ thống',
@@ -51,7 +51,6 @@
 //                         ToastAndroid.SHORT,
 //                     );
 //                 }
-
 
 //             });
 
