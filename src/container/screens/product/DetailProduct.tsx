@@ -556,11 +556,11 @@ const DetailProduct = (props: DetailProps) => {
         />
         <BtnShowAddCart />
       </View>
-      <AddToCart
+      {/* <AddToCart
         isShow={isShow}
         onChangeShow={onChangeShow}
         item={route.params?.item}
-      />
+      /> */}
       {isLoad ? <Loading /> : null}
     </SafeAreaView>
   );
