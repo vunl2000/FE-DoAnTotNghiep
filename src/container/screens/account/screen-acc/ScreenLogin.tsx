@@ -289,44 +289,60 @@ const ScreenLogin = ({ navigation }: { navigation: any }) => {
     }
     async function eventLoginFaceBook() {
         setIsLoading(true);
-        const result = await LoginManager.logInWithPermissions([
-            'public_profile',
-            'email',
-        ]);
 
-        if (result.isCancelled) {
-            throw 'User cancelled the login process';
+        try {
+            const result = await LoginManager.logInWithPermissions([
+                'public_profile',
+                'email',
+            ]);
+            if (result.isCancelled) {
+                console.log(result.isCancelled);
+                // throw 'User cancelled the login process';
+            }
+
+            // Once signed in, get the users AccesToken
+            const data: any = await AccessToken.getCurrentAccessToken();
+            // console.log(data);
+
+            if (data) {
+                // setVSBG(data.accessToken)
+                console.log("pppppppppppppppppppppppp", data.accessToken);
+
+                auth()
+                    .currentUser?.getIdToken(true)
+                    .then(idToken => {
+                        dispatch(userLoginsFaceBook(idToken));
+                        setIsLoading(false);
+                        console.log("0000000000000000000000", idToken);
+
+                    })
+                    .catch((e: any) => {
+                        console.log(e);
+                        Alert.alert('Đã có lỗi trong quá trình xử lý');
+                        setIsLoading(false);
+                    });
+
+            }
+            const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken)
+            return auth().signInWithCredential(facebookCredential);
+
+        } catch (e) {
+            console.log(e);
+            Alert.alert('Đã có lỗi trong quá trình xử lý');
+            setIsLoading(false);
         }
-
-        // Once signed in, get the users AccesToken
-        const data = await AccessToken.getCurrentAccessToken();
-
-        // if (!data) {
-        //     throw 'Something went wrong obtaining access token';
-        // }
-
-        // Create a Firebase credential with the AccessToken
-        // const facebookCredential = await auth.FacebookAuthProvider.credential(data.accessToken);
-        // console.log(facebookCredential);
-
-        await auth()
-            .currentUser?.getIdToken(true)
-            .then(idToken => {
-                console.log(idToken);
-                if (idToken) {
-                    // setVSBG(idToken)
-                    dispatch(userLoginsFaceBook(idToken));
-                } else {
-                    Alert.alert('Đã có lỗi trong quá trình xử lý');
-                }
-            })
-            .catch((e: any) => {
-                console.log(e);
-            });
-
-        // Sign-in the user with the credential
-        // return auth().signInWithCredential(facebookCredential);
     }
+
+
+    // React.useEffect(() => {
+    //     test();
+    // }, [VSBG])
+
+    // function test() {
+    //     console.log("olllllvaicalon");
+
+
+    // }
 
     function dismissMoDal() {
         setShowCheg(false);
